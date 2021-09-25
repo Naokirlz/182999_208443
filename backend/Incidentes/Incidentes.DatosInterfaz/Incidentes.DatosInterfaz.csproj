@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Incidentes.DatosInterfaz\Incidentes.DatosInterfaz.csproj" />
     <ProjectReference Include="..\Incidentes.Dominio\Incidentes.Dominio.csproj" />
-    <ProjectReference Include="..\Incidentes.Logica.Interfaz\Incidentes.LogicaInterfaz.csproj" />
   </ItemGroup>
 
 </Project>

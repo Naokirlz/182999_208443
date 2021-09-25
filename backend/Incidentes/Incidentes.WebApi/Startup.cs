@@ -1,9 +1,7 @@
-using Incidentes.Datos;
-using Incidentes.Logica;
-using Incidentes.Logica.Interfaz;
+using Incidentes.DatosFabrica;
+using Incidentes.LogicaFabrica;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,20 +24,15 @@ namespace Incidentes.WebApi
 
             services.AddControllers();
 
-            services.AddScoped<ILogicaAdministrador, GestorAdministrador>();
+            FabricaServicios fabrica = new FabricaServicios(services);
+            fabrica.AgregarServicios();
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddDbContext<Contexto>(opts =>
-            opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), //Leo el conection string llamado "sqlConnection" desde appsettings.json 
-            b => b.MigrationsAssembly("Incidentes.Datos"))); //Especifico el nombre del ensamblado donde quiero guardar las migraciones.
-
-            services.AddScoped<IRepositorioGestores, RepositorioGestores>();
-
-            /*services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Incidentes.WebApi", Version = "v1" });
-            });*/
+            FabricaServiciosDatos fabricaDatos = new FabricaServiciosDatos(services);
+            fabricaDatos.AgregarServicios();
+            fabricaDatos.AgregarContextoDatos();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

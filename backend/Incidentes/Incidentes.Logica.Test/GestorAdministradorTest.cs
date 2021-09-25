@@ -10,7 +10,7 @@ namespace Incidentes.Logica.Test
         [SetUp]
         public void Setup()
         {
-           //logica = new GestorAdministrador();
+           //logica = new Gr();
         }
 
         [Test]

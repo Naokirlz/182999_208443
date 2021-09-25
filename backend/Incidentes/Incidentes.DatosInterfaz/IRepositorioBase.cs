@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 
-namespace Incidentes.Datos
+namespace Incidentes.DatosInterfaz
 {
     public interface IRepositorioBase<T>
     {

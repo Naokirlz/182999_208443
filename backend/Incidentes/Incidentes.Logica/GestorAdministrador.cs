@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using Incidentes.Dominio;
-using Incidentes.Datos;
 using System.Linq;
+using Incidentes.DatosInterfaz;
 
 namespace Incidentes.Logica
 {

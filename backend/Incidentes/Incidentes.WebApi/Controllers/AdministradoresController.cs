@@ -2,11 +2,7 @@
 using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Incidentes.WebApi.Controllers
 {

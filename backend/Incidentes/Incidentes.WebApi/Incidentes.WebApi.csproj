@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Incidentes.Datos\Incidentes.Datos.csproj" />
-    <ProjectReference Include="..\Incidentes.Logica\Incidentes.Logica.csproj" />
+    <ProjectReference Include="..\Incidentes.DatosFabrica\Incidentes.DatosFabrica.csproj" />
+    <ProjectReference Include="..\LogicaFabrica\Incidentes.LogicaFabrica.csproj" />
   </ItemGroup>
 
 </Project>
