@@ -10,10 +10,6 @@ namespace Incidentes.Datos
         {
         }
 
-        public Contexto()
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Administrador>()

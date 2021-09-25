@@ -36,7 +36,7 @@ namespace Incidentes.WebApi
             opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), //Leo el conection string llamado "sqlConnection" desde appsettings.json 
             b => b.MigrationsAssembly("Incidentes.Datos"))); //Especifico el nombre del ensamblado donde quiero guardar las migraciones.
 
-
+            services.AddScoped<RepositorioAdministradoresEntity>();
 
             services.AddSwaggerGen(c =>
             {
