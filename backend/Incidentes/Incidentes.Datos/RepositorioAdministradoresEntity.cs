@@ -2,39 +2,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Incidentes.Datos
 {
-    public class RepositorioAdministradoresEntity
+    public class RepositorioAdministradoresEntity : RepositorioBaseEntity<Administrador>, IRepositorioAdministrador
     {
-        public RepositorioAdministradoresEntity()
+        public RepositorioAdministradoresEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
         }
 
-        public void Alta(Administrador administrador)
+        public void Alta(Administrador entity) 
         {
-            using (Contexto context = new Contexto())
-            {
-                context.Administradores.Add(administrador);
-                context.SaveChanges();
-            }
+            this.Crear(entity);
         }
 
         public Administrador Obtener(int id)
         {
-            using (Contexto context = new Contexto())
-            {
-                Administrador buscado;
-                buscado = context.Administradores.Find(id);
+            Administrador buscado;
+            buscado = this.Obtener(id);
 
-                if (buscado != null)
-                {
-                    return buscado;
-                }
-                return null;
+            if (buscado != null)
+            {
+                return buscado;
             }
+            return null;
         }
     }
 }

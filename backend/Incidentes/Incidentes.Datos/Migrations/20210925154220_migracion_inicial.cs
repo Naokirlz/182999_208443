@@ -2,7 +2,7 @@
 
 namespace Incidentes.Datos.Migrations
 {
-    public partial class inicial : Migration
+    public partial class migracion_inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,4 +1,6 @@
 using Incidentes.Datos;
+using Incidentes.Logica;
+using Incidentes.Logica.Interfaz;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,17 +33,20 @@ namespace Incidentes.WebApi
 
             services.AddControllers();
 
+            services.AddScoped<ILogicaAdministrador, GestorAdministrador>();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddDbContext<Contexto>(opts =>
             opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), //Leo el conection string llamado "sqlConnection" desde appsettings.json 
             b => b.MigrationsAssembly("Incidentes.Datos"))); //Especifico el nombre del ensamblado donde quiero guardar las migraciones.
 
-            services.AddScoped<RepositorioAdministradoresEntity>();
+            services.AddScoped<IRepositorioGestores, RepositorioGestores>();
 
-            services.AddSwaggerGen(c =>
+            /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Incidentes.WebApi", Version = "v1" });
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,8 +55,6 @@ namespace Incidentes.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Incidentes.WebApi v1"));
             }
 
             app.UseHttpsRedirection();

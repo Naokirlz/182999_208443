@@ -8,6 +8,7 @@ namespace Incidentes.Datos
     {
         public Contexto(DbContextOptions options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
