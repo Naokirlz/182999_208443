@@ -1,12 +1,13 @@
+using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
+using Incidentes.Logica.Interfaz;
+using Moq;
 using NUnit.Framework;
 
 namespace Incidentes.Logica.Test
 {
-    public class Tests
+    public class GestorAdministradorTest
     {
-        private GestorAdministrador logica;
-
         [SetUp]
         public void Setup()
         {
@@ -16,15 +17,22 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_guardar_un_administrador()
         {
-            /*Administrador unAdministrador = new Administrador()
-            {
-                Id = 1,
-                Nombre = "Luisito"
-            };
 
-            logica.Alta(unAdministrador);
-                                   
-            Assert.AreEqual("Luisito", logica.Obtener(unAdministrador.Id).Nombre);*/
+            Administrador administrador = new Administrador()
+            {
+                Nombre = "Luisito"
+            };    
+
+            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
+
+            repoGestores.Setup(c => c.RepositorioAdministrador.Crear(administrador));
+
+            GestorAdministrador gestor = new GestorAdministrador(repoGestores.Object);
+
+            Administrador admin = gestor.Alta(administrador);
+
+            Assert.AreEqual(administrador.Nombre, admin.Nombre);
+            repoGestores.Verify(c => c.RepositorioAdministrador.Crear(administrador));
         }
     }
 }
