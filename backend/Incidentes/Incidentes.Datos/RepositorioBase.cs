@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Incidentes.Datos
 {
-    public abstract class RepositorioBaseEntity<T> : IRepositorioBaseEntity<T> where T : class
+    public abstract class RepositorioBase<T> : IRepositorioBase<T> where T : class
     {
         protected Contexto ContextoRepositorio;
 
-        public RepositorioBaseEntity(Contexto contexto)
+        public RepositorioBase(Contexto contexto)
         {
             ContextoRepositorio = contexto;
         }

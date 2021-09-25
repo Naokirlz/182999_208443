@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Incidentes.Datos
 {
-    public interface IRepositorioAdministrador : IRepositorioBaseEntity<Administrador>
+    public interface IRepositorioAdministrador : IRepositorioBase<Administrador>
     {
     }
 }

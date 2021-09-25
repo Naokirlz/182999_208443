@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Incidentes.Datos\Incidentes.Datos.csproj" />
     <ProjectReference Include="..\Incidentes.Dominio\Incidentes.Dominio.csproj" />
-    <ProjectReference Include="..\Incidentes.Logica.Interfaz\Incidentes.Logica.Interfaz.csproj" />
+    <ProjectReference Include="..\Incidentes.Logica.Interfaz\Incidentes.LogicaInterfaz.csproj" />
   </ItemGroup>
 
 </Project>

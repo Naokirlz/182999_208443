@@ -21,18 +21,18 @@ namespace Incidentes.Logica
         {
             throw new NotImplementedException();
         }
-        bool ILogica<Administrador>.Baja(int id)
+        public bool Baja(int id)
         {
             throw new NotImplementedException();
         }
 
-        Administrador ILogica<Administrador>.Obtener(int id)
+        public Administrador Obtener(int id)
         {
-            var administrador = _repositorioGestor.RepositorioAdministradorEntity.ObtenerPorCondicion(a => a.Id == id, trackChanges: false).FirstOrDefault();
+            var administrador = _repositorioGestor.RepositorioAdministrador.ObtenerPorCondicion(a => a.Id == id, trackChanges: false).FirstOrDefault();
             return administrador;
         }
 
-        IEnumerable<Administrador> ILogica<Administrador>.ObtenerTodos()
+        public IEnumerable<Administrador> ObtenerTodos()
         {
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace Incidentes.Logica
                 //O tambien si determino que el objeto es invalido mediante alguna otra regla....
                 throw new Exception(); //Esto es solo una opcion, no necesariamente DEBE lanzarse una excepcion
             }
-            _repositorioGestor.RepositorioAdministradorEntity.Crear(administrador);
+            _repositorioGestor.RepositorioAdministrador.Crear(administrador);
             _repositorioGestor.Save();
 
 

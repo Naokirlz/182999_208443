@@ -16,7 +16,7 @@ namespace Incidentes.Datos
             _contexto = unContexto;
         }
 
-        public IRepositorioAdministrador RepositorioAdministradorEntity
+        public IRepositorioAdministrador RepositorioAdministrador
         {
             get
             {

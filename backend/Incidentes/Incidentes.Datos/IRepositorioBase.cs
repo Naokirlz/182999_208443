@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Incidentes.Datos
 {
-    public interface IRepositorioBaseEntity<T>
+    public interface IRepositorioBase<T>
     {
         IQueryable<T> ObtenerTodos(bool trackChanges);
         IQueryable<T> ObtenerPorCondicion(Expression<Func<T, bool>> expression, bool trackChanges);

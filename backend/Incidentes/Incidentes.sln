@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.Datos", "Inciden
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.WebApi", "Incidentes.WebApi\Incidentes.WebApi.csproj", "{3FAA2093-0224-4853-8F20-FBDC84467E10}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.Logica.Interfaz", "Incidentes.Logica.Interfaz\Incidentes.Logica.Interfaz.csproj", "{CA5F72E5-B86E-449F-BD41-AF80B2E89999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.LogicaInterfaz", "Incidentes.Logica.Interfaz\Incidentes.LogicaInterfaz.csproj", "{CA5F72E5-B86E-449F-BD41-AF80B2E89999}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B19540BD-F9AB-46D5-B638-555C03D25E8B} = {B19540BD-F9AB-46D5-B638-555C03D25E8B}
 	EndProjectSection

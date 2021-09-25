@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Incidentes.Datos
 {
-    public class RepositorioAdministradoresEntity : RepositorioBaseEntity<Administrador>, IRepositorioAdministrador
+    public class RepositorioAdministradoresEntity : RepositorioBase<Administrador>, IRepositorioAdministrador
     {
         public RepositorioAdministradoresEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
