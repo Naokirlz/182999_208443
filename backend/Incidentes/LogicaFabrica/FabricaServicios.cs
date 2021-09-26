@@ -17,7 +17,7 @@ namespace Incidentes.LogicaFabrica
         }
         public void AgregarServicios()
         {
-            services.AddScoped<ILogicaAdministrador, GestorAdministrador>();
+            services.AddScoped<ILogicaUsuario, GestorUsuario>();
             //services.AddScoped<IRepositorioGestores, RepositorioGestores>();
         }
         public void AgregarContextoDatos()

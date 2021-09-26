@@ -7,7 +7,7 @@ using Incidentes.Dominio;
 
 namespace Incidentes.Logica.Interfaz
 {
-    public interface ILogicaAdministrador : ILogica<Administrador>
+    public interface ILogicaUsuario : ILogica<Usuario>
     {
     }
 }

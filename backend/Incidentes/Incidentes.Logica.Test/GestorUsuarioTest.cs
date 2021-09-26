@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Incidentes.Logica.Test
 {
-    public class GestorAdministradorTest
+    public class GestorUsuarioTest
     {
         [SetUp]
         public void Setup()
@@ -24,14 +24,14 @@ namespace Incidentes.Logica.Test
 
             Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
 
-            repoGestores.Setup(c => c.RepositorioAdministrador.Crear(administrador));
+            repoGestores.Setup(c => c.RepositorioUsuario.Crear(administrador));
 
-            GestorAdministrador gestor = new GestorAdministrador(repoGestores.Object);
+            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
-            Administrador admin = gestor.Alta(administrador);
+            Usuario admin = gestor.Alta(administrador);
 
             Assert.AreEqual(administrador.Nombre, admin.Nombre);
-            repoGestores.Verify(c => c.RepositorioAdministrador.Crear(administrador));
+            repoGestores.Verify(c => c.RepositorioUsuario.Crear(administrador));
         }
 
         

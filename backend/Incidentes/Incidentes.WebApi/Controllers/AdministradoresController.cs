@@ -12,9 +12,9 @@ namespace Incidentes.WebApi.Controllers
     {
         private const string error_de_servidor = "Internal Server Error";
         private readonly IMapper _mapper;
-        private readonly ILogicaAdministrador _logica;
+        private readonly ILogicaUsuario _logica;
 
-        public AdministradoresController(ILogicaAdministrador logica, IMapper mapper)
+        public AdministradoresController(ILogicaUsuario logica, IMapper mapper)
         {
             _logica = logica;
             _mapper = mapper;

@@ -8,7 +8,7 @@ namespace Incidentes.DatosInterfaz
 {
     public interface IRepositorioGestores
     {
-        IRepositorioAdministrador RepositorioAdministrador { get; }
+        IRepositorioUsuario RepositorioUsuario { get; }
         void Save();
     }
 }

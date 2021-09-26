@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Incidentes.DatosTest
 {
-    public class RepositorioAdministradorTest
+    public class RepositorioUsuarioTest
     {
         [SetUp]
         public void Setup()
@@ -22,7 +22,7 @@ namespace Incidentes.DatosTest
             Contexto contexto = new Contexto();
 
             IRepositorioGestores repoGestores = new RepositorioGestores(contexto);
-            Assert.IsInstanceOf(typeof(IRepositorioAdministrador), repoGestores.RepositorioAdministrador);
+            Assert.IsInstanceOf(typeof(IRepositorioUsuario), repoGestores.RepositorioUsuario);
         }
     }
 }

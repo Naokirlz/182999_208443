@@ -10,21 +10,21 @@ namespace Incidentes.Datos
     public class RepositorioGestores : IRepositorioGestores
     {
         private Contexto _contexto;
-        private IRepositorioAdministrador _repositorioAdministrador;
+        private IRepositorioUsuario _repositorioUsuario;
 
         public RepositorioGestores(Contexto unContexto)
         {
             _contexto = unContexto;
         }
 
-        public IRepositorioAdministrador RepositorioAdministrador
+        public IRepositorioUsuario RepositorioUsuario
         {
             get
             {
-                if (_repositorioAdministrador == null)
-                    _repositorioAdministrador = new RepositorioAdministradoresEntity(_contexto);
+                if (_repositorioUsuario == null)
+                    _repositorioUsuario = new RepositorioUsuariosEntity(_contexto);
 
-                return _repositorioAdministrador;
+                return _repositorioUsuario;
             }
         }
 

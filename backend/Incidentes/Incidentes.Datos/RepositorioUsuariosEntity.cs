@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Incidentes.Datos
 {
-    public class RepositorioAdministradoresEntity : RepositorioBase<Administrador>, IRepositorioAdministrador
+    public class RepositorioUsuariosEntity : RepositorioBase<Usuario>, IRepositorioUsuario
     {
-        public RepositorioAdministradoresEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
+        public RepositorioUsuariosEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
         }
 
@@ -20,9 +20,9 @@ namespace Incidentes.Datos
             this.Crear(entity);
         }
 
-        public Administrador Obtener(int id)
+        public Usuario Obtener(int id)
         {
-            Administrador buscado;
+            Usuario buscado;
             buscado = this.Obtener(id);
 
             if (buscado != null)

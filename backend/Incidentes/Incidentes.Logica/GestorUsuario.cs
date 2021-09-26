@@ -7,17 +7,17 @@ using Incidentes.DatosInterfaz;
 
 namespace Incidentes.Logica
 {
-    public class GestorAdministrador : ILogicaAdministrador
+    public class GestorUsuario : ILogicaUsuario
     {
         IRepositorioGestores _repositorioGestor;
 
-        public GestorAdministrador(IRepositorioGestores repositorioGestores)
+        public GestorUsuario(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
         }
 
 
-        public Administrador Modificar(int id, Administrador entity)
+        public Usuario Modificar(int id, Usuario entity)
         {
             throw new NotImplementedException();
         }
@@ -26,29 +26,29 @@ namespace Incidentes.Logica
             throw new NotImplementedException();
         }
 
-        public Administrador Obtener(int id)
+        public Usuario Obtener(int id)
         {
-            var administrador = _repositorioGestor.RepositorioAdministrador.ObtenerPorCondicion(a => a.Id == id, trackChanges: false).FirstOrDefault();
-            return administrador;
+            var usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == id, trackChanges: false).FirstOrDefault();
+            return usuario;
         }
 
-        public IEnumerable<Administrador> ObtenerTodos()
+        public IEnumerable<Usuario> ObtenerTodos()
         {
             throw new NotImplementedException();
         }
-        public Administrador Alta(Administrador administrador)
+        public Usuario Alta(Usuario usuario)
         {
             //Validamos que el objeto no sea null
-            if (administrador == null)
+            if (usuario == null)
             {
                 //O tambien si determino que el objeto es invalido mediante alguna otra regla....
                 throw new Exception(); //Esto es solo una opcion, no necesariamente DEBE lanzarse una excepcion
             }
-            _repositorioGestor.RepositorioAdministrador.Crear(administrador);
+            _repositorioGestor.RepositorioUsuario.Crear(usuario);
             _repositorioGestor.Save();
 
 
-            return administrador;
+            return usuario;
         }
     }
 }

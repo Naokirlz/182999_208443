@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Incidentes.DatosInterfaz
 {
-    public interface IRepositorioAdministrador : IRepositorioBase<Administrador>
+    public interface IRepositorioUsuario : IRepositorioBase<Usuario>
     {
     }
 }
