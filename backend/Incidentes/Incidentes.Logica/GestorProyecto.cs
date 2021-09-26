@@ -16,6 +16,27 @@ namespace Incidentes.Logica
             _repositorioGestor = repositorioGestores;
         }
 
+        public void AgregarDesarrolladorAProyecto(int desarrollador, int idProyecto)
+        {
+            bool existeProyecto =_repositorioGestor.RepositorioProyecto.Existe(p => p.Id == idProyecto);
+            if (existeProyecto)
+            {
+                Usuario aAgregar = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(d => d.Id == desarrollador, true).FirstOrDefault();
+
+                if(aAgregar != null)
+                {
+                    Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == idProyecto, true).FirstOrDefault();
+                    aModificar.Desarrolladores.Add((Desarrollador)aAgregar);
+
+                    _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
+                    _repositorioGestor.Save();
+
+                }
+                               
+            }
+
+        }
+
         public Proyecto Alta(Proyecto entity)
         {
             //Validamos que el objeto no sea null
