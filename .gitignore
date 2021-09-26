@@ -357,3 +357,4 @@ MigrationBackup/
 #Ignorar el astah.lock
 .asta.lock
 
+*.lock
