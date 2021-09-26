@@ -14,7 +14,13 @@ namespace Incidentes.Dominio
         public List<Desarrollador> Desarrolladores{ get; set; }
         public List<Tester> Testers { get; set; }
 
-        public Proyecto() { }
+        public Proyecto() {
+
+            Incidentes = new List<Incidente>();
+            Desarrolladores = new List<Desarrollador>();
+            Testers = new List<Tester>();
+
+        }
 
     }
 }
