@@ -7,5 +7,6 @@ namespace Incidentes.LogicaInterfaz
     {
         public bool Login(string nombreUSuario, string password);
         public void Logout(string tokenUsuario);
+        public void AltaDesarrollador(string token, Usuario unDesarrollador);
     }
 }

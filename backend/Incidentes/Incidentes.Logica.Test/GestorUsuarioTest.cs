@@ -176,5 +176,52 @@ namespace Incidentes.Logica.Test
             Assert.IsEmpty(usuarioCompleto.Token);
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
+
+        [Test]
+        public void un_administrador_logueado_puede_dar_de_alta_un_desarrollador()
+        {
+            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
+
+            usuarioCompleto.Token = "asdasdasdasdasdasdasd";
+
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(usuarioCompleto);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
+                .Returns(queryableUsuarios);
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+            
+
+            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
+
+            Usuario unDesarrollador = new Desarrollador()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martinDes@gmail.com",
+                Id = 2,
+                NombreUsuario = "martincosadesarrollador",
+                Token = ""
+            };
+
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario)).Returns(false);
+
+            gestor.AltaDesarrollador(usuarioCompleto.Token, unDesarrollador);
+
+            List<Usuario> lista2 = new List<Usuario>();
+            lista2.Add(unDesarrollador);
+            IQueryable<Usuario> queryableUsuarios2 = lista2.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == 2, false)).Returns(queryableUsuarios2);
+
+            Usuario desarrollador = gestor.Obtener(unDesarrollador.Id);
+
+            Assert.IsNotNull(desarrollador);
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario));
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == 2, false));
+        }
     }
 }

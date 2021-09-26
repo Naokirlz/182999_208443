@@ -66,6 +66,7 @@ namespace Incidentes.Logica
             Usuario usuario = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(c => c.Token == tokenUsuario, false).FirstOrDefault();
             usuario.Token = "";
             this._repositorioGestor.RepositorioUsuario.Modificar(usuario);
+            _repositorioGestor.Save();
         }
 
         private Usuario ObtenerPorNombreUsuario(string nombreUsuario) {
@@ -86,6 +87,30 @@ namespace Incidentes.Logica
             } while (existe);
             usuario.Token = token;
             this._repositorioGestor.RepositorioUsuario.Modificar(usuario);
+            _repositorioGestor.Save();
+        }
+
+        public void AltaDesarrollador(string token, Usuario unDesarrollador)
+        {
+            //chequear que existe administrador
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+
+            if (existeUsu)
+            {
+                //verificar administrador
+                Usuario usuLogueado = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
+                if (usuLogueado.GetType() == new Administrador().GetType())
+                {
+                    //chequear no existe desarrollador
+                    existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario);
+                    if (!existeUsu)
+                    {
+                        //crear desarrrollador
+                        this.Alta(unDesarrollador);
+                        _repositorioGestor.Save();
+                    }
+                }
+            }
         }
     }
 }
