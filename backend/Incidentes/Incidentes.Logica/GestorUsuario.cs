@@ -53,12 +53,32 @@ namespace Incidentes.Logica
         public bool Login(string nombreUSuario, string password)
         {
             Usuario usuario = this.ObtenerPorNombreUsuario(nombreUSuario);
-            return usuario.Contrasenia == password;
+            bool coincide = usuario.Contrasenia == password;
+            if (coincide && usuario.Token == "")
+            {
+                GenerarToken(usuario);
+            }
+            return coincide;
         }
 
         private Usuario ObtenerPorNombreUsuario(string nombreUsuario) {
             Usuario buscado = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(c => c.NombreUsuario == nombreUsuario, false).FirstOrDefault();
             return buscado;
+        }
+
+        private void GenerarToken(Usuario usuario)
+        {
+            Random random = new Random();
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz!@#$%^&*0123456789";
+            bool existe = false;
+            string token = "";
+            do
+            {
+                token = new string(Enumerable.Repeat(chars, 32).Select(s => s[random.Next(s.Length)]).ToArray());
+                existe = this._repositorioGestor.RepositorioUsuario.Existe(s => s.Token == token);
+            } while (existe);
+            usuario.Token = token;
+            this._repositorioGestor.RepositorioUsuario.Modificar(usuario);
         }
     }
 }
