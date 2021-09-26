@@ -6,5 +6,6 @@ namespace Incidentes.LogicaInterfaz
     public interface ILogicaUsuario : ILogica<Usuario>
     {
         public bool Login(string nombreUSuario, string password);
+        public void Logout(string tokenUsuario);
     }
 }

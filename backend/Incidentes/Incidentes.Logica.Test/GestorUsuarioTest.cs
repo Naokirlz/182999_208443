@@ -155,5 +155,26 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
             repoGestores.Verify(c => c.RepositorioUsuario.Modificar(It.IsAny<Usuario>()));
         }
+
+        [Test]
+        public void un_usuario_logueado_se_puede_desloguear()
+        {
+            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
+
+            usuarioCompleto.Token = "asdasdasdasdasdasdasd";
+
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(usuarioCompleto);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
+                .Returns(queryableUsuarios);
+
+            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
+
+            gestor.Logout(usuarioCompleto.Token);
+
+            Assert.IsEmpty(usuarioCompleto.Token);
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+        }
     }
 }

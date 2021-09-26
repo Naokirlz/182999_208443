@@ -61,6 +61,13 @@ namespace Incidentes.Logica
             return coincide;
         }
 
+        public void Logout(string tokenUsuario)
+        {
+            Usuario usuario = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(c => c.Token == tokenUsuario, false).FirstOrDefault();
+            usuario.Token = "";
+            this._repositorioGestor.RepositorioUsuario.Modificar(usuario);
+        }
+
         private Usuario ObtenerPorNombreUsuario(string nombreUsuario) {
             Usuario buscado = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(c => c.NombreUsuario == nombreUsuario, false).FirstOrDefault();
             return buscado;
