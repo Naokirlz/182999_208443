@@ -38,11 +38,10 @@ namespace Incidentes.Logica
         }
         public Usuario Alta(Usuario usuario)
         {
-            //Validamos que el objeto no sea null
+            
             if (usuario == null)
             {
-                //O tambien si determino que el objeto es invalido mediante alguna otra regla....
-                throw new Exception(); //Esto es solo una opcion, no necesariamente DEBE lanzarse una excepcion
+             throw new Exception(); 
             }
             _repositorioGestor.RepositorioUsuario.Crear(usuario);
             _repositorioGestor.Save();

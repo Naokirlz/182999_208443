@@ -11,6 +11,8 @@ namespace Incidentes.Datos
     {
         private Contexto _contexto;
         private IRepositorioUsuario _repositorioUsuario;
+        private IRepositorioProyecto _repositorioProyecto;
+        private IRepositorioIncidente _repositorioIncidente;
 
         public RepositorioGestores(Contexto unContexto)
         {
@@ -28,7 +30,27 @@ namespace Incidentes.Datos
             }
         }
 
-        public IRepositorioProyecto RepositorioProyecto => throw new NotImplementedException();
+        public IRepositorioProyecto RepositorioProyecto
+        {
+            get
+            {
+                if (_repositorioProyecto == null)
+                    _repositorioProyecto = new RepositorioProyectoEntity(_contexto);
+
+                return _repositorioProyecto;
+            }
+        }
+
+        public IRepositorioIncidente RepositorioIncidente
+        {
+            get
+            {
+                if (_repositorioIncidente == null)
+                    _repositorioIncidente = new RepositorioIncidenteEntity(_contexto);
+
+                return _repositorioIncidente;
+            }
+        }
 
         public void Save()
         {

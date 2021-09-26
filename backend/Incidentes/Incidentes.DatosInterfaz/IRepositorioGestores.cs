@@ -10,6 +10,7 @@ namespace Incidentes.DatosInterfaz
     {
         IRepositorioUsuario RepositorioUsuario { get; }
         IRepositorioProyecto RepositorioProyecto { get; }
+        IRepositorioIncidente RepositorioIncidente{ get; }
         void Save();
     }
 }

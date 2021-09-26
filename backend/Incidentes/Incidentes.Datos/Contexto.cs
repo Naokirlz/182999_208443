@@ -16,16 +16,22 @@ namespace Incidentes.Datos
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Usuario>()
-                .HasIndex(s => s.Id) 
+                .HasIndex(u => u.Id) 
                 .IsUnique(); 
 
             builder.Entity<Proyecto>()
-               .HasIndex(s => s.Id) 
+               .HasIndex(p => p.Id) 
+               .IsUnique();
+
+            builder.Entity<Incidente>()
+               .HasIndex(i => i.Id)
                .IsUnique();
 
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Proyecto> Proyectos { get; set; }
+        public DbSet<Incidente> Incidentes { get; set; }
+
     }
 }
