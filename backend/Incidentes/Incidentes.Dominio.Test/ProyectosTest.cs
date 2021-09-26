@@ -125,7 +125,7 @@ namespace Incidentes.Dominio.Test
                 Nombre = "Trabajo conjunto",
                 Testers = lista
             };
-            Assert.AreEqual(2, unProyecto.Desarrolladores.Count());
+            Assert.AreEqual(2, unProyecto.Testers.Count());
         }
     }
 }
