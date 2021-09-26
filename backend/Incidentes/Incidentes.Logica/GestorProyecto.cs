@@ -24,7 +24,7 @@ namespace Incidentes.Logica
                 //O tambien si determino que el objeto es invalido mediante alguna otra regla....
                 throw new Exception(); //Esto es solo una opcion, no necesariamente DEBE lanzarse una excepcion
             }
-            _repositorioGestor.RepositorioProyecto.Crear(entity);
+            _repositorioGestor.RepositorioProyecto.Alta(entity);
             _repositorioGestor.Save();
 
             return entity;

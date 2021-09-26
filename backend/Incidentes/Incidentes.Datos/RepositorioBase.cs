@@ -40,7 +40,7 @@ namespace Incidentes.Datos
             return ContextoRepositorio.Set<T>().Any(expression);
         }
 
-        public void Crear(T entity) => ContextoRepositorio.Set<T>().Add(entity);
+        public void Alta(T entity) => ContextoRepositorio.Set<T>().Add(entity);
 
         public void Modificar(T entity) => ContextoRepositorio.Set<T>().Update(entity);
 

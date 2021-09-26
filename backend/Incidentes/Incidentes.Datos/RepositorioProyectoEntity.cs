@@ -14,22 +14,5 @@ namespace Incidentes.Datos
         public RepositorioProyectoEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
         }
-
-        public void Alta(Proyecto entity)
-        {
-            this.Crear(entity);
-        }
-
-        public Proyecto Obtener(int id)
-        {
-            Proyecto buscado;
-            buscado = this.Obtener(id);
-
-            if (buscado != null)
-            {
-                return buscado;
-            }
-            return null;
-        }
     }
 }

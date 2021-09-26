@@ -14,22 +14,5 @@ namespace Incidentes.Datos
         public RepositorioIncidenteEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
         }
-
-        public void Alta(Incidente entity)
-        {
-            this.Crear(entity);
-        }
-
-        public Incidente Obtener(int id)
-        {
-            Incidente buscado;
-            buscado = this.Obtener(id);
-
-            if (buscado != null)
-            {
-                return buscado;
-            }
-            return null;
-        }
     }
 }

@@ -43,11 +43,16 @@ namespace Incidentes.Logica
             {
              throw new Exception(); 
             }
-            _repositorioGestor.RepositorioUsuario.Crear(usuario);
+            _repositorioGestor.RepositorioUsuario.Alta(usuario);
             _repositorioGestor.Save();
 
 
             return usuario;
+        }
+
+        public bool login(string nombreUSuario, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

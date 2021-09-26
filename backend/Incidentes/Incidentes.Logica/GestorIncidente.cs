@@ -22,7 +22,7 @@ namespace Incidentes.Logica
             {               
                 throw new Exception(); 
             }
-            _repositorioGestor.RepositorioIncidente.Crear(entity);
+            _repositorioGestor.RepositorioIncidente.Alta(entity);
             _repositorioGestor.Save();
 
 

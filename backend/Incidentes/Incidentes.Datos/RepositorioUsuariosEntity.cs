@@ -14,22 +14,5 @@ namespace Incidentes.Datos
         public RepositorioUsuariosEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
         }
-
-        public void Alta(Administrador entity) 
-        {
-            this.Crear(entity);
-        }
-
-        public Usuario Obtener(int id)
-        {
-            Usuario buscado;
-            buscado = this.Obtener(id);
-
-            if (buscado != null)
-            {
-                return buscado;
-            }
-            return null;
-        }
     }
 }

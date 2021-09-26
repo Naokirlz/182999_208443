@@ -24,14 +24,14 @@ namespace Incidentes.Logica.Test
 
             Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
 
-            repoGestores.Setup(c => c.RepositorioProyecto.Crear(proyecto));
+            repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
 
             GestorProyecto gestor = new GestorProyecto(repoGestores.Object);
 
             Proyecto proyecto1 = gestor.Alta(proyecto);
 
             Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
-            repoGestores.Verify(c => c.RepositorioProyecto.Crear(proyecto));
+            repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));
         }
     }
 }
