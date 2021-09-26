@@ -3,6 +3,10 @@ using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Incidentes.Logica.Test
 {
@@ -91,16 +95,20 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_usuario_se_puede_loguear()
         {
-            /*Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
+            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
 
-            repoGestores.Setup(c => c.RepositorioUsuario.Crear(this.usuarioCompleto));
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(usuarioCompleto);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
+                .Returns(queryableUsuarios);
 
             GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
-            Usuario desarrollador = gestor.Alta(desarrollador1);
+            bool loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, queryableUsuarios.FirstOrDefault().Contrasenia);
 
-            Assert.AreEqual(desarrollador1.Nombre, desarrollador.Nombre);
-            repoGestores.Verify(c => c.RepositorioUsuario.Crear(desarrollador1));*/
+            Assert.IsTrue(loginCorrecto);
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
     }
 }

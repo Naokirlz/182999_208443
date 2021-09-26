@@ -50,9 +50,15 @@ namespace Incidentes.Logica
             return usuario;
         }
 
-        public bool login(string nombreUSuario, string password)
+        public bool Login(string nombreUSuario, string password)
         {
-            throw new NotImplementedException();
+            Usuario usuario = this.ObtenerPorNombreUsuario(nombreUSuario);
+            return usuario.Contrasenia == password;
+        }
+
+        private Usuario ObtenerPorNombreUsuario(string nombreUsuario) {
+            Usuario buscado = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(c => c.NombreUsuario == nombreUsuario, false).FirstOrDefault();
+            return buscado;
         }
     }
 }
