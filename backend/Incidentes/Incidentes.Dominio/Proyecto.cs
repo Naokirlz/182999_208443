@@ -9,6 +9,7 @@ namespace Incidentes.Dominio
     public class Proyecto
     {
         public string Nombre { get; set; }
+        public List<Incidente> Incidentes{ get; set; }
 
         public Proyecto() { }
 
