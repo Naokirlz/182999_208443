@@ -68,5 +68,25 @@ namespace Incidentes.Dominio.Test
             };
             Assert.AreEqual(Incidente.Estado.Resuelto, unIncidente.EstadoIncidente);
         }
+
+        [Test]
+        public void se_incidente_puede_ser_resuelto_por_un_desarrollador()
+        {
+            Desarrollador unDesarrollador = new Desarrollador()
+            {
+                Nombre = "Luisito",
+                Apellido = "Gomez",
+                Contrasenia = "123456789",
+                Email = "luisito@gmail.com",
+                Id = 1,
+                NombreUsuario = "luisito123"
+            };
+            Incidente unIncidente = new Incidente()
+            {
+                Nombre = "Nombre incidente",
+                DesarrolladorId = unDesarrollador.Id
+            };
+            Assert.AreEqual(unDesarrollador.Id, unIncidente.DesarrolladorId);
+        }
     }
 }

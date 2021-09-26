@@ -13,6 +13,7 @@ namespace Incidentes.Dominio
         public string Descripcion { get; set; }
         public int Version { get; set; }
         public Estado EstadoIncidente { get; set; }
+        public int DesarrolladorId { get; set; }
 
         public Incidente() { }
 

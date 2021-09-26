@@ -11,6 +11,8 @@ namespace Incidentes.Dominio
         public int Id { get; set; }
         public string Nombre { get; set; }
         public List<Incidente> Incidentes{ get; set; }
+        public List<Desarrollador> Desarrolladores{ get; set; }
+        public List<Tester> Testers { get; set; }
 
         public Proyecto() { }
 
