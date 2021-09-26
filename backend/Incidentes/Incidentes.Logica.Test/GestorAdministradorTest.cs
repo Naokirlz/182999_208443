@@ -15,9 +15,8 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void se_puede_guardar_un_administrador()
+        public void se_puede_guardar_administrador()
         {
-
             Administrador administrador = new Administrador()
             {
                 Nombre = "Luisito"
@@ -34,5 +33,7 @@ namespace Incidentes.Logica.Test
             Assert.AreEqual(administrador.Nombre, admin.Nombre);
             repoGestores.Verify(c => c.RepositorioAdministrador.Crear(administrador));
         }
+
+        
     }
 }

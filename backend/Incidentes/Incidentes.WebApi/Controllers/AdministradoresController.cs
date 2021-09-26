@@ -35,7 +35,9 @@ namespace Incidentes.WebApi.Controllers
                     Administrador a = new Administrador()
                     {
                         Id = administrador.Id,
-                        Nombre = administrador.Nombre
+                        Nombre = administrador.Nombre,
+                        NombreUsuario = administrador.Nombre
+                        
                     };
 
                     //... y lo agregamos, como antes.

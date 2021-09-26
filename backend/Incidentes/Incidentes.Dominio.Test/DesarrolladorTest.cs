@@ -1,10 +1,10 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Incidentes.Dominio;
+
 
 namespace Incidentes.Dominio.Test
 {
-    public class AdministradorTest
-
+    public class DesarrolladorTest
     {
         [SetUp]
         public void Setup()
@@ -12,9 +12,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_nombre_a_un_administrador()
+        public void se_puede_dar_nombre_a_un_desarrollador()
         {
-            Administrador unUsuario = new Administrador()
+            Desarrollador unUsuario = new Desarrollador()
             {
                 Nombre = "Luisito"
             };
@@ -22,9 +22,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_nombreUsuario_a_un_administrador()
+        public void se_puede_dar_nombreUsuario_a_un_desarrollador()
         {
-            Administrador unUsuario = new Administrador()
+            Desarrollador unUsuario = new Desarrollador()
             {
                 NombreUsuario = "Luis123"
             };
@@ -32,9 +32,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_apellido_a_un_administrador()
+        public void se_puede_dar_apellido_a_un_desarrollador()
         {
-            Administrador unUsuario = new Administrador()
+            Desarrollador unUsuario = new Desarrollador()
             {
                 Apellido = "Perez"
             };
@@ -42,9 +42,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_contrasenia_a_un_administrador()
+        public void se_puede_dar_contrasenia_a_un_desarrollador()
         {
-            Administrador unUsuario = new Administrador()
+            Desarrollador unUsuario = new Desarrollador()
             {
                 Contrasenia = "ABC123"
             };
@@ -52,9 +52,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_email_a_un_administrador()
+        public void se_puede_dar_email_a_un_desarrollador()
         {
-            Administrador unUsuario = new Administrador()
+            Desarrollador unUsuario = new Desarrollador()
             {
                 Email = "luis@gmail.com"
             };

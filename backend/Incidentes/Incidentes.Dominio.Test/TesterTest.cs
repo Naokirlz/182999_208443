@@ -1,10 +1,9 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Incidentes.Dominio;
 
 namespace Incidentes.Dominio.Test
 {
-    public class AdministradorTest
-
+    public class TesterTest
     {
         [SetUp]
         public void Setup()
@@ -12,9 +11,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_nombre_a_un_administrador()
+        public void se_puede_dar_nombre_a_un_tester()
         {
-            Administrador unUsuario = new Administrador()
+            Tester unUsuario = new Tester()
             {
                 Nombre = "Luisito"
             };
@@ -22,9 +21,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_nombreUsuario_a_un_administrador()
+        public void se_puede_dar_nombreUsuario_a_un_tester()
         {
-            Administrador unUsuario = new Administrador()
+            Tester unUsuario = new Tester()
             {
                 NombreUsuario = "Luis123"
             };
@@ -32,9 +31,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_apellido_a_un_administrador()
+        public void se_puede_dar_apellido_a_un_tester()
         {
-            Administrador unUsuario = new Administrador()
+            Tester unUsuario = new Tester()
             {
                 Apellido = "Perez"
             };
@@ -42,9 +41,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_contrasenia_a_un_administrador()
+        public void se_puede_dar_contrasenia_a_un_tester()
         {
-            Administrador unUsuario = new Administrador()
+            Tester unUsuario = new Tester()
             {
                 Contrasenia = "ABC123"
             };
@@ -52,9 +51,9 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
-        public void se_puede_dar_email_a_un_administrador()
+        public void se_puede_dar_email_a_un_tester()
         {
-            Administrador unUsuario = new Administrador()
+            Tester unUsuario = new Tester()
             {
                 Email = "luis@gmail.com"
             };
