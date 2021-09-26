@@ -23,6 +23,16 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
+        public void se_puede_dar_id_a_un_proyecto()
+        {
+            Proyecto unProyecto = new Proyecto()
+            {
+                Id = 1
+            };
+            Assert.AreEqual(1, unProyecto.Id);
+        }
+
+        [Test]
         public void se_puede_asignar_incidentes_a_un_proyecto()
         {
             Incidente unIncidente = new Incidente() { 

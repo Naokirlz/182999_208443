@@ -1,0 +1,57 @@
+administrador:
+
+- atributos:
+nombre
+apellido
+nombre de usuario
+contrasena
+email
+
+- funciones:
+cantidad de bugs por proyecto: Se muestra la lista de proyectos con la cantidad total de bugs.
+Cantidad de bugs resueltos por un desarrollador.
+
+tester:
+
+- funciones:
+Visualizar la lista de todos los bugs de todos los proyectos de los cuales el tester pertenece, 
+pudiendo filtrar por id, proyecto, nombre y estado.
+Mantenimiento de un bug con la siguiente información (crear, modificar y eliminar): id, 
+proyecto (únicamente puede seleccionar de los proyectos a los cuales pertenece), nombre, 
+descripción, versión, estado (activo o resuelto).
+
+
+desarrollador:
+
+- funciones:
+se le despliega de forma amigable la lista de todos los 
+bugs de todos los proyectos a los cuales pertenece.
+Para un bug en particular se muestra toda la información del mismo.
+Para un bug en particular se muestra toda la información del mismo.
+
+
+proyecto:
+
+- atributos:
+testers asignados
+desarrolladores asignados
+incidentes
+
+
+incidente:
+
+- atributos:
+nombre
+descripcion
+version
+estado
+quien lo resuelve
+proyecto nombre
+
+
+
+
+********************
+usuarios solo alta
+proyecto alta modificar y eliminar tambien bugs y usuarios
+archivos en el servidor
