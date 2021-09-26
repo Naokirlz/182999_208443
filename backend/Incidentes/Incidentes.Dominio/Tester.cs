@@ -8,5 +8,6 @@ namespace Incidentes.Dominio
 {
     public class Tester:Usuario
     {
+        public virtual List<Proyecto> proyectos { get; set; }
     }
 }

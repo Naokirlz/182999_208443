@@ -1,10 +1,7 @@
-﻿using Incidentes.Datos;
-using Incidentes.DatosInterfaz;
-using Incidentes.Logica;
-using Incidentes.Logica.Interfaz;
-using Microsoft.EntityFrameworkCore;
+﻿using Incidentes.Logica;
+using Incidentes.LogicaInterfaz;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+
 
 namespace Incidentes.LogicaFabrica
 {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
+using Incidentes.LogicaInterfaz;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

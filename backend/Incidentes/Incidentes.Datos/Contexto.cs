@@ -15,12 +15,17 @@ namespace Incidentes.Datos
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Administrador>()
-                .HasIndex(s => s.Id) //...Tenga un indice en BD por la columna StduentId
-                .IsUnique(); //...Y que sea unico. No admitira duplicados.
+            builder.Entity<Usuario>()
+                .HasIndex(s => s.Id) 
+                .IsUnique(); 
 
-         }
+            builder.Entity<Proyecto>()
+               .HasIndex(s => s.Id) 
+               .IsUnique();
 
-        public DbSet<Administrador> Administradores { get; set; }
+        }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Proyecto> Proyectos { get; set; }
     }
 }

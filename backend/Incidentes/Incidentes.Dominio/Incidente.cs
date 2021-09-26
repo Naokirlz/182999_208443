@@ -8,6 +8,7 @@ namespace Incidentes.Dominio
 {
     public class Incidente
     {
+        public int Id { get; set; }
         public string Nombre { get; set; }
         public string NombreProyecto { get; set; }
         public string Descripcion { get; set; }

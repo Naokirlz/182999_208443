@@ -28,6 +28,8 @@ namespace Incidentes.Datos
             }
         }
 
+        public IRepositorioProyecto RepositorioProyecto => throw new NotImplementedException();
+
         public void Save()
         {
             _contexto.SaveChanges();

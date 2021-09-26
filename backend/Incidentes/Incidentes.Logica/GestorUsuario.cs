@@ -1,9 +1,9 @@
-﻿using Incidentes.Logica.Interfaz;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Incidentes.Dominio;
 using System.Linq;
 using Incidentes.DatosInterfaz;
+using Incidentes.LogicaInterfaz;
 
 namespace Incidentes.Logica
 {
