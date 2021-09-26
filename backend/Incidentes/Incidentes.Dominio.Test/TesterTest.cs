@@ -60,6 +60,14 @@ namespace Incidentes.Dominio.Test
             Assert.AreEqual("luis@gmail.com", unUsuario.Email);
         }
 
-
+        [Test]
+        public void se_puede_dar_token_a_un_tester()
+        {
+            Tester unUsuario = new Tester()
+            {
+                Token = "lusadqwiiiashzxytafwfqwe"
+            };
+            Assert.AreEqual("lusadqwiiiashzxytafwfqwe", unUsuario.Token);
+        }
     }
 }

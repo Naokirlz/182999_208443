@@ -11,7 +11,6 @@ namespace Incidentes.Dominio
         public string Apellido { get; set; }
         public string Contrasenia { get; set; }
         public string Email { get; set; }
-
-
+        public string Token { get; set; }
     }
 }
