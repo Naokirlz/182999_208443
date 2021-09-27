@@ -2,7 +2,7 @@
 
 namespace Incidentes.Datos.Migrations
 {
-    public partial class inicial : Migration
+    public partial class carga_inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,7 +25,7 @@ namespace Incidentes.Datos.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NombreUsuario = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NombreUsuario = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Apellido = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Contrasenia = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -39,7 +39,7 @@ namespace Incidentes.Datos.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Incidente",
+                name: "Incidentes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -54,9 +54,9 @@ namespace Incidentes.Datos.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Incidente", x => x.Id);
+                    table.PrimaryKey("PK_Incidentes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Incidente_Proyectos_ProyectoId",
+                        name: "FK_Incidentes_Proyectos_ProyectoId",
                         column: x => x.ProyectoId,
                         principalTable: "Proyectos",
                         principalColumn: "Id",
@@ -117,8 +117,14 @@ namespace Incidentes.Datos.Migrations
                 column: "proyectosId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Incidente_ProyectoId",
-                table: "Incidente",
+                name: "IX_Incidentes_Id",
+                table: "Incidentes",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Incidentes_ProyectoId",
+                table: "Incidentes",
                 column: "ProyectoId");
 
             migrationBuilder.CreateIndex(
@@ -137,6 +143,13 @@ namespace Incidentes.Datos.Migrations
                 table: "Usuarios",
                 column: "Id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_NombreUsuario",
+                table: "Usuarios",
+                column: "NombreUsuario",
+                unique: true,
+                filter: "[NombreUsuario] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -145,7 +158,7 @@ namespace Incidentes.Datos.Migrations
                 name: "DesarrolladorProyecto");
 
             migrationBuilder.DropTable(
-                name: "Incidente");
+                name: "Incidentes");
 
             migrationBuilder.DropTable(
                 name: "ProyectoTester");

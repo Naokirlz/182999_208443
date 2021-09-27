@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Incidentes.Dominio\Incidentes.Dominio.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

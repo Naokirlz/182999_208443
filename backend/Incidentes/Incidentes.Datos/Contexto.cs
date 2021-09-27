@@ -17,7 +17,11 @@ namespace Incidentes.Datos
         {
             builder.Entity<Usuario>()
                 .HasIndex(u => u.Id) 
-                .IsUnique(); 
+                .IsUnique();
+
+            builder.Entity<Usuario>()
+                .HasIndex(u => u.NombreUsuario)
+                .IsUnique();
 
             builder.Entity<Proyecto>()
                .HasIndex(p => p.Id) 
