@@ -87,5 +87,12 @@ namespace Incidentes.DatosTest
             bool existe = _repoGestores.RepositorioUsuario.Existe(u => u.NombreUsuario == "nombre que no existe");
             Assert.IsFalse(existe);
         }
+
+        [Test]
+        public void se_devuelven_la_cantidad_de_incidentes_resueltos_por_un_desarrollador()
+        {
+            int cantidadResueltos = _repoGestores.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(1);
+            Assert.AreEqual(1, cantidadResueltos);
+        }
     }
 }

@@ -14,5 +14,12 @@ namespace Incidentes.Datos
         public RepositorioUsuariosEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
         }
+
+        public int CantidadDeIncidentesResueltosPorUnDesarrollador(int id)
+        {
+            return ContextoRepositorio.Set<Incidente>()
+                .Where(i => (i.DesarrolladorId == id) && (i.EstadoIncidente == Incidente.Estado.Resuelto))
+                .Count();
+        }
     }
 }

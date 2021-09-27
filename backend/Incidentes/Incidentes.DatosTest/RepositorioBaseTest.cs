@@ -69,9 +69,11 @@ namespace Incidentes.DatosTest
                 Nombre = "Proyecto 2"
             };
 
-            Incidente i1 = new Incidente() { 
+            Incidente i1 = new Incidente() {
                 Nombre = "Incidente 1",
-                Descripcion = "Descripcion del incidente"
+                Descripcion = "Descripcion del incidente",
+                EstadoIncidente = Incidente.Estado.Resuelto,
+                DesarrolladorId = 1
             };
 
             Incidente i2 = new Incidente()
