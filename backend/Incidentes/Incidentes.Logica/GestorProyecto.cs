@@ -42,9 +42,7 @@ namespace Incidentes.Logica
 
         public Proyecto Alta(string token, Proyecto entity)
         {
-            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
-            if (!existeUsu)
-                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+            UsuarioAutenticado(token);
             //Validamos que el objeto no sea null
             if (entity == null)
             {
@@ -84,15 +82,18 @@ namespace Incidentes.Logica
 
         public IEnumerable<Proyecto> ObtenerTodos(string token)
         {
-            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
-            if (!existeUsu)
-                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+            UsuarioAutenticado(token);
 
             Usuario solicitante = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
 
             return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(solicitante.Id);
         }
 
-        
+        public void UsuarioAutenticado(string token)
+        {
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+            if (!existeUsu)
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+        }
     }
 }

@@ -4,13 +4,14 @@ using Incidentes.Dominio;
 using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
+using Incidentes.Logica.Excepciones;
 
 namespace Incidentes.Logica
 {
     public class GestorIncidente : ILogicaIncidente
     {
         IRepositorioGestores _repositorioGestor;
-
+        private const string acceso_no_autorizado = "Acceso no autorizado";
         public GestorIncidente(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
@@ -47,6 +48,13 @@ namespace Incidentes.Logica
         public IEnumerable<Incidente> ObtenerTodos(string token)
         {
             throw new NotImplementedException();
+        }
+
+        public void UsuarioAutenticado(string token)
+        {
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+            if (!existeUsu)
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
         }
     }
 }

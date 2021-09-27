@@ -63,11 +63,13 @@ namespace Incidentes.Logica.Test
             };
 
             repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
 
             Proyecto proyecto1 = gestorProyecto.Alta(usuarioCompleto.Token, proyecto);
 
             Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }
 
         [Test]
