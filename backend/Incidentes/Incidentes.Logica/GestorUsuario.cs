@@ -4,12 +4,15 @@ using Incidentes.Dominio;
 using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
+using Incidentes.Logica.Excepciones;
 
 namespace Incidentes.Logica
 {
     public class GestorUsuario : ILogicaUsuario
     {
         IRepositorioGestores _repositorioGestor;
+        private const string acceso_no_autorizado = "Acceso no autorizado";
+        private const string acceso_prohibido = "Acceso prohibido";
 
         public GestorUsuario(IRepositorioGestores repositorioGestores)
         {
@@ -109,6 +112,26 @@ namespace Incidentes.Logica
                     }
                 }
             }
+        }
+
+        public int CantidadDeIncidentesResueltosPorUnDesarrollador(string token, int idDesarrollador)
+        {
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+            if (!existeUsu)
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+            Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
+
+            bool correctoTipo = VerificarTipo(new Administrador().GetType(), usuario.GetType());
+
+            if (!correctoTipo)
+                throw new ExcepcionAccesoNoAutorizado(acceso_prohibido);
+
+            return _repositorioGestor.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(idDesarrollador);
+        }
+
+        private bool VerificarTipo(Type tipoEsperado, Type tipoAComparar)
+        {
+            return tipoEsperado == tipoAComparar;
         }
     }
 }

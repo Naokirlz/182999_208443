@@ -206,5 +206,41 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario));
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == 2, false));
         }
+
+        [Test]
+        public void sin_loguearse_no_se_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void un_administrador_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>())).Returns(5);
+
+            int incidentes = gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3);
+
+            Assert.AreEqual(5, incidentes);
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void un_desarrollador_no_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(new Desarrollador());
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+        }
     }
 }

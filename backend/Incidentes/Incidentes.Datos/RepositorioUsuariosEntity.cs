@@ -60,11 +60,17 @@ namespace Incidentes.Datos
                     .Include(p => p.Desarrolladores)
                     .Include(p => p.Incidentes)
                     .Where(p => p.Desarrolladores.Contains((Desarrollador)usuario));
-            }
-            return ContextoRepositorio.Set<Proyecto>()
+            }else if (usuario.GetType() == new Tester().GetType())
+            {
+                return ContextoRepositorio.Set<Proyecto>()
                     .Include(p => p.Testers)
                     .Include(p => p.Incidentes)
                     .Where(p => p.Testers.Contains((Tester)usuario));
+            }
+            return ContextoRepositorio.Set<Proyecto>()
+                 .Include(p => p.Desarrolladores)
+                 .Include(p => p.Testers)
+                 .Include(p => p.Incidentes);
         }
     }
 }
