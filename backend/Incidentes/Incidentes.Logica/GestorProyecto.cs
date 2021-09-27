@@ -9,7 +9,7 @@ using Incidentes.Logica.Excepciones;
 
 namespace Incidentes.Logica
 {
-    public class GestorProyecto : ILogicaProyecto
+    public class GestorProyecto : GestorMaestro<Proyecto>, ILogicaProyecto
     {
        IRepositorioGestores _repositorioGestor;
         private const string acceso_no_autorizado = "Acceso no autorizado";
