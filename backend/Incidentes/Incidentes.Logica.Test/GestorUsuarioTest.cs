@@ -298,5 +298,41 @@ namespace Incidentes.Logica.Test
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
         }
+
+        [Test]
+        public void sin_loguearse_no_se_puede_ver_los_proyectos_a_los_cuales_pertenece()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.ListaDeProyectosALosQuePertenece(usuarioCompleto.Token, 3));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void se_puede_ver_los_proyectos_a_los_cuales_pertenece()
+        {
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(new Proyecto());
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            List<Usuario> listaU = new List<Usuario>();
+            listaU.Add(new Tester());
+            IQueryable<Usuario> queryableU = listaU.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableU);
+            repoGestores.Setup(
+                c => c.RepositorioUsuario
+                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()))
+                .Returns(queryableP);
+
+            IQueryable<Proyecto> proyectos = gestor.ListaDeProyectosALosQuePertenece(usuarioCompleto.Token, 3);
+
+            Assert.AreEqual(1, proyectos.Count());
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+            repoGestores.Verify(
+                c => c.RepositorioUsuario
+                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
     }
 }

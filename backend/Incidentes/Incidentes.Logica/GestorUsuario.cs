@@ -143,5 +143,14 @@ namespace Incidentes.Logica
 
             return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuario.Id, nombreProyecto, incidente);
         }
+
+        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(string token, int idDesarrollador) {
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+            if (!existeUsu)
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+            Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
+
+            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(usuario.Id);
+        }
     }
 }
