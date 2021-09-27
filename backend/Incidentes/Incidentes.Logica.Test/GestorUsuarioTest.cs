@@ -1,18 +1,23 @@
 using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.Logica.Interfaz;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Assert = NUnit.Framework.Assert;
 
 namespace Incidentes.Logica.Test
 {
     public class GestorUsuarioTest
     {
         private Usuario usuarioCompleto;
+        Mock<IRepositorioGestores> repoGestores;
+        GestorUsuario gestor;
 
         [SetUp]
         public void Setup()
@@ -26,6 +31,17 @@ namespace Incidentes.Logica.Test
                 NombreUsuario = "martincosa",
                 Token = ""
             };
+
+            repoGestores = new Mock<IRepositorioGestores>();
+            gestor = new GestorUsuario(repoGestores.Object);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.usuarioCompleto = null;
+            repoGestores = null;
+            gestor = null;
         }
 
         [Test]
@@ -36,11 +52,7 @@ namespace Incidentes.Logica.Test
                 Nombre = "Luisito"
             };    
 
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(administrador));
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             Usuario admin = gestor.Alta(administrador);
 
@@ -56,11 +68,7 @@ namespace Incidentes.Logica.Test
                 Nombre = "Luisito"
             };
 
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(tester1));
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             Usuario tester = gestor.Alta(tester1);
 
@@ -76,11 +84,7 @@ namespace Incidentes.Logica.Test
                 Nombre = "Luisito"
             };
 
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(desarrollador1));
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             Usuario desarrollador = gestor.Alta(desarrollador1);
 
@@ -95,15 +99,11 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_usuario_se_puede_loguear()
         {
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             List<Usuario> lista = new List<Usuario>();
             lista.Add(usuarioCompleto);
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             bool loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, queryableUsuarios.FirstOrDefault().Contrasenia);
 
@@ -114,15 +114,11 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_usuario_no_se_puede_loguear_con_contrasenia_incorrecta()
         {
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             List<Usuario> lista = new List<Usuario>();
             lista.Add(usuarioCompleto);
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             bool loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, "password incorrecto");
 
@@ -133,8 +129,6 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_usuario_al_loguearse_recibe_un_token()
         {
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             List<Usuario> lista = new List<Usuario>();
             lista.Add(usuarioCompleto);
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
@@ -145,8 +139,6 @@ namespace Incidentes.Logica.Test
                 .Returns(queryableUsuarios);
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
             repoGestores.Setup(c => c.RepositorioUsuario.Modificar(It.IsAny<Usuario>()));
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             bool loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, queryableUsuarios.FirstOrDefault().Contrasenia);
 
@@ -159,8 +151,6 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_usuario_logueado_se_puede_desloguear()
         {
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             usuarioCompleto.Token = "asdasdasdasdasdasdasd";
 
             List<Usuario> lista = new List<Usuario>();
@@ -168,8 +158,6 @@ namespace Incidentes.Logica.Test
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             gestor.Logout(usuarioCompleto.Token);
 
@@ -180,8 +168,6 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_administrador_logueado_puede_dar_de_alta_un_desarrollador()
         {
-            Mock<IRepositorioGestores> repoGestores = new Mock<IRepositorioGestores>();
-
             usuarioCompleto.Token = "asdasdasdasdasdasdasd";
 
             List<Usuario> lista = new List<Usuario>();
@@ -190,9 +176,6 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
-            
-
-            GestorUsuario gestor = new GestorUsuario(repoGestores.Object);
 
             Usuario unDesarrollador = new Desarrollador()
             {

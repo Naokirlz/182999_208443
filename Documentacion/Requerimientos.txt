@@ -16,6 +16,7 @@ tester:
 - funciones:
 Visualizar la lista de todos los bugs de todos los proyectos de los cuales el tester pertenece, 
 pudiendo filtrar por id, proyecto, nombre y estado.
+
 Mantenimiento de un bug con la siguiente información (crear, modificar y eliminar): id, 
 proyecto (únicamente puede seleccionar de los proyectos a los cuales pertenece), nombre, 
 descripción, versión, estado (activo o resuelto).
@@ -26,7 +27,6 @@ desarrollador:
 - funciones:
 se le despliega de forma amigable la lista de todos los 
 bugs de todos los proyectos a los cuales pertenece.
-Para un bug en particular se muestra toda la información del mismo.
 Para un bug en particular se muestra toda la información del mismo.
 
 

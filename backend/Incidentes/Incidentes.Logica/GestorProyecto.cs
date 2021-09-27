@@ -5,12 +5,14 @@ using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
 using Incidentes.Logica.Interfaz;
+using Incidentes.Logica.Excepciones;
 
 namespace Incidentes.Logica
 {
     public class GestorProyecto : ILogicaProyecto
     {
        IRepositorioGestores _repositorioGestor;
+        private const string acceso_no_autorizado = "Acceso no autorizado";
 
         public GestorProyecto(IRepositorioGestores repositorioGestores)
         {
@@ -77,9 +79,15 @@ namespace Incidentes.Logica
             return aObtener;
         }
 
-        public IEnumerable<Proyecto> ObtenerTodos()
+        public IEnumerable<Proyecto> ObtenerTodos(string token)
         {
-            throw new NotImplementedException();
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+            if (!existeUsu)
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+
+            Usuario solicitante = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
+
+            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(solicitante.Id);
         }
 
         

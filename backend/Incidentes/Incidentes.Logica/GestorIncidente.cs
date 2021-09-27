@@ -44,7 +44,7 @@ namespace Incidentes.Logica
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Incidente> ObtenerTodos()
+        public IEnumerable<Incidente> ObtenerTodos(string token)
         {
             throw new NotImplementedException();
         }

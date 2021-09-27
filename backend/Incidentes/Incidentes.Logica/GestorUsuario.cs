@@ -32,7 +32,7 @@ namespace Incidentes.Logica
             return usuario;
         }
 
-        public IEnumerable<Usuario> ObtenerTodos()
+        public IEnumerable<Usuario> ObtenerTodos(string token)
         {
             throw new NotImplementedException();
         }
@@ -54,7 +54,7 @@ namespace Incidentes.Logica
         {
             Usuario usuario = this.ObtenerPorNombreUsuario(nombreUSuario);
             bool coincide = usuario.Contrasenia == password;
-            if (coincide && usuario.Token == "")
+            if (coincide)
             {
                 GenerarToken(usuario);
             }
@@ -90,7 +90,7 @@ namespace Incidentes.Logica
             _repositorioGestor.Save();
         }
 
-        public void AltaDesarrollador(string token, Usuario unDesarrollador)
+        public void AltaDesarrollador(string token, Usuario unUsuario)
         {
             //chequear que existe administrador
             bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
@@ -101,12 +101,10 @@ namespace Incidentes.Logica
                 Usuario usuLogueado = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
                 if (usuLogueado.GetType() == new Administrador().GetType())
                 {
-                    //chequear no existe desarrollador
-                    existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario);
+                    existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.NombreUsuario == unUsuario.NombreUsuario);
                     if (!existeUsu)
                     {
-                        //crear desarrrollador
-                        this.Alta(unDesarrollador);
+                        this.Alta(unUsuario);
                         _repositorioGestor.Save();
                     }
                 }

@@ -13,6 +13,6 @@ namespace Incidentes.Logica.Interfaz
 
         T Obtener(int id);
 
-        IEnumerable<T> ObtenerTodos();
+        IEnumerable<T> ObtenerTodos(string token);
     }
 }
