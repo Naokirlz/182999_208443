@@ -12,7 +12,6 @@ namespace Incidentes.Logica
     public class GestorProyecto : ILogicaProyecto
     {
        IRepositorioGestores _repositorioGestor;
-        private const string acceso_no_autorizado = "Acceso no autorizado";
 
         public GestorProyecto(IRepositorioGestores repositorioGestores)
         {
@@ -42,7 +41,6 @@ namespace Incidentes.Logica
 
         public Proyecto Alta(string token, Proyecto entity)
         {
-            UsuarioAutenticado(token);
             //Validamos que el objeto no sea null
             if (entity == null)
             {
@@ -82,18 +80,10 @@ namespace Incidentes.Logica
 
         public IEnumerable<Proyecto> ObtenerTodos(string token)
         {
-            UsuarioAutenticado(token);
 
             Usuario solicitante = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
 
             return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(solicitante.Id);
-        }
-
-        public void UsuarioAutenticado(string token)
-        {
-            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
-            if (!existeUsu)
-                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
         }
     }
 }

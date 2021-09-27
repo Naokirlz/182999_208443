@@ -49,12 +49,6 @@ namespace Incidentes.Logica
         {
             throw new NotImplementedException();
         }
-
-        public void UsuarioAutenticado(string token)
-        {
-            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
-            if (!existeUsu)
-                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
-        }
+        
     }
 }

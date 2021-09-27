@@ -47,14 +47,6 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void un_usuario_no_logueado_no_puede_guardar_proyectos()
-        {
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
-            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorProyecto.Alta("", new Proyecto()));
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-        }
-
-        [Test]
         public void se_puede_guardar_proyecto()
         {
             Proyecto proyecto = new Proyecto()
@@ -63,21 +55,11 @@ namespace Incidentes.Logica.Test
             };
 
             repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
 
             Proyecto proyecto1 = gestorProyecto.Alta(usuarioCompleto.Token, proyecto);
 
             Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-        }
-
-        [Test]
-        public void un_usuario_no_logueado_no_puede_ver_proyectos()
-        {
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
-            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorProyecto.ObtenerTodos(""));
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }
 
         [Test]
@@ -94,7 +76,6 @@ namespace Incidentes.Logica.Test
             lista2.Add(usuarioCompleto);
             IQueryable<Usuario> queryableUsuarios = lista2.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
             repoGestores.Setup(c => c.RepositorioUsuario.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(queryableProyectos);
@@ -102,7 +83,6 @@ namespace Incidentes.Logica.Test
             IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos(usuarioCompleto.Token);
 
             Assert.AreEqual(2, proyectos.Count());
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
             repoGestores.Verify(c => c.RepositorioUsuario.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
         }

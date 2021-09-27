@@ -116,7 +116,6 @@ namespace Incidentes.Logica
 
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(string token, int idDesarrollador)
         {
-            UsuarioAutenticado(token);
             Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
 
             bool correctoTipo = VerificarTipo(new Administrador().GetType(), usuario.GetType());
@@ -134,24 +133,15 @@ namespace Incidentes.Logica
 
         public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(string token, string nombreProyecto, Incidente incidente)
         {
-            UsuarioAutenticado(token);
             Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
 
             return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuario.Id, nombreProyecto, incidente);
         }
 
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(string token, int idDesarrollador) {
-            UsuarioAutenticado(token);
             Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
 
             return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(usuario.Id);
-        }
-
-        public void UsuarioAutenticado(string token)
-        {
-            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
-            if (!existeUsu)
-                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
         }
     }
 }

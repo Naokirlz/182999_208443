@@ -14,6 +14,5 @@ namespace Incidentes.Logica.Interfaz
         T Obtener(int id);
 
         IEnumerable<T> ObtenerTodos(string token);
-        void UsuarioAutenticado(string token);
     }
 }
