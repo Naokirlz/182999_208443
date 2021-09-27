@@ -78,5 +78,26 @@ namespace Incidentes.DatosTest
             bool existe = _repoGestores.RepositorioProyecto.Existe(p => p.Nombre == "nombre que no existe");
             Assert.IsFalse(existe);
         }
+
+        [Test]
+        public void se_puede_agregar_desarrolladores_a_un_proyecto()
+        {
+            Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
+            Assert.AreEqual(2, buscado.Desarrolladores.Count());
+        }
+
+        [Test]
+        public void se_puede_agregar_testers_a_un_proyecto()
+        {
+            Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
+            Assert.AreEqual(2, buscado.Testers.Count());
+        }
+
+        [Test]
+        public void se_puede_agregar_incidentes_a_un_proyecto()
+        {
+            Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
+            Assert.AreEqual(1, buscado.Incidentes.Count());
+        }
     }
 }

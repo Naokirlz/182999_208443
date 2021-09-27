@@ -69,12 +69,24 @@ namespace Incidentes.DatosTest
                 Nombre = "Proyecto 2"
             };
 
+            Incidente i1 = new Incidente() { 
+                Nombre = "Incidente 1",
+                Descripcion = "Descripcion del incidente"
+            };
+
+            p1.Desarrolladores.Add((Desarrollador)d1);
+            p1.Desarrolladores.Add((Desarrollador)d2);
+            p1.Testers.Add((Tester)t1);
+            p1.Testers.Add((Tester)t2);
+            p1.Incidentes.Add(i1);
+
             DBContexto.Add(d1);
             DBContexto.Add(d2);
             DBContexto.Add(t1);
             DBContexto.Add(t2);
             DBContexto.Add(p1);
             DBContexto.Add(p2);
+            DBContexto.Add(i1);
 
             DBContexto.SaveChanges();
         }

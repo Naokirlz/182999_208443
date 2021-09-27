@@ -1,5 +1,6 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,16 @@ namespace Incidentes.Datos
     {
         public RepositorioProyectoEntity(Contexto contextoRepositorio) : base(contextoRepositorio)
         {
+        }
+
+        public Proyecto ObtenerProyectoPorIdCompleto(int id)
+        {
+            return ContextoRepositorio.Set<Proyecto>()
+                .Where(p => p.Id == id)
+                .Include(p => p.Desarrolladores)
+                .Include(p => p.Testers)
+                .Include(p => p.Incidentes)
+                .FirstOrDefault();
         }
     }
 }
