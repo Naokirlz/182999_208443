@@ -16,7 +16,7 @@ namespace Incidentes.Logica
             _repositorioGestor = repositorioGestores;
         }
 
-        public Incidente Alta(Incidente entity)
+        public Incidente Alta(string token, Incidente entity)
         {
             if (entity == null)
             {               

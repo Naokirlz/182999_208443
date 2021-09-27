@@ -28,7 +28,7 @@ namespace Incidentes.Logica.Test
 
             GestorIncidente gestor = new GestorIncidente(repoGestores.Object);
 
-            Incidente inc01 = gestor.Alta(incidente);
+            Incidente inc01 = gestor.Alta("token", incidente);
 
             Assert.AreEqual(incidente.Nombre, inc01.Nombre);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(incidente));

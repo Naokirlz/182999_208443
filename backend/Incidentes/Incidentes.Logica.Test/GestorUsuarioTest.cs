@@ -51,7 +51,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(administrador));
 
-            Usuario admin = gestor.Alta(administrador);
+            Usuario admin = gestor.Alta("token", administrador);
 
             Assert.AreEqual(administrador.Nombre, admin.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(administrador));
@@ -67,7 +67,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(tester1));
 
-            Usuario tester = gestor.Alta(tester1);
+            Usuario tester = gestor.Alta("token", tester1);
 
             Assert.AreEqual(tester1.Nombre, tester.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(tester1));
@@ -83,7 +83,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(desarrollador1));
 
-            Usuario desarrollador = gestor.Alta(desarrollador1);
+            Usuario desarrollador = gestor.Alta("token", desarrollador1);
 
             Assert.AreEqual(desarrollador1.Nombre, desarrollador.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(desarrollador1));

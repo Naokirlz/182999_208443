@@ -35,7 +35,7 @@ namespace Incidentes.WebApi.Controllers
                         Nombre = administrador.Nombre,
                         NombreUsuario = administrador.Nombre
                     };
-                    _logica.Alta(a);
+                    _logica.Alta("token", a);
                 }
                 else
                 {

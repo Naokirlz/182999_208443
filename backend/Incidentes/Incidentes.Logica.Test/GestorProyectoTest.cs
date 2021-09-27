@@ -47,6 +47,14 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
+        public void un_usuario_no_logueado_no_puede_guardar_proyectos()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorProyecto.Alta("", new Proyecto()));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
         public void se_puede_guardar_proyecto()
         {
             Proyecto proyecto = new Proyecto()
@@ -56,7 +64,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
 
-            Proyecto proyecto1 = gestorProyecto.Alta(proyecto);
+            Proyecto proyecto1 = gestorProyecto.Alta(usuarioCompleto.Token, proyecto);
 
             Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));

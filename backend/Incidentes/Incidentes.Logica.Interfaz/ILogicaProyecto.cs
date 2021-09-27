@@ -9,6 +9,5 @@ namespace Incidentes.LogicaInterfaz
 
         public void AgregarDesarrolladorAProyecto(int desarrollador, int idProyecto);
 
-
     }
 }

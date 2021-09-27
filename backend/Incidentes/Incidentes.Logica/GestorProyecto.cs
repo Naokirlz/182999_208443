@@ -40,8 +40,11 @@ namespace Incidentes.Logica
 
         }
 
-        public Proyecto Alta(Proyecto entity)
+        public Proyecto Alta(string token, Proyecto entity)
         {
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+            if (!existeUsu)
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
             //Validamos que el objeto no sea null
             if (entity == null)
             {

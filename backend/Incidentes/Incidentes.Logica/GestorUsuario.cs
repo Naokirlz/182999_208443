@@ -39,7 +39,7 @@ namespace Incidentes.Logica
         {
             throw new NotImplementedException();
         }
-        public Usuario Alta(Usuario usuario)
+        public Usuario Alta(string token, Usuario usuario)
         {
             
             if (usuario == null)
@@ -107,7 +107,7 @@ namespace Incidentes.Logica
                     existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.NombreUsuario == unUsuario.NombreUsuario);
                     if (!existeUsu)
                     {
-                        this.Alta(unUsuario);
+                        this.Alta(token, unUsuario);
                         _repositorioGestor.Save();
                     }
                 }
