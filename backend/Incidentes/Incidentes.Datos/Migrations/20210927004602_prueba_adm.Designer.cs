@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Incidentes.Datos.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210926162111_inicial")]
-    partial class inicial
+    [Migration("20210927004602_prueba_adm")]
+    partial class prueba_adm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace Incidentes.Datos.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AdministradorProyecto", b =>
+                {
+                    b.Property<int>("AdministradoresId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("proyectosId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdministradoresId", "proyectosId");
+
+                    b.HasIndex("proyectosId");
+
+                    b.ToTable("AdministradorProyecto");
+                });
 
             modelBuilder.Entity("DesarrolladorProyecto", b =>
                 {
@@ -66,9 +81,12 @@ namespace Incidentes.Datos.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.HasIndex("ProyectoId");
 
-                    b.ToTable("Incidente");
+                    b.ToTable("Incidentes");
                 });
 
             modelBuilder.Entity("Incidentes.Dominio.Proyecto", b =>
@@ -113,7 +131,7 @@ namespace Incidentes.Datos.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreUsuario")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
@@ -122,6 +140,10 @@ namespace Incidentes.Datos.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("NombreUsuario")
+                        .IsUnique()
+                        .HasFilter("[NombreUsuario] IS NOT NULL");
 
                     b.ToTable("Usuarios");
 
@@ -143,6 +165,13 @@ namespace Incidentes.Datos.Migrations
                     b.ToTable("ProyectoTester");
                 });
 
+            modelBuilder.Entity("Incidentes.Dominio.Administrador", b =>
+                {
+                    b.HasBaseType("Incidentes.Dominio.Usuario");
+
+                    b.HasDiscriminator().HasValue("Administrador");
+                });
+
             modelBuilder.Entity("Incidentes.Dominio.Desarrollador", b =>
                 {
                     b.HasBaseType("Incidentes.Dominio.Usuario");
@@ -155,6 +184,21 @@ namespace Incidentes.Datos.Migrations
                     b.HasBaseType("Incidentes.Dominio.Usuario");
 
                     b.HasDiscriminator().HasValue("Tester");
+                });
+
+            modelBuilder.Entity("AdministradorProyecto", b =>
+                {
+                    b.HasOne("Incidentes.Dominio.Administrador", null)
+                        .WithMany()
+                        .HasForeignKey("AdministradoresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Incidentes.Dominio.Proyecto", null)
+                        .WithMany()
+                        .HasForeignKey("proyectosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DesarrolladorProyecto", b =>

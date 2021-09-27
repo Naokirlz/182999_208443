@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Incidentes.Dominio
 {
-    public class Administrador:Usuario
+    public class Administrador : Usuario
     {
+
+        public virtual List<Proyecto> proyectos { get; set; }
+
     }
 }
