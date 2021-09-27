@@ -3,6 +3,7 @@ using Incidentes.Datos;
 using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Incidentes.DatosTest
 {
@@ -101,11 +102,52 @@ namespace Incidentes.DatosTest
             IQueryable<Proyecto> proyectos = _repoGestores.RepositorioUsuario.ListaDeProyectosALosQuePertenece(1);
             Assert.AreEqual(1, proyectos.Count());
         }
+
         [Test]
         public void se_devuelve_la_lista_de_proyectos_a_la_que_pertenece_un_tester()
         {
             IQueryable<Proyecto> proyectos = _repoGestores.RepositorioUsuario.ListaDeProyectosALosQuePertenece(3);
             Assert.AreEqual(2, proyectos.Count());
+        }
+
+        [Test]
+        public void se_devuelve_la_lista_de_incidentes_de_los_proyectos_a_la_que_pertenece_un_usuario()
+        {
+            List<Incidente> incidentes = _repoGestores.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(3, "", new Incidente());
+            Assert.AreEqual(2, incidentes.Count());
+        }
+
+        [Test]
+        public void se_devuelve_la_lista_de_incidentes_de_los_proyectos_a_la_que_pertenece_un_usuario_filtrando_por_idIncidente()
+        {
+            List<Incidente> incidentes = _repoGestores.RepositorioUsuario
+                .ListaDeIncidentesDeLosProyectosALosQuePertenece(3, "", new Incidente()
+                {
+                    Id = 1
+                });
+            Assert.AreEqual(1, incidentes.Count());
+        }
+
+        [Test]
+        public void se_devuelve_la_lista_de_incidentes_de_los_proyectos_a_la_que_pertenece_un_usuario_filtrando_por_nombreIncidente()
+        {
+            List<Incidente> incidentes = _repoGestores.RepositorioUsuario
+                .ListaDeIncidentesDeLosProyectosALosQuePertenece(3, "", new Incidente()
+                {
+                    Nombre = "1"
+                });
+            Assert.AreEqual(1, incidentes.Count());
+        }
+
+        [Test]
+        public void se_devuelve_la_lista_de_incidentes_de_los_proyectos_a_la_que_pertenece_un_usuario_filtrando_por_estadoIncidente()
+        {
+            List<Incidente> incidentes = _repoGestores.RepositorioUsuario
+                .ListaDeIncidentesDeLosProyectosALosQuePertenece(3, "", new Incidente()
+                {
+                    EstadoIncidente = Incidente.Estado.Resuelto
+                });
+            Assert.AreEqual(1, incidentes.Count());
         }
     }
 }

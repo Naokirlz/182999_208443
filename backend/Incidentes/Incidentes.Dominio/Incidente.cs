@@ -20,8 +20,9 @@ namespace Incidentes.Dominio
 
         public enum Estado
         {
+            Indiferente,
             Activo,
             Resuelto
-        }
+        } 
     }
 }

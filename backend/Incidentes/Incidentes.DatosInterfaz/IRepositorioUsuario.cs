@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Incidentes.DatosInterfaz
@@ -7,5 +8,6 @@ namespace Incidentes.DatosInterfaz
     {
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(int id);
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int id);
+        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int id, string proyecto, Incidente incidente);
     }
 }
