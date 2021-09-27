@@ -99,5 +99,12 @@ namespace Incidentes.DatosTest
             Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
             Assert.AreEqual(1, buscado.Incidentes.Count());
         }
+
+        [Test]
+        public void se_puede_ver_la_cantidad_de_incidentes_por_proyecto_proyecto()
+        {
+            IQueryable<Proyecto> buscados = _repoGestores.RepositorioProyecto.ObtenerProyectosConIncidentes();
+            Assert.AreEqual(1, buscados.First().Incidentes.Count());
+        }
     }
 }

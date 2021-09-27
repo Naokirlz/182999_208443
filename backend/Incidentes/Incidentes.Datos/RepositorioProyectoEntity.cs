@@ -25,5 +25,11 @@ namespace Incidentes.Datos
                 .Include(p => p.Incidentes)
                 .FirstOrDefault();
         }
+
+        public IQueryable<Proyecto> ObtenerProyectosConIncidentes()
+        {
+            return ContextoRepositorio.Set<Proyecto>()
+                .Include(p => p.Incidentes);
+        }
     }
 }

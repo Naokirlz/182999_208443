@@ -6,5 +6,6 @@ namespace Incidentes.DatosInterfaz
     public interface IRepositorioProyecto : IRepositorioBase<Proyecto>
     {
         public Proyecto ObtenerProyectoPorIdCompleto(int id);
+        public IQueryable<Proyecto> ObtenerProyectosConIncidentes();
     }
 }
