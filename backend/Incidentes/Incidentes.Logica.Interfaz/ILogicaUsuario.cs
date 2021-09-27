@@ -11,6 +11,6 @@ namespace Incidentes.LogicaInterfaz
         public void Logout(string tokenUsuario);
         public void AltaDesarrollador(string token, Usuario unDesarrollador);
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(string token, int idDesarrollador);
-        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(string token);
+        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(string token, string nombreProyecto, Incidente incidente);
     }
 }

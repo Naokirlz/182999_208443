@@ -218,14 +218,20 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_administrador_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
         {
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(usuarioCompleto);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>())).Returns(5);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
 
             int incidentes = gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3);
 
             Assert.AreEqual(5, incidentes);
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
             repoGestores.Verify(c => c.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
 
         [Test]
@@ -262,7 +268,7 @@ namespace Incidentes.Logica.Test
         public void sin_loguearse_no_se_puede_ver_la_lista_de_bugs_de_los_proyectos_que_pertenece()
         {
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
-            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Token));
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Token, "", new Incidente()));
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }
 
@@ -283,7 +289,7 @@ namespace Incidentes.Logica.Test
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
                 .Returns(lista);
 
-            List<Incidente> incidentes = gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Token);
+            List<Incidente> incidentes = gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Token, "", new Incidente());
 
             Assert.AreEqual(1, lista.Count());
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
