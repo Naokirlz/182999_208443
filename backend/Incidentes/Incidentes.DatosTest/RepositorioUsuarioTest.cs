@@ -1,11 +1,6 @@
 using NUnit.Framework;
 using Incidentes.Datos;
-using Incidentes.DatosFabrica;
 using Incidentes.DatosInterfaz;
-using Microsoft.Extensions.DependencyInjection;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
 using Incidentes.Dominio;
 using System.Linq;
 
