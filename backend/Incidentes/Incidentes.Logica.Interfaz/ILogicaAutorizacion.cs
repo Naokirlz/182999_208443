@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Incidentes.LogicaInterfaz
 {
-    public interface ILogicaAutenticacion
+    public interface ILogicaAutorizacion
     {
         public void UsuarioAutenticado(string token);
     }

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Incidentes.Logica
 {
-    public class GestorAutenticacion : ILogicaAutenticacion
+    public class GestorAutorizacion : ILogicaAutorizacion
     {
 
         IRepositorioGestores _repositorioGestor;
         private const string acceso_no_autorizado = "Acceso no autorizado";
 
-        public GestorAutenticacion(IRepositorioGestores repositorioGestores)
+        public GestorAutorizacion(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
         }

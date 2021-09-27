@@ -10,11 +10,11 @@ using System.Linq.Expressions;
 
 namespace Incidentes.Logica.Test
 {
-    public class GestorAutenticacionTest
+    public class GestorAutorizacionTest
     {
         private Usuario usuarioCompleto;
         Mock<IRepositorioGestores> repoGestores;
-        GestorAutenticacion gestor;
+        GestorAutorizacion gestor;
         GestorUsuario gestorU;
 
         [SetUp]
@@ -32,7 +32,7 @@ namespace Incidentes.Logica.Test
             };
 
             repoGestores = new Mock<IRepositorioGestores>();
-            gestor = new GestorAutenticacion(repoGestores.Object);
+            gestor = new GestorAutorizacion(repoGestores.Object);
             gestorU = new GestorUsuario(repoGestores.Object);
         }
 
