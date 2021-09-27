@@ -1,15 +1,12 @@
 using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
 using Incidentes.Logica.Excepciones;
-using Incidentes.Logica.Interfaz;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Assert = NUnit.Framework.Assert;
 
 namespace Incidentes.Logica.Test
 {

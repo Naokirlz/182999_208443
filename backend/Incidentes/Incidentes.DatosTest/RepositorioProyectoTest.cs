@@ -106,5 +106,46 @@ namespace Incidentes.DatosTest
             IQueryable<Proyecto> buscados = _repoGestores.RepositorioProyecto.ObtenerProyectosConIncidentes();
             Assert.AreEqual(1, buscados.First().Incidentes.Count());
         }
+
+        [Test]
+        public void se_puede_verificar_si_el_usuario_pertenece_al_proyecto()
+        {
+            bool pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(1, 1);
+            Assert.IsTrue(pertenece);
+            Usuario d3 = new Desarrollador()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martind3@gmail.com",
+                NombreUsuario = "martincosad3",
+                Token = ""
+            };
+
+            DBContexto.Add(d3);
+            DBContexto.SaveChanges();
+
+            Usuario u3 = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == d3.NombreUsuario, false).FirstOrDefault();
+            pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(u3.Id, 1);
+            Assert.IsFalse(pertenece);
+        }
+
+        [Test]
+        public void se_puede_verificar_si_el_incidente_pertenece_al_proyecto()
+        {
+            bool pertenece = _repoGestores.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(1, 1);
+            Assert.IsTrue(pertenece);
+            Incidente i3 = new Incidente()
+            {
+                Nombre = "Incidente 3"
+            };
+
+            DBContexto.Add(i3);
+            DBContexto.SaveChanges();
+
+            Incidente creado = _repoGestores.RepositorioIncidente.ObtenerPorCondicion(i => i.Nombre == i3.Nombre, false).FirstOrDefault();
+            pertenece = _repoGestores.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(creado.Id, 1);
+            Assert.IsFalse(pertenece);
+        }
     }
 }

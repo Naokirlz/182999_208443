@@ -31,5 +31,21 @@ namespace Incidentes.Datos
             return ContextoRepositorio.Set<Proyecto>()
                 .Include(p => p.Incidentes);
         }
+
+        public bool VerificarIncidentePerteneceAlProyecto(int idIncidente, int idProyecto)
+        {
+            Proyecto buscado = this.ObtenerProyectoPorIdCompleto(idProyecto);
+            Incidente incidente = ContextoRepositorio.Set<Incidente>().Where(i => i.Id == idIncidente).FirstOrDefault();
+
+            return buscado.Incidentes.Contains(incidente);
+        }
+
+        public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto)
+        {
+            Proyecto buscado = this.ObtenerProyectoPorIdCompleto(idProyecto);
+            Usuario solicitante = ContextoRepositorio.Set<Usuario>().Where(u => u.Id == idUsuario).FirstOrDefault();
+
+            return buscado.Desarrolladores.Contains(solicitante) || buscado.Testers.Contains(solicitante) || solicitante.GetType() == new Administrador().GetType();
+        }
     }
 }
