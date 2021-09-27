@@ -22,26 +22,18 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPost]
-        //TODO: Implementación nueva, ahora usamos un DTO. 
         public IActionResult Post([FromBody] Proyecto proyecto)
         {
-
             try
             {
-                /* Esto lo que hace es ejecutar las validaciones que pusimos dentro del objeto StudentDTO. 
-                 * En otras palabras, valida los parametros.*/
-                if (ModelState.IsValid)
+               if (ModelState.IsValid)
                 {
-                    //A partir del DTO creamos un objeto Student.
-                    Proyecto a = new Proyecto()
-                    {
+                  Proyecto a = new Proyecto()
+                  {
                         Id = proyecto.Id,
                         Nombre = proyecto.Nombre,
-                        
+                  };
 
-                    };
-
-                    //... y lo agregamos, como antes.
                     _logica.Alta(a);
                 }
                 else
@@ -52,17 +44,67 @@ namespace Incidentes.WebApi.Controllers
             catch (ArgumentNullException nullex)
             {
                 return UnprocessableEntity(nullex.Message);
-
-                // return BadRequest(nullex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, error_de_servidor);
             }
-
             return Ok();
         }
 
-
+        [HttpDelete]
+        public IActionResult Delete([FromBody] Proyecto proyecto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _logica.Baja(proyecto.Id);
+                }
+                else
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+            }
+            catch (ArgumentNullException nullex)
+            {
+                return UnprocessableEntity(nullex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, error_de_servidor);
+            }
+            return StatusCode(204, "resource deleted successfully");
+        }
+        
+        [HttpPut]
+        public IActionResult Put([FromBody] Proyecto proyecto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Proyecto a = new Proyecto()
+                    {
+                        Id = proyecto.Id,
+                        Nombre = proyecto.Nombre,
+                    };
+                 _logica.Modificar(proyecto.Id, a);
+                }
+                else
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+            }
+            catch (ArgumentNullException nullex)
+            {
+                return UnprocessableEntity(nullex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, error_de_servidor);
+            }
+            return StatusCode(202);
+        }
     }
 }

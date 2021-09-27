@@ -4,6 +4,7 @@ using Incidentes.Dominio;
 using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
+using Incidentes.Logica.Interfaz;
 
 namespace Incidentes.Logica
 {
@@ -51,24 +52,36 @@ namespace Incidentes.Logica
             return entity;
         }
 
-        public bool Baja(int id)
+        public void Baja(int id)
         {
-            throw new NotImplementedException();
+            Proyecto aEliminar = Obtener(id);
+            _repositorioGestor.RepositorioProyecto.Eliminar(aEliminar);
+            _repositorioGestor.Save();
+
         }
 
         public Proyecto Modificar(int id, Proyecto entity)
         {
-            throw new NotImplementedException();
+            Proyecto aModificar = Obtener(id);
+
+            aModificar.Nombre = entity.Nombre;
+            //federico: falta ver como modificar los demas atributos o en que lugar
+            _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
+            _repositorioGestor.Save();
+            return aModificar;
         }
 
         public Proyecto Obtener(int id)
         {
-            throw new NotImplementedException();
+           Proyecto aObtener= _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
+            return aObtener;
         }
 
         public IEnumerable<Proyecto> ObtenerTodos()
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

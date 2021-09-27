@@ -22,26 +22,19 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPost]
-        //TODO: Implementación nueva, ahora usamos un DTO. 
         public IActionResult Post([FromBody] Administrador administrador)
         {
 
             try
             {
-                /* Esto lo que hace es ejecutar las validaciones que pusimos dentro del objeto StudentDTO. 
-                 * En otras palabras, valida los parametros.*/
                 if (ModelState.IsValid)
                 {
-                    //A partir del DTO creamos un objeto Student.
                     Administrador a = new Administrador()
                     {
                         Id = administrador.Id,
                         Nombre = administrador.Nombre,
                         NombreUsuario = administrador.Nombre
-                        
                     };
-
-                    //... y lo agregamos, como antes.
                     _logica.Alta(a);
                 }
                 else
@@ -52,14 +45,11 @@ namespace Incidentes.WebApi.Controllers
             catch (ArgumentNullException nullex)
             {
                 return UnprocessableEntity(nullex.Message);
-
-                // return BadRequest(nullex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, error_de_servidor);
             }
-
             return Ok();
         }
     }

@@ -29,7 +29,7 @@ namespace Incidentes.Logica
             return entity;
         }
 
-        public bool Baja(int id)
+        public void Baja(int id)
         {
             throw new NotImplementedException();
         }

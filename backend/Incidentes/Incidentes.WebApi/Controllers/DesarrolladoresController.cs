@@ -2,7 +2,6 @@
 using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
 using Incidentes.LogicaInterfaz;
-using Incidentes.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -10,26 +9,40 @@ namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DesarrollosController : ControllerBase
+    public class DesarrolladoresController : ControllerBase
     {
         private const string error_de_servidor = "Internal Server Error";
         private readonly IMapper _mapper;
-        private readonly ILogicaProyecto _logica;
+        private readonly ILogicaUsuario _logica;
 
-        public DesarrollosController(ILogicaProyecto logica, IMapper mapper)
+        public DesarrolladoresController(ILogicaUsuario logica, IMapper mapper)
         {
             _logica = logica;
             _mapper = mapper;
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] DesarrolloDTO desarrollo)
+        //TODO: Implementación nueva, ahora usamos un DTO. 
+        public IActionResult Post([FromBody] Desarrollador desarrollador)
         {
+
             try
             {
+                /* Esto lo que hace es ejecutar las validaciones que pusimos dentro del objeto StudentDTO. 
+                 * En otras palabras, valida los parametros.*/
                 if (ModelState.IsValid)
                 {
-                    _logica.AgregarDesarrolladorAProyecto(desarrollo.DesarrolladorId,desarrollo.ProyectoId);
+                    //A partir del DTO creamos un objeto Student.
+                    Usuario a = new Desarrollador()
+                    {
+                        Id = desarrollador.Id,
+                        Nombre = desarrollador.Nombre,
+                        NombreUsuario = desarrollador.Nombre
+
+                    };
+
+                    //... y lo agregamos, como antes.
+                    _logica.AltaDesarrollador(desarrollador.Token, a);
                 }
                 else
                 {
@@ -39,14 +52,15 @@ namespace Incidentes.WebApi.Controllers
             catch (ArgumentNullException nullex)
             {
                 return UnprocessableEntity(nullex.Message);
+
+                // return BadRequest(nullex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, error_de_servidor);
             }
+
             return Ok();
         }
-
-
     }
 }

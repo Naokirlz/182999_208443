@@ -7,7 +7,7 @@ namespace Incidentes.Logica.Interfaz
     {
         T Alta(T entity);
 
-        bool Baja(int id);
+        void Baja(int id);
 
         T Modificar(int id, T entity);
 
