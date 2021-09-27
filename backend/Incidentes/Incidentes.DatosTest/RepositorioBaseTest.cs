@@ -85,6 +85,7 @@ namespace Incidentes.DatosTest
             p1.Desarrolladores.Add((Desarrollador)d1);
             p1.Desarrolladores.Add((Desarrollador)d2);
             p1.Testers.Add((Tester)t1);
+            p2.Testers.Add((Tester)t1);
             p1.Testers.Add((Tester)t2);
             p1.Incidentes.Add(i1);
             p2.Incidentes.Add(i2);

@@ -61,7 +61,7 @@ namespace Incidentes.DatosTest
             DBContexto.Add(incidente);
             DBContexto.SaveChanges();
             var buscados = _repoGestores.RepositorioIncidente.ObtenerTodos(false);
-            Assert.AreEqual(2, buscados.Count());
+            Assert.AreEqual(3, buscados.Count());
         }
 
         [Test]

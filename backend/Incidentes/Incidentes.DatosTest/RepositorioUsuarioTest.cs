@@ -94,5 +94,18 @@ namespace Incidentes.DatosTest
             int cantidadResueltos = _repoGestores.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(1);
             Assert.AreEqual(1, cantidadResueltos);
         }
+
+        [Test]
+        public void se_devuelve_la_lista_de_proyectos_a_la_que_pertenece_un_desarrollador()
+        {
+            IQueryable<Proyecto> proyectos = _repoGestores.RepositorioUsuario.ListaDeProyectosALosQuePertenece(1);
+            Assert.AreEqual(1, proyectos.Count());
+        }
+        [Test]
+        public void se_devuelve_la_lista_de_proyectos_a_la_que_pertenece_un_tester()
+        {
+            IQueryable<Proyecto> proyectos = _repoGestores.RepositorioUsuario.ListaDeProyectosALosQuePertenece(3);
+            Assert.AreEqual(2, proyectos.Count());
+        }
     }
 }
