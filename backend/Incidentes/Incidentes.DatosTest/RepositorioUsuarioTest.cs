@@ -37,7 +37,7 @@ namespace Incidentes.DatosTest
         [Test]
         public void se_puede_buscar_un_usuario_por_nombreusuario()
         {
-            Usuario a2 = new Administrador()
+            Usuario a2 = new Desarrollador()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
@@ -61,10 +61,36 @@ namespace Incidentes.DatosTest
         }
 
         [Test]
-        public void no_se_puede_encontrar()
+        public void se_pueden_obtener_todos()
         {
             var buscados = _repoGestores.RepositorioUsuario.ObtenerTodos(false);
-            Assert.AreEqual(5, buscados.Count());
+            Assert.AreEqual(4, buscados.Count());
+        }
+
+        [Test]
+        public void existe_debe_devolver_true_si_existe()
+        {
+            Usuario d3 = new Desarrollador()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martinf@gmail.com",
+                NombreUsuario = "martincosaf",
+                Token = ""
+            };
+            DBContexto.Add(d3);
+            DBContexto.SaveChanges();
+
+            bool existe = _repoGestores.RepositorioUsuario.Existe(u => u.NombreUsuario == d3.NombreUsuario);
+            Assert.IsTrue(existe);
+        }
+
+        [Test]
+        public void existe_debe_devolver_false_si_no_existe()
+        {
+            bool existe = _repoGestores.RepositorioUsuario.Existe(u => u.NombreUsuario == "nombre que no existe");
+            Assert.IsFalse(existe);
         }
     }
 }

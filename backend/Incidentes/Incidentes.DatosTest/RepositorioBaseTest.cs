@@ -19,16 +19,6 @@ namespace Incidentes.DatosTest
             var opciones = new DbContextOptionsBuilder<Contexto>().UseInMemoryDatabase(databaseName: "Incidentes").Options;
             DBContexto = new Contexto(opciones);
 
-            Usuario a1 = new Administrador()
-            {
-                Nombre = "Martin",
-                Apellido = "Cosa",
-                Contrasenia = "Casa#Blanca",
-                Email = "martin@gmail.com",
-                NombreUsuario = "martincosa",
-                Token = ""
-            };
-
             Usuario d1 = new Desarrollador()
             {
                 Nombre = "Martin",
@@ -79,7 +69,6 @@ namespace Incidentes.DatosTest
                 Nombre = "Proyecto 2"
             };
 
-            DBContexto.Add(a1);
             DBContexto.Add(d1);
             DBContexto.Add(d2);
             DBContexto.Add(t1);
