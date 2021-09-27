@@ -242,5 +242,55 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
+
+        [Test]
+        public void un_tester_no_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(new Tester());
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+        }
+
+        [Test]
+        public void sin_loguearse_no_se_puede_ver_la_lista_de_bugs_de_los_proyectos_que_pertenece()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Token));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void se_puede_ver_la_lista_de_bugs_de_los_proyectos_que_pertenece()
+        {
+            List<Incidente> lista = new List<Incidente>();
+            lista.Add(new Incidente());
+
+            List<Usuario> listaU = new List<Usuario>();
+            listaU.Add(new Tester());
+            IQueryable<Usuario> queryableU = listaU.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableU);
+            repoGestores.Setup(
+                c => c.RepositorioUsuario
+                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
+                .Returns(lista);
+
+            List<Incidente> incidentes = gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Token);
+
+            Assert.AreEqual(1, lista.Count());
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+            repoGestores.Verify(
+                c => c.RepositorioUsuario
+                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+        }
     }
 }

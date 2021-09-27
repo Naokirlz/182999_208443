@@ -1,5 +1,6 @@
 ﻿using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Incidentes.LogicaInterfaz
@@ -10,5 +11,6 @@ namespace Incidentes.LogicaInterfaz
         public void Logout(string tokenUsuario);
         public void AltaDesarrollador(string token, Usuario unDesarrollador);
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(string token, int idDesarrollador);
+        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(string token);
     }
 }

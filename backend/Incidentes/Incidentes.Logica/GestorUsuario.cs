@@ -133,5 +133,15 @@ namespace Incidentes.Logica
         {
             return tipoEsperado == tipoAComparar;
         }
+
+        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(string token)
+        {
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
+            if (!existeUsu)
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+            Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
+
+            return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuario.Id, "", new Incidente());
+        }
     }
 }
