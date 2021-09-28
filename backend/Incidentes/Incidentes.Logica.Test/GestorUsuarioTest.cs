@@ -21,11 +21,11 @@ namespace Incidentes.Logica.Test
         {
             this.usuarioCompleto = new Administrador() { 
                 Nombre = "Martin",
-                Apellido = "Cosa",
-                Contrasenia = "Casa#Blanca",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#Blancaaaaaaaaa",
                 Email = "martin@gmail.com",
                 Id = 1,
-                NombreUsuario = "martincosa",
+                NombreUsuario = "martincosassssss",
                 Token = ""
             };
 
@@ -46,7 +46,13 @@ namespace Incidentes.Logica.Test
         {
             Administrador administrador = new Administrador()
             {
-                Nombre = "Luisito"
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#Blancaaaaaaaaa",
+                Email = "martin@gmail.com",
+                Id = 1,
+                NombreUsuario = "martincosassssss",
+                Token = ""
             };    
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(administrador));
@@ -62,7 +68,13 @@ namespace Incidentes.Logica.Test
         {
             Tester tester1 = new Tester()
             {
-                Nombre = "Luisito"
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
+                Email = "martin@gmail.com",
+                Id = 1,
+                NombreUsuario = "martincosa",
+                Token = ""
             };
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(tester1));
@@ -78,7 +90,13 @@ namespace Incidentes.Logica.Test
         {
             Desarrollador desarrollador1 = new Desarrollador()
             {
-                Nombre = "Luisito"
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#Blancaaaaaaaaa",
+                Email = "martin@gmail.com",
+                Id = 1,
+                NombreUsuario = "martincosa",
+                Token = ""
             };
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(desarrollador1));
@@ -163,48 +181,6 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void un_administrador_logueado_puede_dar_de_alta_un_desarrollador()
-        {
-            usuarioCompleto.Token = "asdasdasdasdasdasdasd";
-
-            List<Usuario> lista = new List<Usuario>();
-            lista.Add(usuarioCompleto);
-            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
-                .Returns(queryableUsuarios);
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
-
-            Usuario unDesarrollador = new Desarrollador()
-            {
-                Nombre = "Martin",
-                Apellido = "Cosa",
-                Contrasenia = "Casa#Blanca",
-                Email = "martinDes@gmail.com",
-                Id = 2,
-                NombreUsuario = "martincosadesarrollador",
-                Token = ""
-            };
-
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario)).Returns(false);
-
-            gestor.AltaDesarrollador(unDesarrollador);
-
-            List<Usuario> lista2 = new List<Usuario>();
-            lista2.Add(unDesarrollador);
-            IQueryable<Usuario> queryableUsuarios2 = lista2.AsQueryable();
-
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == 2, false)).Returns(queryableUsuarios2);
-
-            Usuario desarrollador = gestor.Obtener(unDesarrollador.Id);
-
-            Assert.IsNotNull(desarrollador);
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario));
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == 2, false));
-        }
-
-        [Test]
         public void un_administrador_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
         {
             List<Usuario> lista = new List<Usuario>();
@@ -264,6 +240,93 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_dar_alta_un_usuario_nulo()
+        {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(null));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_nombre_repetido()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(new Desarrollador()));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_nombre_corto()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Nombre = "ss s";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_nombre_largo()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Nombre = "01234567890123456789012345";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_apellido_corto()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Apellido = "ss s";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_apellido_largo()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Apellido = "01234567890123456789012345";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_nombreUsuario_corto()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.NombreUsuario = "ss s";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_nombreUsuario_largo()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.NombreUsuario = "01234567890123456789012345";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_password_invalido()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Contrasenia = "    ssa   a";
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_email_invalido()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Email = "ssddassssas";
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }
     }
 }

@@ -11,8 +11,11 @@ namespace Incidentes.Logica
     public class GestorUsuario : ILogicaUsuario
     {
         IRepositorioGestores _repositorioGestor;
-        private const string acceso_no_autorizado = "Acceso no autorizado";
-        private const string acceso_prohibido = "Acceso prohibido";
+        private const string argumento_nulo = "El argumento no puede ser nulo";
+        private const string elemento_no_existe = "El elemento no existe";
+        private const string elemento_ya_existe = "Un elemento con similares atributos ya existe";
+        private const int largo_maximo_texto_corto = 25;
+        private const int largo_minimo_texto_corto = 5;
 
         public GestorUsuario(IRepositorioGestores repositorioGestores)
         {
@@ -41,11 +44,17 @@ namespace Incidentes.Logica
         }
         public Usuario Alta(Usuario usuario)
         {
-            
-            if (usuario == null)
-            {
-             throw new Exception(); 
-            }
+            if (usuario == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+            bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.NombreUsuario == usuario.NombreUsuario) ||
+                _repositorioGestor.RepositorioUsuario.Existe(c => c.Email == usuario.Email);
+            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+
+            Validaciones.ValidarLargoTexto(usuario.Nombre, largo_maximo_texto_corto, largo_minimo_texto_corto, "Nombre");
+            Validaciones.ValidarLargoTexto(usuario.Apellido, largo_maximo_texto_corto, largo_minimo_texto_corto, "Apellido");
+            Validaciones.ValidarLargoTexto(usuario.NombreUsuario, largo_maximo_texto_corto, largo_minimo_texto_corto, "Nombre de usuario");
+            Validaciones.ValidarPassword(usuario.Contrasenia);
+            Validaciones.ValidarEmail(usuario.Email);
+
             _repositorioGestor.RepositorioUsuario.Alta(usuario);
             _repositorioGestor.Save();
 

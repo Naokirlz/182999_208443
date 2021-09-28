@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Incidentes.Logica
@@ -15,6 +16,24 @@ namespace Incidentes.Logica
             if (texto.Length > largoMax || texto.Length < largoMin)
                 throw new ExcepcionLargoTexto("El largo del campo " + campo + " debe ser de entre " +
                                               largoMin.ToString() + " y " + largoMax.ToString() + " caracteres.");
+        }
+
+        internal static void ValidarPassword(string texto)
+        {
+            bool noValido = texto.Contains(" ");
+            if (noValido)
+                throw new ExcepcionArgumentoNoValido("No puede contener espacios en blanco en la contraseña");
+
+            if (texto.Length > 25 || texto.Length < 8)
+                throw new ExcepcionArgumentoNoValido("El largo de la contraseña debe ser de entre 8 y 25 caracteres.");
+        }
+
+        internal static void ValidarEmail(string email)
+        {
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(email);
+            if(!match.Success)
+                throw new ExcepcionArgumentoNoValido("Debe ingresar un email válido.");
         }
     }
 }
