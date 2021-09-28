@@ -53,7 +53,7 @@ namespace Incidentes.Logica.Test
             queryableUsuarios = listaU.AsQueryable();
             incidentes = listaI.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            
             repoGestores.Setup(c => c.RepositorioIncidente.ObtenerTodos(false)).Returns(incidentes);
             repoGestores.Setup(c => c.RepositorioIncidente.Eliminar(incidente));
         }
@@ -65,10 +65,10 @@ namespace Incidentes.Logica.Test
             repoGestores = null;
             gestorIncidente = null;
             this.usuarioCompleto = null;
-            queryableUsuarios = null;
-            listaI = null;
-            listaU = null;
-            incidentes = null;
+            listaI = new List<Incidente>();
+            listaU = new List<Usuario>();
+            queryableUsuarios = listaU.AsQueryable();
+            incidentes = listaI.AsQueryable();
         }
 
 
@@ -110,7 +110,8 @@ namespace Incidentes.Logica.Test
         [Test]
         public void alta_devuelve_una_instancia_de_incidente()
         {
-            
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+
             Incidente incidente02 = gestorIncidente.Alta(incidente);
             Assert.IsNotNull(incidente02);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(incidente));
