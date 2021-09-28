@@ -147,5 +147,16 @@ namespace Incidentes.DatosTest
             pertenece = _repoGestores.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(creado.Id, 1);
             Assert.IsFalse(pertenece);
         }
+
+        [Test]
+        public void se_pueden_agregar_desarrolladores_a_un_proyecto()
+        {
+            Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
+            Desarrollador des = (Desarrollador)_repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.Id == buscado.Desarrolladores.FirstOrDefault().Id, false).FirstOrDefault();
+            buscado.Desarrolladores.Add(new Desarrollador());
+            _repoGestores.RepositorioProyecto.Modificar(buscado);
+            Proyecto nuevaCondicion = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
+            Assert.AreEqual(3, nuevaCondicion.Desarrolladores.Count());
+        }
     }
 }

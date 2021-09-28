@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.LogicaFabrica", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.DatosFabrica", "Incidentes.DatosFabrica\Incidentes.DatosFabrica.csproj", "{48AAEA23-7FEA-4D0C-86E1-AD2AA53FC15A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incidentes.DatosTest", "Incidentes.DatosTest\Incidentes.DatosTest.csproj", "{CC148DC7-B678-4FB0-815D-7C01F21AFB03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.DatosTest", "Incidentes.DatosTest\Incidentes.DatosTest.csproj", "{CC148DC7-B678-4FB0-815D-7C01F21AFB03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incidentes.WebApiTest", "Incidentes.WebApiTest\Incidentes.WebApiTest.csproj", "{6C683AF6-02EA-4E57-9A10-6F98EC45560F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{CC148DC7-B678-4FB0-815D-7C01F21AFB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC148DC7-B678-4FB0-815D-7C01F21AFB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC148DC7-B678-4FB0-815D-7C01F21AFB03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C683AF6-02EA-4E57-9A10-6F98EC45560F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C683AF6-02EA-4E57-9A10-6F98EC45560F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C683AF6-02EA-4E57-9A10-6F98EC45560F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C683AF6-02EA-4E57-9A10-6F98EC45560F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
