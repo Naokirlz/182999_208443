@@ -39,7 +39,7 @@ namespace Incidentes.Logica
 
         }
 
-        public Proyecto Alta(string token, Proyecto entity)
+        public Proyecto Alta(Proyecto entity)
         {
             //Validamos que el objeto no sea null
             if (entity == null)
@@ -78,12 +78,9 @@ namespace Incidentes.Logica
             return aObtener;
         }
 
-        public IEnumerable<Proyecto> ObtenerTodos(string token)
+        public IEnumerable<Proyecto> ObtenerTodos()
         {
-
-            Usuario solicitante = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
-
-            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(solicitante.Id);
+            return _repositorioGestor.RepositorioProyecto.ObtenerTodos(false);
         }
     }
 }

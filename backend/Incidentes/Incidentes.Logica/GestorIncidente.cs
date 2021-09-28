@@ -17,7 +17,7 @@ namespace Incidentes.Logica
             _repositorioGestor = repositorioGestores;
         }
 
-        public Incidente Alta(string token, Incidente entity)
+        public Incidente Alta(Incidente entity)
         {
             if (entity == null)
             {               
@@ -45,7 +45,7 @@ namespace Incidentes.Logica
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Incidente> ObtenerTodos(string token)
+        public IEnumerable<Incidente> ObtenerTodos()
         {
             throw new NotImplementedException();
         }

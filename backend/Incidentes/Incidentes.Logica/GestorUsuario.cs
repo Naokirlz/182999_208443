@@ -35,11 +35,11 @@ namespace Incidentes.Logica
             return usuario;
         }
 
-        public IEnumerable<Usuario> ObtenerTodos(string token)
+        public IEnumerable<Usuario> ObtenerTodos()
         {
             throw new NotImplementedException();
         }
-        public Usuario Alta(string token, Usuario usuario)
+        public Usuario Alta(Usuario usuario)
         {
             
             if (usuario == null)
@@ -93,55 +93,28 @@ namespace Incidentes.Logica
             _repositorioGestor.Save();
         }
 
-        public void AltaDesarrollador(string token, Usuario unUsuario)
+        public void AltaDesarrollador(Usuario unUsuario)
         {
-            //chequear que existe administrador
-            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
-
-            if (existeUsu)
+            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.NombreUsuario == unUsuario.NombreUsuario);
+            if (!existeUsu)
             {
-                //verificar administrador
-                Usuario usuLogueado = this._repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
-                if (usuLogueado.GetType() == new Administrador().GetType())
-                {
-                    existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.NombreUsuario == unUsuario.NombreUsuario);
-                    if (!existeUsu)
-                    {
-                        this.Alta(token, unUsuario);
-                        _repositorioGestor.Save();
-                    }
-                }
+                this.Alta(unUsuario);
+                _repositorioGestor.Save();
             }
         }
 
-        public int CantidadDeIncidentesResueltosPorUnDesarrollador(string token, int idDesarrollador)
+        public int CantidadDeIncidentesResueltosPorUnDesarrollador(int idDesarrollador)
         {
-            Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
-
-            bool correctoTipo = VerificarTipo(new Administrador().GetType(), usuario.GetType());
-
-            if (!correctoTipo)
-                throw new ExcepcionAccesoNoAutorizado(acceso_prohibido);
-
             return _repositorioGestor.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(idDesarrollador);
         }
 
-        private bool VerificarTipo(Type tipoEsperado, Type tipoAComparar)
+        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente)
         {
-            return tipoEsperado == tipoAComparar;
+            return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(idUsuario, nombreProyecto, incidente);
         }
 
-        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(string token, string nombreProyecto, Incidente incidente)
-        {
-            Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
-
-            return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuario.Id, nombreProyecto, incidente);
-        }
-
-        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(string token, int idDesarrollador) {
-            Usuario usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Token == token, false).FirstOrDefault();
-
-            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(usuario.Id);
+        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario, int idDesarrollador) {
+            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
         }
     }
 }

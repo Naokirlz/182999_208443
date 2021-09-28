@@ -34,7 +34,7 @@ namespace Incidentes.WebApi.Controllers
                         Nombre = proyecto.Nombre,
                   };
 
-                    _logica.Alta("", a);
+                    _logica.Alta(a);
                 }
                 else
                 {

@@ -9,9 +9,9 @@ namespace Incidentes.LogicaInterfaz
     {
         public bool Login(string nombreUSuario, string password);
         public void Logout(string tokenUsuario);
-        public void AltaDesarrollador(string token, Usuario unDesarrollador);
-        public int CantidadDeIncidentesResueltosPorUnDesarrollador(string token, int idDesarrollador);
-        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(string token, string nombreProyecto, Incidente incidente);
-        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(string token, int idDesarrollador);
+        public void AltaDesarrollador(Usuario unDesarrollador);
+        public int CantidadDeIncidentesResueltosPorUnDesarrollador(int idDesarrollador);
+        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente);
+        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario, int idDesarrollador);
     }
 }

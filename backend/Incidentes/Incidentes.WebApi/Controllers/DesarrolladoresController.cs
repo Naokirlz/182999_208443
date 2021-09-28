@@ -42,7 +42,7 @@ namespace Incidentes.WebApi.Controllers
                     };
 
                     //... y lo agregamos, como antes.
-                    _logica.AltaDesarrollador(desarrollador.Token, a);
+                    _logica.AltaDesarrollador(a);
                 }
                 else
                 {

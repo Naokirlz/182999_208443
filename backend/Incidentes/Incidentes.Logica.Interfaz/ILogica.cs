@@ -5,7 +5,7 @@ namespace Incidentes.Logica.Interfaz
 {
     public interface ILogica<T>
     {
-        T Alta(string token, T entity);
+        T Alta(T entity);
 
         void Baja(int id);
 
@@ -13,6 +13,6 @@ namespace Incidentes.Logica.Interfaz
 
         T Obtener(int id);
 
-        IEnumerable<T> ObtenerTodos(string token);
+        IEnumerable<T> ObtenerTodos();
     }
 }

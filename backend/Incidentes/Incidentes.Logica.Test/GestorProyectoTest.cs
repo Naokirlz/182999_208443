@@ -14,6 +14,7 @@ namespace Incidentes.Logica.Test
     public class GestorProyectoTest
     {
         private Usuario usuarioCompleto;
+        private Proyecto unProyecto;
         Mock<IRepositorioGestores> repoGestores;
         GestorUsuario gestorUsuario;
         GestorProyecto gestorProyecto;
@@ -32,6 +33,10 @@ namespace Incidentes.Logica.Test
                 Token = ""
             };
 
+            unProyecto = new Proyecto() { 
+                Nombre = "Proyecto"
+            };
+
             repoGestores = new Mock<IRepositorioGestores>();
             gestorUsuario = new GestorUsuario(repoGestores.Object);
             gestorProyecto = new GestorProyecto(repoGestores.Object);
@@ -44,6 +49,7 @@ namespace Incidentes.Logica.Test
             repoGestores = null;
             gestorUsuario = null;
             gestorProyecto = null;
+            unProyecto = null;
         }
 
         [Test]
@@ -56,7 +62,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
 
-            Proyecto proyecto1 = gestorProyecto.Alta(usuarioCompleto.Token, proyecto);
+            Proyecto proyecto1 = gestorProyecto.Alta(proyecto);
 
             Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));
@@ -76,15 +82,64 @@ namespace Incidentes.Logica.Test
             lista2.Add(usuarioCompleto);
             IQueryable<Usuario> queryableUsuarios = lista2.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
-                .Returns(queryableUsuarios);
-            repoGestores.Setup(c => c.RepositorioUsuario.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(queryableProyectos);
-            
-            IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos(usuarioCompleto.Token);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerTodos(false)).Returns(queryableProyectos);
+
+            IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos();
 
             Assert.AreEqual(2, proyectos.Count());
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
-            repoGestores.Verify(c => c.RepositorioUsuario.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerTodos(false));
+        }
+
+        [Test]
+        public void se_puede_ver_un_proyecto()
+        {
+            Proyecto proyecto = new Proyecto()
+            {
+                Nombre = "Proyecto1"
+            };
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
+
+            Proyecto proyecto1 = gestorProyecto.Alta(proyecto);
+
+            Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
+            repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));
+        }
+
+        [Test]
+        public void alta_devuelve_una_instancia_de_proyecto()
+        {
+
+        }
+
+        [Test]
+        public void se_puede_modificar_un_proyecto()
+        {
+        }
+
+        [Test]
+        public void modificar_devuelve_una_instancia_de_proyecto()
+        {
+        }
+
+        [Test]
+        public void se_puede_eliminar_un_proyecto()
+        {
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_proyecto_con_nombre_repetido()
+        {
+        }
+
+        [Test]
+        public void no_se_puede_modificar_un_proyecto_que_no_existe()
+        {
+        }
+
+        [Test]
+        public void no_se_puede_eliminar_un_proyecto_que_no_existe()
+        {
         }
     }
 }

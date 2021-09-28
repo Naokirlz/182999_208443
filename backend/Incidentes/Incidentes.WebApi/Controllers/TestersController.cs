@@ -44,7 +44,7 @@ namespace Incidentes.WebApi.Controllers
                     };
 
                     //... y lo agregamos, como antes.
-                    _logica.Alta("", a);
+                    _logica.Alta(a);
                 }
                 else
                 {

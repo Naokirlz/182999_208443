@@ -51,7 +51,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(administrador));
 
-            Usuario admin = gestor.Alta("token", administrador);
+            Usuario admin = gestor.Alta(administrador);
 
             Assert.AreEqual(administrador.Nombre, admin.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(administrador));
@@ -67,7 +67,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(tester1));
 
-            Usuario tester = gestor.Alta("token", tester1);
+            Usuario tester = gestor.Alta(tester1);
 
             Assert.AreEqual(tester1.Nombre, tester.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(tester1));
@@ -83,7 +83,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.Alta(desarrollador1));
 
-            Usuario desarrollador = gestor.Alta("token", desarrollador1);
+            Usuario desarrollador = gestor.Alta(desarrollador1);
 
             Assert.AreEqual(desarrollador1.Nombre, desarrollador.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(desarrollador1));
@@ -187,7 +187,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(u => u.NombreUsuario == unDesarrollador.NombreUsuario)).Returns(false);
 
-            gestor.AltaDesarrollador(usuarioCompleto.Token, unDesarrollador);
+            gestor.AltaDesarrollador(unDesarrollador);
 
             List<Usuario> lista2 = new List<Usuario>();
             lista2.Add(unDesarrollador);
@@ -212,39 +212,11 @@ namespace Incidentes.Logica.Test
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>())).Returns(5);
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
 
-            int incidentes = gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3);
+            int incidentes = gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(3);
 
             Assert.AreEqual(5, incidentes);
             repoGestores.Verify(c => c.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>()));
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
-        }
-
-        [Test]
-        public void un_desarrollador_no_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
-        {
-            List<Usuario> lista = new List<Usuario>();
-            lista.Add(new Desarrollador());
-            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
-
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
-
-            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3));
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
-        }
-
-        [Test]
-        public void un_tester_no_puede_ver_cantidad_de_bugs_resueltos_por_un_desarrollador()
-        {
-            List<Usuario> lista = new List<Usuario>();
-            lista.Add(new Tester());
-            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
-
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
-
-            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.CantidadDeIncidentesResueltosPorUnDesarrollador(usuarioCompleto.Token, 3));
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
 
         [Test]
@@ -257,16 +229,14 @@ namespace Incidentes.Logica.Test
             listaU.Add(new Tester());
             IQueryable<Usuario> queryableU = listaU.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableU);
             repoGestores.Setup(
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
                 .Returns(lista);
 
-            List<Incidente> incidentes = gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Token, "", new Incidente());
+            List<Incidente> incidentes = gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Id, "", new Incidente());
 
             Assert.AreEqual(1, lista.Count());
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
@@ -283,16 +253,14 @@ namespace Incidentes.Logica.Test
             listaU.Add(new Tester());
             IQueryable<Usuario> queryableU = listaU.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableU);
             repoGestores.Setup(
                 c => c.RepositorioUsuario
                 .ListaDeProyectosALosQuePertenece(It.IsAny<int>()))
                 .Returns(queryableP);
 
-            IQueryable<Proyecto> proyectos = gestor.ListaDeProyectosALosQuePertenece(usuarioCompleto.Token, 3);
+            IQueryable<Proyecto> proyectos = gestor.ListaDeProyectosALosQuePertenece(usuarioCompleto.Id, 3);
 
             Assert.AreEqual(1, proyectos.Count());
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
