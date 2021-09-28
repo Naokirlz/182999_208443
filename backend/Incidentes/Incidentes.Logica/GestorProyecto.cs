@@ -11,7 +11,10 @@ namespace Incidentes.Logica
 {
     public class GestorProyecto : ILogicaProyecto
     {
-       IRepositorioGestores _repositorioGestor;
+        IRepositorioGestores _repositorioGestor;
+        private const string argumento_nulo = "El argumento no puede ser nulo";
+        private const string elemento_no_existe = "El elemento no existe";
+        private const string elemento_ya_existe = "Un elemento con similares atributos ya existe";
 
         public GestorProyecto(IRepositorioGestores repositorioGestores)
         {
@@ -41,12 +44,10 @@ namespace Incidentes.Logica
 
         public Proyecto Alta(Proyecto entity)
         {
-            //Validamos que el objeto no sea null
-            if (entity == null)
-            {
-                //O tambien si determino que el objeto es invalido mediante alguna otra regla....
-                throw new Exception(); //Esto es solo una opcion, no necesariamente DEBE lanzarse una excepcion
-            }
+            if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+            bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Nombre == entity.Nombre);
+            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+
             _repositorioGestor.RepositorioProyecto.Alta(entity);
             _repositorioGestor.Save();
 
@@ -56,6 +57,7 @@ namespace Incidentes.Logica
         public void Baja(int id)
         {
             Proyecto aEliminar = Obtener(id);
+
             _repositorioGestor.RepositorioProyecto.Eliminar(aEliminar);
             _repositorioGestor.Save();
 
@@ -63,10 +65,21 @@ namespace Incidentes.Logica
 
         public Proyecto Modificar(int id, Proyecto entity)
         {
+            if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+
             Proyecto aModificar = Obtener(id);
 
+            if(aModificar.Nombre != entity.Nombre)
+            {
+                bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Nombre == entity.Nombre);
+                if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+            }
+
             aModificar.Nombre = entity.Nombre;
-            //federico: falta ver como modificar los demas atributos o en que lugar
+            aModificar.Desarrolladores = entity.Desarrolladores;
+            aModificar.Testers = entity.Testers;
+            aModificar.Incidentes = entity.Incidentes;
+
             _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
             _repositorioGestor.Save();
             return aModificar;
@@ -74,7 +87,9 @@ namespace Incidentes.Logica
 
         public Proyecto Obtener(int id)
         {
-           Proyecto aObtener= _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
+            bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Id == id);
+            if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            Proyecto aObtener= _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
             return aObtener;
         }
 

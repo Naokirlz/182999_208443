@@ -93,53 +93,109 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_ver_un_proyecto()
         {
-            Proyecto proyecto = new Proyecto()
+            Proyecto proyectoD = new Proyecto()
             {
+                Id = 2,
                 Nombre = "Proyecto1"
             };
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(proyectoD);
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+ 
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
 
-            repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
+            Proyecto encontrado = gestorProyecto.Obtener(2);
 
-            Proyecto proyecto1 = gestorProyecto.Alta(proyecto);
-
-            Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
-            repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));
-        }
-
-        [Test]
-        public void alta_devuelve_una_instancia_de_proyecto()
-        {
-
+            Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
         }
 
         [Test]
         public void se_puede_modificar_un_proyecto()
         {
+            Proyecto proyecto = new Proyecto()
+            {
+                Id = 3,
+                Nombre = "Proyecto1"
+            };
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(proyecto);
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.Modificar(proyecto));
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+
+            Proyecto proyecto1 = gestorProyecto.Modificar(3, proyecto);
+            Proyecto encontrado = gestorProyecto.Obtener(3);
+
+            Assert.AreEqual(proyecto.Nombre, encontrado.Nombre);
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.Modificar(proyecto));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
         }
 
         [Test]
-        public void modificar_devuelve_una_instancia_de_proyecto()
+        public void no_se_puede_dar_alta_un_proyecto_nulo()
         {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Alta(null));
+        }
+
+        [Test]
+        public void no_se_puede_modificar_un_proyecto_nulo()
+        {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Alta(null));
         }
 
         [Test]
         public void se_puede_eliminar_un_proyecto()
         {
+            IQueryable<Proyecto> queryableP = new List<Proyecto>().AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerTodos(false)).Returns(queryableP);
+
+            gestorProyecto.Baja(3);
+            IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos();
+            Assert.AreEqual(0, proyectos.Count());
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerTodos(false));
         }
 
         [Test]
         public void no_se_puede_guardar_un_proyecto_con_nombre_repetido()
         {
+            Proyecto proyecto = new Proyecto()
+            {
+                Nombre = "Proyecto"
+            };
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Alta(proyecto));
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
         }
 
         [Test]
         public void no_se_puede_modificar_un_proyecto_que_no_existe()
         {
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.Modificar(3, new Proyecto()));
+
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
         }
 
         [Test]
         public void no_se_puede_eliminar_un_proyecto_que_no_existe()
         {
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.Baja(3));
+
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
         }
     }
 }
