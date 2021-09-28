@@ -197,5 +197,26 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
         }
+
+        [Test]
+        public void no_se_puede_crear_un_proyecto_con_nombre_corto()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionLargoTexto>(() => gestorProyecto.Alta(new Proyecto() { 
+                Nombre = "1234"
+            }));
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_crear_un_proyecto_con_nombre_largo()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionLargoTexto>(() => gestorProyecto.Alta(new Proyecto()
+            {
+                Nombre = "12345678901234567890123456"
+            }));
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+        }
     }
 }
