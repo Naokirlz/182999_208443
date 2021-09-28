@@ -12,6 +12,12 @@ namespace Incidentes.Logica
     {
         IRepositorioGestores _repositorioGestor;
         private const string acceso_no_autorizado = "Acceso no autorizado";
+        private const string argumento_nulo = "El argumento no puede ser nulo";
+        private const string elemento_no_existe = "El elemento no existe";
+        private const string elemento_ya_existe = "Un elemento con similares atributos ya existe";
+        private const int largo_maximo_nombre = 25;
+        private const int largo_minimo_nombre = 5;
+
         public GestorIncidente(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
@@ -19,36 +25,70 @@ namespace Incidentes.Logica
 
         public Incidente Alta(Incidente entity)
         {
-            if (entity == null)
-            {               
-                throw new Exception(); 
-            }
+            if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+            bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
+            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+
+            Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
+
             _repositorioGestor.RepositorioIncidente.Alta(entity);
             _repositorioGestor.Save();
-
 
             return entity;
         }
 
         public void Baja(int id)
         {
-            throw new NotImplementedException();
+            Incidente aEliminar = Obtener(id);
+            _repositorioGestor.RepositorioIncidente.Eliminar(aEliminar);
+            _repositorioGestor.Save();
         }
 
         public Incidente Modificar(int id, Incidente entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+
+            Incidente aModificar = Obtener(id);
+
+            if (aModificar.Nombre != entity.Nombre)
+            {
+                bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
+                if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+                Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
+            }
+
+            aModificar.Nombre = entity.Nombre;
+            aModificar.EstadoIncidente = entity.EstadoIncidente;
+            aModificar.NombreProyecto = entity.NombreProyecto;
+            aModificar.Version = entity.Version;
+            aModificar.Descripcion = entity.Descripcion;
+            aModificar.DesarrolladorId = entity.DesarrolladorId;
+           
+
+            _repositorioGestor.RepositorioIncidente.Modificar(aModificar);
+            _repositorioGestor.Save();
+            return aModificar;
         }
 
         public Incidente Obtener(int id)
         {
-            throw new NotImplementedException();
+            bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Id == id);
+            if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            Incidente aObtener = _repositorioGestor.RepositorioIncidente.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
+            return aObtener;
         }
 
         public IEnumerable<Incidente> ObtenerTodos()
         {
-            throw new NotImplementedException();
+            return _repositorioGestor.RepositorioIncidente.ObtenerTodos(false);
         }
-        
+
+        private static void ValidarLargoTexto(string texto, int largoMax, int largoMin, string campo)
+        {
+            texto = texto.Trim();
+            if (texto.Length > largoMax || texto.Length < largoMin)
+                throw new ExcepcionLargoTexto("El largo del campo " + campo + " debe ser de entre " +
+                                              largoMin.ToString() + " y " + largoMax.ToString() + " caracteres.");
+        }
     }
 }
