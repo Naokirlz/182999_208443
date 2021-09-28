@@ -25,10 +25,12 @@ namespace Incidentes.Logica
 
         public Incidente Alta(Incidente entity)
         {
-            if (entity == null)
-            {               
-                throw new Exception(); 
-            }
+            if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+            bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
+            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+
+            Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
+
             _repositorioGestor.RepositorioIncidente.Alta(entity);
             _repositorioGestor.Save();
 
@@ -44,7 +46,28 @@ namespace Incidentes.Logica
 
         public Incidente Modificar(int id, Incidente entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+
+            Incidente aModificar = Obtener(id);
+
+            if (aModificar.Nombre != entity.Nombre)
+            {
+                bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
+                if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+                Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
+            }
+
+            aModificar.Nombre = entity.Nombre;
+            aModificar.EstadoIncidente = entity.EstadoIncidente;
+            aModificar.NombreProyecto = entity.NombreProyecto;
+            aModificar.Version = entity.Version;
+            aModificar.Descripcion = entity.Descripcion;
+            aModificar.DesarrolladorId = entity.DesarrolladorId;
+           
+
+            _repositorioGestor.RepositorioIncidente.Modificar(aModificar);
+            _repositorioGestor.Save();
+            return aModificar;
         }
 
         public Incidente Obtener(int id)

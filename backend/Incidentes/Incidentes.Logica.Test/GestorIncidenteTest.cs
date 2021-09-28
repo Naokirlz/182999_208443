@@ -1,5 +1,6 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.Logica.Interfaz;
 using Moq;
 using NUnit.Framework;
@@ -144,5 +145,48 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerTodos(false));
 
         }
+
+        [Test]
+        public void no_se_puede_modificar_un_incidente_que_no_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorIncidente.Modificar(20, new Incidente()));
+
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_eliminar_un_incidente_que_no_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorIncidente.Baja(20));
+
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_crear_un_incidente_con_nombre_corto()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionLargoTexto>(() => gestorIncidente.Alta(new Incidente()
+            {
+                Nombre = "ae"
+            }));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_crear_un_incidente_con_nombre_largo()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionLargoTexto>(() => gestorIncidente.Alta(new Incidente()
+            {
+                Nombre = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+            }));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
+
     }
 }
