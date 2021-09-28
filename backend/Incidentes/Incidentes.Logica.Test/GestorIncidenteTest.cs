@@ -123,25 +123,13 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void modificar_devuelve_una_instancia_de_incidente()
-        {
-        }
-
-        [Test]
         public void se_puede_eliminar_un_incidente()
         {
-            gestorIncidente.Alta(incidente);
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
 
-            incidentes = (IQueryable<Incidente>)gestorIncidente.ObtenerTodos();
-            Assert.AreEqual(1, incidentes.Count());
-
-            gestorIncidente.Baja(incidente.Id);
-
-            incidentes = (IQueryable<Incidente>)gestorIncidente.ObtenerTodos();
+            gestorIncidente.Baja(5);
+            IQueryable<Incidente> incidentes = (IQueryable<Incidente>)gestorIncidente.ObtenerTodos();
             Assert.AreEqual(0, incidentes.Count());
-
-            repoGestores.Verify(c => c.RepositorioIncidente.Alta(incidente));
-            repoGestores.Verify(c => c.RepositorioIncidente.Eliminar(incidente));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerTodos(false));
 
