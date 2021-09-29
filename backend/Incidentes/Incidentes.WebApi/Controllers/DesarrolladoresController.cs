@@ -4,6 +4,7 @@ using Incidentes.Logica.Interfaz;
 using Incidentes.LogicaInterfaz;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
 {
@@ -21,6 +22,48 @@ namespace Incidentes.WebApi.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        //[Auth("professor")]
+        public IActionResult Get()
+        {
+            try
+            {
+                List<Desarrollador> result = _logica.ObtenerDesarrolladores();
+                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                Desarrollador desarrollador = _logica.ObtenerDesarrollador(id);
+                if (desarrollador == null)
+                {
+                    return NotFound(id);
+                }
+
+                return Ok(desarrollador);
+                /*return Ok(new
+                {
+                    Nombre = student.Name,
+                    Apellido = student.LastName
+                });*/
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
+        }
+
         [HttpPost]
         //TODO: Implementación nueva, ahora usamos un DTO. 
         public IActionResult Post([FromBody] Desarrollador desarrollador)
@@ -28,26 +71,8 @@ namespace Incidentes.WebApi.Controllers
 
             try
             {
-                /* Esto lo que hace es ejecutar las validaciones que pusimos dentro del objeto StudentDTO. 
-                 * En otras palabras, valida los parametros.*/
-                if (ModelState.IsValid)
-                {
-                    //A partir del DTO creamos un objeto Student.
-                    Usuario a = new Desarrollador()
-                    {
-                        Id = desarrollador.Id,
-                        Nombre = desarrollador.Nombre,
-                        NombreUsuario = desarrollador.Nombre
-
-                    };
-
                     //... y lo agregamos, como antes.
-                    _logica.AltaDesarrollador(a);
-                }
-                else
-                {
-                    return UnprocessableEntity(ModelState);
-                }
+                    _logica.Alta(desarrollador);
             }
             catch (ArgumentNullException nullex)
             {
@@ -60,7 +85,7 @@ namespace Incidentes.WebApi.Controllers
                 return StatusCode(500, error_de_servidor);
             }
 
-            return Ok();
+            return Ok(desarrollador);
         }
     }
 }

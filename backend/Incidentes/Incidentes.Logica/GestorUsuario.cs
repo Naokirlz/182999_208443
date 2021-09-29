@@ -34,6 +34,8 @@ namespace Incidentes.Logica
 
         public Usuario Obtener(int id)
         {
+            bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.Id == id);
+            if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             var usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == id, trackChanges: false).FirstOrDefault();
             return usuario;
         }
@@ -102,16 +104,6 @@ namespace Incidentes.Logica
             _repositorioGestor.Save();
         }
 
-        public void AltaDesarrollador(Usuario unUsuario)
-        {
-            bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.NombreUsuario == unUsuario.NombreUsuario);
-            if (!existeUsu)
-            {
-                this.Alta(unUsuario);
-                _repositorioGestor.Save();
-            }
-        }
-
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(int idDesarrollador)
         {
             return _repositorioGestor.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(idDesarrollador);
@@ -124,6 +116,27 @@ namespace Incidentes.Logica
 
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario, int idDesarrollador) {
             return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
+        }
+
+        public List<Desarrollador> ObtenerDesarrolladores()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            List<Desarrollador> desarrolladores = new List<Desarrollador>();
+
+            lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
+
+            foreach (Usuario u in lista)
+                if (u.GetType() == new Desarrollador().GetType())
+                    desarrolladores.Add((Desarrollador) u);
+            
+            return desarrolladores;
+        }
+
+        public Desarrollador ObtenerDesarrollador(int idDesarrollador)
+        {
+            Usuario u = Obtener(idDesarrollador);
+            if(u.GetType() != new Desarrollador().GetType()) throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            return (Desarrollador) u;
         }
     }
 }
