@@ -70,20 +70,7 @@ namespace Incidentes.WebApi.Controllers
         {
             try
             {
-               if (ModelState.IsValid)
-                {
-                  Proyecto a = new Proyecto()
-                  {
-                        Id = proyecto.Id,
-                        Nombre = proyecto.Nombre,
-                  };
-
-                    _logica.Alta(a);
-                }
-                else
-                {
-                    return UnprocessableEntity(ModelState);
-                }
+                _logica.Alta(proyecto);
             }
             catch (ArgumentNullException nullex)
             {
@@ -93,7 +80,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 return StatusCode(500, error_de_servidor);
             }
-            return Ok();
+            return Ok(proyecto);
         }
 
         [HttpDelete]
@@ -101,14 +88,7 @@ namespace Incidentes.WebApi.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
                     _logica.Baja(proyecto.Id);
-                }
-                else
-                {
-                    return UnprocessableEntity(ModelState);
-                }
             }
             catch (ArgumentNullException nullex)
             {
@@ -118,7 +98,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 return StatusCode(500, error_de_servidor);
             }
-            return StatusCode(204, "resource deleted successfully");
+            return StatusCode(204, "Eliminado Satisfactoriamente.");
         }
         
         [HttpPut]
@@ -126,19 +106,7 @@ namespace Incidentes.WebApi.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    Proyecto a = new Proyecto()
-                    {
-                        Id = proyecto.Id,
-                        Nombre = proyecto.Nombre,
-                    };
-                 _logica.Modificar(proyecto.Id, a);
-                }
-                else
-                {
-                    return UnprocessableEntity(ModelState);
-                }
+                 _logica.Modificar(proyecto.Id, proyecto);
             }
             catch (ArgumentNullException nullex)
             {
@@ -148,7 +116,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 return StatusCode(500, error_de_servidor);
             }
-            return StatusCode(202);
+            return Ok(proyecto);
         }
     }
 }
