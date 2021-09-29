@@ -16,5 +16,6 @@ namespace Incidentes.LogicaInterfaz
         public Desarrollador ObtenerDesarrollador(int idDesarrollador);
         public List<Tester> ObtenerTesters();
         public Tester ObtenerTester(int idTester);
+        public Usuario ObtenerPorToken(string token);
     }
 }

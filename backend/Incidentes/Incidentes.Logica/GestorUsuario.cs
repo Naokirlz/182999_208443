@@ -156,5 +156,13 @@ namespace Incidentes.Logica
             if (u.GetType() != new Tester().GetType()) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             return (Tester)u;
         }
+
+        public Usuario ObtenerPorToken(string token)
+        {
+            bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.Token == token);
+            if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            var usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(a => a.Token == token, trackChanges: false).FirstOrDefault();
+            return usuario;
+        }
     }
 }

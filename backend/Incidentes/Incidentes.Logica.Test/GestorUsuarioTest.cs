@@ -241,6 +241,43 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(tester1));
         }
 
+        [Test]
+        public void se_puede_obtener_un_tester_por_token()
+        {
+            Tester t1 = new Tester()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
+                Email = "martin@gmail.com",
+                Id = 1,
+                NombreUsuario = "martincosa",
+                Token = ""
+            };
+
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(t1);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+
+            Usuario usuario = gestor.ObtenerPorToken("s");
+
+            Assert.AreEqual(t1.Nombre, usuario.Nombre);
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_obtener_un_usuario_con_token_que_no_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.ObtenerPorToken("s"));
+
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
         /*************************************************************************************
          *  FUNCIONES
          * ************************************************************************************/
