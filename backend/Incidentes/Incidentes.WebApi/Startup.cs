@@ -1,5 +1,7 @@
 using Incidentes.DatosFabrica;
+using Incidentes.Logica;
 using Incidentes.LogicaFabrica;
+using Incidentes.LogicaInterfaz;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +30,7 @@ namespace Incidentes.WebApi
             fabrica.AgregarServicios();
 
             services.AddAutoMapper(typeof(Startup));
-
+                       
             FabricaServiciosDatos fabricaDatos = new FabricaServiciosDatos(services);
             fabricaDatos.AgregarServicios();
             fabricaDatos.AgregarContextoDatos();

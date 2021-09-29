@@ -9,5 +9,6 @@ namespace Incidentes.LogicaInterfaz
     public interface ILogicaAutorizacion
     {
         public void UsuarioAutenticado(string token);
+        bool TokenValido(string authToken, params string[] roles);
     }
 }

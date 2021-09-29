@@ -1,5 +1,6 @@
 ﻿using Incidentes.Datos;
 using Incidentes.DatosInterfaz;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ namespace Incidentes.DatosFabrica
         public void AgregarServicios()
         {
             services.AddScoped<IRepositorioGestores, RepositorioGestores>();
+           
         }
         public void AgregarContextoDatos()
         {

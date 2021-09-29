@@ -1,4 +1,5 @@
 ﻿using Incidentes.DatosInterfaz;
+using Incidentes.Dominio;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using System;
@@ -25,6 +26,45 @@ namespace Incidentes.Logica
             bool existeUsu = this._repositorioGestor.RepositorioUsuario.Existe(u => u.Token == token);
             if (!existeUsu)
                 throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+        }
+
+   
+        public bool TokenValido(string authToken, params string[] roles)
+        {
+            if (string.IsNullOrEmpty(authToken))
+            {
+                return false;
+            }
+            
+            var sessionToken = authToken;
+
+            Administrador a = new Administrador();
+
+            var nombre = a.GetType().Name;
+
+
+            var usuario = _repositorioGestor.RepositorioUsuario
+                .ObtenerPorCondicion(a => a.Token == authToken, trackChanges: false).FirstOrDefault();
+
+
+            if (usuario == null)
+            {
+                return false;
+            }
+
+            var userRole = usuario.GetType().ToString();
+                        
+
+            if (roles != null && roles.Length > 0)
+            {
+                if (!roles.Contains(userRole))
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+
         }
     }
 }

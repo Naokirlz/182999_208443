@@ -72,5 +72,11 @@ namespace Incidentes.Datos
                  .Include(p => p.Testers)
                  .Include(p => p.Incidentes);
         }
+
+        public string ObtenerToken(int id)
+        {
+            Usuario usuario = this.ObtenerPorCondicion(d => d.Id == id, false).FirstOrDefault();
+            return usuario.Token;
+        }
     }
 }

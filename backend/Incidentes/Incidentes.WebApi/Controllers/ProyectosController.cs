@@ -2,6 +2,7 @@
 using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
 using Incidentes.LogicaInterfaz;
+using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpGet]
-        //[Auth("professor")]
+        [Autorizacion("Administrador")]
         public IActionResult Get()
         {
             try
