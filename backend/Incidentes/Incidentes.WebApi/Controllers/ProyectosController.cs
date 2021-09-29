@@ -4,6 +4,8 @@ using Incidentes.Logica.Interfaz;
 using Incidentes.LogicaInterfaz;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
@@ -19,6 +21,48 @@ namespace Incidentes.WebApi.Controllers
         {
             _logica = logica;
             _mapper = mapper;
+        }
+
+        [HttpGet]
+        //[Auth("professor")]
+        public IActionResult Get()
+        {
+            try
+            {
+                IEnumerable<Proyecto> result = _logica.ObtenerTodos().ToList();
+               // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var proyecto = _logica.Obtener(id);
+                if (proyecto == null)
+                {
+                    return NotFound(id);
+                }
+
+                return Ok(proyecto);
+                /*return Ok(new
+                {
+                    Nombre = student.Name,
+                    Apellido = student.LastName
+                });*/
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
         }
 
         [HttpPost]

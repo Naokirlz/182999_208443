@@ -24,6 +24,7 @@ namespace Incidentes.WebApiTest
             _logicaP = new Mock<ILogicaProyecto>();
             _mapper = new Mock<IMapper>();
             _pController = new ProyectosController(_logicaP.Object, _mapper.Object);
+            proyectosL = new List<Proyecto>();
         }
 
         [TearDown]
@@ -37,15 +38,36 @@ namespace Incidentes.WebApiTest
         }
 
         [Test]
-        public void un_administrador_puede_ver_los_proyectos()
+        public void se_pueden_ver_los_proyectos()
         {
             proyectosL.Add(new Proyecto());
             proyectosQ = proyectosL.AsQueryable();
             _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosQ);
 
-            // IEnumerable<Proyecto> resultado = _logicaP;
+            var result = _pController.Get();
+            var okResult = result as OkObjectResult;
 
-            // Assert.AreEqual(1, P);
+            Assert.AreEqual(proyectosQ, okResult.Value);
+
+            _logicaP.Verify(c => c.ObtenerTodos());
+        }
+
+        [Test]
+        public void se_puede_ver_un_proyecto()
+        {
+            Proyecto p = new Proyecto()
+            {
+                Nombre = "proyecto"
+            };
+
+            _logicaP.Setup(c => c.Obtener(1)).Returns(p);
+
+            var result = _pController.Get(1);
+            var okResult = result as OkObjectResult;
+
+            Assert.AreEqual(p, okResult.Value);
+
+            _logicaP.Verify(c => c.Obtener(1));
         }
     }
 }
