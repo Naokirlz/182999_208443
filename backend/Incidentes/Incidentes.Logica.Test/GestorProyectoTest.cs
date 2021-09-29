@@ -138,6 +138,17 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
+        public void se_puede_verificar_si_un_usuario_pertence_a_un_proyecto()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(1, 1)).Returns(true);
+
+            bool pertenece = gestorProyecto.VerificarUsuarioPerteneceAlProyecto(1, 1);
+
+            Assert.IsTrue(pertenece);
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(1, 1));
+        }
+
+        [Test]
         public void no_se_puede_dar_alta_un_proyecto_nulo()
         {
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Alta(null));

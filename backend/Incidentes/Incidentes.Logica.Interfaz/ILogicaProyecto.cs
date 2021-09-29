@@ -8,6 +8,6 @@ namespace Incidentes.LogicaInterfaz
     {
 
         public void AgregarDesarrolladorAProyecto(int desarrollador, int idProyecto);
-
+        public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto);
     }
 }

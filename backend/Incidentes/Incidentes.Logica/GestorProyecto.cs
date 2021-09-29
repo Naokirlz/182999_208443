@@ -102,5 +102,10 @@ namespace Incidentes.Logica
         {
             return _repositorioGestor.RepositorioProyecto.ObtenerTodos(false);
         }
+
+        public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto)
+        {
+            return _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto);
+        }
     }
 }
