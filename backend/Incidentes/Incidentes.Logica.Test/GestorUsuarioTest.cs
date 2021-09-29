@@ -64,28 +64,6 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void se_puede_guardar_tester()
-        {
-            Tester tester1 = new Tester()
-            {
-                Nombre = "Martin",
-                Apellido = "Cosas",
-                Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
-                Email = "martin@gmail.com",
-                Id = 1,
-                NombreUsuario = "martincosa",
-                Token = ""
-            };
-
-            repoGestores.Setup(c => c.RepositorioUsuario.Alta(tester1));
-
-            Usuario tester = gestor.Alta(tester1);
-
-            Assert.AreEqual(tester1.Nombre, tester.Nombre);
-            repoGestores.Verify(c => c.RepositorioUsuario.Alta(tester1));
-        }
-
-        [Test]
         public void se_pueden_obtener_los_desarrolladores()
         {
             Desarrollador d1 = new Desarrollador()
@@ -187,6 +165,81 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(desarrollador1));
         }
 
+        [Test]
+        public void se_puede_obtener_un_tester_por_id()
+        {
+            Tester t1 = new Tester()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
+                Email = "martin@gmail.com",
+                Id = 1,
+                NombreUsuario = "martincosa",
+                Token = ""
+            };
+
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(t1);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+
+            Tester des = gestor.ObtenerTester(3);
+
+            Assert.AreEqual(t1.Nombre, des.Nombre);
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_obtener_un_tester_que_no_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.ObtenerTester(3));
+
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_obtener_un_tester_con_id_desarrollador()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(new Desarrollador() { Nombre = "jose" });
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.ObtenerTester(3));
+
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
+        }
+
+        [Test]
+        public void se_puede_guardar_tester()
+        {
+            Tester tester1 = new Tester()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#Blancaaaaaaaaa",
+                Email = "martin@gmail.com",
+                Id = 1,
+                NombreUsuario = "martincosa",
+                Token = ""
+            };
+
+            repoGestores.Setup(c => c.RepositorioUsuario.Alta(tester1));
+
+            Usuario desarrollador = gestor.Alta(tester1);
+
+            Assert.AreEqual(tester1.Nombre, desarrollador.Nombre);
+            repoGestores.Verify(c => c.RepositorioUsuario.Alta(tester1));
+        }
 
         /*************************************************************************************
          *  FUNCIONES

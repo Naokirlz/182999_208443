@@ -25,31 +25,57 @@ namespace Incidentes.WebApi.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        //[Auth("professor")]
+        public IActionResult Get()
+        {
+            try
+            {
+                List<Tester> result = _logica.ObtenerTesters();
+                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                Tester tester = _logica.ObtenerTester(id);
+                if (tester == null)
+                {
+                    return NotFound(id);
+                }
+
+                return Ok(tester);
+                /*return Ok(new
+                {
+                    Nombre = student.Name,
+                    Apellido = student.LastName
+                });*/
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
+        }
+
         [HttpPost]
         //TODO: Implementación nueva, ahora usamos un DTO. 
-        public IActionResult Post([FromBody] Administrador administrador)
+        public IActionResult Post([FromBody] Tester tester)
         {
 
             try
             {
-                /* Esto lo que hace es ejecutar las validaciones que pusimos dentro del objeto StudentDTO. 
-                 * En otras palabras, valida los parametros.*/
-                if (ModelState.IsValid)
-                {
-                    //A partir del DTO creamos un objeto Student.
-                    Administrador a = new Administrador()
-                    {
-                        Id = administrador.Id,
-                        Nombre = administrador.Nombre
-                    };
-
-                    //... y lo agregamos, como antes.
-                    _logica.Alta(a);
-                }
-                else
-                {
-                    return UnprocessableEntity(ModelState);
-                }
+                //... y lo agregamos, como antes.
+                _logica.Alta(tester);
             }
             catch (ArgumentNullException nullex)
             {
@@ -62,7 +88,7 @@ namespace Incidentes.WebApi.Controllers
                 return StatusCode(500, error_de_servidor);
             }
 
-            return Ok();
+            return Ok(tester);
         }
     }
 }

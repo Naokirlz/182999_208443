@@ -14,5 +14,7 @@ namespace Incidentes.LogicaInterfaz
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario, int idDesarrollador);
         public List<Desarrollador> ObtenerDesarrolladores();
         public Desarrollador ObtenerDesarrollador(int idDesarrollador);
+        public List<Tester> ObtenerTesters();
+        public Tester ObtenerTester(int idTester);
     }
 }

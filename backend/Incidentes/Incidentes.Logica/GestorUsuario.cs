@@ -138,5 +138,23 @@ namespace Incidentes.Logica
             if(u.GetType() != new Desarrollador().GetType()) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             return (Desarrollador) u;
         }
+
+        public List<Tester> ObtenerTesters() {
+            List<Usuario> lista = new List<Usuario>();
+            List<Tester> testers = new List<Tester>();
+
+            lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
+
+            foreach (Usuario u in lista)
+                if (u.GetType() == new Tester().GetType())
+                    testers.Add((Tester)u);
+
+            return testers;
+        }
+        public Tester ObtenerTester(int idTester) {
+            Usuario u = Obtener(idTester);
+            if (u.GetType() != new Tester().GetType()) throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            return (Tester)u;
+        }
     }
 }
