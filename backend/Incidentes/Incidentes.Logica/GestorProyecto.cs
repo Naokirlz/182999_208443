@@ -18,6 +18,7 @@ namespace Incidentes.Logica
         IRepositorioGestores _repositorioGestor;
         private const string argumento_nulo = "El argumento no puede ser nulo";
         private const string elemento_no_existe = "El elemento no existe";
+        private const string acceso_no_autorizado = "No tiene permisos para realizar dicha acción";
         private const string elemento_ya_existe = "Un elemento con similares atributos ya existe"; 
         private const int largo_maximo_nombre = 25;
         private const int largo_minimo_nombre = 5;
@@ -115,6 +116,18 @@ namespace Incidentes.Logica
         {
             IFuente fuente = FabricaIFuente.FabricarIFuente(_repositorioGestor, rutaFuente);
             fuente.ImportarBugs();
+        }
+
+        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario)
+        {
+            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
+        }
+
+        public Proyecto ObtenerParaUsuario(int idUsuario, int idProyecto)
+        {
+            if (!VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto))
+                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
+            return Obtener(idProyecto);
         }
     }
 }

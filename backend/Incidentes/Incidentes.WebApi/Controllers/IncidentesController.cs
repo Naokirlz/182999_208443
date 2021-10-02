@@ -12,25 +12,25 @@ namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProyectosController : ControllerBase
+    public class IncidentesController : ControllerBase
     {
         private const string error_de_servidor = "Internal Server Error";
         private readonly IMapper _mapper;
-        private readonly ILogicaProyecto _logicaP;
+        private readonly ILogicaIncidente _logicaI;
 
-        public ProyectosController(ILogicaProyecto logica, IMapper mapper)
+        public IncidentesController(ILogicaIncidente logica, IMapper mapper)
         {
-            _logicaP = logica;
+            _logicaI = logica;
             _mapper = mapper;
         }
 
         [HttpGet]
-        [Autorizacion("Administrador")]
+        //[Autorizacion("Administrador")]
         public IActionResult Get()
         {
             try
             {
-                IEnumerable<Proyecto> result = _logicaP.ObtenerTodos();
+                IEnumerable<Incidente> result = _logicaI.ObtenerTodos();
                 return Ok(result);
                 // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
             }
@@ -46,13 +46,13 @@ namespace Incidentes.WebApi.Controllers
         {
             try
             {
-                var proyecto = _logicaP.Obtener(id);
-                if (proyecto == null)
+                var incidente = _logicaI.Obtener(id);
+                if (incidente == null)
                 {
                     return NotFound(id);
                 }
 
-                return Ok(proyecto);
+                return Ok(incidente);
                 /*return Ok(new
                 {
                     Nombre = student.Name,
@@ -67,11 +67,11 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Proyecto proyecto)
+        public IActionResult Post([FromBody] Incidente incidente)
         {
             try
             {
-                _logicaP.Alta(proyecto);
+                _logicaI.Alta(incidente);
             }
             catch (ArgumentNullException nullex)
             {
@@ -81,15 +81,15 @@ namespace Incidentes.WebApi.Controllers
             {
                 return StatusCode(500, error_de_servidor);
             }
-            return Ok(proyecto);
+            return Ok(incidente);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromBody] Proyecto proyecto)
+        public IActionResult Delete([FromBody] Incidente incidente)
         {
             try
             {
-                    _logicaP.Baja(proyecto.Id);
+                _logicaI.Baja(incidente.Id);
             }
             catch (ArgumentNullException nullex)
             {
@@ -101,13 +101,13 @@ namespace Incidentes.WebApi.Controllers
             }
             return StatusCode(204, "Eliminado Satisfactoriamente.");
         }
-        
+
         [HttpPut]
-        public IActionResult Put([FromBody] Proyecto proyecto)
+        public IActionResult Put([FromBody] Incidente incidente)
         {
             try
             {
-                 _logicaP.Modificar(proyecto.Id, proyecto);
+                _logicaI.Modificar(incidente.Id, incidente);
             }
             catch (ArgumentNullException nullex)
             {
@@ -117,7 +117,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 return StatusCode(500, error_de_servidor);
             }
-            return Ok(proyecto);
+            return Ok(incidente);
         }
     }
 }

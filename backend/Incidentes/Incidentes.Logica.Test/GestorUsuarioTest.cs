@@ -84,14 +84,14 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerTodos(false)).Returns(queryableUsuarios);
 
-            List<Usuario> listaD = gestor.ObtenerDesarrolladores();
+            List<Usuario> listaD = gestor.Obtener(Usuario.Rol.Desarrollador);
 
             Assert.AreEqual(1, listaD.Count());
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerTodos(false));
         }
 
         [Test]
-        public void se_puede_obtener_un_desarrollador_por_id()
+        public void se_puede_obtener_un_usuario_por_id()
         {
             Usuario d1 = new Usuario()
             {
@@ -112,7 +112,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
 
-            Usuario des = gestor.ObtenerDesarrollador(3);
+            Usuario des = gestor.Obtener(3);
 
             Assert.AreEqual(d1.Nombre, des.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
@@ -120,29 +120,13 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void no_se_puede_obtener_un_desarrollador_que_no_existe()
+        public void no_se_puede_obtener_un_usuario_que_no_existe()
         {
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
 
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.ObtenerDesarrollador(3));
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.Obtener(3));
 
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-        }
-
-        [Test]
-        public void no_se_puede_obtener_un_desarrollador_con_id_tester()
-        {
-            List<Usuario> lista = new List<Usuario>();
-            lista.Add(new Usuario() { Nombre = "jose"});
-            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
-
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true); 
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
-
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.ObtenerDesarrollador(3));
-
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
 
         [Test]
@@ -165,61 +149,6 @@ namespace Incidentes.Logica.Test
 
             Assert.AreEqual(desarrollador1.Nombre, desarrollador.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.Alta(desarrollador1));
-        }
-
-        [Test]
-        public void se_puede_obtener_un_tester_por_id()
-        {
-            Usuario t1 = new Usuario()
-            {
-                Nombre = "Martin",
-                Apellido = "Cosas",
-                Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
-                Email = "martin@gmail.com",
-                RolUsuario = Usuario.Rol.Tester,
-                Id = 1,
-                NombreUsuario = "martincosa",
-                Token = ""
-            };
-
-            List<Usuario> lista = new List<Usuario>();
-            lista.Add(t1);
-            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
-
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
-
-            Usuario des = gestor.ObtenerTester(3);
-
-            Assert.AreEqual(t1.Nombre, des.Nombre);
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-        }
-
-        [Test]
-        public void no_se_puede_obtener_un_tester_que_no_existe()
-        {
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
-
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.ObtenerTester(3));
-
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-        }
-
-        [Test]
-        public void no_se_puede_obtener_un_tester_con_id_desarrollador()
-        {
-            List<Usuario> lista = new List<Usuario>();
-            lista.Add(new Usuario() { Nombre = "jose" });
-            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
-
-            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
-
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.ObtenerTester(3));
-
-            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
 
         [Test]
@@ -366,53 +295,6 @@ namespace Incidentes.Logica.Test
 
             Assert.AreEqual(5, incidentes);
             repoGestores.Verify(c => c.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>()));
-        }
-
-        [Test]
-        public void se_puede_ver_la_lista_de_bugs_de_los_proyectos_que_pertenece()
-        {
-            List<Incidente> lista = new List<Incidente>();
-            lista.Add(new Incidente());
-
-            List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Usuario());
-            IQueryable<Usuario> queryableU = listaU.AsQueryable();
-
-            repoGestores.Setup(
-                c => c.RepositorioUsuario
-                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
-                .Returns(lista);
-
-            List<Incidente> incidentes = gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Id, "", new Incidente());
-
-            Assert.AreEqual(1, lista.Count());
-            repoGestores.Verify(
-                c => c.RepositorioUsuario
-                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
-        }
-
-        [Test]
-        public void se_puede_ver_los_proyectos_a_los_cuales_pertenece()
-        {
-            List<Proyecto> lista = new List<Proyecto>();
-            lista.Add(new Proyecto());
-            IQueryable<Proyecto> queryableP = lista.AsQueryable();
-
-            List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Usuario());
-            IQueryable<Usuario> queryableU = listaU.AsQueryable();
-
-            repoGestores.Setup(
-                c => c.RepositorioUsuario
-                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()))
-                .Returns(queryableP);
-
-            IQueryable<Proyecto> proyectos = gestor.ListaDeProyectosALosQuePertenece(usuarioCompleto.Id, 3);
-
-            Assert.AreEqual(1, proyectos.Count());
-            repoGestores.Verify(
-                c => c.RepositorioUsuario
-                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
         }
 
         [Test]

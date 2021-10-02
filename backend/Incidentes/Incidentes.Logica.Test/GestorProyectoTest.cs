@@ -17,8 +17,8 @@ namespace Incidentes.Logica.Test
         private Usuario usuarioCompleto;
         private Proyecto unProyecto;
         Mock<IRepositorioGestores> repoGestores;
-        GestorUsuario gestorUsuario;
         GestorProyecto gestorProyecto;
+        GestorIncidente gestorIncidente;
 
         [SetUp]
         public void SetUp()
@@ -39,8 +39,8 @@ namespace Incidentes.Logica.Test
             };
 
             repoGestores = new Mock<IRepositorioGestores>();
-            gestorUsuario = new GestorUsuario(repoGestores.Object);
             gestorProyecto = new GestorProyecto(repoGestores.Object);
+            gestorIncidente = new GestorIncidente(repoGestores.Object);
         }
 
         [TearDown]
@@ -48,8 +48,8 @@ namespace Incidentes.Logica.Test
         {
             this.usuarioCompleto = null;
             repoGestores = null;
-            gestorUsuario = null;
             gestorProyecto = null;
+            gestorIncidente = null;
             unProyecto = null;
         }
 
@@ -111,6 +111,38 @@ namespace Incidentes.Logica.Test
             Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+        }
+
+        [Test]
+        public void se_puede_ver_un_proyecto_de_un_usuario()
+        {
+            Proyecto proyectoD = new Proyecto()
+            {
+                Id = 2,
+                Nombre = "Proyecto1"
+            };
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(proyectoD);
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+
+            Proyecto encontrado = gestorProyecto.ObtenerParaUsuario(1, 2);
+
+            Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+        }
+
+        [Test]
+        public void no_se_puede_ver_si_usuario_no_pertenece_a_proyecto()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorProyecto.ObtenerParaUsuario(1, 2));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
@@ -258,7 +290,7 @@ namespace Incidentes.Logica.Test
 
             gestorProyecto.ImportarBugs(rutaFuenteXML);
 
-            int incidentes = gestorUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
             Assert.AreEqual(4, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
@@ -303,7 +335,7 @@ namespace Incidentes.Logica.Test
 
             gestorProyecto.ImportarBugs(rutaFuenteTXT);
 
-            int incidentes = gestorUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
             Assert.AreEqual(4, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
@@ -319,6 +351,30 @@ namespace Incidentes.Logica.Test
         {
             string rutaFuenteTXT = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\NoExiste.txt";
             Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.ImportarBugs(rutaFuenteTXT));
+        }
+
+        [Test]
+        public void se_puede_ver_los_proyectos_a_los_cuales_pertenece()
+        {
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(new Proyecto());
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            List<Usuario> listaU = new List<Usuario>();
+            listaU.Add(new Usuario());
+            IQueryable<Usuario> queryableU = listaU.AsQueryable();
+
+            repoGestores.Setup(
+                c => c.RepositorioUsuario
+                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()))
+                .Returns(queryableP);
+
+            IQueryable<Proyecto> proyectos = gestorProyecto.ListaDeProyectosALosQuePertenece(usuarioCompleto.Id);
+
+            Assert.AreEqual(1, proyectos.Count());
+            repoGestores.Verify(
+                c => c.RepositorioUsuario
+                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
         }
     }
 }

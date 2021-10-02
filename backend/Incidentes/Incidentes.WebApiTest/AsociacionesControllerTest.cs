@@ -1,0 +1,87 @@
+﻿using AutoMapper;
+using Incidentes.Dominio;
+using Incidentes.LogicaInterfaz;
+using Incidentes.WebApi.Controllers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Incidentes.WebApiTest
+{
+    class AsociacionesControllerTest
+    {
+        private Mock<ILogicaProyecto> _logicaP;
+        private Mock<ILogicaIncidente> _logicaI;
+        private Mock<IMapper> _mapper;
+        private AsociacionesController _aController;
+        private IQueryable<Proyecto> proyectosQ;
+        private List<Proyecto> proyectosL;
+        private List<Incidente> incidentesL;
+
+        [SetUp]
+        public void Setup()
+        {
+            _logicaP = new Mock<ILogicaProyecto>();
+            _logicaI = new Mock<ILogicaIncidente>();
+            _mapper = new Mock<IMapper>();
+            _aController = new AsociacionesController(_logicaP.Object, _logicaI.Object, _mapper.Object);
+            proyectosL = new List<Proyecto>();
+            incidentesL = new List<Incidente>();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _logicaP = null;
+            _logicaI = null;
+            _mapper = null;
+            _aController = null;
+            proyectosQ = null;
+            proyectosL = null;
+            incidentesL = null;
+        }
+
+        [Test]
+        public void se_pueden_ver_los_proyectos_de_un_usuario()
+        {
+            proyectosL.Add(new Proyecto());
+            _logicaP.Setup(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(proyectosQ);
+
+            var result = _aController.GetProyectos("1");
+            var okResult = result as OkObjectResult;
+
+            Assert.AreEqual(proyectosQ, okResult.Value);
+
+            _logicaP.Verify(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void se_pueden_ver_los_incidentes_de_los_proyectos_de_un_usuario()
+        {
+            incidentesL.Add(new Incidente());
+            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>())).Returns(incidentesL);
+
+            var result = _aController.GetIncidentes("1",null,null);
+            var okResult = result as OkObjectResult;
+
+            Assert.AreEqual(incidentesL, okResult.Value);
+
+            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+        }
+
+        [Test]
+        public void se_pueden_ver_un_proyecto_de_un_usuario()
+        {
+            _logicaP.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(new Proyecto());
+
+            var result = _aController.GetProyecto("1", 1);
+
+            Assert.IsNotNull(result);
+
+            _logicaP.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
+        }
+    }
+}
