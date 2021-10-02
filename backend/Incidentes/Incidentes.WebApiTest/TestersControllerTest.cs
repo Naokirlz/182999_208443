@@ -19,7 +19,7 @@ namespace Incidentes.WebApiTest
         private Mock<IMapper> _mapper;
         private TestersController _tController;
         private IQueryable<Usuario> testersQ;
-        private List<Tester> testersL;
+        private List<Usuario> testersL;
 
         [SetUp]
         public void Setup()
@@ -27,7 +27,7 @@ namespace Incidentes.WebApiTest
             _logicaU = new Mock<ILogicaUsuario>();
             _mapper = new Mock<IMapper>();
             _tController = new TestersController(_logicaU.Object, _mapper.Object);
-            testersL = new List<Tester>();
+            testersL = new List<Usuario>();
         }
 
         [TearDown]
@@ -43,7 +43,9 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_los_testers()
         {
-            testersL.Add(new Tester());
+            testersL.Add(new Usuario() { 
+                RolUsuario = Usuario.Rol.Tester
+            });
             _logicaU.Setup(c => c.ObtenerTesters()).Returns(testersL);
 
             var result = _tController.Get();
@@ -56,7 +58,10 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_un_tester()
         {
-            Tester buscado = new Tester();
+            Usuario buscado = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Tester
+            };
             _logicaU.Setup(c => c.ObtenerTester(3)).Returns(buscado);
 
             var result = _tController.Get(3);
@@ -70,9 +75,10 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_guardar_un_tester()
         {
-            Tester t = new Tester()
+            Usuario t = new Usuario()
             {
-                Nombre = "Tester"
+                Nombre = "Tester",
+                RolUsuario = Usuario.Rol.Tester
             };
 
             _logicaU.Setup(c => c.Alta(t)).Returns(t);
@@ -82,7 +88,7 @@ namespace Incidentes.WebApiTest
 
             Assert.AreEqual(t, okResult.Value);
 
-            _logicaU.Verify(c => c.Alta(It.IsAny<Tester>()));
+            _logicaU.Verify(c => c.Alta(It.IsAny<Usuario>()));
         }
     }
 }

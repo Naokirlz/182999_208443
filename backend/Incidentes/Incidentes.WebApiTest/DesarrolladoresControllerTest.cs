@@ -19,7 +19,7 @@ namespace Incidentes.WebApiTest
         private Mock<IMapper> _mapper;
         private DesarrolladoresController _dController;
         private IQueryable<Usuario> desarrolladoresQ;
-        private List<Desarrollador> desarrolladoresL;
+        private List<Usuario> desarrolladoresL;
 
         [SetUp]
         public void Setup()
@@ -27,7 +27,7 @@ namespace Incidentes.WebApiTest
             _logicaU = new Mock<ILogicaUsuario>();
             _mapper = new Mock<IMapper>();
             _dController = new DesarrolladoresController(_logicaU.Object, _mapper.Object);
-            desarrolladoresL = new List<Desarrollador>();
+            desarrolladoresL = new List<Usuario>();
         }
 
         [TearDown]
@@ -43,7 +43,9 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_los_desarrolladores()
         {
-            desarrolladoresL.Add(new Desarrollador());
+            desarrolladoresL.Add(new Usuario() { 
+                RolUsuario = Usuario.Rol.Desarrollador
+            });
             _logicaU.Setup(c => c.ObtenerDesarrolladores()).Returns(desarrolladoresL);
 
             var result = _dController.Get();
@@ -56,7 +58,10 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_un_desarrollador()
         {
-            Desarrollador buscado = new Desarrollador();
+            Usuario buscado = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
             _logicaU.Setup(c => c.ObtenerDesarrollador(3)).Returns(buscado);
 
             var result = _dController.Get(3);
@@ -70,9 +75,9 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_guardar_un_desarrollador()
         {
-            Desarrollador d = new Desarrollador()
+            Usuario d = new Usuario()
             {
-                Nombre = "Desarrollador"
+                RolUsuario = Usuario.Rol.Desarrollador
             };
 
             _logicaU.Setup(c => c.Alta(d)).Returns(d);
@@ -82,7 +87,7 @@ namespace Incidentes.WebApiTest
 
             Assert.AreEqual(d, okResult.Value);
 
-            _logicaU.Verify(c => c.Alta(It.IsAny<Desarrollador>()));
+            _logicaU.Verify(c => c.Alta(It.IsAny<Usuario>()));
         }
     }
 }

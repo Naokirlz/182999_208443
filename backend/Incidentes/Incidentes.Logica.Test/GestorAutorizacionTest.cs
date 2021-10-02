@@ -20,7 +20,7 @@ namespace Incidentes.Logica.Test
         [SetUp]
         public void Setup()
         {
-            this.usuarioCompleto = new Administrador()
+            this.usuarioCompleto = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",

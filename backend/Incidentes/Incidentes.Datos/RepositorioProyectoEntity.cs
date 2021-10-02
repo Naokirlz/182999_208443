@@ -20,8 +20,7 @@ namespace Incidentes.Datos
         {
             return ContextoRepositorio.Set<Proyecto>()
                 .Where(p => p.Id == id)
-                .Include(p => p.Desarrolladores)
-                .Include(p => p.Testers)
+                .Include(p => p.Asignados)
                 .Include(p => p.Incidentes)
                 .FirstOrDefault();
         }
@@ -45,7 +44,7 @@ namespace Incidentes.Datos
             Proyecto buscado = this.ObtenerProyectoPorIdCompleto(idProyecto);
             Usuario solicitante = ContextoRepositorio.Set<Usuario>().Where(u => u.Id == idUsuario).FirstOrDefault();
 
-            return buscado.Desarrolladores.Contains(solicitante) || buscado.Testers.Contains(solicitante) || solicitante.GetType() == new Administrador().GetType();
+            return buscado.Asignados.Contains(solicitante) || solicitante.RolUsuario == Usuario.Rol.Administrador;
         }
     }
 }

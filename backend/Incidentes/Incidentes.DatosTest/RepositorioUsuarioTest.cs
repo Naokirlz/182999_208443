@@ -33,7 +33,7 @@ namespace Incidentes.DatosTest
         [Test]
         public void se_puede_buscar_un_usuario_por_nombreusuario()
         {
-            Usuario a2 = new Desarrollador()
+            Usuario a2 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
@@ -66,7 +66,7 @@ namespace Incidentes.DatosTest
         [Test]
         public void existe_debe_devolver_true_si_existe()
         {
-            Usuario d3 = new Desarrollador()
+            Usuario d3 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",

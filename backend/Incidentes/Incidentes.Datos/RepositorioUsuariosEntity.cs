@@ -54,22 +54,15 @@ namespace Incidentes.Datos
         {
             Usuario usuario = this.ObtenerPorCondicion(d => d.Id == id, false).FirstOrDefault();
 
-            if (usuario.GetType() == new Desarrollador().GetType())
+            if (usuario.RolUsuario != Usuario.Rol.Administrador)
             {
                 return ContextoRepositorio.Set<Proyecto>()
-                    .Include(p => p.Desarrolladores)
+                    .Include(p => p.Asignados)
                     .Include(p => p.Incidentes)
-                    .Where(p => p.Desarrolladores.Contains((Desarrollador)usuario));
-            }else if (usuario.GetType() == new Tester().GetType())
-            {
-                return ContextoRepositorio.Set<Proyecto>()
-                    .Include(p => p.Testers)
-                    .Include(p => p.Incidentes)
-                    .Where(p => p.Testers.Contains((Tester)usuario));
+                    .Where(p => p.Asignados.Contains(usuario));
             }
             return ContextoRepositorio.Set<Proyecto>()
-                 .Include(p => p.Desarrolladores)
-                 .Include(p => p.Testers)
+                 .Include(p => p.Asignados)
                  .Include(p => p.Incidentes);
         }
 

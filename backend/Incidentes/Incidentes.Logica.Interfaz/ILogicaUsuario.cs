@@ -12,10 +12,10 @@ namespace Incidentes.LogicaInterfaz
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(int idDesarrollador);
         public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente);
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario, int idDesarrollador);
-        public List<Desarrollador> ObtenerDesarrolladores();
-        public Desarrollador ObtenerDesarrollador(int idDesarrollador);
-        public List<Tester> ObtenerTesters();
-        public Tester ObtenerTester(int idTester);
+        public List<Usuario> ObtenerDesarrolladores();
+        public Usuario ObtenerDesarrollador(int idDesarrollador);
+        public List<Usuario> ObtenerTesters();
+        public Usuario ObtenerTester(int idTester);
         public Usuario ObtenerPorToken(string token);
     }
 }

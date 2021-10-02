@@ -11,15 +11,11 @@ namespace Incidentes.Dominio
         public int Id { get; set; }
         public string Nombre { get; set; }
         public List<Incidente> Incidentes{ get; set; }
-        public List<Desarrollador> Desarrolladores{ get; set; }
-        public List<Tester> Testers { get; set; }
+        public List<Usuario> Asignados{ get; set; }
 
         public Proyecto() {
-
             Incidentes = new List<Incidente>();
-            Desarrolladores = new List<Desarrollador>();
-            Testers = new List<Tester>();
-
+            Asignados = new List<Usuario>();
         }
 
     }

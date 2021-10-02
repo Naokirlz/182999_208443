@@ -37,7 +37,7 @@ namespace Incidentes.Logica
                 if(aAgregar != null)
                 {
                     Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == idProyecto, true).FirstOrDefault();
-                    aModificar.Desarrolladores.Add((Desarrollador)aAgregar);
+                    aModificar.Asignados.Add((Usuario)aAgregar);
 
                     _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
                     _repositorioGestor.Save();
@@ -85,8 +85,7 @@ namespace Incidentes.Logica
             }
 
             aModificar.Nombre = entity.Nombre;
-            aModificar.Desarrolladores = entity.Desarrolladores;
-            aModificar.Testers = entity.Testers;
+            aModificar.Asignados = entity.Asignados;
             aModificar.Incidentes = entity.Incidentes;
 
             _repositorioGestor.RepositorioProyecto.Modificar(aModificar);

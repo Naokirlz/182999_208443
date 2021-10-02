@@ -19,41 +19,45 @@ namespace Incidentes.DatosTest
             var opciones = new DbContextOptionsBuilder<Contexto>().UseInMemoryDatabase(databaseName: "Incidentes").Options;
             DBContexto = new Contexto(opciones);
 
-            Usuario d1 = new Desarrollador()
+            Usuario d1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
+                RolUsuario = Usuario.Rol.Desarrollador,
                 Email = "martind1@gmail.com",
                 NombreUsuario = "martincosad1",
                 Token = ""
             };
 
-            Usuario d2 = new Desarrollador()
+            Usuario d2 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
                 Email = "martind2@gmail.com",
+                RolUsuario = Usuario.Rol.Desarrollador,
                 NombreUsuario = "martincosad2",
                 Token = ""
             };
 
-            Usuario t1 = new Tester()
+            Usuario t1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
+                RolUsuario = Usuario.Rol.Tester,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
             };
 
-            Usuario t2 = new Tester()
+            Usuario t2 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
+                RolUsuario = Usuario.Rol.Tester,
                 Email = "martint2@gmail.com",
                 NombreUsuario = "martincosat2",
                 Token = ""
@@ -73,20 +77,22 @@ namespace Incidentes.DatosTest
                 Nombre = "Incidente 1",
                 Descripcion = "Descripcion del incidente",
                 EstadoIncidente = Incidente.Estado.Resuelto,
+                ProyectoId = 1,
                 DesarrolladorId = 1
             };
 
             Incidente i2 = new Incidente()
             {
                 Nombre = "Incidente 2",
+                ProyectoId = 2,
                 Descripcion = "Descripcion del incidente"
             };
 
-            p1.Desarrolladores.Add((Desarrollador)d1);
-            p1.Desarrolladores.Add((Desarrollador)d2);
-            p1.Testers.Add((Tester)t1);
-            p2.Testers.Add((Tester)t1);
-            p1.Testers.Add((Tester)t2);
+            p1.Asignados.Add((Usuario)d1);
+            p1.Asignados.Add((Usuario)d2);
+            p1.Asignados.Add((Usuario)t1);
+            p2.Asignados.Add((Usuario)t1);
+            p1.Asignados.Add((Usuario)t2);
             p1.Incidentes.Add(i1);
             p2.Incidentes.Add(i2);
 

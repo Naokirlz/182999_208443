@@ -19,7 +19,7 @@ namespace Incidentes.Logica.Test
         [SetUp]
         public void Setup()
         {
-            this.usuarioCompleto = new Administrador() { 
+            this.usuarioCompleto = new Usuario() { 
                 Nombre = "Martin",
                 Apellido = "Cosas",
                 Contrasenia = "Casa#Blancaaaaaaaaa",
@@ -44,7 +44,7 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_guardar_administrador()
         {
-            Administrador administrador = new Administrador()
+            Usuario administrador = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosas",
@@ -66,24 +66,25 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_pueden_obtener_los_desarrolladores()
         {
-            Desarrollador d1 = new Desarrollador()
+            Usuario d1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosas",
                 Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
                 Email = "martin@gmail.com",
+                RolUsuario = Usuario.Rol.Desarrollador,
                 Id = 1,
                 NombreUsuario = "martincosa",
                 Token = ""
             };
 
-            List<Desarrollador> lista = new List<Desarrollador>();
+            List<Usuario> lista = new List<Usuario>();
             lista.Add(d1);
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerTodos(false)).Returns(queryableUsuarios);
 
-            List<Desarrollador> listaD = gestor.ObtenerDesarrolladores();
+            List<Usuario> listaD = gestor.ObtenerDesarrolladores();
 
             Assert.AreEqual(1, listaD.Count());
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerTodos(false));
@@ -92,13 +93,14 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_obtener_un_desarrollador_por_id()
         {
-            Desarrollador d1 = new Desarrollador()
+            Usuario d1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosas",
                 Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
                 Email = "martin@gmail.com",
                 Id = 1,
+                RolUsuario = Usuario.Rol.Desarrollador,
                 NombreUsuario = "martincosa",
                 Token = ""
             };
@@ -110,7 +112,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
 
-            Desarrollador des = gestor.ObtenerDesarrollador(3);
+            Usuario des = gestor.ObtenerDesarrollador(3);
 
             Assert.AreEqual(d1.Nombre, des.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
@@ -131,7 +133,7 @@ namespace Incidentes.Logica.Test
         public void no_se_puede_obtener_un_desarrollador_con_id_tester()
         {
             List<Usuario> lista = new List<Usuario>();
-            lista.Add(new Tester() { Nombre = "jose"});
+            lista.Add(new Usuario() { Nombre = "jose"});
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true); 
@@ -146,7 +148,7 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_guardar_desarrollador()
         {
-            Desarrollador desarrollador1 = new Desarrollador()
+            Usuario desarrollador1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosas",
@@ -168,12 +170,13 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_obtener_un_tester_por_id()
         {
-            Tester t1 = new Tester()
+            Usuario t1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosas",
                 Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
                 Email = "martin@gmail.com",
+                RolUsuario = Usuario.Rol.Tester,
                 Id = 1,
                 NombreUsuario = "martincosa",
                 Token = ""
@@ -186,7 +189,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(queryableUsuarios);
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
 
-            Tester des = gestor.ObtenerTester(3);
+            Usuario des = gestor.ObtenerTester(3);
 
             Assert.AreEqual(t1.Nombre, des.Nombre);
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
@@ -207,7 +210,7 @@ namespace Incidentes.Logica.Test
         public void no_se_puede_obtener_un_tester_con_id_desarrollador()
         {
             List<Usuario> lista = new List<Usuario>();
-            lista.Add(new Desarrollador() { Nombre = "jose" });
+            lista.Add(new Usuario() { Nombre = "jose" });
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
@@ -222,7 +225,7 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_guardar_tester()
         {
-            Tester tester1 = new Tester()
+            Usuario tester1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosas",
@@ -244,7 +247,7 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_obtener_un_tester_por_token()
         {
-            Tester t1 = new Tester()
+            Usuario t1 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosas",
@@ -372,7 +375,7 @@ namespace Incidentes.Logica.Test
             lista.Add(new Incidente());
 
             List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Tester());
+            listaU.Add(new Usuario());
             IQueryable<Usuario> queryableU = listaU.AsQueryable();
 
             repoGestores.Setup(
@@ -396,7 +399,7 @@ namespace Incidentes.Logica.Test
             IQueryable<Proyecto> queryableP = lista.AsQueryable();
 
             List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Tester());
+            listaU.Add(new Usuario());
             IQueryable<Usuario> queryableU = listaU.AsQueryable();
 
             repoGestores.Setup(
@@ -423,7 +426,7 @@ namespace Incidentes.Logica.Test
         {
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(true);
 
-            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(new Desarrollador()));
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(new Usuario()));
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }
 
