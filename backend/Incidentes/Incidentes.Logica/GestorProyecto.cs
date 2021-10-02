@@ -114,14 +114,8 @@ namespace Incidentes.Logica
 
         public void ImportarBugs(string rutaFuente)
         {
-            IFuente fuenteXML = new FuenteXML(_repositorioGestor, rutaFuente);
-            fuenteXML.ImportarBugs();
-        }
-
-        public void ImportarBugsTXT(string rutaFuente)
-        {
-            IFuente fuenteTXT = new FuenteTXT(_repositorioGestor, rutaFuente);
-            fuenteTXT.ImportarBugs();
+            IFuente fuente = FabricaIFuente.FabricarIFuente(_repositorioGestor, rutaFuente);
+            fuente.ImportarBugs();
         }
     }
 }

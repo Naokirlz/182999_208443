@@ -301,7 +301,7 @@ namespace Incidentes.Logica.Test
                 .Returns(proyecto.Incidentes);
 
 
-            gestorProyecto.ImportarBugsTXT(rutaFuenteTXT);
+            gestorProyecto.ImportarBugs(rutaFuenteTXT);
 
             int incidentes = gestorUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
