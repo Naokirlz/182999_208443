@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.IO;
 
 namespace Incidentes.Logica.Test
 {
@@ -229,5 +230,49 @@ namespace Incidentes.Logica.Test
             }));
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
         }
+
+        [Test]
+        public void se_pueden_cargar_incidentes_a_un_proyecto_con_xml()
+        {
+            string rutaFuenteXML = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\Fuente.xml";
+            
+            Proyecto proyecto = new Proyecto()
+            {
+                Id = 3,
+                Nombre = "Proyecto1"
+            };
+            List<Proyecto> lista = new List<Proyecto>();
+            for (int i = 0; i < 2; i++)
+                proyecto.Incidentes.Add(new Incidente());
+            lista.Add(proyecto);
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+            repoGestores.Setup(c => c.Save());
+            repoGestores.Setup(
+                c => c.RepositorioUsuario
+                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
+                .Returns(proyecto.Incidentes);
+
+
+            gestorProyecto.ImportarBugs(rutaFuenteXML);
+
+            int incidentes = gestorUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+
+            Assert.AreEqual(4, incidentes);
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+            repoGestores.Verify(c => c.Save());
+            repoGestores.Verify(
+                c => c.RepositorioUsuario
+                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+        }
+
+        [Test]
+        public void no_se_pueden_cargar_incidentes_a_un_proyecto_si_no_existe_archivo_xml()
+        {
+            string rutaFuenteXML = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\NoExiste.xml";
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.ImportarBugs(rutaFuenteXML));
+        }
+
     }
 }

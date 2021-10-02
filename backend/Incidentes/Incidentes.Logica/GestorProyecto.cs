@@ -6,6 +6,10 @@ using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
 using Incidentes.Logica.Interfaz;
 using Incidentes.Logica.Excepciones;
+using System.IO;
+using System.Xml.Serialization;
+using System.Xml;
+using Incidentes.Logica.DTOs;
 
 namespace Incidentes.Logica
 {
@@ -106,6 +110,40 @@ namespace Incidentes.Logica
         public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto)
         {
             return _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto);
+        }
+
+        public void ImportarBugs(string rutaFuente)
+        {
+            if (!File.Exists(rutaFuente))
+            {
+                throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            }
+
+            XmlRootAttribute xmlRoot = new XmlRootAttribute();
+            xmlRoot.ElementName = "Empresa1";
+            xmlRoot.IsNullable = true;
+            
+            XmlSerializer serializer = new XmlSerializer(typeof(EmpresaXMLDTO),xmlRoot);
+            EmpresaXMLDTO proyecto = (EmpresaXMLDTO)serializer.Deserialize(new XmlTextReader(rutaFuente));
+            Proyecto buscado = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Nombre == proyecto.Proyecto, true).FirstOrDefault();
+            foreach (Bug b in proyecto.Bugs)
+            {
+                Incidente incidente = new Incidente()
+                {
+                    Nombre = b.Nombre,
+                    Descripcion = b.Descripcion,
+                    Version = (int)b.Version
+                };
+                if (b.Estado.Equals("Activo")){
+                    incidente.EstadoIncidente = Incidente.Estado.Activo;
+                }
+                else
+                {
+                    incidente.EstadoIncidente = Incidente.Estado.Resuelto;
+                }
+                buscado.Incidentes.Add(incidente);
+            }
+            _repositorioGestor.Save();
         }
     }
 }
