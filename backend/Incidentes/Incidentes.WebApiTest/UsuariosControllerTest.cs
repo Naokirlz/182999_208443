@@ -13,21 +13,20 @@ using System.Threading.Tasks;
 
 namespace Incidentes.WebApiTest
 {
-    public class DesarrolladoresControllerTest
+    public class UsuariosControllerTest
     {
         private Mock<ILogicaUsuario> _logicaU;
         private Mock<IMapper> _mapper;
-        private DesarrolladoresController _dController;
-        private IQueryable<Usuario> desarrolladoresQ;
-        private List<Usuario> desarrolladoresL;
+        private UsuariosController _dController;
+        private List<Usuario> _usuariosL;
 
         [SetUp]
         public void Setup()
         {
             _logicaU = new Mock<ILogicaUsuario>();
             _mapper = new Mock<IMapper>();
-            _dController = new DesarrolladoresController(_logicaU.Object, _mapper.Object);
-            desarrolladoresL = new List<Usuario>();
+            _dController = new UsuariosController(_logicaU.Object, _mapper.Object);
+            _usuariosL = new List<Usuario>();
         }
 
         [TearDown]
@@ -36,44 +35,59 @@ namespace Incidentes.WebApiTest
             _logicaU = null;
             _mapper = null;
             _dController = null;
-            desarrolladoresQ = null;
-            desarrolladoresL = null;
+            _usuariosL = null;
         }
 
         [Test]
         public void se_pueden_ver_los_desarrolladores()
         {
-            desarrolladoresL.Add(new Usuario() { 
+            _usuariosL.Add(new Usuario() { 
                 RolUsuario = Usuario.Rol.Desarrollador
             });
-            _logicaU.Setup(c => c.ObtenerDesarrolladores()).Returns(desarrolladoresL);
+            _logicaU.Setup(c => c.Obtener(It.IsAny<Usuario.Rol>())).Returns(_usuariosL);
 
-            var result = _dController.Get();
+            var result = _dController.Get(Usuario.Rol.Desarrollador);
 
             Assert.IsNotNull(result);
 
-            _logicaU.Verify(c => c.ObtenerDesarrolladores());
+            _logicaU.Verify(c => c.Obtener(It.IsAny<Usuario.Rol>()));
         }
 
         [Test]
-        public void se_puede_ver_un_desarrollador()
+        public void se_pueden_ver_los_testers()
+        {
+            _usuariosL.Add(new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Tester
+            });
+            _logicaU.Setup(c => c.Obtener(It.IsAny<Usuario.Rol>())).Returns(_usuariosL);
+
+            var result = _dController.Get(Usuario.Rol.Tester);
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.Obtener(It.IsAny<Usuario.Rol>()));
+        }
+
+        [Test]
+        public void se_puede_ver_un_usuario()
         {
             Usuario buscado = new Usuario()
             {
                 RolUsuario = Usuario.Rol.Desarrollador
             };
-            _logicaU.Setup(c => c.ObtenerDesarrollador(3)).Returns(buscado);
+            _logicaU.Setup(c => c.Obtener(3)).Returns(buscado);
 
             var result = _dController.Get(3);
             var okResult = result as OkObjectResult;
 
             Assert.AreEqual(buscado, okResult.Value);
 
-            _logicaU.Verify(c => c.ObtenerDesarrollador(3));
+            _logicaU.Verify(c => c.Obtener(3));
         }
 
         [Test]
-        public void se_puede_guardar_un_desarrollador()
+        public void se_puede_guardar_un_usuarior()
         {
             Usuario d = new Usuario()
             {

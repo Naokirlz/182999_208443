@@ -10,13 +10,13 @@ namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DesarrolladoresController : ControllerBase
+    public class UsuariosController : ControllerBase
     {
         private const string error_de_servidor = "Internal Server Error";
         private readonly IMapper _mapper;
         private readonly ILogicaUsuario _logica;
 
-        public DesarrolladoresController(ILogicaUsuario logica, IMapper mapper)
+        public UsuariosController(ILogicaUsuario logica, IMapper mapper)
         {
             _logica = logica;
             _mapper = mapper;
@@ -24,11 +24,11 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpGet]
         //[Auth("professor")]
-        public IActionResult Get()
+        public IActionResult Get(Usuario.Rol? rol = null)
         {
             try
             {
-                List<Usuario> result = _logica.ObtenerDesarrolladores();
+                List<Usuario> result = _logica.Obtener(rol);
                 // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
                 return Ok(result);
             }
@@ -44,7 +44,7 @@ namespace Incidentes.WebApi.Controllers
         {
             try
             {
-                Usuario desarrollador = _logica.ObtenerDesarrollador(id);
+                Usuario desarrollador = _logica.Obtener(id);
                 if (desarrollador == null)
                 {
                     return NotFound(id);

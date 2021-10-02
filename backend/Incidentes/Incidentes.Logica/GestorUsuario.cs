@@ -42,7 +42,7 @@ namespace Incidentes.Logica
 
         public IEnumerable<Usuario> ObtenerTodos()
         {
-            throw new NotImplementedException();
+            return _repositorioGestor.RepositorioUsuario.ObtenerTodos(false);
         }
         public Usuario Alta(Usuario usuario)
         {
@@ -118,7 +118,7 @@ namespace Incidentes.Logica
             return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
         }
 
-        public List<Usuario> ObtenerDesarrolladores()
+        private List<Usuario> ObtenerDesarrolladores()
         {
             List<Usuario> lista = new List<Usuario>();
             List<Usuario> desarrolladores = new List<Usuario>();
@@ -132,29 +132,18 @@ namespace Incidentes.Logica
             return desarrolladores;
         }
 
-        public Usuario ObtenerDesarrollador(int idDesarrollador)
+        private List<Usuario> ObtenerTesters()
         {
-            Usuario u = Obtener(idDesarrollador);
-            if(u.RolUsuario != Usuario.Rol.Desarrollador) throw new ExcepcionElementoNoExiste(elemento_no_existe);
-            return u;
-        }
-
-        public List<Usuario> ObtenerTesters() {
             List<Usuario> lista = new List<Usuario>();
-            List<Usuario> testers = new List<Usuario>();
+            List<Usuario> desarrolladores = new List<Usuario>();
 
             lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
 
             foreach (Usuario u in lista)
                 if (u.RolUsuario == Usuario.Rol.Tester)
-                    testers.Add(u);
+                    desarrolladores.Add(u);
 
-            return testers;
-        }
-        public Usuario ObtenerTester(int idTester) {
-            Usuario u = Obtener(idTester);
-            if (u.RolUsuario != Usuario.Rol.Tester) throw new ExcepcionElementoNoExiste(elemento_no_existe);
-            return u;
+            return desarrolladores;
         }
 
         public Usuario ObtenerPorToken(string token)
@@ -163,6 +152,15 @@ namespace Incidentes.Logica
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             var usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(a => a.Token == token, trackChanges: false).FirstOrDefault();
             return usuario;
+        }
+
+        public List<Usuario> Obtener(Usuario.Rol? rol = null)
+        {
+            if (rol == null)
+                return ObtenerTodos().ToList();
+            if (rol == Usuario.Rol.Desarrollador)
+                return ObtenerDesarrolladores();
+            return ObtenerTesters();
         }
     }
 }
