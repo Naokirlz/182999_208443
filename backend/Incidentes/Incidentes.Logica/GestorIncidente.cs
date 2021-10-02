@@ -59,7 +59,7 @@ namespace Incidentes.Logica
 
             aModificar.Nombre = entity.Nombre;
             aModificar.EstadoIncidente = entity.EstadoIncidente;
-            aModificar.NombreProyecto = entity.NombreProyecto;
+            aModificar.ProyectoId = entity.ProyectoId;
             aModificar.Version = entity.Version;
             aModificar.Descripcion = entity.Descripcion;
             aModificar.DesarrolladorId = entity.DesarrolladorId;

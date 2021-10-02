@@ -38,7 +38,7 @@ namespace Incidentes.Logica
             
             var sessionToken = authToken;
 
-            Administrador a = new Administrador();
+            Usuario a = new Usuario();
 
             var nombre = a.GetType().Name;
 

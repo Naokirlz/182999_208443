@@ -80,17 +80,10 @@ namespace Incidentes.DatosTest
         }
 
         [Test]
-        public void se_puede_agregar_desarrolladores_a_un_proyecto()
+        public void se_puede_agregar_asignados_a_un_proyecto()
         {
             Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
-            Assert.AreEqual(2, buscado.Desarrolladores.Count());
-        }
-
-        [Test]
-        public void se_puede_agregar_testers_a_un_proyecto()
-        {
-            Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
-            Assert.AreEqual(2, buscado.Testers.Count());
+            Assert.AreEqual(4, buscado.Asignados.Count());
         }
 
         [Test]
@@ -112,21 +105,22 @@ namespace Incidentes.DatosTest
         {
             bool pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(1, 1);
             Assert.IsTrue(pertenece);
-            Usuario d3 = new Desarrollador()
+            Usuario d3 = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
                 Email = "martind3@gmail.com",
                 NombreUsuario = "martincosad3",
+                RolUsuario = Usuario.Rol.Desarrollador,
                 Token = ""
             };
 
             DBContexto.Add(d3);
             DBContexto.SaveChanges();
 
-            Usuario u3 = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == d3.NombreUsuario, false).FirstOrDefault();
-            pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(u3.Id, 1);
+            //Usuario u3 = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == d3.NombreUsuario, false).FirstOrDefault();
+            pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(d3.Id, 1);
             Assert.IsFalse(pertenece);
         }
 
@@ -149,14 +143,14 @@ namespace Incidentes.DatosTest
         }
 
         [Test]
-        public void se_pueden_agregar_desarrolladores_a_un_proyecto()
+        public void se_pueden_agregar_asignados_a_un_proyecto()
         {
             Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
-            Desarrollador des = (Desarrollador)_repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.Id == buscado.Desarrolladores.FirstOrDefault().Id, false).FirstOrDefault();
-            buscado.Desarrolladores.Add(new Desarrollador());
+            Usuario des = (Usuario)_repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.Id == buscado.Asignados.FirstOrDefault().Id, false).FirstOrDefault();
+            buscado.Asignados.Add(new Usuario());
             _repoGestores.RepositorioProyecto.Modificar(buscado);
             Proyecto nuevaCondicion = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
-            Assert.AreEqual(3, nuevaCondicion.Desarrolladores.Count());
+            Assert.AreEqual(5, nuevaCondicion.Asignados.Count());
         }
     }
 }

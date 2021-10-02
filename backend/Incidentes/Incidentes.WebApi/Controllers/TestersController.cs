@@ -31,7 +31,7 @@ namespace Incidentes.WebApi.Controllers
         {
             try
             {
-                List<Tester> result = _logica.ObtenerTesters();
+                List<Usuario> result = _logica.ObtenerTesters();
                 // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
                 return Ok(result);
             }
@@ -47,7 +47,7 @@ namespace Incidentes.WebApi.Controllers
         {
             try
             {
-                Tester tester = _logica.ObtenerTester(id);
+                Usuario tester = _logica.ObtenerTester(id);
                 if (tester == null)
                 {
                     return NotFound(id);
@@ -69,7 +69,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpPost]
         //TODO: Implementación nueva, ahora usamos un DTO. 
-        public IActionResult Post([FromBody] Tester tester)
+        public IActionResult Post([FromBody] Usuario tester)
         {
 
             try

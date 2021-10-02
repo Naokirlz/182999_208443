@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Incidentes.Dominio
 {
-    public abstract class Usuario
+    public class Usuario
     {
         public int Id { get; set; }
         public string NombreUsuario { get; set; }
@@ -11,5 +12,13 @@ namespace Incidentes.Dominio
         public string Contrasenia { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
+        public Rol RolUsuario { get; set; }
+        public virtual List<Proyecto> proyectos { get; set; }
+        public enum Rol
+        {
+            Administrador,
+            Desarrollador,
+            Tester
+        }
     }
 }

@@ -25,9 +25,9 @@ namespace Incidentes.Dominio.Test
         {
             Incidente unIncidente = new Incidente()
             {
-                NombreProyecto = "Proyecto uno"
+                ProyectoId = 1
             };
-            Assert.AreEqual("Proyecto uno", unIncidente.NombreProyecto);
+            Assert.AreEqual(1, unIncidente.ProyectoId);
         }
 
         [Test]
@@ -44,9 +44,9 @@ namespace Incidentes.Dominio.Test
         {
             Incidente unIncidente = new Incidente()
             {
-                Version = 1
+                Version = "1"
             };
-            Assert.AreEqual(1, unIncidente.Version);
+            Assert.AreEqual("1", unIncidente.Version);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_incidente_puede_ser_resuelto_por_un_desarrollador()
         {
-            Desarrollador unDesarrollador = new Desarrollador()
+            Usuario unDesarrollador = new Usuario()
             {
                 Nombre = "Luisito",
                 Apellido = "Gomez",

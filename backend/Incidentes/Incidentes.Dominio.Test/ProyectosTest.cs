@@ -37,18 +37,18 @@ namespace Incidentes.Dominio.Test
         {
             Incidente unIncidente = new Incidente() { 
                 Nombre = "Incidente 1",
-                NombreProyecto = "Trabajo conjunto",
+                ProyectoId = 1,
                 EstadoIncidente = Incidente.Estado.Activo,
                 Descripcion = "Descripcion del incidente",
-                Version = 1
+                Version = "1"
             };
             Incidente otroIncidente = new Incidente()
             {
                 Nombre = "Incidente 2",
-                NombreProyecto = "Trabajo conjunto",
+                ProyectoId = 1,
                 EstadoIncidente = Incidente.Estado.Activo,
                 Descripcion = "Descripcion del incidente 2",
-                Version = 1
+                Version = "1"
             };
             List<Incidente> lista = new List<Incidente>();
             lista.Add(unIncidente);
@@ -65,67 +65,71 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_puede_asignar_desarrolladores_a_un_proyecto()
         {
-            Desarrollador unDesarrollador = new Desarrollador()
+            Usuario unDesarrollador = new Usuario()
             {
                 Nombre = "Luisito",
                 Apellido = "Gomez",
                 Contrasenia = "123456789",
                 Email = "luisito@gmail.com",
-                Id= 1,
+                RolUsuario = Usuario.Rol.Desarrollador,
+                Id = 1,
                 NombreUsuario = "luisito123"
             };
-            Desarrollador otroDesarrollador = new Desarrollador()
+            Usuario otroDesarrollador = new Usuario()
             {
                 Nombre = "Luisito2",
                 Apellido = "Gomez",
                 Contrasenia = "123456789",
                 Email = "luisito2@gmail.com",
+                RolUsuario = Usuario.Rol.Desarrollador,
                 Id = 2,
                 NombreUsuario = "luisito1234"
             };
-            List<Desarrollador> lista = new List<Desarrollador>();
+            List<Usuario> lista = new List<Usuario>();
             lista.Add(unDesarrollador);
             lista.Add(otroDesarrollador);
 
             Proyecto unProyecto = new Proyecto()
             {
                 Nombre = "Trabajo conjunto",
-                Desarrolladores = lista
+                Asignados = lista
             };
-            Assert.AreEqual(2, unProyecto.Desarrolladores.Count());
+            Assert.AreEqual(2, unProyecto.Asignados.Count());
         }
 
         [Test]
         public void se_puede_asignar_testers_a_un_proyecto()
         {
-            Tester unTester = new Tester()
+            Usuario unTester = new Usuario()
             {
                 Nombre = "Luisito",
                 Apellido = "Gomez",
                 Contrasenia = "123456789",
                 Email = "luisito@gmail.com",
                 Id = 1,
+                RolUsuario = Usuario.Rol.Tester,
                 NombreUsuario = "luisito123"
             };
-            Tester otroTester = new Tester()
+            Usuario otroTester = new Usuario()
             {
                 Nombre = "Luisito2",
                 Apellido = "Gomez",
                 Contrasenia = "123456789",
                 Email = "luisito2@gmail.com",
+                RolUsuario = Usuario.Rol.Tester,
                 Id = 2,
                 NombreUsuario = "luisito1234"
             };
-            List<Tester> lista = new List<Tester>();
+            List<Usuario> lista = new List<Usuario>();
             lista.Add(unTester);
             lista.Add(otroTester);
 
             Proyecto unProyecto = new Proyecto()
             {
                 Nombre = "Trabajo conjunto",
-                Testers = lista
+                Asignados = lista
             };
-            Assert.AreEqual(2, unProyecto.Testers.Count());
+            Assert.AreEqual(2, unProyecto.Asignados.Count());
         }
     }
 }

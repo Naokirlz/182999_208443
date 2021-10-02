@@ -32,7 +32,7 @@ namespace Incidentes.Logica.Test
                 Id=1
             };
 
-            this.usuarioCompleto = new Administrador()
+            this.usuarioCompleto = new Usuario()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",

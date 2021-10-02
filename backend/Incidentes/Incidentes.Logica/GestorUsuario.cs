@@ -118,43 +118,43 @@ namespace Incidentes.Logica
             return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
         }
 
-        public List<Desarrollador> ObtenerDesarrolladores()
+        public List<Usuario> ObtenerDesarrolladores()
         {
             List<Usuario> lista = new List<Usuario>();
-            List<Desarrollador> desarrolladores = new List<Desarrollador>();
+            List<Usuario> desarrolladores = new List<Usuario>();
 
             lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
 
             foreach (Usuario u in lista)
-                if (u.GetType() == new Desarrollador().GetType())
-                    desarrolladores.Add((Desarrollador) u);
+                if (u.RolUsuario == Usuario.Rol.Desarrollador)
+                    desarrolladores.Add(u);
             
             return desarrolladores;
         }
 
-        public Desarrollador ObtenerDesarrollador(int idDesarrollador)
+        public Usuario ObtenerDesarrollador(int idDesarrollador)
         {
             Usuario u = Obtener(idDesarrollador);
-            if(u.GetType() != new Desarrollador().GetType()) throw new ExcepcionElementoNoExiste(elemento_no_existe);
-            return (Desarrollador) u;
+            if(u.RolUsuario != Usuario.Rol.Desarrollador) throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            return u;
         }
 
-        public List<Tester> ObtenerTesters() {
+        public List<Usuario> ObtenerTesters() {
             List<Usuario> lista = new List<Usuario>();
-            List<Tester> testers = new List<Tester>();
+            List<Usuario> testers = new List<Usuario>();
 
             lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
 
             foreach (Usuario u in lista)
-                if (u.GetType() == new Tester().GetType())
-                    testers.Add((Tester)u);
+                if (u.RolUsuario == Usuario.Rol.Tester)
+                    testers.Add(u);
 
             return testers;
         }
-        public Tester ObtenerTester(int idTester) {
+        public Usuario ObtenerTester(int idTester) {
             Usuario u = Obtener(idTester);
-            if (u.GetType() != new Tester().GetType()) throw new ExcepcionElementoNoExiste(elemento_no_existe);
-            return (Tester)u;
+            if (u.RolUsuario != Usuario.Rol.Tester) throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            return u;
         }
 
         public Usuario ObtenerPorToken(string token)

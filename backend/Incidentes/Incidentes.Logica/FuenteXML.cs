@@ -46,7 +46,7 @@ namespace Incidentes.Logica
                 {
                     Nombre = b.Nombre,
                     Descripcion = b.Descripcion,
-                    Version = (int)b.Version
+                    Version = b.Version
                 };
                 if (b.Estado.Equals("Activo"))
                 {

@@ -3,7 +3,7 @@ using Incidentes.Dominio;
 
 namespace Incidentes.Dominio.Test
 {
-    public class AdministradorTest
+    public class UsuarioTest
 
     {
         [SetUp]
@@ -14,7 +14,7 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_puede_dar_nombre_a_un_administrador()
         {
-            Administrador unUsuario = new Administrador()
+            Usuario unUsuario = new Usuario()
             {
                 Nombre = "Luisito"
             };
@@ -24,7 +24,7 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_puede_dar_nombreUsuario_a_un_administrador()
         {
-            Administrador unUsuario = new Administrador()
+            Usuario unUsuario = new Usuario()
             {
                 NombreUsuario = "Luis123"
             };
@@ -34,7 +34,7 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_puede_dar_apellido_a_un_administrador()
         {
-            Administrador unUsuario = new Administrador()
+            Usuario unUsuario = new Usuario()
             {
                 Apellido = "Perez"
             };
@@ -44,7 +44,7 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_puede_dar_contrasenia_a_un_administrador()
         {
-            Administrador unUsuario = new Administrador()
+            Usuario unUsuario = new Usuario()
             {
                 Contrasenia = "ABC123"
             };
@@ -54,7 +54,7 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_puede_dar_email_a_un_administrador()
         {
-            Administrador unUsuario = new Administrador()
+            Usuario unUsuario = new Usuario()
             {
                 Email = "luis@gmail.com"
             };
@@ -64,7 +64,7 @@ namespace Incidentes.Dominio.Test
         [Test]
         public void se_puede_dar_token_a_un_administrador()
         {
-            Administrador unUsuario = new Administrador()
+            Usuario unUsuario = new Usuario()
             {
                 Token = "lusadqwiiiashzxytafwfqwe"
             };

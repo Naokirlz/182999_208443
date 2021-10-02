@@ -49,7 +49,7 @@ namespace Incidentes.Logica
                 {
                     Nombre = nombreIncidente,
                     Descripcion = descripcionIncidente,
-                    Version = (int)double.Parse(versionIncidente)
+                    Version = versionIncidente
                 };
                 if (estadoIncidente.Equals("Activo"))
                 {
