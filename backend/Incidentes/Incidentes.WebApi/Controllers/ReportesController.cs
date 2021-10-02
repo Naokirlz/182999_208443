@@ -18,10 +18,12 @@ namespace Incidentes.WebApi.Controllers
         private const string error_de_servidor = "Internal Server Error";
         private readonly IMapper _mapper;
         private readonly ILogicaProyecto _logicaP;
+        private readonly ILogicaUsuario _logicaU;
 
-        public ReportesController(ILogicaProyecto logica, IMapper mapper)
+        public ReportesController(ILogicaProyecto logica, ILogicaUsuario logicaU, IMapper mapper)
         {
             _logicaP = logica;
+            _logicaU = logicaU;
             _mapper = mapper;
         }
 
@@ -45,6 +47,34 @@ namespace Incidentes.WebApi.Controllers
 
 
                 return Ok(result);
+                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
+        }
+
+        [HttpGet]
+        //[Autorizacion("Administrador")]
+        [Route("{id}/incidentes")]
+        public IActionResult GetDesarrollador([FromRoute] string idUsuario)
+        {
+            try
+            {
+                Usuario usuario = _logicaU.Obtener(Int32.Parse(idUsuario));
+                int cantidad = _logicaU.CantidadDeIncidentesResueltosPorUnDesarrollador(usuario.Id);
+                UsuarioParaReporteDTO user = new UsuarioParaReporteDTO() { 
+                    Nombre = usuario.Nombre,
+                    Apellido = usuario.Apellido,
+                    Email = usuario.Email,
+                    Id = usuario.Id,
+                    IncidentesResueltos = cantidad,
+                    NombreUsuario = usuario.NombreUsuario,
+                    RolUsuario = usuario.RolUsuario
+                };
+                return Ok(user);
                 // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
             }
             catch (Exception ex)
