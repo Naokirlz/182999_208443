@@ -83,5 +83,17 @@ namespace Incidentes.WebApiTest
 
             _logicaP.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
         }
+
+        [Test]
+        public void se_pueden_ver_un_incidente_de_un_usuario()
+        {
+            _logicaI.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(new Incidente());
+
+            var result = _aController.GetIncidente("1", 1);
+
+            Assert.IsNotNull(result);
+
+            _logicaI.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
+        }
     }
 }
