@@ -64,7 +64,7 @@ namespace Incidentes.Logica
             return usuario;
         }
 
-        public bool Login(string nombreUSuario, string password)
+        public string Login(string nombreUSuario, string password)
         {
             Usuario usuario = this.ObtenerPorNombreUsuario(nombreUSuario);
             bool coincide = usuario.Contrasenia == password;
@@ -72,7 +72,7 @@ namespace Incidentes.Logica
             {
                 GenerarToken(usuario);
             }
-            return coincide;
+            return usuario.Token;
         }
 
         public void Logout(string tokenUsuario)
