@@ -171,6 +171,41 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
+        public void se_pueden_asignar_usuarios_a_un_proyecto()
+        {
+            Proyecto proyecto = new Proyecto()
+            {
+                Id = 3,
+                Nombre = "Proyecto1"
+            };
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(proyecto);
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            List<Usuario> listaU = new List<Usuario>();
+            listaU.Add(new Usuario());
+            IQueryable<Usuario> queryableU = listaU.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), true)).Returns(queryableU);
+
+            List<int> listaInt = new List<int>();
+            listaInt.Add(2);
+            listaInt.Add(5);
+            listaInt.Add(8);
+
+            gestorProyecto.AgregarDesarrolladorAProyecto(listaInt, proyecto.Id);
+
+            Assert.AreEqual(3, proyecto.Asignados.Count());
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), true));
+        }
+
+        [Test]
         public void se_puede_verificar_si_un_usuario_pertence_a_un_proyecto()
         {
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(1, 1)).Returns(true);

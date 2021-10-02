@@ -2,6 +2,7 @@
 using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
 using Incidentes.LogicaInterfaz;
+using Incidentes.WebApi.DTOs;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -96,6 +97,24 @@ namespace Incidentes.WebApi.Controllers
                 //Log de la excepcion
                 return StatusCode(500, "");
             }
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] AsignacionesDTO asignaciones)
+        {
+            try
+            {
+                _logicaP.AgregarDesarrolladorAProyecto(asignaciones.UsuarioId, asignaciones.ProyectoId);
+            }
+            catch (ArgumentNullException nullex)
+            {
+                return UnprocessableEntity(nullex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, error_de_servidor);
+            }
+            return Ok();
         }
     }
 }

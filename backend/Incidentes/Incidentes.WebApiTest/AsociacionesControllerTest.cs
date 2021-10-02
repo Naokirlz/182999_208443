@@ -2,6 +2,7 @@
 using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
+using Incidentes.WebApi.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -94,6 +95,18 @@ namespace Incidentes.WebApiTest
             Assert.IsNotNull(result);
 
             _logicaI.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void se_pueden_asignar_usuarios_a_un_proyecto()
+        {
+            _logicaP.Setup(c => c.AgregarDesarrolladorAProyecto(It.IsAny<List<int>>(), It.IsAny<int>()));
+
+            var result = _aController.Post(new AsignacionesDTO());
+
+            Assert.IsNotNull(result);
+
+            _logicaP.Verify(c => c.AgregarDesarrolladorAProyecto(It.IsAny<List<int>>(), It.IsAny<int>()));
         }
     }
 }

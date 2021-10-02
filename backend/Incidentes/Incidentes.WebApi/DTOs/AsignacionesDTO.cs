@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Incidentes.WebApi.DTOs
 {
-    public class DesarrolloDTO
+    public class AsignacionesDTO
     {
 
-        public int DesarrolladorId { get; set; }
+        public List<int> UsuarioId { get; set; }
         public int ProyectoId { get; set; }
 
     }

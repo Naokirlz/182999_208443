@@ -23,13 +23,13 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] DesarrolloDTO desarrollo)
+        public IActionResult Post([FromBody] AsignacionesDTO desarrollo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logica.AgregarDesarrolladorAProyecto(desarrollo.DesarrolladorId,desarrollo.ProyectoId);
+                    _logica.AgregarDesarrolladorAProyecto(desarrollo.UsuarioId,desarrollo.ProyectoId);
                 }
                 else
                 {

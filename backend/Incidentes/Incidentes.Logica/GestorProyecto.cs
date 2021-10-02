@@ -28,25 +28,27 @@ namespace Incidentes.Logica
             _repositorioGestor = repositorioGestores;
         }
 
-        public void AgregarDesarrolladorAProyecto(int desarrollador, int idProyecto)
+        public void AgregarDesarrolladorAProyecto(List<int> idsUsuarios, int idProyecto)
         {
             bool existeProyecto =_repositorioGestor.RepositorioProyecto.Existe(p => p.Id == idProyecto);
             if (existeProyecto)
             {
-                Usuario aAgregar = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(d => d.Id == desarrollador, true).FirstOrDefault();
-
-                if(aAgregar != null)
+                List<Usuario> asignados = new List<Usuario>();
+                foreach(int idUsu in idsUsuarios)
                 {
-                    Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == idProyecto, true).FirstOrDefault();
-                    aModificar.Asignados.Add((Usuario)aAgregar);
+                    Usuario aAgregar = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(d => d.Id == idUsu, true).FirstOrDefault();
 
-                    _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
-                    _repositorioGestor.Save();
-
+                    if (aAgregar != null)
+                    {
+                        asignados.Add(aAgregar);
+                    }
                 }
-                               
-            }
+                Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == idProyecto, true).FirstOrDefault();
+                aModificar.Asignados = asignados;
 
+                _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
+                _repositorioGestor.Save();
+            }
         }
 
         public Proyecto Alta(Proyecto entity)
