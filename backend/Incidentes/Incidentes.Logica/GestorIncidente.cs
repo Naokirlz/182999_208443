@@ -90,5 +90,10 @@ namespace Incidentes.Logica
                 throw new ExcepcionLargoTexto("El largo del campo " + campo + " debe ser de entre " +
                                               largoMin.ToString() + " y " + largoMax.ToString() + " caracteres.");
         }
+
+        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente)
+        {
+            return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(idUsuario, nombreProyecto, incidente);
+        }
     }
 }

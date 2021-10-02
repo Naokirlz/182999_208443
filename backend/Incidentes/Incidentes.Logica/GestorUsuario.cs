@@ -108,12 +108,6 @@ namespace Incidentes.Logica
         {
             return _repositorioGestor.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(idDesarrollador);
         }
-
-        public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente)
-        {
-            return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(idUsuario, nombreProyecto, incidente);
-        }
-
         private List<Usuario> ObtenerDesarrolladores()
         {
             List<Usuario> lista = new List<Usuario>();

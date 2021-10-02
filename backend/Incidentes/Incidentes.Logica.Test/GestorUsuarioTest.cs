@@ -298,29 +298,6 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void se_puede_ver_la_lista_de_bugs_de_los_proyectos_que_pertenece()
-        {
-            List<Incidente> lista = new List<Incidente>();
-            lista.Add(new Incidente());
-
-            List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Usuario());
-            IQueryable<Usuario> queryableU = listaU.AsQueryable();
-
-            repoGestores.Setup(
-                c => c.RepositorioUsuario
-                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
-                .Returns(lista);
-
-            List<Incidente> incidentes = gestor.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Id, "", new Incidente());
-
-            Assert.AreEqual(1, lista.Count());
-            repoGestores.Verify(
-                c => c.RepositorioUsuario
-                .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
-        }
-
-        [Test]
         public void no_se_puede_dar_alta_un_usuario_nulo()
         {
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(null));

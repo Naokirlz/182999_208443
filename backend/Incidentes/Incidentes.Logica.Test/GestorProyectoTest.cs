@@ -17,8 +17,8 @@ namespace Incidentes.Logica.Test
         private Usuario usuarioCompleto;
         private Proyecto unProyecto;
         Mock<IRepositorioGestores> repoGestores;
-        GestorUsuario gestorUsuario;
         GestorProyecto gestorProyecto;
+        GestorIncidente gestorIncidente;
 
         [SetUp]
         public void SetUp()
@@ -39,8 +39,8 @@ namespace Incidentes.Logica.Test
             };
 
             repoGestores = new Mock<IRepositorioGestores>();
-            gestorUsuario = new GestorUsuario(repoGestores.Object);
             gestorProyecto = new GestorProyecto(repoGestores.Object);
+            gestorIncidente = new GestorIncidente(repoGestores.Object);
         }
 
         [TearDown]
@@ -48,8 +48,8 @@ namespace Incidentes.Logica.Test
         {
             this.usuarioCompleto = null;
             repoGestores = null;
-            gestorUsuario = null;
             gestorProyecto = null;
+            gestorIncidente = null;
             unProyecto = null;
         }
 
@@ -258,7 +258,7 @@ namespace Incidentes.Logica.Test
 
             gestorProyecto.ImportarBugs(rutaFuenteXML);
 
-            int incidentes = gestorUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
             Assert.AreEqual(4, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
@@ -303,7 +303,7 @@ namespace Incidentes.Logica.Test
 
             gestorProyecto.ImportarBugs(rutaFuenteTXT);
 
-            int incidentes = gestorUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
             Assert.AreEqual(4, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
