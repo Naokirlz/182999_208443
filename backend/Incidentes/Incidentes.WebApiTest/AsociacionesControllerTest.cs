@@ -71,5 +71,17 @@ namespace Incidentes.WebApiTest
 
             _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
         }
+
+        [Test]
+        public void se_pueden_ver_un_proyecto_de_un_usuario()
+        {
+            _logicaP.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(new Proyecto());
+
+            var result = _aController.GetProyecto("1", 1);
+
+            Assert.IsNotNull(result);
+
+            _logicaP.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
+        }
     }
 }

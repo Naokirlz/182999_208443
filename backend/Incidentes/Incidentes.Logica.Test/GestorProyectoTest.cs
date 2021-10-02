@@ -114,6 +114,38 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
+        public void se_puede_ver_un_proyecto_de_un_usuario()
+        {
+            Proyecto proyectoD = new Proyecto()
+            {
+                Id = 2,
+                Nombre = "Proyecto1"
+            };
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(proyectoD);
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+
+            Proyecto encontrado = gestorProyecto.ObtenerParaUsuario(1, 2);
+
+            Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+        }
+
+        [Test]
+        public void no_se_puede_ver_si_usuario_no_pertenece_a_proyecto()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorProyecto.ObtenerParaUsuario(1, 2));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
         public void se_puede_modificar_un_proyecto()
         {
             Proyecto proyecto = new Proyecto()

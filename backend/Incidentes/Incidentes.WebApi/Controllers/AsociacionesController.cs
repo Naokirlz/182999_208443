@@ -46,6 +46,24 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpGet]
         //[Autorizacion("Administrador")]
+        [Route("{id}/proyecto")]
+        public IActionResult GetProyecto([FromRoute] string idUsuario, [FromQuery] int idProyecto)
+        {
+            try
+            {
+                Proyecto result = _logicaP.ObtenerParaUsuario(Int32.Parse(idUsuario), idProyecto);
+                return Ok(result);
+                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
+            }
+            catch (Exception ex)
+            {
+                //Log de la excepcion
+                return StatusCode(500, "");
+            }
+        }
+
+        [HttpGet]
+        //[Autorizacion("Administrador")]
         [Route("{id}/incidentes")]
         public IActionResult GetIncidentes([FromRoute] string idUsuario, [FromQuery] string nombreProyecto = null, Incidente incidente = null)
         {

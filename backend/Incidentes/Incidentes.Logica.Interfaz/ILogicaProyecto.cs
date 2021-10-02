@@ -11,5 +11,6 @@ namespace Incidentes.LogicaInterfaz
         public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto);
         public void ImportarBugs(string rutaFuente);
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario);
+        public Proyecto ObtenerParaUsuario(int idUsuario, int idProyecto);
     }
 }
