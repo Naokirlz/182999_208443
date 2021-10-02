@@ -2,39 +2,40 @@
 using Incidentes.Dominio;
 using Incidentes.Logica.Interfaz;
 using Incidentes.LogicaInterfaz;
-using Incidentes.WebApi.DTOs;
+using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DesarrollosController : ControllerBase
+    public class EstadosController : ControllerBase
     {
         private const string error_de_servidor = "Internal Server Error";
         private readonly IMapper _mapper;
-        private readonly ILogicaProyecto _logica;
+        private readonly ILogicaIncidente _logicaI;
 
-        public DesarrollosController(ILogicaProyecto logica, IMapper mapper)
+        public EstadosController(ILogicaIncidente logica, IMapper mapper)
         {
-            _logica = logica;
+            _logicaI = logica;
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] AsignacionesDTO desarrollo)
+        [HttpPut]
+        public IActionResult Put([FromBody] Incidente incidente)
         {
             try
             {
-                if (ModelState.IsValid)
+                Incidente aResolver = new Incidente()
                 {
-                    _logica.AgregarDesarrolladorAProyecto(desarrollo.UsuarioId,desarrollo.ProyectoId);
-                }
-                else
-                {
-                    return UnprocessableEntity(ModelState);
-                }
+                    Id = incidente.Id,
+                    EstadoIncidente = Incidente.Estado.Resuelto,
+                    DesarrolladorId = incidente.DesarrolladorId
+                };
+                _logicaI.Modificar(incidente.Id, aResolver);
             }
             catch (ArgumentNullException nullex)
             {
@@ -44,9 +45,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 return StatusCode(500, error_de_servidor);
             }
-            return Ok();
+            return Ok(incidente);
         }
-
-
     }
 }
