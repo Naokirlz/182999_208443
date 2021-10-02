@@ -320,5 +320,29 @@ namespace Incidentes.Logica.Test
             string rutaFuenteTXT = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\NoExiste.txt";
             Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.ImportarBugs(rutaFuenteTXT));
         }
+
+        [Test]
+        public void se_puede_ver_los_proyectos_a_los_cuales_pertenece()
+        {
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(new Proyecto());
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
+            List<Usuario> listaU = new List<Usuario>();
+            listaU.Add(new Usuario());
+            IQueryable<Usuario> queryableU = listaU.AsQueryable();
+
+            repoGestores.Setup(
+                c => c.RepositorioUsuario
+                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()))
+                .Returns(queryableP);
+
+            IQueryable<Proyecto> proyectos = gestorProyecto.ListaDeProyectosALosQuePertenece(usuarioCompleto.Id);
+
+            Assert.AreEqual(1, proyectos.Count());
+            repoGestores.Verify(
+                c => c.RepositorioUsuario
+                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
     }
 }

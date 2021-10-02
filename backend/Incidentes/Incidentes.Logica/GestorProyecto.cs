@@ -116,5 +116,10 @@ namespace Incidentes.Logica
             IFuente fuente = FabricaIFuente.FabricarIFuente(_repositorioGestor, rutaFuente);
             fuente.ImportarBugs();
         }
+
+        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario)
+        {
+            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
+        }
     }
 }

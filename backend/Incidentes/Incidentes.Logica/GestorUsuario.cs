@@ -114,10 +114,6 @@ namespace Incidentes.Logica
             return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(idUsuario, nombreProyecto, incidente);
         }
 
-        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario, int idDesarrollador) {
-            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
-        }
-
         private List<Usuario> ObtenerDesarrolladores()
         {
             List<Usuario> lista = new List<Usuario>();

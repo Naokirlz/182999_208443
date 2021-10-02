@@ -11,7 +11,6 @@ namespace Incidentes.LogicaInterfaz
         public void Logout(string tokenUsuario);
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(int idDesarrollador);
         public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente);
-        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario, int idDesarrollador);
         public List<Usuario> Obtener(Usuario.Rol? rol = null);
         public Usuario ObtenerPorToken(string token);
     }

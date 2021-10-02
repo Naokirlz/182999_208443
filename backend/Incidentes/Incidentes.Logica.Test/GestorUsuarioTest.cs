@@ -321,30 +321,6 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void se_puede_ver_los_proyectos_a_los_cuales_pertenece()
-        {
-            List<Proyecto> lista = new List<Proyecto>();
-            lista.Add(new Proyecto());
-            IQueryable<Proyecto> queryableP = lista.AsQueryable();
-
-            List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Usuario());
-            IQueryable<Usuario> queryableU = listaU.AsQueryable();
-
-            repoGestores.Setup(
-                c => c.RepositorioUsuario
-                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()))
-                .Returns(queryableP);
-
-            IQueryable<Proyecto> proyectos = gestor.ListaDeProyectosALosQuePertenece(usuarioCompleto.Id, 3);
-
-            Assert.AreEqual(1, proyectos.Count());
-            repoGestores.Verify(
-                c => c.RepositorioUsuario
-                .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
-        }
-
-        [Test]
         public void no_se_puede_dar_alta_un_usuario_nulo()
         {
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(null));
