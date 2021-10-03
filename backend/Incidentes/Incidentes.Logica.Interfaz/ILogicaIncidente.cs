@@ -7,5 +7,6 @@ namespace Incidentes.LogicaInterfaz
     public interface ILogicaIncidente : ILogica<Incidente>
     {
         public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente);
+        public Incidente ObtenerParaUsuario(int idUsuario, int idIncidente);
     }
 }

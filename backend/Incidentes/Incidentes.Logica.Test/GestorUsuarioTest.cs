@@ -222,9 +222,9 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
 
-            bool loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, queryableUsuarios.FirstOrDefault().Contrasenia);
+            string loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, queryableUsuarios.FirstOrDefault().Contrasenia);
 
-            Assert.IsTrue(loginCorrecto);
+            Assert.IsNotNull(loginCorrecto);
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
 
@@ -232,14 +232,15 @@ namespace Incidentes.Logica.Test
         public void un_usuario_no_se_puede_loguear_con_contrasenia_incorrecta()
         {
             List<Usuario> lista = new List<Usuario>();
+            usuarioCompleto.Token = "";
             lista.Add(usuarioCompleto);
             IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
 
-            bool loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, "password incorrecto");
+            string loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, "password incorrecto");
 
-            Assert.IsFalse(loginCorrecto);
+            Assert.AreEqual("", usuarioCompleto.Token);
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
 
@@ -257,7 +258,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
             repoGestores.Setup(c => c.RepositorioUsuario.Modificar(It.IsAny<Usuario>()));
 
-            bool loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, queryableUsuarios.FirstOrDefault().Contrasenia);
+            gestor.Login(this.usuarioCompleto.NombreUsuario, queryableUsuarios.FirstOrDefault().Contrasenia);
 
             Assert.IsNotEmpty(usuarioCompleto.Token);
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
