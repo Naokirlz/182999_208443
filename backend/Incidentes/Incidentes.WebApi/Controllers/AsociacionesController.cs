@@ -12,6 +12,7 @@ using System.Linq;
 namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [TrapExcepciones]
     [ApiController]
     public class AsociacionesController : ControllerBase
     {

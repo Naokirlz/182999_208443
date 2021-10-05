@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Incidentes.Dominio;
-using Incidentes.Logica.Interfaz;
+﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
+using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -20,6 +16,8 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("api/Login")]
+        [TrapExcepciones]
         public IActionResult Login(Usuario usuario)
         {
             usuario.Token = _logica.Login(usuario.NombreUsuario, usuario.Contrasenia);
@@ -27,6 +25,8 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("api/Logout")]
+        [TrapExcepciones]
         public IActionResult Logout(Usuario usuario)
         {
             _logica.Logout(usuario.Token);

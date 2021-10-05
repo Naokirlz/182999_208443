@@ -12,6 +12,7 @@ namespace Incidentes.Logica
     {
         IRepositorioGestores _repositorioGestor;
         private const string argumento_nulo = "El argumento no puede ser nulo";
+        private const string error_en_login = "El usuario o la contraseña no son correctos";
         private const string elemento_no_existe = "El elemento no existe";
         private const string elemento_ya_existe = "Un elemento con similares atributos ya existe";
         private const int largo_maximo_texto_corto = 25;
@@ -67,10 +68,16 @@ namespace Incidentes.Logica
         public string Login(string nombreUSuario, string password)
         {
             Usuario usuario = this.ObtenerPorNombreUsuario(nombreUSuario);
-            bool coincide = usuario.Contrasenia == password;
+            if (usuario == null)
+                throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            bool coincide = usuario.Contrasenia.Equals(password);
             if (coincide)
             {
                 GenerarToken(usuario);
+            }
+            else
+            {
+                throw new ExcepcionArgumentoNoValido(error_en_login);
             }
             return usuario.Token;
         }

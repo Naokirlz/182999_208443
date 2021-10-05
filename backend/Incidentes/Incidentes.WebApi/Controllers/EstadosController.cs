@@ -7,6 +7,7 @@ namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [TrapExcepciones]
     public class EstadosController : ControllerBase
     {
         private const string error_de_servidor = "Internal Server Error";

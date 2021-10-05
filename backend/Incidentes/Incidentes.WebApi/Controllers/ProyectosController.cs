@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Incidentes.Dominio;
+﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.DTOs;
 using Incidentes.WebApi.Filters;
@@ -10,6 +9,7 @@ using System.Linq;
 namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [TrapExcepciones]
     [ApiController]
     public class ProyectosController : ControllerBase
     {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [TrapExcepciones]
     [ApiController]
     public class IncidentesController : ControllerBase
     {
