@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Incidentes.WebApi.Filters
 {
-    public class Autorizacion : Attribute, IAuthorizationFilter
+    public class FilterAutorizacion : Attribute, IAuthorizationFilter
     {
         private ILogicaAutorizacion _autorizacion;
         private readonly string[] _roles;
 
-        public Autorizacion(params string[] roles)
+        public FilterAutorizacion(params string[] roles)
         {
             _roles = roles;
         }

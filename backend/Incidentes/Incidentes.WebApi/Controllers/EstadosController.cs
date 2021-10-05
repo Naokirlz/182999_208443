@@ -25,6 +25,7 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPut]
+        [FilterAutorizacion("Desarrollador")]
         public IActionResult Put([FromBody] Incidente incidente)
         {
             try

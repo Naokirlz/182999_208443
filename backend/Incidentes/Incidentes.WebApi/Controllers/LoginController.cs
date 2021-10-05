@@ -12,14 +12,11 @@ namespace Incidentes.WebApi.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private const string error_de_servidor = "Internal Server Error";
-        private readonly IMapper _mapper;
         private readonly ILogicaUsuario _logica;
 
-        public LoginController(ILogicaUsuario logica, IMapper mapper)
+        public LoginController(ILogicaUsuario logica)
         {
             _logica = logica;
-            _mapper = mapper;
         }
 
         [HttpPost]
@@ -27,6 +24,13 @@ namespace Incidentes.WebApi.Controllers
         {
             usuario.Token = _logica.Login(usuario.NombreUsuario, usuario.Contrasenia);
             return Ok(usuario.Token);
+        }
+
+        [HttpPost]
+        public IActionResult Logout(Usuario usuario)
+        {
+            _logica.Logout(usuario.Token);
+            return Ok();
         }
     }
 }

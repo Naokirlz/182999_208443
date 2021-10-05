@@ -15,105 +15,56 @@ namespace Incidentes.WebApi.Controllers
     [ApiController]
     public class AsociacionesController : ControllerBase
     {
-        private const string error_de_servidor = "Internal Server Error";
-        private readonly IMapper _mapper;
         private readonly ILogicaProyecto _logicaP;
         private readonly ILogicaIncidente _logicaI;
 
-        public AsociacionesController(ILogicaProyecto logica, ILogicaIncidente logicaI, IMapper mapper)
+        public AsociacionesController(ILogicaProyecto logica, ILogicaIncidente logicaI)
         {
             _logicaP = logica;
             _logicaI = logicaI;
-            _mapper = mapper;
         }
 
         [HttpGet]
-        //[Autorizacion("Administrador")]
+        [FilterAutorizacion("Desarrollador", "Tester")]
         [Route("{id}/proyectos")]
         public IActionResult GetProyectos([FromRoute] string idUsuario)
         {
-            try
-            {
-                IQueryable<Proyecto> result = _logicaP.ListaDeProyectosALosQuePertenece(Int32.Parse(idUsuario));
-                return Ok(result);
-                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            IQueryable<Proyecto> result = _logicaP.ListaDeProyectosALosQuePertenece(Int32.Parse(idUsuario));
+            return Ok(result);
         }
 
         [HttpGet]
-        //[Autorizacion("Administrador")]
+        [FilterAutorizacion("Desarrollador", "Tester")]
         [Route("{id}/proyecto")]
         public IActionResult GetProyecto([FromRoute] string idUsuario, [FromQuery] int idProyecto)
         {
-            try
-            {
-                Proyecto result = _logicaP.ObtenerParaUsuario(Int32.Parse(idUsuario), idProyecto);
-                return Ok(result);
-                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            Proyecto result = _logicaP.ObtenerParaUsuario(Int32.Parse(idUsuario), idProyecto);
+            return Ok(result);
         }
 
         [HttpGet]
-        //[Autorizacion("Administrador")]
+        [FilterAutorizacion("Desarrollador", "Tester")]
         [Route("{id}/incidente")]
         public IActionResult GetIncidente([FromRoute] string idUsuario, [FromQuery] int idIncidente)
         {
-            try
-            {
-                Incidente result = _logicaI.ObtenerParaUsuario(Int32.Parse(idUsuario), idIncidente);
-                return Ok(result);
-                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            Incidente result = _logicaI.ObtenerParaUsuario(Int32.Parse(idUsuario), idIncidente);
+            return Ok(result);
         }
 
         [HttpGet]
-        //[Autorizacion("Administrador")]
+        [FilterAutorizacion("Desarrollador", "Tester")]
         [Route("{id}/incidentes")]
         public IActionResult GetIncidentes([FromRoute] string idUsuario, [FromQuery] string nombreProyecto = null, Incidente incidente = null)
         {
-            try
-            {
-                List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(idUsuario), nombreProyecto, incidente);
-                return Ok(result);
-                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(idUsuario), nombreProyecto, incidente);
+            return Ok(result);
         }
 
         [HttpPost]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Post([FromBody] AsignacionesDTO asignaciones)
         {
-            try
-            {
-                _logicaP.AgregarDesarrolladorAProyecto(asignaciones.UsuarioId, asignaciones.ProyectoId);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logicaP.AgregarDesarrolladorAProyecto(asignaciones.UsuarioId, asignaciones.ProyectoId);
             return Ok();
         }
     }

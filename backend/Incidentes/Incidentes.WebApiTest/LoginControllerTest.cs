@@ -14,26 +14,20 @@ namespace Incidentes.WebApiTest
     public class LoginControllerTest
     {
         private Mock<ILogicaUsuario> _logicaU;
-        private Mock<IMapper> _mapper;
         private LoginController _lController;
-        private List<Usuario> _usuariosL;
 
         [SetUp]
         public void Setup()
         {
             _logicaU = new Mock<ILogicaUsuario>();
-            _mapper = new Mock<IMapper>();
-            _lController = new LoginController(_logicaU.Object, _mapper.Object);
-            _usuariosL = new List<Usuario>();
+            _lController = new LoginController(_logicaU.Object);
         }
 
         [TearDown]
         public void TearDown()
         {
             _logicaU = null;
-            _mapper = null;
             _lController = null;
-            _usuariosL = null;
         }
 
         [Test]
@@ -51,6 +45,22 @@ namespace Incidentes.WebApiTest
             Assert.IsNotNull(result);
 
             _logicaU.Verify(c => c.Login(It.IsAny<string>(), It.IsAny<string>()));
+        }
+
+        [Test]
+        public void se_pueden_desloguear_los_usuarios()
+        {
+            Usuario user = new Usuario()
+            {
+                Token = "asdadsacasc"
+            };
+            _logicaU.Setup(c => c.Logout(It.IsAny<string>()));
+
+            var result = _lController.Logout(user);
+
+            Assert.IsNotNull(result);
+
+            _logicaU.VerifyAll();
         }
     }
 }

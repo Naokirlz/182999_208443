@@ -27,8 +27,7 @@ namespace Incidentes.WebApiTest
         {
             _logicaP = new Mock<ILogicaProyecto>();
             _logicaI = new Mock<ILogicaIncidente>();
-            _mapper = new Mock<IMapper>();
-            _aController = new AsociacionesController(_logicaP.Object, _logicaI.Object, _mapper.Object);
+            _aController = new AsociacionesController(_logicaP.Object, _logicaI.Object);
             proyectosL = new List<Proyecto>();
             incidentesL = new List<Incidente>();
         }
@@ -38,7 +37,6 @@ namespace Incidentes.WebApiTest
         {
             _logicaP = null;
             _logicaI = null;
-            _mapper = null;
             _aController = null;
             proyectosQ = null;
             proyectosL = null;

@@ -25,98 +25,47 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpGet]
-        //[Autorizacion("Administrador")]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Get()
         {
-            try
-            {
-                IEnumerable<Incidente> result = _logicaI.ObtenerTodos();
-                return Ok(result);
-                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            IEnumerable<Incidente> result = _logicaI.ObtenerTodos();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Get(int id)
         {
-            try
+            var incidente = _logicaI.Obtener(id);
+            if (incidente == null)
             {
-                var incidente = _logicaI.Obtener(id);
-                if (incidente == null)
-                {
-                    return NotFound(id);
-                }
+                return NotFound(id);
+            }
 
-                return Ok(incidente);
-                /*return Ok(new
-                {
-                    Nombre = student.Name,
-                    Apellido = student.LastName
-                });*/
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            return Ok(incidente);
         }
 
         [HttpPost]
+        [FilterAutorizacion("Administrador", "Tester")]
         public IActionResult Post([FromBody] Incidente incidente)
         {
-            try
-            {
-                _logicaI.Alta(incidente);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logicaI.Alta(incidente);
             return Ok(incidente);
         }
 
         [HttpDelete]
+        [FilterAutorizacion("Administrador", "Tester")]
         public IActionResult Delete([FromBody] Incidente incidente)
         {
-            try
-            {
-                _logicaI.Baja(incidente.Id);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logicaI.Baja(incidente.Id);
             return StatusCode(204, "Eliminado Satisfactoriamente.");
         }
 
         [HttpPut]
+        [FilterAutorizacion("Administrador", "Tester")]
         public IActionResult Put([FromBody] Incidente incidente)
         {
-            try
-            {
-                _logicaI.Modificar(incidente.Id, incidente);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logicaI.Modificar(incidente.Id, incidente);
             return Ok(incidente);
         }
     }

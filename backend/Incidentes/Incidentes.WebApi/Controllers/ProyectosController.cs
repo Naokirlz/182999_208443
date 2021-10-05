@@ -25,7 +25,7 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpGet]
-        [Autorizacion("Administrador")]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Get()
         {
             try
