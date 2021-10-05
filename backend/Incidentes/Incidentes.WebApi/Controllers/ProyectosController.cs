@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Incidentes.Dominio;
-using Incidentes.Logica.Interfaz;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
@@ -28,95 +25,44 @@ namespace Incidentes.WebApi.Controllers
         [FilterAutorizacion("Administrador")]
         public IActionResult Get()
         {
-            try
-            {
-                IEnumerable<Proyecto> result = _logicaP.ObtenerTodos();
-                return Ok(result);
-                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            IEnumerable<Proyecto> result = _logicaP.ObtenerTodos();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Get(int id)
         {
-            try
+            var proyecto = _logicaP.Obtener(id);
+            if (proyecto == null)
             {
-                var proyecto = _logicaP.Obtener(id);
-                if (proyecto == null)
-                {
-                    return NotFound(id);
-                }
+                return NotFound(id);
+            }
 
-                return Ok(proyecto);
-                /*return Ok(new
-                {
-                    Nombre = student.Name,
-                    Apellido = student.LastName
-                });*/
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            return Ok(proyecto);
         }
 
         [HttpPost]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Post([FromBody] Proyecto proyecto)
         {
-            try
-            {
-                _logicaP.Alta(proyecto);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logicaP.Alta(proyecto);
             return Ok(proyecto);
         }
 
         [HttpDelete]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Delete([FromBody] Proyecto proyecto)
         {
-            try
-            {
-                    _logicaP.Baja(proyecto.Id);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logicaP.Baja(proyecto.Id);
             return StatusCode(204, "Eliminado Satisfactoriamente.");
         }
         
         [HttpPut]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Put([FromBody] Proyecto proyecto)
         {
-            try
-            {
-                 _logicaP.Modificar(proyecto.Id, proyecto);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logicaP.Modificar(proyecto.Id, proyecto);
             return Ok(proyecto);
         }
     }

@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using Incidentes.Dominio;
-using Incidentes.Logica.Interfaz;
+﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
+using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
@@ -12,80 +10,40 @@ namespace Incidentes.WebApi.Controllers
     [ApiController]
     public class UsuariosController : ControllerBase
     {
-        private const string error_de_servidor = "Internal Server Error";
-        private readonly IMapper _mapper;
         private readonly ILogicaUsuario _logica;
 
-        public UsuariosController(ILogicaUsuario logica, IMapper mapper)
+        public UsuariosController(ILogicaUsuario logica)
         {
             _logica = logica;
-            _mapper = mapper;
         }
 
         [HttpGet]
-        //[Auth("professor")]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Get(Usuario.Rol? rol = null)
         {
-            try
-            {
-                List<Usuario> result = _logica.Obtener(rol);
-                // var returnResult = _mapper.Map<IEnumerable<ProyectoDTOWithCouresesForGet>>(result);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
+            List<Usuario> result = _logica.Obtener(rol);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
+        [FilterAutorizacion("Administrador")]
         public IActionResult Get(int id)
         {
-            try
+            Usuario desarrollador = _logica.Obtener(id);
+            if (desarrollador == null)
             {
-                Usuario desarrollador = _logica.Obtener(id);
-                if (desarrollador == null)
-                {
-                    return NotFound(id);
-                }
-
-                return Ok(desarrollador);
-                /*return Ok(new
-                {
-                    Nombre = student.Name,
-                    Apellido = student.LastName
-                });*/
-            }
-            catch (Exception ex)
-            {
-                //Log de la excepcion
-                return StatusCode(500, "");
-            }
-        }
-
-        [HttpPost]
-        //TODO: Implementación nueva, ahora usamos un DTO. 
-        public IActionResult Post([FromBody] Usuario desarrollador)
-        {
-
-            try
-            {
-                    //... y lo agregamos, como antes.
-                    _logica.Alta(desarrollador);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-
-                // return BadRequest(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
+                return NotFound(id);
             }
 
             return Ok(desarrollador);
+        }
+
+        [HttpPost]
+        [FilterAutorizacion("Administrador")]
+        public IActionResult Post([FromBody] Usuario user)
+        {
+            _logica.Alta(user);
+            return Ok(user);
         }
     }
 }

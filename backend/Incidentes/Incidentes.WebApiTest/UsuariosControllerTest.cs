@@ -16,7 +16,6 @@ namespace Incidentes.WebApiTest
     public class UsuariosControllerTest
     {
         private Mock<ILogicaUsuario> _logicaU;
-        private Mock<IMapper> _mapper;
         private UsuariosController _dController;
         private List<Usuario> _usuariosL;
 
@@ -24,8 +23,7 @@ namespace Incidentes.WebApiTest
         public void Setup()
         {
             _logicaU = new Mock<ILogicaUsuario>();
-            _mapper = new Mock<IMapper>();
-            _dController = new UsuariosController(_logicaU.Object, _mapper.Object);
+            _dController = new UsuariosController(_logicaU.Object);
             _usuariosL = new List<Usuario>();
         }
 
@@ -33,7 +31,6 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaU = null;
-            _mapper = null;
             _dController = null;
             _usuariosL = null;
         }

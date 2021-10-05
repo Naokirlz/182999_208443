@@ -16,7 +16,6 @@ namespace Incidentes.WebApiTest
     {
         private Mock<ILogicaProyecto> _logicaP;
         private Mock<ILogicaUsuario> _logicaU;
-        private Mock<IMapper> _mapper;
         private ReportesController _rController;
         private IQueryable<Proyecto> proyectosQ;
         private List<Proyecto> proyectosL;
@@ -26,8 +25,7 @@ namespace Incidentes.WebApiTest
         {
             _logicaP = new Mock<ILogicaProyecto>();
             _logicaU = new Mock<ILogicaUsuario>();
-            _mapper = new Mock<IMapper>();
-            _rController = new ReportesController(_logicaP.Object, _logicaU.Object,  _mapper.Object);
+            _rController = new ReportesController(_logicaP.Object, _logicaU.Object);
             proyectosL = new List<Proyecto>();
         }
 
@@ -35,7 +33,6 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaP = null;
-            _mapper = null;
             _rController = null;
             proyectosQ = null;
             proyectosL = null;

@@ -1,13 +1,8 @@
-﻿using AutoMapper;
-using Incidentes.Dominio;
+﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Incidentes.WebApiTest
 {
