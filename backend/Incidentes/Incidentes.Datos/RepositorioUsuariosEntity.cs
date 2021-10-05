@@ -1,12 +1,8 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Incidentes.Datos
 {
@@ -64,12 +60,6 @@ namespace Incidentes.Datos
             return ContextoRepositorio.Set<Proyecto>()
                  .Include(p => p.Asignados)
                  .Include(p => p.Incidentes);
-        }
-
-        public string ObtenerToken(int id)
-        {
-            Usuario usuario = this.ObtenerPorCondicion(d => d.Id == id, false).FirstOrDefault();
-            return usuario.Token;
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using Incidentes.DatosInterfaz;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Incidentes.Datos
 {
@@ -35,8 +32,6 @@ namespace Incidentes.Datos
 
         public bool Existe(Expression<Func<T, bool>> expression)
         {
-            //TODO: Este metodo es nuevo, es para demostrar el uso de Any(). No necesariamente debo leer el objeto.
-            //Simplemente "pregunto" si existe alguno que cumpla condicion "expression"
             return ContextoRepositorio.Set<T>().Any(expression);
         }
 

@@ -57,6 +57,50 @@ namespace Incidentes.DatosTest
         }
 
         [Test]
+        public void se_puede_eliminar_un_usuario()
+        {
+            Usuario a2 = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martinf@gmail.com",
+                NombreUsuario = "martincosaf",
+                Token = ""
+            };
+            _repoGestores.RepositorioUsuario.Alta(a2);
+            DBContexto.SaveChanges();
+            Usuario buscado = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == a2.NombreUsuario, true).FirstOrDefault();
+            Assert.IsNotNull(buscado);
+            _repoGestores.RepositorioUsuario.Eliminar(buscado);
+            _repoGestores.Save();
+            buscado = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == a2.NombreUsuario, true).FirstOrDefault();
+            Assert.IsNull(buscado);
+        }
+
+        [Test]
+        public void se_puede_modificar_un_usuario()
+        {
+            Usuario a2 = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martinf@gmail.com",
+                NombreUsuario = "martincosaf",
+                Token = ""
+            };
+            _repoGestores.RepositorioUsuario.Alta(a2);
+            DBContexto.SaveChanges();
+            Usuario buscado = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == a2.NombreUsuario, true).FirstOrDefault();
+            buscado.NombreUsuario = "martincosaf555";
+            _repoGestores.RepositorioUsuario.Modificar(buscado);
+            DBContexto.SaveChanges();
+            buscado = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == buscado.NombreUsuario, true).FirstOrDefault();
+            Assert.AreNotEqual("martincosaf", buscado.NombreUsuario);
+        }
+
+        [Test]
         public void se_pueden_obtener_todos()
         {
             var buscados = _repoGestores.RepositorioUsuario.ObtenerTodos(false);
@@ -101,6 +145,25 @@ namespace Incidentes.DatosTest
         {
             IQueryable<Proyecto> proyectos = _repoGestores.RepositorioUsuario.ListaDeProyectosALosQuePertenece(1);
             Assert.AreEqual(1, proyectos.Count());
+        }
+
+        [Test]
+        public void se_devuelve_la_lista_de_proyectos_a_un_administrador()
+        {
+            Usuario aa = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martinf@gmail.com",
+                RolUsuario = Usuario.Rol.Administrador,
+                NombreUsuario = "martincosaf",
+                Token = ""
+            };
+            DBContexto.Add(aa);
+            DBContexto.SaveChanges();
+            IQueryable<Proyecto> proyectos = _repoGestores.RepositorioUsuario.ListaDeProyectosALosQuePertenece(aa.Id);
+            Assert.AreEqual(2, proyectos.Count());
         }
 
         [Test]
