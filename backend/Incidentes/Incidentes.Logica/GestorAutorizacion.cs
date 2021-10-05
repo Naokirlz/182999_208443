@@ -35,29 +35,19 @@ namespace Incidentes.Logica
             {
                 return false;
             }
-            
-            var sessionToken = authToken;
-
-            Usuario a = new Usuario();
-
-            var nombre = a.GetType().Name;
-
-
+                        
             var usuario = _repositorioGestor.RepositorioUsuario
                 .ObtenerPorCondicion(a => a.Token == authToken, trackChanges: false).FirstOrDefault();
-
 
             if (usuario == null)
             {
                 return false;
             }
 
-            var userRole = usuario.GetType().ToString();
-                        
-
+                          
             if (roles != null && roles.Length > 0)
             {
-                if (!roles.Contains(userRole))
+                if (!roles.Contains(usuario.RolUsuario.ToString()))
                 {
                     return false;
                 }
