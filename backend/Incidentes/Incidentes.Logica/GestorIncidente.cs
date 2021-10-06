@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Incidentes.Dominio;
 using System.Linq;
 using Incidentes.DatosInterfaz;

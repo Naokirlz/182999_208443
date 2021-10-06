@@ -3,7 +3,6 @@ using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Incidentes.WebApi.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -16,7 +15,6 @@ namespace Incidentes.WebApiTest
     {
         private Mock<ILogicaProyecto> _logicaP;
         private Mock<ILogicaIncidente> _logicaI;
-        private Mock<IMapper> _mapper;
         private AsociacionesController _aController;
         private IQueryable<Proyecto> proyectosQ;
         private List<Proyecto> proyectosL;

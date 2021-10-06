@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Incidentes.Dominio;
 using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
-using Incidentes.Logica.Interfaz;
 using Incidentes.Logica.Excepciones;
-using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
-using Incidentes.Logica.DTOs;
 
 namespace Incidentes.Logica
 {

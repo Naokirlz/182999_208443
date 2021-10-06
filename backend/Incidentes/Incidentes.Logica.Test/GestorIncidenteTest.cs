@@ -1,7 +1,6 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
 using Incidentes.Logica.Excepciones;
-using Incidentes.Logica.Interfaz;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -115,11 +114,6 @@ namespace Incidentes.Logica.Test
             Incidente incidente02 = gestorIncidente.Alta(incidente);
             Assert.IsNotNull(incidente02);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(incidente));
-        }
-
-        [Test]
-        public void se_puede_modificar_un_incidente()
-        {
         }
 
         [Test]
@@ -270,5 +264,80 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
+        [Test]
+        public void no_se_puede_dar_alta_un_incidente_nulo()
+        {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Alta(null));
+        }
+
+        [Test]
+        public void no_se_puede_dar_alta_un_incidente_que_ya_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Alta(new Incidente()));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_modificar_un_incidente_nulo()
+        {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Modificar(1, null));
+        }
+
+        [Test]
+        public void no_se_puede_modificar_un_incidente_que_ya_existe()
+        {
+            Incidente incidenteD = new Incidente()
+            {
+                Id = 2,
+                Nombre = "Incidente"
+            };
+            Incidente incidenteA = new Incidente()
+            {
+                Id = 2,
+                Nombre = "Incidente2"
+            };
+            List<Incidente> lista = new List<Incidente>();
+            lista.Add(incidenteD);
+            IQueryable<Incidente> queryableI = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+
+
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Modificar(1, incidenteA));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+        }
+
+        [Test]
+        public void se_puede_modificar_un_incidente()
+        {
+            Incidente incidenteD = new Incidente()
+            {
+                Id = 2,
+                Nombre = "Incidente"
+            };
+            Incidente incidenteA = new Incidente()
+            {
+                Id = 2,
+                Nombre = "Incidente2"
+            };
+            List<Incidente> lista = new List<Incidente>();
+            lista.Add(incidenteD);
+            IQueryable<Incidente> queryableI = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre)).Returns(false);
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+
+            Incidente modificado = gestorIncidente.Modificar(1, incidenteA);
+
+            Assert.AreEqual(incidenteA.Nombre, incidenteD.Nombre);
+
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+        }
     }
 }

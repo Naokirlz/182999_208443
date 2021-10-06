@@ -30,11 +30,6 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get(int id)
         {
             Usuario desarrollador = _logica.Obtener(id);
-            if (desarrollador == null)
-            {
-                return NotFound(id);
-            }
-
             return Ok(desarrollador);
         }
 

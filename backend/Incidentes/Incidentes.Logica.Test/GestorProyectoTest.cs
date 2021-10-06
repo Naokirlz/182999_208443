@@ -1,14 +1,12 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
 using Incidentes.Logica.Excepciones;
-using Incidentes.Logica.Interfaz;
 using Moq;
 using System;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.IO;
 
 namespace Incidentes.Logica.Test
 {
@@ -148,25 +146,30 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_modificar_un_proyecto()
         {
-            Proyecto proyecto = new Proyecto()
+            Proyecto proyectoD = new Proyecto()
             {
-                Id = 3,
-                Nombre = "Proyecto1"
+                Id = 2,
+                Nombre = "Proyecto"
+            };
+            Proyecto proyectoA = new Proyecto()
+            {
+                Id = 2,
+                Nombre = "Proyecto2"
             };
             List<Proyecto> lista = new List<Proyecto>();
-            lista.Add(proyecto);
-            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+            lista.Add(proyectoD);
+            IQueryable<Proyecto> queryableI = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioProyecto.Modificar(proyecto));
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(c => c.Nombre == proyectoA.Nombre)).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableI);
 
-            Proyecto proyecto1 = gestorProyecto.Modificar(3, proyecto);
-            Proyecto encontrado = gestorProyecto.Obtener(3);
+            Proyecto modificado = gestorProyecto.Modificar(1, proyectoA);
 
-            Assert.AreEqual(proyecto.Nombre, encontrado.Nombre);
+            Assert.AreEqual(proyectoA.Nombre, proyectoD.Nombre);
+
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.Modificar(proyecto));
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(c => c.Nombre == proyectoA.Nombre));
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
         }
 
@@ -225,7 +228,7 @@ namespace Incidentes.Logica.Test
         [Test]
         public void no_se_puede_modificar_un_proyecto_nulo()
         {
-            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Alta(null));
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Modificar(1, null));
         }
 
         [Test]
@@ -371,7 +374,7 @@ namespace Incidentes.Logica.Test
 
             int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
-            Assert.AreEqual(4, incidentes);
+            Assert.AreEqual(5, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
             repoGestores.Verify(c => c.Save());
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(It.IsAny<Incidente>()));
@@ -409,6 +412,32 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_modificar_un_proyecto_que_ya_existe()
+        {
+            Proyecto prroyectoD = new Proyecto()
+            {
+                Id = 2,
+                Nombre = "Proyecto"
+            };
+            Proyecto proyectoA = new Proyecto()
+            {
+                Id = 2,
+                Nombre = "Proyecto2"
+            };
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(prroyectoD);
+            IQueryable<Proyecto> queryableI = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableI);
+
+
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Modificar(1, proyectoA));
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
         }
     }
 }

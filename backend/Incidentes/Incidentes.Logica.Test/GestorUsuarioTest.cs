@@ -210,9 +210,61 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }
-        /*************************************************************************************
-         *  FUNCIONES
-         * ************************************************************************************/
+
+        [Test]
+        public void se_pueden_obtener_los_tester()
+        {
+            Usuario t1 = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
+                Email = "martin@gmail.com",
+                RolUsuario = Usuario.Rol.Tester,
+                Id = 1,
+                NombreUsuario = "martincosa",
+                Token = ""
+            };
+
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(t1);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerTodos(false)).Returns(queryableUsuarios);
+
+            List<Usuario> listaT = gestor.Obtener(Usuario.Rol.Tester);
+
+            Assert.AreEqual(1, listaT.Count());
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerTodos(false));
+        }
+
+        [Test]
+        public void se_pueden_obtener_los_usuarios()
+        {
+            Usuario t1 = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosas",
+                Contrasenia = "Casa#BlanBlancaaaaaaaaaca",
+                Email = "martin@gmail.com",
+                RolUsuario = Usuario.Rol.Tester,
+                Id = 1,
+                NombreUsuario = "martincosa",
+                Token = ""
+            };
+
+            List<Usuario> lista = new List<Usuario>();
+            lista.Add(t1);
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerTodos(false)).Returns(queryableUsuarios);
+
+            List<Usuario> listaU = gestor.Obtener();
+
+            Assert.AreEqual(1, listaU.Count());
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerTodos(false));
+        }
+
         [Test]
         public void un_usuario_se_puede_loguear()
         {
@@ -372,6 +424,24 @@ namespace Incidentes.Logica.Test
         {
             repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
             usuarioCompleto.Contrasenia = "    ssa   a";
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_password_corto()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Contrasenia = "aa";
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(usuarioCompleto));
+            repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_usuario_con_password_largo()
+        {
+            repoGestores.Setup(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>())).Returns(false);
+            usuarioCompleto.Contrasenia = "0123456789012345678901234567";
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(usuarioCompleto));
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }

@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Incidentes.Dominio;
+﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -14,7 +12,6 @@ namespace Incidentes.WebApiTest
     public class IncidentesControllerTest
     {
         private Mock<ILogicaIncidente> _logicaI;
-        private Mock<IMapper> _mapper;
         private IncidentesController _iController;
         private IQueryable<Incidente> incidentesQ;
         private List<Incidente> incidentesL;
@@ -23,8 +20,7 @@ namespace Incidentes.WebApiTest
         public void Setup()
         {
             _logicaI = new Mock<ILogicaIncidente>();
-            _mapper = new Mock<IMapper>();
-            _iController = new IncidentesController(_logicaI.Object, _mapper.Object);
+            _iController = new IncidentesController(_logicaI.Object);
             incidentesL = new List<Incidente>();
         }
 
@@ -32,7 +28,6 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaI = null;
-            _mapper = null;
             _iController = null;
             incidentesQ = null;
             incidentesL = null;

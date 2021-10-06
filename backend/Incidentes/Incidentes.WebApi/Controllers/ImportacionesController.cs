@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using Incidentes.Dominio;
-using Incidentes.Logica.Interfaz;
-using Incidentes.LogicaInterfaz;
+﻿using Incidentes.LogicaInterfaz;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
 {
@@ -12,31 +7,17 @@ namespace Incidentes.WebApi.Controllers
     [ApiController]
     public class ImportacionesController : ControllerBase
     {
-        private const string error_de_servidor = "Internal Server Error";
-        private readonly IMapper _mapper;
         private readonly ILogicaProyecto _logica;
 
-        public ImportacionesController(ILogicaProyecto logica, IMapper mapper)
+        public ImportacionesController(ILogicaProyecto logica)
         {
             _logica = logica;
-            _mapper = mapper;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] string rutaFuente)
         {
-            try
-            {
-                _logica.ImportarBugs(rutaFuente);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+            _logica.ImportarBugs(rutaFuente);
             return Ok();
         }
     }

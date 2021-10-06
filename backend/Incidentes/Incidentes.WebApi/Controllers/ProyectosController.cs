@@ -13,14 +13,11 @@ namespace Incidentes.WebApi.Controllers
     [ApiController]
     public class ProyectosController : ControllerBase
     {
-        private const string error_de_servidor = "Internal Server Error";
-        private readonly IMapper _mapper;
         private readonly ILogicaProyecto _logicaP;
 
-        public ProyectosController(ILogicaProyecto logica, IMapper mapper)
+        public ProyectosController(ILogicaProyecto logica)
         {
             _logicaP = logica;
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -60,11 +57,6 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get(int id)
         {
             var proyecto = _logicaP.Obtener(id);
-            if (proyecto == null)
-            {
-                return NotFound(id);
-            }
-
             return Ok(proyecto);
         }
 

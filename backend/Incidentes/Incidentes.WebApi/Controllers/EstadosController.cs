@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using Incidentes.Dominio;
-using Incidentes.Logica.Interfaz;
+﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
@@ -15,37 +10,24 @@ namespace Incidentes.WebApi.Controllers
     public class EstadosController : ControllerBase
     {
         private const string error_de_servidor = "Internal Server Error";
-        private readonly IMapper _mapper;
         private readonly ILogicaIncidente _logicaI;
 
-        public EstadosController(ILogicaIncidente logica, IMapper mapper)
+        public EstadosController(ILogicaIncidente logica)
         {
             _logicaI = logica;
-            _mapper = mapper;
         }
 
         [HttpPut]
         [FilterAutorizacion("Desarrollador")]
         public IActionResult Put([FromBody] Incidente incidente)
         {
-            try
+            Incidente aResolver = new Incidente()
             {
-                Incidente aResolver = new Incidente()
-                {
-                    Id = incidente.Id,
-                    EstadoIncidente = Incidente.Estado.Resuelto,
-                    DesarrolladorId = incidente.DesarrolladorId
-                };
-                _logicaI.Modificar(incidente.Id, aResolver);
-            }
-            catch (ArgumentNullException nullex)
-            {
-                return UnprocessableEntity(nullex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, error_de_servidor);
-            }
+                Id = incidente.Id,
+                EstadoIncidente = Incidente.Estado.Resuelto,
+                DesarrolladorId = incidente.DesarrolladorId
+            };
+            _logicaI.Modificar(incidente.Id, aResolver);
             return Ok(incidente);
         }
     }

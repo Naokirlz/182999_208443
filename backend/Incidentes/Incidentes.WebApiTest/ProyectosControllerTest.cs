@@ -1,31 +1,24 @@
-using AutoMapper;
 using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
-using Incidentes.WebApi.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Incidentes.WebApiTest
 {
     public class ProyectosControllerTest
     {
         private Mock<ILogicaProyecto> _logicaP;
-        private Mock<IMapper> _mapper;
         private ProyectosController _pController;
-        private IQueryable<Proyecto> proyectosQ;
         private List<Proyecto> proyectosL;
 
         [SetUp]
         public void Setup()
         {
             _logicaP = new Mock<ILogicaProyecto>();
-            _mapper = new Mock<IMapper>();
-            _pController = new ProyectosController(_logicaP.Object, _mapper.Object);
+            _pController = new ProyectosController(_logicaP.Object);
             proyectosL = new List<Proyecto>();
         }
 
@@ -33,16 +26,27 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaP = null;
-            _mapper = null;
             _pController = null;
-            proyectosQ = null;
             proyectosL = null;
         }
 
         [Test]
         public void se_pueden_ver_los_proyectos()
-        { 
-            proyectosL.Add(new Proyecto());
+        {
+            Proyecto p = new Proyecto();
+            Usuario u = new Usuario() {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                RolUsuario = Usuario.Rol.Tester,
+                Email = "martint1@gmail.com",
+                NombreUsuario = "martincosat1",
+                Token = ""
+            };
+            p.Asignados.Add(u);
+
+            proyectosL.Add(p);
+            
             _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosL);
 
             var result = _pController.Get();
