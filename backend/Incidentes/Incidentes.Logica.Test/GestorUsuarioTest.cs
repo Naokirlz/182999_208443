@@ -290,9 +290,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false))
                 .Returns(queryableUsuarios);
 
-            string loginCorrecto = gestor.Login(this.usuarioCompleto.NombreUsuario, "password incorrecto");
-
-            Assert.AreEqual("", usuarioCompleto.Token);
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Login(this.usuarioCompleto.NombreUsuario, "password incorrecto"));
             repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false));
         }
 

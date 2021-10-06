@@ -67,8 +67,8 @@ namespace Incidentes.WebApiTest
                 Nombre = "nombre pro",
                 CantidadDeIncidentes = 4
             };
-            Assert.AreEqual("nombre pro", pro.Id);
-            Assert.AreEqual(3, pro.Nombre);
+            Assert.AreEqual(3, pro.Id);
+            Assert.AreEqual("nombre pro", pro.Nombre);
             Assert.AreEqual(4, pro.CantidadDeIncidentes);
         }
 
