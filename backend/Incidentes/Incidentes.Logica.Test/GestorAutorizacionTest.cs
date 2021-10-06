@@ -51,5 +51,57 @@ namespace Incidentes.Logica.Test
             Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestor.UsuarioAutenticado(usuarioCompleto.Token));
             repoGestores.Verify(c => c.RepositorioUsuario.Existe(It.IsAny<Expression<Func<Usuario, bool>>>()));
         }
+
+        [Test]
+        public void se_espera_error_si_el_token_es_nulo()
+        {
+            bool result = gestor.TokenValido(null);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void se_espera_error_si_el_usuario_no_existe()
+        {
+            IQueryable<Usuario> usus = new List<Usuario>().AsQueryable();
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), It.IsAny<bool>())).Returns(usus);
+            bool result = gestor.TokenValido("token");
+            Assert.IsFalse(result);
+            repoGestores.VerifyAll();
+        }
+
+        [Test]
+        public void se_espera_error_si_el_usuario_no_tiene_el_rol_esperado()
+        {
+            Usuario u = new Usuario() { 
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
+            List<Usuario> usuL = new List<Usuario>();
+            usuL.Add(u);
+            IQueryable<Usuario> usus = usuL.AsQueryable();
+            string[] roles = new string[1] { "Administrador" };
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), It.IsAny<bool>())).Returns(usus);
+
+            bool result = gestor.TokenValido("token", roles);
+            Assert.IsFalse(result);
+            repoGestores.VerifyAll();
+        }
+
+        [Test]
+        public void se_esperatrue_si_el_usuario_tiene_el_rol_esperado()
+        {
+            Usuario u = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
+            List<Usuario> usuL = new List<Usuario>();
+            usuL.Add(u);
+            IQueryable<Usuario> usus = usuL.AsQueryable();
+            string[] roles = new string[1] { "Desarrollador" };
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), It.IsAny<bool>())).Returns(usus);
+
+            bool result = gestor.TokenValido("token", roles);
+            Assert.IsTrue(result);
+            repoGestores.VerifyAll();
+        }
     }
 }

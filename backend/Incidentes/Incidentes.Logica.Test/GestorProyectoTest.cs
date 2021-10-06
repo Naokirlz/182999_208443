@@ -83,12 +83,12 @@ namespace Incidentes.Logica.Test
             lista2.Add(usuarioCompleto);
             IQueryable<Usuario> queryableUsuarios = lista2.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerTodos(false)).Returns(queryableProyectos);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectosCompleto()).Returns(queryableProyectos);
 
             IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos();
 
             Assert.AreEqual(2, proyectos.Count());
-            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerTodos(false));
+            repoGestores.VerifyAll();
         }
 
         [Test]
@@ -234,13 +234,12 @@ namespace Incidentes.Logica.Test
             IQueryable<Proyecto> queryableP = new List<Proyecto>().AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerTodos(false)).Returns(queryableP);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectosCompleto()).Returns(queryableP);
 
             gestorProyecto.Baja(3);
             IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos();
             Assert.AreEqual(0, proyectos.Count());
-            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerTodos(false));
+            repoGestores.VerifyAll();
         }
 
         [Test]

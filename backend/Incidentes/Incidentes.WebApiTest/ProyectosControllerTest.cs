@@ -2,6 +2,7 @@ using AutoMapper;
 using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
+using Incidentes.WebApi.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -40,15 +41,14 @@ namespace Incidentes.WebApiTest
 
         [Test]
         public void se_pueden_ver_los_proyectos()
-        {
+        { 
             proyectosL.Add(new Proyecto());
-            proyectosQ = proyectosL.AsQueryable();
-            _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosQ);
+            _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosL);
 
             var result = _pController.Get();
             var okResult = result as OkObjectResult;
 
-            Assert.AreEqual(proyectosQ, okResult.Value);
+            Assert.IsNotNull(result);
 
             _logicaP.Verify(c => c.ObtenerTodos());
         }

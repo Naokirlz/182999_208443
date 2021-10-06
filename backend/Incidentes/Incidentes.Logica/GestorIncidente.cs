@@ -83,14 +83,6 @@ namespace Incidentes.Logica
             return _repositorioGestor.RepositorioIncidente.ObtenerTodos(false);
         }
 
-        private static void ValidarLargoTexto(string texto, int largoMax, int largoMin, string campo)
-        {
-            texto = texto.Trim();
-            if (texto.Length > largoMax || texto.Length < largoMin)
-                throw new ExcepcionLargoTexto("El largo del campo " + campo + " debe ser de entre " +
-                                              largoMin.ToString() + " y " + largoMax.ToString() + " caracteres.");
-        }
-
         public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int idUsuario, string nombreProyecto, Incidente incidente)
         {
             return _repositorioGestor.RepositorioUsuario.ListaDeIncidentesDeLosProyectosALosQuePertenece(idUsuario, nombreProyecto, incidente);
