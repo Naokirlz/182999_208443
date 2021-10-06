@@ -106,7 +106,7 @@ namespace Incidentes.Logica
 
         public IEnumerable<Proyecto> ObtenerTodos()
         {
-            return _repositorioGestor.RepositorioProyecto.ObtenerTodos(false);
+            return _repositorioGestor.RepositorioProyecto.ObtenerProyectosCompleto();
         }
 
         public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto)

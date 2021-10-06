@@ -20,10 +20,11 @@ namespace Incidentes.Datos
                 .FirstOrDefault();
         }
 
-        public IQueryable<Proyecto> ObtenerProyectosConIncidentes()
+        public IQueryable<Proyecto> ObtenerProyectosCompleto()
         {
             return ContextoRepositorio.Set<Proyecto>()
-                .Include(p => p.Incidentes);
+                .Include(p => p.Incidentes)
+                .Include(p => p.Asignados);
         }
 
         public bool VerificarIncidentePerteneceAlProyecto(int idIncidente, int idProyecto)

@@ -24,9 +24,15 @@ namespace Incidentes.Datos
                .HasIndex(p => p.Id) 
                .IsUnique();
 
+
             builder.Entity<Incidente>()
                .HasIndex(i => i.Id)
                .IsUnique();
+
+            builder.Entity<Proyecto>()
+               .HasMany<Usuario>(s => s.Asignados)
+               .WithMany(c => c.proyectos);
+               
 
         }
 

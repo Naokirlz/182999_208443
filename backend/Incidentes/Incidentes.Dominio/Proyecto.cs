@@ -11,7 +11,7 @@ namespace Incidentes.Dominio
         public int Id { get; set; }
         public string Nombre { get; set; }
         public List<Incidente> Incidentes{ get; set; }
-        public List<Usuario> Asignados{ get; set; }
+        public virtual List<Usuario> Asignados{ get; set; }
 
         public Proyecto() {
             Incidentes = new List<Incidente>();

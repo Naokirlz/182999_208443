@@ -96,7 +96,7 @@ namespace Incidentes.DatosTest
         [Test]
         public void se_puede_ver_la_cantidad_de_incidentes_por_proyecto_proyecto()
         {
-            IQueryable<Proyecto> buscados = _repoGestores.RepositorioProyecto.ObtenerProyectosConIncidentes();
+            IQueryable<Proyecto> buscados = _repoGestores.RepositorioProyecto.ObtenerProyectosCompleto();
             Assert.AreEqual(1, buscados.First().Incidentes.Count());
         }
 
