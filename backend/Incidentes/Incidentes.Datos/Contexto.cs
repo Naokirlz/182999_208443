@@ -32,7 +32,6 @@ namespace Incidentes.Datos
             builder.Entity<Proyecto>()
                .HasMany<Usuario>(s => s.Asignados)
                .WithMany(c => c.proyectos);
-               
 
         }
 

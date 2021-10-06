@@ -15,6 +15,7 @@ namespace Incidentes.Dominio
         public string Version { get; set; }
         public Estado EstadoIncidente { get; set; }
         public int DesarrolladorId { get; set; }
+        public int UsuarioId { get; set; }
 
         public Incidente() { }
 
