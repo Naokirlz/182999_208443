@@ -74,10 +74,12 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_guardar_incidente()
         {
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             Incidente inc01 = gestorIncidente.Alta(incidente);
 
             Assert.AreEqual(incidente.Nombre, inc01.Nombre);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(incidente));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
@@ -100,31 +102,50 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_ver_un_incidente()
         {
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             Incidente incidente02 = gestorIncidente.Alta(incidente);
 
             Assert.AreEqual(incidente.Nombre, incidente02.Nombre);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(incidente));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
         public void alta_devuelve_una_instancia_de_incidente()
         {
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
             Incidente incidente02 = gestorIncidente.Alta(incidente);
             Assert.IsNotNull(incidente02);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(incidente));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
         public void se_puede_eliminar_un_incidente()
         {
+            Incidente incidenteD = new Incidente()
+            {
+                Id = 2,
+                Nombre = "Incidente",
+                ProyectoId = 3,
+                UsuarioId = 5
+            };
+            List<Incidente> lista = new List<Incidente>();
+            lista.Add(incidenteD);
+            IQueryable<Incidente> queryableI = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
             gestorIncidente.Baja(5);
             IQueryable<Incidente> incidentes = (IQueryable<Incidente>)gestorIncidente.ObtenerTodos();
             Assert.AreEqual(0, incidentes.Count());
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerTodos(false));
 
         }
@@ -133,10 +154,12 @@ namespace Incidentes.Logica.Test
         public void no_se_puede_modificar_un_incidente_que_no_existe()
         {
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
             Assert.Throws<ExcepcionElementoNoExiste>(() => gestorIncidente.Modificar(20, new Incidente()));
 
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
@@ -153,22 +176,26 @@ namespace Incidentes.Logica.Test
         public void no_se_puede_crear_un_incidente_con_nombre_corto()
         {
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             Assert.Throws<ExcepcionLargoTexto>(() => gestorIncidente.Alta(new Incidente()
             {
                 Nombre = "ae"
             }));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
         public void no_se_puede_crear_un_incidente_con_nombre_largo()
         {
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             Assert.Throws<ExcepcionLargoTexto>(() => gestorIncidente.Alta(new Incidente()
             {
                 Nombre = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
             }));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
@@ -302,11 +329,13 @@ namespace Incidentes.Logica.Test
             IQueryable<Incidente> queryableI = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
 
 
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Modificar(1, incidenteA));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
         }
 
@@ -329,6 +358,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre)).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
 
             Incidente modificado = gestorIncidente.Modificar(1, incidenteA);
@@ -337,6 +367,58 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+        }
+
+        [Test]
+        public void no_se_puede_dar_de_alta_a_un_incidente_si_el_usuario_no_pertenece_al__proyecto()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorIncidente.Alta(new Incidente()));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_modificar_un_incidente_si_el_usuario_no_pertenece_al__proyecto()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorIncidente.Modificar(1, new Incidente()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_resolver_un_incidente_si_el_usuario_no_pertenece_al__proyecto()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(2, It.IsAny<int>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorIncidente.Modificar(1, new Incidente() { DesarrolladorId = 2}));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(2, It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_dar_de_baja_un_incidente_si_el_usuario_no_pertenece_al__proyecto()
+        {
+            Incidente incidenteD = new Incidente()
+            {
+                Id = 2,
+                Nombre = "Incidente",
+                ProyectoId = 3,
+                UsuarioId = 5
+            };
+            List<Incidente> lista = new List<Incidente>();
+            lista.Add(incidenteD);
+            IQueryable<Incidente> queryableI = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorIncidente.Baja(2));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
         }
     }
