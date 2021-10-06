@@ -37,7 +37,7 @@ namespace Incidentes.Datos
 
         public void Alta(T entity) => ContextoRepositorio.Set<T>().Add(entity);
 
-        public void Modificar(T entity) => ContextoRepositorio.Set<T>().Update(entity);
+        public virtual void Modificar(T entity) => ContextoRepositorio.Set<T>().Update(entity);
 
         public void Eliminar(T entity) => ContextoRepositorio.Set<T>().Remove(entity);
 

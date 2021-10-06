@@ -81,7 +81,27 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Put([FromBody] Proyecto proyecto)
         {
             _logicaP.Modificar(proyecto.Id, proyecto);
-            return Ok(proyecto);
+            ProyectosDTO pro = new ProyectosDTO()
+            {
+                Id = proyecto.Id,
+                Incidentes = proyecto.Incidentes,
+                Nombre = proyecto.Nombre
+            };
+            foreach (Usuario u in proyecto.Asignados)
+            {
+                UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
+                {
+                    Apellido = u.Apellido,
+                    Email = u.Email,
+                    Id = u.Id,
+                    Nombre = u.Nombre,
+                    NombreUsuario = u.NombreUsuario,
+                    RolUsuario = u.RolUsuario
+                };
+                pro.Asignados.Add(usu);
+            }
+
+            return Ok(pro);
         }
     }
 }

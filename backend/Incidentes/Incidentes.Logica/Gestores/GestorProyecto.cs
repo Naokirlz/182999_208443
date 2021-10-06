@@ -71,22 +71,19 @@ namespace Incidentes.Logica
         public Proyecto Modificar(int id, Proyecto entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
+            bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Id == id);
+            if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
 
-            Proyecto aModificar = Obtener(id);
+            Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerProyectoPorIdCompleto(id);
 
             if(aModificar.Nombre != entity.Nombre)
             {
-                bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Nombre == entity.Nombre);
+                existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Nombre == entity.Nombre);
                 if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
                 Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Proyecto");
             }
 
-            aModificar.Nombre = entity.Nombre;
-            aModificar.Asignados = entity.Asignados;
-            aModificar.Incidentes = entity.Incidentes;
-
-            _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
-            _repositorioGestor.Save();
+            _repositorioGestor.RepositorioProyecto.Modificar(entity);
             return aModificar;
         }
 

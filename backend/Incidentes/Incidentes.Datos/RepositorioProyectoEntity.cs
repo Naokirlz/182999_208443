@@ -11,12 +11,45 @@ namespace Incidentes.Datos
         {
         }
 
+        public override void Modificar(Proyecto proyecto)
+        {
+            using (ContextoRepositorio)
+            {
+                
+
+                Proyecto aModificar = ContextoRepositorio.Set<Proyecto>()
+                                        .Where(p => p.Id == proyecto.Id)
+                                        .Include(p => p.Asignados)
+                                        .Include(p => p.Incidentes)
+                                        .FirstOrDefault();
+
+
+
+                aModificar.Incidentes = proyecto.Incidentes;
+
+                aModificar.Asignados.Clear();
+                ContextoRepositorio.SaveChanges();
+
+                foreach (Usuario usu in proyecto.Asignados)
+                {
+                    Usuario nuevo = ContextoRepositorio.Set<Usuario>().Where(u => u.Id == usu.Id).FirstOrDefault();
+                    aModificar.Asignados.Add(nuevo);
+                    ContextoRepositorio.SaveChanges();
+                }
+                ContextoRepositorio.SaveChanges();
+            }
+
+
+
+        }
+
         public Proyecto ObtenerProyectoPorIdCompleto(int id)
         {
             return ContextoRepositorio.Set<Proyecto>()
                 .Where(p => p.Id == id)
                 .Include(p => p.Asignados)
                 .Include(p => p.Incidentes)
+                .AsNoTracking()
                 .FirstOrDefault();
         }
 
@@ -30,17 +63,20 @@ namespace Incidentes.Datos
         public bool VerificarIncidentePerteneceAlProyecto(int idIncidente, int idProyecto)
         {
             Proyecto buscado = this.ObtenerProyectoPorIdCompleto(idProyecto);
-            Incidente incidente = ContextoRepositorio.Set<Incidente>().Where(i => i.Id == idIncidente).FirstOrDefault();
-
-            return buscado.Incidentes.Contains(incidente);
+            foreach (Incidente inc in buscado.Incidentes)
+                if (inc.Id == idIncidente)
+                    return true;
+            return false;
         }
 
         public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto)
         {
             Proyecto buscado = this.ObtenerProyectoPorIdCompleto(idProyecto);
-            Usuario solicitante = ContextoRepositorio.Set<Usuario>().Where(u => u.Id == idUsuario).FirstOrDefault();
+            foreach (Usuario usu in buscado.Asignados)
+                if (usu.Id == idUsuario)
+                    return true;
 
-            return buscado.Asignados.Contains(solicitante) || solicitante.RolUsuario == Usuario.Rol.Administrador;
+            return false;
         }
     }
 }

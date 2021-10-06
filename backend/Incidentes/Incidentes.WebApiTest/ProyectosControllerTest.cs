@@ -107,7 +107,7 @@ namespace Incidentes.WebApiTest
             var result = _pController.Put(p);
             var okResult = result as OkObjectResult;
 
-            Assert.AreEqual(p, okResult.Value);
+            Assert.IsNotNull(result);
 
             _logicaP.Verify(c => c.Modificar(3, It.IsAny<Proyecto>()));
         }

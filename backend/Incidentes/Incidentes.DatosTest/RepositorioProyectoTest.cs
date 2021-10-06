@@ -141,47 +141,5 @@ namespace Incidentes.DatosTest
             pertenece = _repoGestores.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(creado.Id, 1);
             Assert.IsFalse(pertenece);
         }
-
-        [Test]
-        public void se_pueden_agregar_asignados_a_un_proyecto()
-        {
-            Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
-            Usuario des = (Usuario)_repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.Id == buscado.Asignados.FirstOrDefault().Id, false).FirstOrDefault();
-            buscado.Asignados.Add(new Usuario());
-            _repoGestores.RepositorioProyecto.Modificar(buscado);
-            Proyecto nuevaCondicion = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
-            Assert.AreEqual(5, nuevaCondicion.Asignados.Count());
-        }
-
-        [Test]
-        public void se_pueden_quitar_asignados_a_un_proyecto()
-        {
-            bool pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(1, 1);
-            Assert.IsTrue(pertenece);
-            Usuario d3 = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(c => c.Id == 1, true).FirstOrDefault();
-            Proyecto p1 = _repoGestores.RepositorioProyecto.ObtenerProyectosCompleto().Where(p => p.Id == 1).FirstOrDefault();
-
-            p1.Asignados.Remove(d3);
-            _repoGestores.RepositorioProyecto.Modificar(p1);
-            DBContexto.SaveChanges();
-
-            pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(d3.Id, 1);
-            Assert.IsFalse(pertenece);
-        }
-
-        [Test]
-        public void se_pueden_borrar_un_incidente_asignados_a_un_proyecto()
-        {
-            bool pertenece = _repoGestores.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(1, 1);
-            Assert.IsTrue(pertenece);
-            Incidente ix = _repoGestores.RepositorioIncidente.ObtenerPorCondicion(c => c.Id == 1, true).FirstOrDefault();
-            Proyecto p1 = _repoGestores.RepositorioProyecto.ObtenerProyectosCompleto().Where(p => p.Id == 1).FirstOrDefault();
-
-            _repoGestores.RepositorioIncidente.Eliminar(ix);
-            DBContexto.SaveChanges();
-
-            pertenece = _repoGestores.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(1, 1);
-            Assert.IsFalse(pertenece);
-        }
     }
 }
