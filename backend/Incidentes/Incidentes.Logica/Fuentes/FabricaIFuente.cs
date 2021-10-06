@@ -1,9 +1,6 @@
 ﻿using Incidentes.DatosInterfaz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Incidentes.LogicaInterfaz;
+
 
 namespace Incidentes.Logica
 {

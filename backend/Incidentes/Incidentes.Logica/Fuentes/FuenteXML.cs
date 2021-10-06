@@ -2,6 +2,7 @@
 using Incidentes.Dominio;
 using Incidentes.Logica.DTOs;
 using Incidentes.Logica.Excepciones;
+using Incidentes.LogicaInterfaz;
 using System;
 using System.Collections.Generic;
 using System.IO;
