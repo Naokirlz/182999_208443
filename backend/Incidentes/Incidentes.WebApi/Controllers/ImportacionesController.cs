@@ -1,11 +1,11 @@
-﻿using Incidentes.LogicaInterfaz;
+﻿using Incidentes.Logica.DTOs;
+using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [TrapExcepciones]
     [ApiController]
     public class ImportacionesController : ControllerBase
     {
@@ -17,9 +17,10 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] string rutaFuente)
+        [TrapExcepciones]
+        public IActionResult Post([FromBody] FuenteDTO fuente)
         {
-            _logica.ImportarBugs(rutaFuente);
+            _logica.ImportarBugs(fuente.rutaFuente.Replace("_", "/"), fuente.usuarioId);
             return Ok();
         }
     }

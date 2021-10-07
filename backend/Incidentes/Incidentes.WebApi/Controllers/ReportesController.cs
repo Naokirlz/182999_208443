@@ -10,7 +10,6 @@ using System.Linq;
 namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [TrapExcepciones]
     [ApiController]
     public class ReportesController : ControllerBase
     {
@@ -25,6 +24,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpGet]
         [FilterAutorizacion("Administrador")]
+        [TrapExcepciones]
         public IActionResult Get()
         {
             IEnumerable<Proyecto> proyectos = _logicaP.ObtenerTodos();
@@ -42,12 +42,12 @@ namespace Incidentes.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("{id}/incidentes")]
         [FilterAutorizacion("Administrador")]
-        [Route("{id}/incidentes")]
-        public IActionResult GetDesarrollador([FromRoute] string idUsuario)
+        [TrapExcepciones]
+        public IActionResult GetDesarrollador(string id)
         {
-            Usuario usuario = _logicaU.Obtener(Int32.Parse(idUsuario));
+            Usuario usuario = _logicaU.Obtener(Int32.Parse(id));
             int cantidad = _logicaU.CantidadDeIncidentesResueltosPorUnDesarrollador(usuario.Id);
             UsuarioParaReporteDTO user = new UsuarioParaReporteDTO() { 
                 Nombre = usuario.Nombre,

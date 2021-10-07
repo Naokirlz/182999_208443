@@ -38,9 +38,6 @@ namespace Incidentes.Datos
                 }
                 ContextoRepositorio.SaveChanges();
             }
-
-
-
         }
 
         public Proyecto ObtenerProyectoPorIdCompleto(int id)

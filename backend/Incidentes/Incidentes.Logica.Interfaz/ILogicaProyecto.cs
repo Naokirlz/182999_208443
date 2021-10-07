@@ -10,7 +10,7 @@ namespace Incidentes.LogicaInterfaz
 
         public void AgregarDesarrolladorAProyecto(List<int> idsUsuarios, int idProyecto);
         public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto);
-        public void ImportarBugs(string rutaFuente);
+        public void ImportarBugs(string rutaFuente, int usuarioId);
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario);
         public Proyecto ObtenerParaUsuario(int idUsuario, int idProyecto);
     }

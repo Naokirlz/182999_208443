@@ -13,10 +13,11 @@ namespace Incidentes.Logica
     {
         IRepositorioGestores _repositorioGestor;
         private string _rutaFuente { get; set; }
+        private int _usuarioId { get; set; }
 
         private const string elemento_no_existe = "El elemento no existe";
 
-        public FuenteTXT(IRepositorioGestores repositorioGestores, string rutaFuente)
+        public FuenteTXT(IRepositorioGestores repositorioGestores, string rutaFuente, int usuarioId)
         {
             if (!File.Exists(rutaFuente))
             {
@@ -24,6 +25,7 @@ namespace Incidentes.Logica
             }
             _repositorioGestor = repositorioGestores;
             _rutaFuente = rutaFuente;
+            _usuarioId = usuarioId;
         }
 
         public void ImportarBugs()
@@ -48,7 +50,8 @@ namespace Incidentes.Logica
                 {
                     Nombre = nombreIncidente,
                     Descripcion = descripcionIncidente,
-                    Version = versionIncidente
+                    Version = versionIncidente,
+                    UsuarioId = _usuarioId
                 };
                 if (estadoIncidente.Equals("Activo"))
                 {

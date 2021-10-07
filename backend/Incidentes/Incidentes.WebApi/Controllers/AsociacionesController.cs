@@ -12,7 +12,6 @@ using System.Linq;
 namespace Incidentes.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [TrapExcepciones]
     [ApiController]
     public class AsociacionesController : ControllerBase
     {
@@ -27,6 +26,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpGet("{id}/proyectos")]
         [FilterAutorizacion("Desarrollador", "Tester")]
+        [TrapExcepciones]
         public IActionResult GetProyectos(string id)
         {
             List<Proyecto> result = _logicaP.ListaDeProyectosALosQuePertenece(Int32.Parse(id)).ToList();
@@ -59,6 +59,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpGet("{id}/proyecto")]
         [FilterAutorizacion("Desarrollador", "Tester")]
+        [TrapExcepciones]
         public IActionResult GetProyecto(string id, [FromQuery] int idProyecto)
         {
             Proyecto result = _logicaP.ObtenerParaUsuario(Int32.Parse(id), idProyecto);
@@ -84,26 +85,34 @@ namespace Incidentes.WebApi.Controllers
             return Ok(pro);
         }
 
-        [HttpGet]
+        [HttpGet("{id}/incidente")]
         [FilterAutorizacion("Desarrollador", "Tester")]
-        [Route("{id}/incidente")]
-        public IActionResult GetIncidente([FromRoute] string idUsuario, [FromQuery] int idIncidente)
+        [TrapExcepciones]
+        public IActionResult GetIncidente(string id, [FromQuery] int idIncidente)
         {
-            Incidente result = _logicaI.ObtenerParaUsuario(Int32.Parse(idUsuario), idIncidente);
+            Incidente result = _logicaI.ObtenerParaUsuario(Int32.Parse(id), idIncidente);
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("{id}/incidentes")]
         [FilterAutorizacion("Desarrollador", "Tester")]
-        [Route("{id}/incidentes")]
-        public IActionResult GetIncidentes([FromRoute] string idUsuario, [FromQuery] string nombreProyecto = null, Incidente incidente = null)
+        [TrapExcepciones]
+        public IActionResult GetIncidentes(string id, [FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
         {
-            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(idUsuario), nombreProyecto, incidente);
+            Incidente incidente = new Incidente()
+            {
+                Nombre = nombreIncidente
+            };
+            if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Activo;
+            if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Resuelto;
+
+            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(id), nombreProyecto, incidente);
             return Ok(result);
         }
 
         [HttpPost]
         [FilterAutorizacion("Administrador")]
+        [TrapExcepciones]
         public IActionResult Post([FromBody] AsignacionesDTO asignaciones)
         {
             _logicaP.AgregarDesarrolladorAProyecto(asignaciones.UsuarioId, asignaciones.ProyectoId);

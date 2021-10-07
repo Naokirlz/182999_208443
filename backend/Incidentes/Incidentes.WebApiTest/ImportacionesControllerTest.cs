@@ -1,4 +1,5 @@
-﻿using Incidentes.LogicaInterfaz;
+﻿using Incidentes.Logica.DTOs;
+using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Moq;
 using NUnit.Framework;
@@ -27,13 +28,16 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_importar_bugs()
         {
-            _logicaP.Setup(c => c.ImportarBugs(It.IsAny<string>()));
-
-            var result = _iController.Post("ruta");
+            _logicaP.Setup(c => c.ImportarBugs(It.IsAny<string>(), It.IsAny<int>()));
+            FuenteDTO fuente = new FuenteDTO() { 
+                rutaFuente = "ruta",
+                usuarioId = 5
+            };
+            var result = _iController.Post(fuente);
 
             Assert.IsNotNull(result);
 
-            _logicaP.Verify(c => c.ImportarBugs(It.IsAny<string>()));
+            _logicaP.Verify(c => c.ImportarBugs(It.IsAny<string>(), It.IsAny<int>()));
         }
     }
 }

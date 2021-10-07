@@ -321,7 +321,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioIncidente.Alta(It.IsAny<Incidente>()));
 
 
-            gestorProyecto.ImportarBugs(rutaFuenteXML);
+            gestorProyecto.ImportarBugs(rutaFuenteXML, 5);
 
             int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
@@ -338,7 +338,7 @@ namespace Incidentes.Logica.Test
         public void no_se_pueden_cargar_incidentes_a_un_proyecto_si_no_existe_archivo_xml()
         {
             string rutaFuenteXML = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\NoExiste.xml";
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.ImportarBugs(rutaFuenteXML));
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.ImportarBugs(rutaFuenteXML, 5));
         }
 
         [Test]
@@ -366,7 +366,7 @@ namespace Incidentes.Logica.Test
                 .Returns(proyecto.Incidentes);
 
 
-            gestorProyecto.ImportarBugs(rutaFuenteTXT);
+            gestorProyecto.ImportarBugs(rutaFuenteTXT, 5);
 
             int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
 
@@ -383,7 +383,7 @@ namespace Incidentes.Logica.Test
         public void no_se_pueden_cargar_incidentes_a_un_proyecto_si_no_existe_archivo_texto()
         {
             string rutaFuenteTXT = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\NoExiste.txt";
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.ImportarBugs(rutaFuenteTXT));
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.ImportarBugs(rutaFuenteTXT, 5));
         }
 
         [Test]

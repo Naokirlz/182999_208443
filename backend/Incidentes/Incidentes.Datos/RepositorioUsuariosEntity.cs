@@ -28,7 +28,7 @@ namespace Incidentes.Datos
 
             foreach(Proyecto p in proyectos)
             {
-                if (p.Nombre.Contains(proyecto))
+                if (proyecto == null || p.Nombre.Contains(proyecto))
                 {
                     foreach (Incidente i in p.Incidentes)
                     {

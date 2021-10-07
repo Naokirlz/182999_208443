@@ -103,9 +103,9 @@ namespace Incidentes.Logica
             return _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto);
         }
 
-        public void ImportarBugs(string rutaFuente)
+        public void ImportarBugs(string rutaFuente, int usuarioId)
         {
-            IFuente fuente = FabricaIFuente.FabricarIFuente(_repositorioGestor, rutaFuente);
+            IFuente fuente = FabricaIFuente.FabricarIFuente(_repositorioGestor, rutaFuente, usuarioId);
             fuente.ImportarBugs();
         }
 

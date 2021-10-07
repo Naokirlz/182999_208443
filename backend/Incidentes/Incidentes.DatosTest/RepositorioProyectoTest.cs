@@ -3,12 +3,14 @@ using Incidentes.Datos;
 using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Incidentes.DatosTest
 {
     public class RepositorioProyectoTest : RepositorioBaseTest
     {
         IRepositorioGestores _repoGestores;
+
         [SetUp]
         public void Setup()
         {
@@ -119,9 +121,47 @@ namespace Incidentes.DatosTest
             DBContexto.Add(d3);
             DBContexto.SaveChanges();
 
-            //Usuario u3 = _repoGestores.RepositorioUsuario.ObtenerPorCondicion(u => u.NombreUsuario == d3.NombreUsuario, false).FirstOrDefault();
             pertenece = _repoGestores.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(d3.Id, 1);
             Assert.IsFalse(pertenece);
+        }
+
+        [Test]
+        public void se_puede_modificar_un_proyecto()
+        {
+            /*Usuario d3 = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martind3@gmail.com",
+                NombreUsuario = "martincosad3",
+                RolUsuario = Usuario.Rol.Desarrollador,
+                Token = ""
+            };
+            DBContexto.Add(d3);
+            DBContexto.SaveChanges();
+            Usuario d4 = new Usuario()
+            {
+                Id = d3.Id,
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                Email = "martind3@gmail.com",
+                NombreUsuario = "martincosad3",
+                RolUsuario = Usuario.Rol.Desarrollador,
+                Token = ""
+            };
+
+
+            Proyecto p1 = new Proyecto()
+            {
+                Id = 1,
+                Nombre = "Nombre de un proyecto",
+                Asignados = new List<Usuario>() { d4 }
+            };
+
+            _repoGestores.RepositorioProyecto.Modificar(p1);
+            Assert.IsNotNull(p1);*/
         }
 
         [Test]
