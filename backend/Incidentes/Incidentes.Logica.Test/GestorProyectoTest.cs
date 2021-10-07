@@ -182,26 +182,40 @@ namespace Incidentes.Logica.Test
             IQueryable<Proyecto> queryableP = lista.AsQueryable();
 
             List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Usuario());
+            listaU.Add(new Usuario() { Id = 9});
             IQueryable<Usuario> queryableU = listaU.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
             repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>())).Returns(proyecto);
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), true)).Returns(queryableU);
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), It.IsAny<bool>())).Returns(queryableU);
+
+            List<int> listaInt = new List<int>();
+            listaInt.Add(2);
+            listaInt.Add(5);
+            listaInt.Add(9);
+
+            gestorProyecto.AgregarDesarrolladorAProyecto(listaInt, proyecto.Id);
+
+            Assert.IsNotNull(proyecto);
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>()));
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), It.IsAny<bool>()));
+        }
+
+        [Test]
+        public void no_se_pueden_asignar_usuarios_a_un_proyecto_que_no_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
 
             List<int> listaInt = new List<int>();
             listaInt.Add(2);
             listaInt.Add(5);
             listaInt.Add(8);
 
-            gestorProyecto.AgregarDesarrolladorAProyecto(listaInt, proyecto.Id);
-
-            Assert.Pass();
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.AgregarDesarrolladorAProyecto(listaInt, 9));
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>()));
-            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), true));
         }
 
         [Test]

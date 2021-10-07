@@ -346,7 +346,13 @@ namespace Incidentes.Logica.Test
             Incidente incidenteA = new Incidente()
             {
                 Id = 2,
-                Nombre = "Incidente2"
+                Nombre = "Incidente2",
+                DesarrolladorId = 5,
+                Descripcion = "nueva Desc",
+                EstadoIncidente = Incidente.Estado.Resuelto,
+                ProyectoId = 5,
+                UsuarioId = 8,
+                Version = "2.0"
             };
             List<Incidente> lista = new List<Incidente>();
             lista.Add(incidenteD);
@@ -355,6 +361,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre)).Returns(false);
             repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
             Incidente modificado = gestorIncidente.Modificar(1, incidenteA);
 
@@ -362,6 +369,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre));
+            repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
         }
 

@@ -26,7 +26,7 @@ namespace Incidentes.Logica
         {
             bool existeProyecto =_repositorioGestor.RepositorioProyecto.Existe(p => p.Id == idProyecto);
             if (!existeProyecto)
-                throw new ExcepcionElementoNoExiste(elemento_no_existe);
+                throw new ExcepcionElementoNoExiste(elemento_no_existe); 
             List<Usuario> asignados = new List<Usuario>();
             foreach(int idUsu in idsUsuarios)
             {

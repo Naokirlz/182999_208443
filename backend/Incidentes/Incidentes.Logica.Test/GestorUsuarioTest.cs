@@ -130,6 +130,18 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
+        public void no_se_puede_loguear_un_usuario_que_no_existe()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            IQueryable<Usuario> queryableUsuarios = lista.AsQueryable();
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), It.IsAny <bool>())).Returns(queryableUsuarios);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.Login("ssss","ssss"));
+
+            repoGestores.Verify(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), It.IsAny<bool>()));
+        }
+
+        [Test]
         public void se_puede_guardar_desarrollador()
         {
             Usuario desarrollador1 = new Usuario()
