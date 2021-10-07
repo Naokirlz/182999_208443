@@ -19,6 +19,9 @@ namespace Incidentes.WebApiTest
         private IQueryable<Proyecto> proyectosQ;
         private List<Proyecto> proyectosL;
         private List<Incidente> incidentesL;
+        private Usuario u;
+        private Incidente i;
+        private Proyecto p;
 
         [SetUp]
         public void Setup()
@@ -28,6 +31,32 @@ namespace Incidentes.WebApiTest
             _aController = new AsociacionesController(_logicaP.Object, _logicaI.Object);
             proyectosL = new List<Proyecto>();
             incidentesL = new List<Incidente>();
+            i = new Incidente()
+            {
+                Id = 3,
+                Version = "2.0",
+                UsuarioId = 1,
+                DesarrolladorId = 5,
+                Descripcion = "descripcion",
+                EstadoIncidente = Incidente.Estado.Resuelto,
+                Nombre = "Nombre",
+                ProyectoId = 7
+            };
+            u = new Usuario()
+            {
+                Nombre = "sssss",
+                Id = 9,
+                Apellido = "aaaaaaa",
+                Email = "ssasssa@asdasda.com",
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
+            p = new Proyecto()
+            {
+                Nombre = "Proyecto",
+                Id = 7,
+                Incidentes = new List<Incidente>() { i },
+                Asignados = new List<Usuario>() { u }
+            };
         }
 
         [TearDown]
@@ -39,18 +68,21 @@ namespace Incidentes.WebApiTest
             proyectosQ = null;
             proyectosL = null;
             incidentesL = null;
+            u = null;
+            i = null;
+            p = null;
         }
 
         [Test]
         public void se_pueden_ver_los_proyectos_de_un_usuario()
         {
-            proyectosL.Add(new Proyecto());
+            proyectosL.Add(p);
             proyectosQ = proyectosL.AsQueryable();
             _logicaP.Setup(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(proyectosQ);
 
-            var result = _aController.GetProyectos("1");
+            var result = _aController.GetProyectos("7");
             var okResult = result as OkObjectResult;
-
+             
             Assert.IsNotNull(result);
 
             _logicaP.Verify(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
@@ -59,7 +91,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_los_incidentes_de_los_proyectos_de_un_usuario()
         {
-            incidentesL.Add(new Incidente());
+            incidentesL.Add(i);
             _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>())).Returns(incidentesL);
 
             var result = _aController.GetIncidentes("1",null,null);
@@ -73,7 +105,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_un_proyecto_de_un_usuario()
         {
-            _logicaP.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(new Proyecto());
+            _logicaP.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(p);
 
             var result = _aController.GetProyecto("1", 1);
 
@@ -85,7 +117,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_un_incidente_de_un_usuario()
         {
-            _logicaI.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(new Incidente());
+            _logicaI.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(i);
 
             var result = _aController.GetIncidente("1", 1);
 

@@ -13,6 +13,9 @@ namespace Incidentes.WebApiTest
         private Mock<ILogicaProyecto> _logicaP;
         private ProyectosController _pController;
         private List<Proyecto> proyectosL;
+        private Usuario u;
+        private Incidente i;
+        private Proyecto p;
 
         [SetUp]
         public void Setup()
@@ -20,6 +23,32 @@ namespace Incidentes.WebApiTest
             _logicaP = new Mock<ILogicaProyecto>();
             _pController = new ProyectosController(_logicaP.Object);
             proyectosL = new List<Proyecto>();
+            i = new Incidente()
+            {
+                Id = 3,
+                Version = "2.0",
+                UsuarioId = 1,
+                DesarrolladorId = 5,
+                Descripcion = "descripcion",
+                EstadoIncidente = Incidente.Estado.Resuelto,
+                Nombre = "Nombre",
+                ProyectoId = 7
+            };
+            u = new Usuario()
+            {
+                Nombre = "sssss",
+                Id = 9,
+                Apellido = "aaaaaaa",
+                Email = "ssasssa@asdasda.com",
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
+            p = new Proyecto()
+            {
+                Nombre = "Proyecto",
+                Id = 7,
+                Incidentes = new List<Incidente>() { i },
+                Asignados = new List<Usuario>() { u }
+            };
         }
 
         [TearDown]
@@ -28,6 +57,9 @@ namespace Incidentes.WebApiTest
             _logicaP = null;
             _pController = null;
             proyectosL = null;
+            u = null;
+            i = null;
+            p = null;
         }
 
         [Test]
@@ -96,20 +128,14 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_actualizar_un_proyecto()
         {
-            Proyecto p = new Proyecto()
-            {
-                Id = 3,
-                Nombre = "proyecto"
-            };
-
-            _logicaP.Setup(c => c.Modificar(3, p)).Returns(p);
+            _logicaP.Setup(c => c.Modificar(It.IsAny<int>(), It.IsAny<Proyecto>())).Returns(p);
 
             var result = _pController.Put(p);
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
 
-            _logicaP.Verify(c => c.Modificar(3, It.IsAny<Proyecto>()));
+            _logicaP.Verify(c => c.Modificar(It.IsAny<int>(), It.IsAny<Proyecto>()));
         }
 
         [Test]
