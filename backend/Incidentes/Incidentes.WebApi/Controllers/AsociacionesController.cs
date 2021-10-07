@@ -59,7 +59,6 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpGet("{id}/proyecto")]
         [FilterAutorizacion("Desarrollador", "Tester")]
-        //[Route("{id}/proyecto")]
         public IActionResult GetProyecto(string id, [FromQuery] int idProyecto)
         {
             Proyecto result = _logicaP.ObtenerParaUsuario(Int32.Parse(id), idProyecto);

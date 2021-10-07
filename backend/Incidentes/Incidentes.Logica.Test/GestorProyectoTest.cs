@@ -123,16 +123,14 @@ namespace Incidentes.Logica.Test
             lista.Add(proyectoD);
             IQueryable<Proyecto> queryableP = lista.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectosCompleto()).Returns(queryableP);
 
             Proyecto encontrado = gestorProyecto.ObtenerParaUsuario(1, 2);
 
             Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
-            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectosCompleto());
         }
 
         [Test]
@@ -176,7 +174,8 @@ namespace Incidentes.Logica.Test
             Proyecto proyecto = new Proyecto()
             {
                 Id = 3,
-                Nombre = "Proyecto1"
+                Nombre = "Proyecto1",
+                Asignados = new List<Usuario>() { new Usuario(), new Usuario(), new Usuario()}
             };
             List<Proyecto> lista = new List<Proyecto>();
             lista.Add(proyecto);
@@ -188,7 +187,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>())).Returns(proyecto);
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), true)).Returns(queryableU);
 
             List<int> listaInt = new List<int>();
@@ -198,10 +197,10 @@ namespace Incidentes.Logica.Test
 
             gestorProyecto.AgregarDesarrolladorAProyecto(listaInt, proyecto.Id);
 
-            Assert.AreEqual(3, proyecto.Asignados.Count());
+            Assert.Pass();
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
             repoGestores.Verify(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>()));
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), true));
         }
 

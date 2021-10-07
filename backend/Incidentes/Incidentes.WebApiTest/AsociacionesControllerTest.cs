@@ -45,12 +45,13 @@ namespace Incidentes.WebApiTest
         public void se_pueden_ver_los_proyectos_de_un_usuario()
         {
             proyectosL.Add(new Proyecto());
+            proyectosQ = proyectosL.AsQueryable();
             _logicaP.Setup(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(proyectosQ);
 
             var result = _aController.GetProyectos("1");
             var okResult = result as OkObjectResult;
 
-            Assert.AreEqual(proyectosQ, okResult.Value);
+            Assert.IsNotNull(result);
 
             _logicaP.Verify(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
         }

@@ -118,7 +118,9 @@ namespace Incidentes.Logica
         {
             if (!VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto))
                 throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
-            return ObtenerTodos().Where(c => c.Id == idProyecto).FirstOrDefault();
+            IEnumerable<Proyecto> proyectos = ObtenerTodos();
+            Proyecto proyecto = proyectos.Where(c => c.Id == idProyecto).FirstOrDefault();
+            return proyecto;
         }
     }
 }
