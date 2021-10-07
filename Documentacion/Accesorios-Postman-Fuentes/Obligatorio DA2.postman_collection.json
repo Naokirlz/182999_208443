@@ -1,0 +1,1769 @@
+{
+	"info": {
+		"_postman_id": "d77caa83-95c3-4565-917a-11ee1c30f5b3",
+		"name": "Obligatorio DA2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Un tester se puede loguear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"NombreUsuario\": \"martincosat6\",\r\n    \"Contrasenia\": \"Casa#Blanca\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario para probar login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"NombreUsuario\": \"martincosat66\",\r\n    \"Contrasenia\": \"Casa#Blanca\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario para probar logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Token\": \"vzp9L$tp3Z7#YBeVk0FD2Pp^PmcJbPa&\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador se puede loguear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"NombreUsuario\": \"martincosad6\",\r\n    \"Contrasenia\": \"Casa#Blanca\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador se puede loguear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"NombreUsuario\": \"federico\",\r\n    \"Contrasenia\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Un administrador puede crear un desarrollador",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Martin\",\r\n    \"Apellido\": \"Cosas\",\r\n    \"Contrasenia\": \"Casa#Blanca\",\r\n    \"RolUsuario\": 1,\r\n    \"Email\": \"martind7@gmail.com\",\r\n    \"NombreUsuario\": \"martincosad7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador no puede crear un tester",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "e%7z%*GCtLH8CWOs*2zcg2K1Ypo!bd@f",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Martin\",\r\n    \"Apellido\": \"Cosas\",\r\n    \"Contrasenia\": \"Casa#Blanca\",\r\n    \"RolUsuario\": 1,\r\n    \"Email\": \"martint55@gmail.com\",\r\n    \"NombreUsuario\": \"martincosat55\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede crear un tester",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Martin\",\r\n    \"Apellido\": \"Cosas\",\r\n    \"Contrasenia\": \"Casa#Blanca\",\r\n    \"RolUsuario\": 2,\r\n    \"Email\": \"martint66@gmail.com\",\r\n    \"NombreUsuario\": \"martincosat66\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede ver los usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester no puede ver los usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "m*153QLJM0yL4zmWK$a@TJ1FLha27Yz2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede ver un usuario",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Usuarios/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Proyectos",
+			"item": [
+				{
+					"name": "Un administrador puede crear un proyecto",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Nuevo Proyecto 78\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede modificar un proyecto",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 3,\r\n        \"nombre\": \"Nuevo Proyecto 2\",\r\n        \"incidentes\": [\r\n            {\r\n                \"id\": 4,\r\n                \"nombre\": \"Nuevo Incidente 1\",\r\n                \"proyectoId\": 3,\r\n                \"descripcion\": \"Descripcion de un incidente\",\r\n                \"version\": \"1.2\",\r\n                \"estadoIncidente\": 1,\r\n                \"desarrolladorId\": 0,\r\n                \"usuarioId\": 0\r\n            }\r\n        ],\r\n        \"asignados\": [\r\n    {\r\n        \"id\": 11,\r\n        \"nombreUsuario\": \"martincosad4\",\r\n        \"nombre\": \"Martin\",\r\n        \"apellido\": \"Cosas\",\r\n        \"contrasenia\": \"Casa#Blanca\",\r\n        \"email\": \"martind4@gmail.com\",\r\n        \"token\": null,\r\n        \"rolUsuario\": 1,\r\n        \"proyectos\": null\r\n    },{\r\n                \"id\": 3,\r\n        \"nombreUsuario\": \"martincosat1\",\r\n        \"nombre\": \"Martin\",\r\n        \"apellido\": \"Cosas\",\r\n        \"contrasenia\": \"Casa#Blanca\",\r\n        \"email\": \"martint1@gmail.com\",\r\n        \"token\": null,\r\n        \"rolUsuario\": 2,\r\n        \"proyectos\": null\r\n    }\r\n        ]\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede ver los proyectos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador no puede ver todos los proyectos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "e%7z%*GCtLH8CWOs*2zcg2K1Ypo!bd@f",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede ver un proyecto",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede eliminar un proyecto",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador no puede crear un proyecto",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "e%7z%*GCtLH8CWOs*2zcg2K1Ypo!bd@f",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Nuevo Proyecto Desarrollo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester no puede crear un proyecto",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "m*153QLJM0yL4zmWK$a@TJ1FLha27Yz2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Nuevo Proyecto Tester\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Proyectos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Incidentes",
+			"item": [
+				{
+					"name": "Un tester puede crear un incidente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "Do*uEDc&lD1!3Sz*DrZOLX*sd*HURCC!",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Nuevo Incidente 55\",\r\n    \"ProyectoId\": 4,\r\n    \"Descripcion\": \"Descripcion de un incidente\",\r\n    \"Version\": \"1.2\",\r\n    \"EstadoIncidente\": 1,\r\n    \"UsuarioId\": 17\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester puede modificar un incidente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "zW7Q7g4Lj@lLAemgD9z65MSNt^zYr49^",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Nuevo Incidente 599\",\r\n    \"ProyectoId\": 4,\r\n    \"Descripcion\": \"Descripcion de un incidente\",\r\n    \"Version\": \"1.2\",\r\n    \"Id\": 19,\r\n    \"EstadoIncidente\": 1,\r\n    \"UsuarioId\": 17\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester puede eliminar un incidente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "zW7Q7g4Lj@lLAemgD9z65MSNt^zYr49^",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 19\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador no puede crear un incidente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "e%7z%*GCtLH8CWOs*2zcg2K1Ypo!bd@f",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Nuevo Incidente Desarrollador\",\r\n    \"ProyectoId\": 4,\r\n    \"Descripcion\": \"Descripcion de un incidente\",\r\n    \"Version\": \"1.2\",\r\n    \"EstadoIncidente\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede crear un incidente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Nombre\": \"Nuevo Incidente 9\",\r\n    \"ProyectoId\": 4,\r\n    \"Descripcion\": \"Descripcion de un incidente\",\r\n    \"Version\": \"1.2\",\r\n    \"EstadoIncidente\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede ver todos los incidentes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador no puede ver todos los incidentes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "e%7z%*GCtLH8CWOs*2zcg2K1Ypo!bd@f",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester no puede ver todos los incidentes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "m*153QLJM0yL4zmWK$a@TJ1FLha27Yz2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede ver un los incidente",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Incidentes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Incidentes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estados",
+			"item": [
+				{
+					"name": "Un desarrollador no puede resolver un incidenteal que no pertenece al proyecto",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "e%7z%*GCtLH8CWOs*2zcg2K1Ypo!bd@f",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 5,\r\n    \"Nombre\": \"Nuevo Incidente Desarrollador\",\r\n    \"ProyectoId\": 4,\r\n    \"Descripcion\": \"Descripcion de un incidente\",\r\n    \"Version\": \"1.2\",\r\n    \"EstadoIncidente\": 2,\r\n    \"DesarrolladorId\": 13\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Estados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Estados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador puede resolver un incidente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "e%7z%*GCtLH8CWOs*2zcg2K1Ypo!bd@f",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 10,\r\n    \"Nombre\": \"Nuevo Incidente Desarrollador\",\r\n    \"ProyectoId\": 4,\r\n    \"Descripcion\": \"Descripcion de un incidente\",\r\n    \"Version\": \"1.2\",\r\n    \"EstadoIncidente\": 2,\r\n    \"DesarrolladorId\": 16\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Estados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Estados"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Asociaciones",
+			"item": [
+				{
+					"name": "Un desarrollador puede ver los proyectos a los que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "wHcEM3Tpt&&gh7Hk$EnlN!A%XgV3bYS3",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/13/proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"13",
+								"proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador puede ver los incidentes a los que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "iIPw*3heyM1Q&hn4^TTcWqjDWf7DCuow",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/16/incidentes?nombreProyecto=Pro&nombreIncidente=ncid&estadoIncidente=Ac",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"16",
+								"incidentes"
+							],
+							"query": [
+								{
+									"key": "nombreProyecto",
+									"value": "Pro"
+								},
+								{
+									"key": "nombreIncidente",
+									"value": "ncid"
+								},
+								{
+									"key": "estadoIncidente",
+									"value": "Ac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester puede ver los incidentes a los que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "Do*uEDc&lD1!3Sz*DrZOLX*sd*HURCC!",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/16/incidentes?nombreProyecto=Pro&nombreIncidente=ncid&estadoIncidente=Ac",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"16",
+								"incidentes"
+							],
+							"query": [
+								{
+									"key": "nombreProyecto",
+									"value": "Pro"
+								},
+								{
+									"key": "nombreIncidente",
+									"value": "ncid"
+								},
+								{
+									"key": "estadoIncidente",
+									"value": "Ac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester puede ver un incidente al que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "Do*uEDc&lD1!3Sz*DrZOLX*sd*HURCC!",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/17/incidente?idIncidente=19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"17",
+								"incidente"
+							],
+							"query": [
+								{
+									"key": "idIncidente",
+									"value": "19"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador puede ver un incidente al que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "ePJ$mTUyLb5@DJhHOU%5uR*X2z%h@pn6",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/16/incidente?idIncidente=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"16",
+								"incidente"
+							],
+							"query": [
+								{
+									"key": "idIncidente",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester puede ver los proyectos a los que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "Do*uEDc&lD1!3Sz*DrZOLX*sd*HURCC!",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/13/proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"13",
+								"proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un desarrollador puede ver un proyectos al que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "wHcEM3Tpt&&gh7Hk$EnlN!A%XgV3bYS3",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/13/proyecto?idProyecto=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"13",
+								"proyecto"
+							],
+							"query": [
+								{
+									"key": "idProyecto",
+									"value": "4"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un tester puede ver un proyectos al que pertenece",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "Do*uEDc&lD1!3Sz*DrZOLX*sd*HURCC!",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones/13/proyecto?idProyecto=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones",
+								"13",
+								"proyecto"
+							],
+							"query": [
+								{
+									"key": "idProyecto",
+									"value": "4"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede asociar usuarios a un proyecto",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"UsuarioId\": [17,16,5,8],\r\n    \"ProyectoId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Asociaciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Asociaciones"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reportes",
+			"item": [
+				{
+					"name": "Un administrador puede ver los proyectos con la cantidad de incidentes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "autorizacion",
+								"value": "zW7Q7g4Lj@lLAemgD9z65MSNt^zYr49^",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Reportes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Reportes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un administrador puede ver un desarrollador con la cantidad de incidentes resueltos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "autorizacion",
+								"value": "yfnZSsVKkaaaaaao5nYJWnBuM5$012WR",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Reportes/16/incidentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Reportes",
+								"16",
+								"incidentes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Importaciones",
+			"item": [
+				{
+					"name": "Se pueden importar archivos XML",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rutaFuente\": \"C:_Users_FedericoAlonso_Desktop_FuenteXML.xml\",\r\n    \"usuarioId\": 17\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Importaciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Importaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Se pueden importar archivos TXT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rutaFuente\": \"C:_Users_FedericoAlonso_Desktop_FuenteTXT.txt\",\r\n    \"usuarioId\": 17\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Importaciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Importaciones"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
