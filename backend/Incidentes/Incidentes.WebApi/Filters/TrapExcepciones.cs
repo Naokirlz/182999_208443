@@ -19,15 +19,15 @@ namespace Incidentes.WebApi.Filters
             }
             else if (type == typeof(ExcepcionArgumentoNoValido))
             {
-                statusCode = 400; 
+                statusCode = 422; 
             }
             else if (type == typeof(ExcepcionElementoNoExiste))
             {
-                statusCode = 400; 
+                statusCode = 409; 
             }
             else if (type == typeof(ExcepcionLargoTexto))
             {
-                statusCode = 400; 
+                statusCode = 422; 
             }
             else
             {

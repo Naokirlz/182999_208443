@@ -103,7 +103,7 @@ namespace Incidentes.DatosTest
         [Test]
         public void se_pueden_obtener_todos()
         {
-            var buscados = _repoGestores.RepositorioUsuario.ObtenerTodos(false);
+            var buscados = _repoGestores.RepositorioUsuario.ObtenerTodos(true);
             Assert.AreEqual(4, buscados.Count());
         }
 
