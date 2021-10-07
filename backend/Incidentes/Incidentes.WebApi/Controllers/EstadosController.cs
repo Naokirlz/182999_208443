@@ -26,6 +26,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 Id = incidente.Id,
                 EstadoIncidente = Incidente.Estado.Resuelto,
+                ProyectoId = incidente.ProyectoId,
                 DesarrolladorId = incidente.DesarrolladorId
             };
             _logicaI.Modificar(incidente.Id, aResolver);

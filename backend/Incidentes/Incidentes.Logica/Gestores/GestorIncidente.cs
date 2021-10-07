@@ -51,30 +51,33 @@ namespace Incidentes.Logica
         public Incidente Modificar(int id, Incidente entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
-            bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.UsuarioId, entity.ProyectoId);
-            if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            if (entity.UsuarioId != 0)
+            {
+                bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.UsuarioId, entity.ProyectoId);
+                if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            }
             if(entity.DesarrolladorId != 0)
             {
-                pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.DesarrolladorId, entity.ProyectoId);
+                bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.DesarrolladorId, entity.ProyectoId);
                 if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
             }
 
             Incidente aModificar = Obtener(id);
 
-            if (aModificar.Nombre != entity.Nombre)
+            if (aModificar.Nombre != entity.Nombre && entity.Nombre != null)
             {
                 bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
                 if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
                 Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
             }
 
-            aModificar.Nombre = entity.Nombre;
-            aModificar.EstadoIncidente = entity.EstadoIncidente;
-            aModificar.ProyectoId = entity.ProyectoId;
-            aModificar.Version = entity.Version;
-            aModificar.UsuarioId = entity.UsuarioId;
-            aModificar.Descripcion = entity.Descripcion;
-            aModificar.DesarrolladorId = entity.DesarrolladorId;
+            if (entity.Nombre != null) aModificar.Nombre = entity.Nombre;
+            if (entity.EstadoIncidente != Incidente.Estado.Indiferente) aModificar.EstadoIncidente = entity.EstadoIncidente;
+            if (entity.ProyectoId != 0) aModificar.ProyectoId = entity.ProyectoId;
+            if (entity.Version != null) aModificar.Version = entity.Version;
+            if (entity.UsuarioId != 0) aModificar.UsuarioId = entity.UsuarioId;
+            if (entity.Descripcion != null) aModificar.Descripcion = entity.Descripcion;
+            if (entity.DesarrolladorId != 0) aModificar.DesarrolladorId = entity.DesarrolladorId;
            
 
             _repositorioGestor.RepositorioIncidente.Modificar(aModificar);

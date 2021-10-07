@@ -25,22 +25,64 @@ namespace Incidentes.WebApi.Controllers
             _logicaI = logicaI;
         }
 
-        [HttpGet]
+        [HttpGet("{id}/proyectos")]
         [FilterAutorizacion("Desarrollador", "Tester")]
-        [Route("{id}/proyectos")]
-        public IActionResult GetProyectos([FromRoute] string idUsuario)
+        public IActionResult GetProyectos(string id)
         {
-            IQueryable<Proyecto> result = _logicaP.ListaDeProyectosALosQuePertenece(Int32.Parse(idUsuario));
-            return Ok(result);
+            List<Proyecto> result = _logicaP.ListaDeProyectosALosQuePertenece(Int32.Parse(id)).ToList();
+            List<ProyectosDTO> proyectos = new List<ProyectosDTO>();
+            foreach (Proyecto p in result)
+            {
+                ProyectosDTO pro = new ProyectosDTO()
+                {
+                    Id = p.Id,
+                    Incidentes = p.Incidentes,
+                    Nombre = p.Nombre
+                };
+                foreach (Usuario u in p.Asignados)
+                {
+                    UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
+                    {
+                        Apellido = u.Apellido,
+                        Email = u.Email,
+                        Id = u.Id,
+                        Nombre = u.Nombre,
+                        NombreUsuario = u.NombreUsuario,
+                        RolUsuario = u.RolUsuario
+                    };
+                    pro.Asignados.Add(usu);
+                }
+                proyectos.Add(pro);
+            }
+            return Ok(proyectos);
         }
 
-        [HttpGet]
+        [HttpGet("{id}/proyecto")]
         [FilterAutorizacion("Desarrollador", "Tester")]
-        [Route("{id}/proyecto")]
-        public IActionResult GetProyecto([FromRoute] string idUsuario, [FromQuery] int idProyecto)
+        //[Route("{id}/proyecto")]
+        public IActionResult GetProyecto(string id, [FromQuery] int idProyecto)
         {
-            Proyecto result = _logicaP.ObtenerParaUsuario(Int32.Parse(idUsuario), idProyecto);
-            return Ok(result);
+            Proyecto result = _logicaP.ObtenerParaUsuario(Int32.Parse(id), idProyecto);
+            ProyectosDTO pro = new ProyectosDTO()
+            {
+                Id = result.Id,
+                Incidentes = result.Incidentes,
+                Nombre = result.Nombre
+            };
+            foreach (Usuario u in result.Asignados)
+            {
+                UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
+                {
+                    Apellido = u.Apellido,
+                    Email = u.Email,
+                    Id = u.Id,
+                    Nombre = u.Nombre,
+                    NombreUsuario = u.NombreUsuario,
+                    RolUsuario = u.RolUsuario
+                };
+                pro.Asignados.Add(usu);
+            }
+            return Ok(pro);
         }
 
         [HttpGet]

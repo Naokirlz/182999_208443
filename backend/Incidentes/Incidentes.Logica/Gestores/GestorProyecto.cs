@@ -25,24 +25,22 @@ namespace Incidentes.Logica
         public void AgregarDesarrolladorAProyecto(List<int> idsUsuarios, int idProyecto)
         {
             bool existeProyecto =_repositorioGestor.RepositorioProyecto.Existe(p => p.Id == idProyecto);
-            if (existeProyecto)
+            if (!existeProyecto)
+                throw new ExcepcionElementoNoExiste(elemento_no_existe);
+            List<Usuario> asignados = new List<Usuario>();
+            foreach(int idUsu in idsUsuarios)
             {
-                List<Usuario> asignados = new List<Usuario>();
-                foreach(int idUsu in idsUsuarios)
+                Usuario aAgregar = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(d => d.Id == idUsu, false).FirstOrDefault();
+
+                if (aAgregar != null)
                 {
-                    Usuario aAgregar = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(d => d.Id == idUsu, true).FirstOrDefault();
-
-                    if (aAgregar != null)
-                    {
-                        asignados.Add(aAgregar);
-                    }
+                    asignados.Add(aAgregar);
                 }
-                Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == idProyecto, true).FirstOrDefault();
-                aModificar.Asignados = asignados;
-
-                _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
-                _repositorioGestor.Save();
             }
+            Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerProyectoPorIdCompleto(idProyecto);
+            aModificar.Asignados = asignados;
+
+            _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
         }
 
         public Proyecto Alta(Proyecto entity)
@@ -120,7 +118,7 @@ namespace Incidentes.Logica
         {
             if (!VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto))
                 throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
-            return Obtener(idProyecto);
+            return ObtenerTodos().Where(c => c.Id == idProyecto).FirstOrDefault();
         }
     }
 }
