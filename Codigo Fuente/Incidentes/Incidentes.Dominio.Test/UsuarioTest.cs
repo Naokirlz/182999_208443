@@ -52,6 +52,16 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
+        public void se_puede_dar_valor_hora_a_los_usuarios()
+        {
+            Usuario unUsuario = new Usuario()
+            {
+                ValorHora = 15
+            };
+            Assert.AreEqual(15, unUsuario.ValorHora);
+        }
+
+        [Test]
         public void se_puede_dar_email_a_un_administrador()
         {
             Usuario unUsuario = new Usuario()

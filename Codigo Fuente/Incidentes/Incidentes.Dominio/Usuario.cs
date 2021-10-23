@@ -14,6 +14,7 @@ namespace Incidentes.Dominio
         public string Token { get; set; }
         public Rol RolUsuario { get; set; }
         public virtual List<Proyecto> proyectos { get; set; }
+        public int ValorHora { get; set; }
         public enum Rol
         {
             Administrador,
