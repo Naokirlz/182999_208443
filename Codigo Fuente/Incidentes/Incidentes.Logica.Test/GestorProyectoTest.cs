@@ -313,8 +313,8 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_xml()
         {
-            string rutaFuenteXML = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\Fuente.xml";
-            
+            string rutaFuenteXML = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteXML.xml";
+
             Proyecto proyecto = new Proyecto()
             {
                 Id = 3,
@@ -358,7 +358,8 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_texto()
         {
-            string rutaFuenteTXT = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\Fuente.txt";
+            // string rutaFuenteTXT = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\Fuente.txt";
+            string rutaFuenteTXT = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteTXT.txt";
 
             Proyecto proyecto = new Proyecto()
             {

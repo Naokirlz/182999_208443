@@ -16,6 +16,7 @@ namespace Incidentes.Dominio
         public Estado EstadoIncidente { get; set; }
         public int DesarrolladorId { get; set; }
         public int UsuarioId { get; set; }
+        public int Duracion { get; set; }
 
         public Incidente() { }
 

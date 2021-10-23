@@ -50,6 +50,16 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
+        public void se_puede_dar_duracion_a_un_incidente()
+        {
+            Incidente unIncidente = new Incidente()
+            {
+                Duracion = 1
+            };
+            Assert.AreEqual(1, unIncidente.Duracion);
+        }
+
+        [Test]
         public void se_incidente_puede_estar_activo()
         {
             Incidente unIncidente = new Incidente()
