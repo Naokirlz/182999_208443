@@ -63,6 +63,33 @@ namespace Incidentes.Dominio.Test
         }
 
         [Test]
+        public void se_puede_asignar_tareas_a_un_proyecto()
+        {
+            Tarea unaTarea = new Tarea()
+            {
+                Nombre = "Tarea 1",
+                Costo = 1,
+                Duracion = 1
+            };
+            Tarea otraTarea = new Tarea()
+            {
+                Nombre = "Tarea 2",
+                Costo = 1,
+                Duracion = 1
+            };
+            List<Tarea> lista = new List<Tarea>();
+            lista.Add(unaTarea);
+            lista.Add(otraTarea);
+
+            Proyecto unProyecto = new Proyecto()
+            {
+                Nombre = "Trabajo conjunto",
+                Tareas = lista
+            };
+            Assert.AreEqual(2, unProyecto.Tareas.Count());
+        }
+
+        [Test]
         public void se_puede_asignar_desarrolladores_a_un_proyecto()
         {
             Usuario unDesarrollador = new Usuario()
