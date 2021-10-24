@@ -96,10 +96,24 @@ namespace Incidentes.DatosTest
         }
 
         [Test]
+        public void se_puede_agregar_tareas_a_un_proyecto()
+        {
+            Proyecto buscado = _repoGestores.RepositorioProyecto.ObtenerProyectoPorIdCompleto(1);
+            Assert.AreEqual(1, buscado.Tareas.Count());
+        }
+
+        [Test]
         public void se_puede_ver_la_cantidad_de_incidentes_por_proyecto_proyecto()
         {
             IQueryable<Proyecto> buscados = _repoGestores.RepositorioProyecto.ObtenerProyectosCompleto();
             Assert.AreEqual(1, buscados.First().Incidentes.Count());
+        }
+
+        [Test]
+        public void se_puede_ver_la_cantidad_de_tareas_por_proyecto_proyecto()
+        {
+            IQueryable<Proyecto> buscados = _repoGestores.RepositorioProyecto.ObtenerProyectosCompleto();
+            Assert.AreEqual(1, buscados.First().Tareas.Count());
         }
 
         [Test]

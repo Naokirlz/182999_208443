@@ -8,6 +8,7 @@ namespace Incidentes.Datos
         private IRepositorioUsuario _repositorioUsuario;
         private IRepositorioProyecto _repositorioProyecto;
         private IRepositorioIncidente _repositorioIncidente;
+        private IRepositorioTarea _repositorioTarea;
 
         public RepositorioGestores(Contexto unContexto)
         {
@@ -44,6 +45,16 @@ namespace Incidentes.Datos
                     _repositorioIncidente = new RepositorioIncidenteEntity(_contexto);
 
                 return _repositorioIncidente;
+            }
+        }
+        public IRepositorioTarea RepositorioTarea
+        {
+            get
+            {
+                if (_repositorioTarea == null)
+                    _repositorioTarea = new RepositorioTareaEntity(_contexto);
+
+                return _repositorioTarea;
             }
         }
 

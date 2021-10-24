@@ -21,11 +21,11 @@ namespace Incidentes.Datos
                                         .Where(p => p.Id == proyecto.Id)
                                         .Include(p => p.Asignados)
                                         .Include(p => p.Incidentes)
+                                        .Include(p => p.Tareas)
                                         .FirstOrDefault();
 
-
-
                 aModificar.Incidentes = proyecto.Incidentes;
+                aModificar.Tareas = proyecto.Tareas;
 
                 aModificar.Asignados.Clear();
                 ContextoRepositorio.SaveChanges();
@@ -46,6 +46,7 @@ namespace Incidentes.Datos
                 .Where(p => p.Id == id)
                 .Include(p => p.Asignados)
                 .Include(p => p.Incidentes)
+                .Include(p => p.Tareas)
                 .AsNoTracking()
                 .FirstOrDefault();
         }
@@ -54,6 +55,7 @@ namespace Incidentes.Datos
         {
             return ContextoRepositorio.Set<Proyecto>()
                 .Include(p => p.Incidentes)
+                .Include(p => p.Tareas)
                 .Include(p => p.Asignados);
         }
 

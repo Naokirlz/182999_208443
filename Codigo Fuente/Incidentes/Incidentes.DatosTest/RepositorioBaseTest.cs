@@ -27,6 +27,7 @@ namespace Incidentes.DatosTest
                 RolUsuario = Usuario.Rol.Desarrollador,
                 Email = "martind1@gmail.com",
                 NombreUsuario = "martincosad1",
+                ValorHora = 3,
                 Token = ""
             };
 
@@ -38,6 +39,7 @@ namespace Incidentes.DatosTest
                 Email = "martind2@gmail.com",
                 RolUsuario = Usuario.Rol.Desarrollador,
                 NombreUsuario = "martincosad2",
+                ValorHora = 2,
                 Token = ""
             };
 
@@ -49,6 +51,7 @@ namespace Incidentes.DatosTest
                 RolUsuario = Usuario.Rol.Tester,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
+                ValorHora = 4,
                 Token = ""
             };
 
@@ -60,6 +63,7 @@ namespace Incidentes.DatosTest
                 RolUsuario = Usuario.Rol.Tester,
                 Email = "martint2@gmail.com",
                 NombreUsuario = "martincosat2",
+                ValorHora = 1,
                 Token = ""
             };
 
@@ -78,6 +82,7 @@ namespace Incidentes.DatosTest
                 Descripcion = "Descripcion del incidente",
                 EstadoIncidente = Incidente.Estado.Resuelto,
                 ProyectoId = 1,
+                Duracion = 2,
                 DesarrolladorId = 1
             };
 
@@ -85,7 +90,22 @@ namespace Incidentes.DatosTest
             {
                 Nombre = "Incidente 2",
                 ProyectoId = 2,
+                Duracion= 1,
                 Descripcion = "Descripcion del incidente"
+            };
+
+            Tarea tar1 = new Tarea()
+            {
+                Nombre = "Tarea 1",
+                Duracion = 2,
+                Costo = 100
+            };
+
+            Tarea tar2 = new Tarea()
+            {
+                Nombre = "Tarea 2",
+                Duracion = 5,
+                Costo = 90
             };
 
             p1.Asignados.Add((Usuario)d1);
@@ -95,11 +115,15 @@ namespace Incidentes.DatosTest
             p1.Asignados.Add((Usuario)t2);
             p1.Incidentes.Add(i1);
             p2.Incidentes.Add(i2);
+            p1.Tareas.Add(tar1);
+            p2.Tareas.Add(tar2);
 
             DBContexto.Add(d1);
             DBContexto.Add(d2);
             DBContexto.Add(t1);
             DBContexto.Add(t2);
+            DBContexto.Add(tar1);
+            DBContexto.Add(tar2);
             DBContexto.Add(p1);
             DBContexto.Add(p2);
             DBContexto.Add(i1);
