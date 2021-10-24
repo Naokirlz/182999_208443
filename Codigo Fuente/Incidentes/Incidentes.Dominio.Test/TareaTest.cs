@@ -39,5 +39,15 @@ namespace Incidentes.Dominio.Test
             };
             Assert.AreEqual(2, unaTarea.Costo);
         }
+
+        [Test]
+        public void se_puede_dar_id_a_una_tarea()
+        {
+            Tarea unaTarea = new Tarea()
+            {
+                Id = 2
+            };
+            Assert.AreEqual(2, unaTarea.Id);
+        }
     }
 }

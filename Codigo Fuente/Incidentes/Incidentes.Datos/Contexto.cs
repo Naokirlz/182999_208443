@@ -33,11 +33,15 @@ namespace Incidentes.Datos
                .HasMany<Usuario>(s => s.Asignados)
                .WithMany(c => c.proyectos);
 
+            builder.Entity<Tarea>()
+               .HasIndex(t => t.Id)
+                .IsUnique();
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Proyecto> Proyectos { get; set; }
         public DbSet<Incidente> Incidentes { get; set; }
+        public DbSet<Tarea> Tareas { get; set; }
 
     }
 }
