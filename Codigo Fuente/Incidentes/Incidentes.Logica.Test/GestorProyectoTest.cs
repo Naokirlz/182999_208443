@@ -169,7 +169,7 @@ namespace Incidentes.Logica.Test
         }
 
         [Test]
-        public void se_pueden_asignar_usuarios_a_un_proyecto()
+        public void se_pueden_asignar_tareas_a_un_proyecto()
         {
             Proyecto proyecto = new Proyecto()
             {
@@ -181,8 +181,38 @@ namespace Incidentes.Logica.Test
             lista.Add(proyecto);
             IQueryable<Proyecto> queryableP = lista.AsQueryable();
 
+            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>())).Returns(proyecto);
+
+            Tarea tarea = new Tarea()
+            {
+                Nombre = "Tarea 1"
+            };
+
+            gestorProyecto.AgregarTareaAProyecto(tarea, proyecto.Id);
+
+            Assert.IsNotNull(proyecto);
+            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void se_pueden_asignar_usuarios_a_un_proyecto()
+        {
+            Proyecto proyecto = new Proyecto()
+            {
+                Id = 3,
+                Nombre = "Proyecto1",
+                Asignados = new List<Usuario>() { new Usuario(), new Usuario(), new Usuario() }
+            };
+            List<Proyecto> lista = new List<Proyecto>();
+            lista.Add(proyecto);
+            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+
             List<Usuario> listaU = new List<Usuario>();
-            listaU.Add(new Usuario() { Id = 9});
+            listaU.Add(new Usuario() { Id = 9 });
             IQueryable<Usuario> queryableU = listaU.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
