@@ -11,5 +11,6 @@ namespace Incidentes.WebApi.DTOs
         public string Email { get; set; }
         public Usuario.Rol RolUsuario { get; set; }
         public int IncidentesResueltos { get; set; }
+        public int ValorHora { get; set; }
     }
 }

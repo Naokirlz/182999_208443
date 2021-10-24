@@ -18,6 +18,7 @@ namespace Incidentes.WebApiTest
                 RolUsuario = Usuario.Rol.Tester,
                 NombreUsuario = "martincosat1",
                 Id = 5,
+                ValorHora = 3,
                 IncidentesResueltos = 3
             };
             Assert.AreEqual("Usuario", usu.Nombre);
@@ -26,6 +27,7 @@ namespace Incidentes.WebApiTest
             Assert.AreEqual("martincosat1", usu.NombreUsuario);
             Assert.AreEqual(Usuario.Rol.Tester, usu.RolUsuario);
             Assert.AreEqual(5, usu.Id);
+            Assert.AreEqual(3, usu.ValorHora);
             Assert.AreEqual(3, usu.IncidentesResueltos);
         }
 
@@ -40,22 +42,26 @@ namespace Incidentes.WebApiTest
                 RolUsuario = Usuario.Rol.Tester,
                 NombreUsuario = "martincosat1",
                 Id = 5,
+                ValorHora = 3,
                 IncidentesResueltos = 3
             };
             List<UsuarioParaReporteDTO> usus = new List<UsuarioParaReporteDTO>();
             usus.Add(usu);
             List<Incidente> incL = new List<Incidente>();
+            List<Tarea> tarL = new List<Tarea>();
             ProyectosDTO pro = new ProyectosDTO()
             {
                 Id = 3,
                 Nombre = "nombre pro",
                 Asignados = usus,
+                Tareas = tarL,
                 Incidentes = incL
             };
             Assert.AreEqual("nombre pro", pro.Nombre);
             Assert.AreEqual(3, pro.Id);
             Assert.AreEqual(usus, pro.Asignados);
             Assert.AreEqual(incL, pro.Incidentes);
+            Assert.AreEqual(tarL, pro.Tareas);
         }
 
         [Test]

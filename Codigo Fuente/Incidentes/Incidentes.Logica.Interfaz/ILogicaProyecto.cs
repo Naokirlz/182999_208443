@@ -13,6 +13,6 @@ namespace Incidentes.LogicaInterfaz
         public void ImportarBugs(string rutaFuente, int usuarioId);
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario);
         public Proyecto ObtenerParaUsuario(int idUsuario, int idProyecto);
-        public void AgregarTareaAProyecto(Tarea tarea, int idProyecto);
+        public void AgregarTareaAProyecto(List<int> idsTareas, int idProyecto);
     }
 }
