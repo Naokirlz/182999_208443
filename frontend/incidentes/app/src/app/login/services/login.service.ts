@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Usuario } from '../interfaces/dtoUsuario.interface';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class LoginService {
     this.resource= "/Login"
     const url = `${this.apiUrl}${this.resource}`
 
-    return this.http.post<string>(url,usuario);
+    return this.http.post<HttpResponse<string>>(url,usuario);
 
   }
 

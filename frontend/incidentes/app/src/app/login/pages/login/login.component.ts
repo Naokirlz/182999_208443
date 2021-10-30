@@ -14,8 +14,8 @@ export class LoginComponent implements OnInit {
 
   nuevo: Usuario = {
 
-    nombre:'',
-    clave: ''
+    NombreUsuario:'',
+    Contrasenia: ''
 
   }
 

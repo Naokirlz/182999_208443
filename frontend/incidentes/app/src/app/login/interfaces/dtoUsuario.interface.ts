@@ -1,4 +1,4 @@
 export interface Usuario {
-    nombre:string;
-    clave:string;
+  NombreUsuario:string;
+    Contrasenia:string;
   }

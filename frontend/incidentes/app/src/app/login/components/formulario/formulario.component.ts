@@ -12,8 +12,8 @@ export class FormularioComponent implements OnInit {
 
   @Input() nuevo: Usuario = {
 
-    nombre:'',
-    clave: ''
+    NombreUsuario:'',
+    Contrasenia: ''
 
   }
 
@@ -27,16 +27,16 @@ export class FormularioComponent implements OnInit {
   login(){
 
 
-    if (this.nuevo.nombre.trim().length === 0){return;}
-    if (this.nuevo.clave.trim().length === 0){return;}
+    if (this.nuevo.NombreUsuario.trim().length === 0){return;}
+    if (this.nuevo.Contrasenia.trim().length === 0){return;}
 
     //this.onLoguearse.emit(this.nuevo)
     this.loginService.login(this.nuevo)
-      .subscribe(resp => console.log(resp));
+      .subscribe(resp => console.log(resp.status));
 
     this.nuevo = { 
-      nombre: "",
-      clave: ""
+      NombreUsuario: "",
+      Contrasenia: ""
     } 
     
 
