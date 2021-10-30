@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from '../../interfaces/dtoUsuario.interface';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,21 @@ export class LoginComponent implements OnInit {
 
   constructor() { }
 
+  nuevo: Usuario = {
+
+    nombre:'',
+    clave: ''
+
+  }
+
+
   ngOnInit(): void {
+  }
+
+  login(argumento : Usuario){
+
+    this.login(argumento);
+
   }
 
 }

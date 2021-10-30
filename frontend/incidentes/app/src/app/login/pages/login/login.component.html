@@ -1,1 +1,17 @@
-<p>login works!</p>
+<h1>Login</h1>
+<hr>
+
+
+<div class="row">
+
+    <div class="col">
+        <app-formulario 
+            [nuevo]="nuevo"
+            (onLoguearse)="login( $event )"    
+            
+            >
+        </app-formulario>
+    </div>
+
+</div>
+

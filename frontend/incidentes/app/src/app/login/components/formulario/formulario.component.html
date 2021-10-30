@@ -1,0 +1,23 @@
+
+        <hr>
+
+        <form (ngSubmit) = "login()">
+            <input 
+                type="text" 
+                placeholder="Nombre"
+                name = "nombre"
+                [(ngModel)] = "nuevo.nombre"
+            />
+         
+            <input 
+                type="text" 
+                placeholder="Clave"
+                name = "clave"
+                [(ngModel)] = "nuevo.clave"
+            />
+
+            <button>
+                Agregar
+            </button>
+
+        </form>
