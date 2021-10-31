@@ -49,5 +49,15 @@ namespace Incidentes.Dominio.Test
             };
             Assert.AreEqual(2, unaTarea.Id);
         }
+
+        [Test]
+        public void se_puede_asignar_una_tarea_a_un_proyecto()
+        {
+            Tarea unaTarea = new Tarea()
+            {
+                ProyectoId = 2
+            };
+            Assert.AreEqual(2, unaTarea.ProyectoId);
+        }
     }
 }

@@ -155,5 +155,25 @@ namespace Incidentes.WebApiTest
 
             _logicaP.Verify(c => c.Baja(3));
         }
+
+        [Test]
+        public void se_pueden_asignar_tareas_a_un_proyecto()
+        {
+            Proyecto p = new Proyecto()
+            {
+                Id = 3,
+                Nombre = "proyecto"
+            };
+
+            _logicaP.Setup(c => c.Baja(3));
+
+            var result = _pController.Delete(p);
+
+            Assert.IsNotNull(result);
+
+            _logicaP.Verify(c => c.Baja(3));
+        }
+        // se puede ver el costo de un proyecto
+        // se puede ver la duracion de un proyecto
     }
 }
