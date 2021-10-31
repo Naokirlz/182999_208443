@@ -32,6 +32,7 @@ namespace Incidentes.WebApi.Controllers
                 {
                     Id = p.Id,
                     Incidentes = p.Incidentes,
+                    Tareas = p.Tareas,
                     Nombre = p.Nombre
                 };
                 foreach(Usuario u in p.Asignados)
@@ -42,6 +43,7 @@ namespace Incidentes.WebApi.Controllers
                         Email = u.Email,
                         Id = u.Id,
                         Nombre = u.Nombre,
+                        ValorHora = u.ValorHora,
                         NombreUsuario = u.NombreUsuario,
                         RolUsuario = u.RolUsuario
                     };
@@ -56,8 +58,47 @@ namespace Incidentes.WebApi.Controllers
         [FilterAutorizacion("Administrador")]
         public IActionResult Get(int id)
         {
-            var proyecto = _logicaP.Obtener(id);
-            return Ok(proyecto);
+            var p = _logicaP.Obtener(id);
+            ProyectosDTO pro = new ProyectosDTO()
+            {
+                Id = p.Id,
+                Incidentes = p.Incidentes,
+                Tareas = p.Tareas,
+                Nombre = p.Nombre
+            };
+            foreach (Usuario u in p.Asignados)
+            {
+                UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
+                {
+                    Apellido = u.Apellido,
+                    Email = u.Email,
+                    Id = u.Id,
+                    Nombre = u.Nombre,
+                    ValorHora = u.ValorHora,
+                    NombreUsuario = u.NombreUsuario,
+                    RolUsuario = u.RolUsuario
+                };
+                pro.Asignados.Add(usu);
+            }
+            int duracion = 0;
+            int costo = 0;
+            foreach(Tarea t in p.Tareas)
+            {
+                duracion += t.Duracion;
+                costo += t.Duracion * t.Costo;
+            }
+            foreach (Incidente i in p.Incidentes)
+            {
+                duracion += i.Duracion;
+                if(i.EstadoIncidente == Incidente.Estado.Resuelto)
+                {
+                    Usuario u = p.Asignados.Find(d => d.Id == i.DesarrolladorId);
+                    costo += i.Duracion * u.ValorHora;
+                }
+            }
+            pro.Duracion = duracion;
+            pro.Costo = costo;
+            return Ok(pro);
         }
 
         [HttpPost]
@@ -85,6 +126,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 Id = proyecto.Id,
                 Incidentes = proyecto.Incidentes,
+                Tareas = proyecto.Tareas,
                 Nombre = proyecto.Nombre
             };
             foreach (Usuario u in proyecto.Asignados)
@@ -95,6 +137,7 @@ namespace Incidentes.WebApi.Controllers
                     Email = u.Email,
                     Id = u.Id,
                     Nombre = u.Nombre,
+                    ValorHora = u.ValorHora,
                     NombreUsuario = u.NombreUsuario,
                     RolUsuario = u.RolUsuario
                 };

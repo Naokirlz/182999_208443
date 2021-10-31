@@ -1,6 +1,7 @@
 using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
+using Incidentes.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -28,16 +29,18 @@ namespace Incidentes.WebApiTest
                 Id = 3,
                 Version = "2.0",
                 UsuarioId = 1,
-                DesarrolladorId = 5,
+                DesarrolladorId = 9,
                 Descripcion = "descripcion",
                 EstadoIncidente = Incidente.Estado.Resuelto,
                 Nombre = "Nombre",
+                Duracion = 2,
                 ProyectoId = 7
             };
             u = new Usuario()
             {
                 Nombre = "sssss",
                 Id = 9,
+                ValorHora = 200,
                 Apellido = "aaaaaaa",
                 Email = "ssasssa@asdasda.com",
                 RolUsuario = Usuario.Rol.Desarrollador
@@ -101,8 +104,9 @@ namespace Incidentes.WebApiTest
 
             var result = _pController.Get(1);
             var okResult = result as OkObjectResult;
+            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
 
-            Assert.AreEqual(p, okResult.Value);
+            Assert.AreEqual(p.Nombre, respuesta.Nombre);
 
             _logicaP.Verify(c => c.Obtener(1));
         }
@@ -156,7 +160,50 @@ namespace Incidentes.WebApiTest
             _logicaP.Verify(c => c.Baja(3));
         }
 
-        // se puede ver el costo de un proyecto
-        // se puede ver la duracion de un proyecto
+        [Test]
+        public void se_puede_ver_el_costo_de_un_proyecto()
+        {
+            p.Asignados.Add(u);
+            Tarea t = new Tarea()
+            {
+                Nombre = "Tarea",
+                Duracion = 5,
+                Costo = 1000,
+                Id = 5,
+                ProyectoId = p.Id
+            };
+            p.Tareas.Add(t);
+            _logicaP.Setup(c => c.Obtener(7)).Returns(p);
+
+            var result = _pController.Get(7);
+            var okResult = result as OkObjectResult;
+            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
+            Assert.AreEqual(5400, respuesta.Costo);
+
+            _logicaP.Verify(c => c.Obtener(7));
+        }
+
+        [Test]
+        public void se_puede_ver_la_duracion_de_un_proyecto()
+        {
+            p.Asignados.Add(u);
+            Tarea t = new Tarea()
+            {
+                Nombre = "Tarea",
+                Duracion = 5,
+                Costo = 1000,
+                Id = 5,
+                ProyectoId = p.Id
+            };
+            p.Tareas.Add(t);
+            _logicaP.Setup(c => c.Obtener(7)).Returns(p);
+
+            var result = _pController.Get(7);
+            var okResult = result as OkObjectResult;
+            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
+            Assert.AreEqual(7, respuesta.Duracion);
+
+            _logicaP.Verify(c => c.Obtener(7));
+        }
     }
 }
