@@ -2,6 +2,7 @@
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
 {
@@ -20,8 +21,16 @@ namespace Incidentes.WebApi.Controllers
         [TrapExcepciones]
         public IActionResult Post([FromBody] FuenteDTO fuente)
         {
-            _logica.ImportarBugs(fuente.rutaFuente.Replace("_", "/"), fuente.rutaBinario, fuente.usuarioId);
+            _logica.ImportarBugs(fuente.rutaFuente.Replace("_", "/"), fuente.rutaBinario.Replace("_", "/"), fuente.usuarioId);
             return Ok();
+        }
+
+        [HttpGet]
+        [TrapExcepciones]
+        public IActionResult Get()
+        {
+            List<string> result = _logica.ListarPlugins();
+            return Ok(result);
         }
     }
 }
