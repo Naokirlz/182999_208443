@@ -1,11 +1,13 @@
 ﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
 {
+    [EnableCors("HabilitarAngularFrontEndClientApp")]
     [Route("api/[controller]")]
     [TrapExcepciones]
     [ApiController]

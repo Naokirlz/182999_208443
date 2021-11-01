@@ -31,6 +31,12 @@ namespace Incidentes.WebApi
             services.AddAutoMapper(typeof(Startup));
                        
             FabricaServiciosDatos fabricaDatos = new FabricaServiciosDatos(services);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("HabilitarAngularFrontEndClientApp", builder => builder.WithOrigins("http://localhost:5000").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            });
+
             fabricaDatos.AgregarServicios();
             fabricaDatos.AgregarContextoDatos();
             
@@ -46,6 +52,8 @@ namespace Incidentes.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("HabilitarAngularFrontEndClientApp");
 
             app.UseAuthorization();
 

@@ -2,6 +2,7 @@
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.DTOs;
 using Incidentes.WebApi.Filters;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
+    [EnableCors("HabilitarAngularFrontEndClientApp")]
     [Route("api/[controller]")]
     [ApiController]
     public class ReportesController : ControllerBase
