@@ -51,17 +51,26 @@ namespace Incidentes.Logica
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
 
             Tarea aModificar = Obtener(id);
-
-            if (aModificar.Nombre != entity.Nombre && entity.Nombre != null)
+            
+            if (entity.Nombre != null)
             {
-                bool existe = _repositorioGestor.RepositorioTarea.Existe(c => c.Nombre == entity.Nombre);
-                if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
                 Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Tarea");
+                aModificar.Nombre = entity.Nombre;
             }
-
-            if (entity.Nombre != null) aModificar.Nombre = entity.Nombre;
-            if (entity.Costo != 0) aModificar.Costo = entity.Costo;
-            if (entity.Duracion != 0) aModificar.Duracion = entity.Duracion;
+            if (entity.Costo != 0)
+            {
+                aModificar.Costo = entity.Costo;
+                Validaciones.ValidarMayorACero(entity.Costo, "Costo");
+            }
+            if (entity.Duracion != 0)
+            {
+                Validaciones.ValidarMayorACero(entity.Duracion, "Duracion");
+                aModificar.Duracion = entity.Duracion;
+            }
+            if (entity.ProyectoId != 0)
+            {
+                aModificar.ProyectoId = entity.ProyectoId;
+            }
 
             _repositorioGestor.RepositorioTarea.Modificar(aModificar);
             _repositorioGestor.Save();

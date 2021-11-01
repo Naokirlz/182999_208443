@@ -24,6 +24,7 @@ namespace Incidentes.Logica.Test
                 Nombre = "Tarea 1",
                 Costo = 3,
                 Duracion = 5,
+                ProyectoId = 9,
                 Id = 9
             };
 
@@ -139,6 +140,80 @@ namespace Incidentes.Logica.Test
             tareaCompleta.Duracion = -52;
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(tareaCompleta));
             repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
+        }
+
+        [Test]
+        public void se_puede_eliminar_una_tarea()
+        {
+            List<Tarea> lista = new List<Tarea>();
+            lista.Add(tareaCompleta);
+            IQueryable<Tarea> queryableT = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true)).Returns(queryableT);
+            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioTarea.Eliminar(It.IsAny <Tarea>()));
+
+            gestor.Baja(5);
+            IQueryable<Tarea> tareas = (IQueryable<Tarea>)gestor.ObtenerTodos();
+            Assert.AreEqual(0, tareas.Count());
+
+            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioTarea.Eliminar(It.IsAny<Tarea>()));
+        }
+
+        [Test]
+        public void no_se_puede_modificar_una_tarea_que_no_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.Modificar(20, new Tarea()));
+
+            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
+        }
+
+        [Test]
+        public void no_se_puede_eliminar_una_tarea_que_no_existe()
+        {
+            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(false);
+
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.Baja(20));
+
+            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
+        }
+
+
+        [Test]
+        public void se_puede_modificar_una_tarea()
+        {
+            List<Tarea> lista = new List<Tarea>();
+            lista.Add(tareaCompleta);
+            IQueryable<Tarea> queryableT = lista.AsQueryable();
+
+            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true)).Returns(queryableT);
+            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioTarea.Modificar(It.IsAny<Tarea>()));
+            Tarea modificada = new Tarea()
+            {
+                Nombre = "Tarea modificada",
+                Costo = 5,
+                Duracion = 2,
+                ProyectoId = 5,
+                Id = 9
+            };
+            Tarea modificado = gestor.Modificar(9, tareaCompleta);
+
+            Assert.AreEqual(tareaCompleta.Nombre, modificado.Nombre);
+
+            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
+            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioTarea.Modificar(It.IsAny<Tarea>()));
+        }
+
+        [Test]
+        public void no_se_puede_modificar_una_tarea_nula()
+        {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Modificar(20, null));
         }
     }
 }
