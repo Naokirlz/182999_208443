@@ -133,6 +133,7 @@ namespace Incidentes.Logica
                 Proyecto proyecto = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(u => u.Nombre == p.Nombre, true).FirstOrDefault();
                 foreach(Incidente i in p.Incidentes)
                 {
+                    i.UsuarioId = usuarioId;
                     _repositorioGestor.RepositorioIncidente.Alta(i);
                     proyecto.Incidentes.Add(i);
                     _repositorioGestor.Save();
