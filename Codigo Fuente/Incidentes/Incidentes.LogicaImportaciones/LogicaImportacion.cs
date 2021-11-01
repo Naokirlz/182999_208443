@@ -11,21 +11,9 @@ using Incidentes.Logica.Excepciones;
 
 namespace Incidentes.LogicaImportaciones
 {
-    struct PluginInfo
-    {
-        public int Option;
-        public string DisplayName;
-        public string FullPath;
-        public Type LoggerType;
-
-        public override string ToString()
-        {
-            return $"{Option} -- {DisplayName}";
-        }
-    }
-
     public class LogicaImportacion : ILogicaImportaciones
     {
+        const string directorio_plugins = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs";
         IRepositorioGestores _repositorioGestor;
         private const string elemento_no_existe = "El elemento no existe";
 
@@ -57,25 +45,56 @@ namespace Incidentes.LogicaImportaciones
             }
         }
 
+        public List<string> ListarPlugins()
+        {
+            List<string> retorno = new List<string>();
+
+            Type importacionesInterface = typeof(IFuente);
+
+            
+            foreach (string dllName in System.IO.Directory.GetFiles(directorio_plugins, "*.dll"))
+            {
+                
+                Assembly dynamicAssembly = Assembly.LoadFrom(dllName);
+
+               
+                var type = dynamicAssembly.GetTypes().
+
+                    Where(t => importacionesInterface.IsAssignableFrom(t) 
+
+                          && t != importacionesInterface)
+
+                    .FirstOrDefault(); 
+
+                
+                if (type != null)
+                {
+                    retorno.Add(dllName);
+                }
+            }
+
+            return retorno;
+        }
+
         private IFuente ObtenerImplementacion(string ruta, string tipo)
         {
             Type importacionesInterface = typeof(IFuente);
+            string directory = System.IO.Directory.GetParent(ruta).FullName;
 
-            foreach (string dllName in System.IO.Directory.GetFiles(ruta, "*.dll"))
+            foreach (string dllName in System.IO.Directory.GetFiles(directory, "*.dll"))
             {
-                if (dllName.ToLower().Contains(tipo.ToLower()))
+                // if (dllName.ToLower().Contains(tipo.ToLower()))
+                if (dllName.ToLower().Contains(ruta.ToLower()))
                 {
-                    //1) Creo una instancia de Assembly, dado su nombre
                     Assembly dynamicAssembly = Assembly.LoadFrom(dllName);
+                    
+                    var type = dynamicAssembly.GetTypes().
 
-                    //2) Buco una clase definida en ese assembly, que implemente la interfaz
-                    var type = dynamicAssembly.GetTypes(). //De todos los tipos que esten definidos en el assembly
+                        Where(t => importacionesInterface.IsAssignableFrom(t) 
 
-                        Where(t => importacionesInterface.IsAssignableFrom(t) //Me quedo con los que que se podrian asignar a la intefaz ICustomLogger
+                              && t != importacionesInterface)
 
-                              && t != importacionesInterface) //y debo excluir al que me define la interfaz en si misma.
-
-                        .FirstOrDefault(); //Como asumo de antemano que tengo una sola clase por dll que implementa esa interfaz, lo selecciono
+                        .FirstOrDefault();
                     if (type != null)
                     {
                         return Activator.CreateInstance(type) as IFuente;
@@ -84,14 +103,6 @@ namespace Incidentes.LogicaImportaciones
                 
             }
 
-            //Assembly xmlAssembly = Assembly.LoadFrom(ruta);
-            //foreach (var item in xmlAssembly.GetTypes().Where(t => typeof(IFuente).IsAssignableFrom(t)))
-            //{
-            //    if (item.FullName.ToLower().Contains(tipo.ToLower()))
-            //    {
-            //        return Activator.CreateInstance(item) as IFuente;
-            //    }
-            //}
             throw new DllNotFoundException("La implementación no fue encontrada.");
         }
     }
