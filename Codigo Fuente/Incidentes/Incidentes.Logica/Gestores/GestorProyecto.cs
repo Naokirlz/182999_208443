@@ -124,23 +124,6 @@ namespace Incidentes.Logica
             return _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto);
         }
 
-        //public void ImportarBugs(string rutaFuente, int usuarioId)
-        //{
-        //    IFuente fuente = FabricaIFuente.FabricarIFuente(_repositorioGestor, rutaFuente, usuarioId);
-        //    List<Proyecto> proys = fuente.ImportarBugs(rutaFuente);
-        //    foreach (Proyecto p in proys)
-        //    {
-        //        Proyecto proyecto = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(u => u.Nombre == p.Nombre, true).FirstOrDefault();
-        //        foreach (Incidente i in p.Incidentes)
-        //        {
-        //            i.UsuarioId = usuarioId;
-        //            _repositorioGestor.RepositorioIncidente.Alta(i);
-        //            proyecto.Incidentes.Add(i);
-        //            _repositorioGestor.Save();
-        //        }
-        //    }
-        //}
-
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario)
         {
             return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);

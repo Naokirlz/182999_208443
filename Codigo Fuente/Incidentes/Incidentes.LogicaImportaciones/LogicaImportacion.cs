@@ -83,7 +83,6 @@ namespace Incidentes.LogicaImportaciones
 
             foreach (string dllName in System.IO.Directory.GetFiles(directory, "*.dll"))
             {
-                // if (dllName.ToLower().Contains(tipo.ToLower()))
                 if (dllName.ToLower().Contains(ruta.ToLower()))
                 {
                     Assembly dynamicAssembly = Assembly.LoadFrom(dllName);
