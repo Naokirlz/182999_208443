@@ -12,8 +12,8 @@ export class FormularioComponent implements OnInit {
 
   @Input() nuevo: Usuario = {
 
-    NombreUsuario:'',
-    Contrasenia: ''
+    NombreUsuario:'federico',
+    Contrasenia: 'password'
 
   }
 
@@ -31,8 +31,17 @@ export class FormularioComponent implements OnInit {
     if (this.nuevo.Contrasenia.trim().length === 0){return;}
 
     //this.onLoguearse.emit(this.nuevo)
-    this.loginService.login(this.nuevo)
-      .subscribe(resp => console.log(resp.status));
+    var r = this.loginService.login(this.nuevo);
+
+    r.subscribe(
+      (data: any) => {
+        console.log(JSON.stringify(data.token));
+        localStorage.setItem('token', JSON.stringify(data.token)) ;
+        console.log('token almacenado en local storage')
+      }
+    );
+
+    
 
     this.nuevo = { 
       NombreUsuario: "",
