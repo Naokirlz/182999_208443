@@ -168,41 +168,41 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>()));
         }
 
-        [Test]
-        public void se_pueden_asignar_tareas_a_un_proyecto()
-        {
-            Proyecto proyecto = new Proyecto()
-            {
-                Id = 3,
-                Nombre = "Proyecto1",
-                Asignados = new List<Usuario>() { new Usuario(), new Usuario(), new Usuario() }
-            };
-            List<Proyecto> lista = new List<Proyecto>();
-            lista.Add(proyecto);
-            IQueryable<Proyecto> queryableP = lista.AsQueryable();
+        //[Test]
+        //public void se_pueden_asignar_tareas_a_un_proyecto()
+        //{
+        //    Proyecto proyecto = new Proyecto()
+        //    {
+        //        Id = 3,
+        //        Nombre = "Proyecto1",
+        //        Asignados = new List<Usuario>() { new Usuario(), new Usuario(), new Usuario() }
+        //    };
+        //    List<Proyecto> lista = new List<Proyecto>();
+        //    lista.Add(proyecto);
+        //    IQueryable<Proyecto> queryableP = lista.AsQueryable();
 
-            List<Tarea> listaT = new List<Tarea>();
-            listaT.Add(new Tarea() { Id = 9 });
-            IQueryable<Tarea> queryableT = listaT.AsQueryable();
+        //    List<Tarea> listaT = new List<Tarea>();
+        //    listaT.Add(new Tarea() { Id = 9 });
+        //    IQueryable<Tarea> queryableT = listaT.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>())).Returns(proyecto);
-            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), It.IsAny<bool>())).Returns(queryableT);
+        //    repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
+        //    repoGestores.Setup(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
+        //    repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>())).Returns(proyecto);
+        //    repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), It.IsAny<bool>())).Returns(queryableT);
 
-            List<int> listaInt = new List<int>();
-            listaInt.Add(2);
-            listaInt.Add(5);
-            listaInt.Add(9);
+        //    List<int> listaInt = new List<int>();
+        //    listaInt.Add(2);
+        //    listaInt.Add(5);
+        //    listaInt.Add(9);
 
-            gestorProyecto.AgregarTareaAProyecto(listaInt, proyecto.Id);
+        //    gestorProyecto.AgregarTareaAProyecto(listaInt, proyecto.Id);
 
-            Assert.IsNotNull(proyecto);
-            repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>()));
-            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), It.IsAny<bool>()));
-        }
+        //    Assert.IsNotNull(proyecto);
+        //    repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
+        //    repoGestores.Verify(c => c.RepositorioProyecto.Modificar(It.IsAny<Proyecto>()));
+        //    repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>()));
+        //    repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), It.IsAny<bool>()));
+        //}
 
         [Test]
         public void se_pueden_asignar_usuarios_a_un_proyecto()

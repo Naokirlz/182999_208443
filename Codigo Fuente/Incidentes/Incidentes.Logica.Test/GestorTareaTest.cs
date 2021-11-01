@@ -109,37 +109,29 @@ namespace Incidentes.Logica.Test
         [Test]
         public void no_se_puede_guardar_una_tarea_con_nombre_corto()
         {
-            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(false);
             tareaCompleta.Nombre = "ss s";
             Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(tareaCompleta));
-            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
         }
 
         [Test]
         public void no_se_puede_guardar_una_tarea_con_nombre_largo()
         {
-            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(false);
             tareaCompleta.Nombre = "01234567890123456789012345";
             Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(tareaCompleta));
-            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
         }
 
         [Test]
         public void no_se_puede_guardar_una_tarea_con_costo_menor_a_cero()
         {
-            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(false);
             tareaCompleta.Costo = -52;
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(tareaCompleta));
-            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
         }
 
         [Test]
         public void no_se_puede_guardar_una_tarea_con_duracion_menor_a_cero()
         {
-            repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(false);
             tareaCompleta.Duracion = -52;
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(tareaCompleta));
-            repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
         }
 
         [Test]

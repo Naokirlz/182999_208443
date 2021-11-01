@@ -26,8 +26,6 @@ namespace Incidentes.Logica
         public Tarea Alta(Tarea entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
-            bool existe = _repositorioGestor.RepositorioTarea.Existe(c => c.Nombre == entity.Nombre);
-            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
 
             Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Tarea");
             Validaciones.ValidarMayorACero(entity.Costo, "Costo");
