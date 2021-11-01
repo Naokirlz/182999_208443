@@ -28,8 +28,9 @@ namespace Incidentes.Logica
             _usuarioId = usuarioId;
         }
 
-        public void ImportarBugs()
+        public List<Proyecto> ImportarBugs()
         {
+            List<Proyecto> retorno = new List<Proyecto>();
             List<string> lineas = File.ReadAllLines(_rutaFuente).ToList();
             int id_bug = 30;
             int nombre_bug = id_bug + 4 + 1;
@@ -44,7 +45,11 @@ namespace Incidentes.Logica
                 string versionIncidente = item.Substring(version_bug, 10).Trim();
                 string estadoIncidente = item.Substring(estado_bug).Trim();
 
-                Proyecto proyecto = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Nombre == nombreProyecto, true).FirstOrDefault();
+                // Proyecto proyecto = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Nombre == nombreProyecto, true).FirstOrDefault();
+                Proyecto proyecto = new Proyecto()
+                {
+                    Nombre = nombreProyecto
+                };
 
                 Incidente incidente = new Incidente()
                 {
@@ -61,10 +66,13 @@ namespace Incidentes.Logica
                 {
                     incidente.EstadoIncidente = Incidente.Estado.Resuelto;
                 }
-                _repositorioGestor.RepositorioIncidente.Alta(incidente);
+                //_repositorioGestor.RepositorioIncidente.Alta(incidente);
+                //proyecto.Incidentes.Add(incidente);
+                //_repositorioGestor.Save();
                 proyecto.Incidentes.Add(incidente);
-                _repositorioGestor.Save();
+                retorno.Add(proyecto);
             }
+            return retorno;
         }
     }
 }

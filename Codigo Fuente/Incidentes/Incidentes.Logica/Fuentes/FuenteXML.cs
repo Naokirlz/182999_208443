@@ -3,6 +3,7 @@ using Incidentes.Dominio;
 using Incidentes.Logica.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -29,8 +30,9 @@ namespace Incidentes.Logica
             _usuarioId = usuarioId;
         }
 
-        public void ImportarBugs()
+        public List<Proyecto> ImportarBugs()
         {
+            List<Proyecto> retorno = new List<Proyecto>();
 
             XmlRootAttribute xmlRoot = new XmlRootAttribute();
             xmlRoot.ElementName = "Empresa1";
@@ -38,7 +40,12 @@ namespace Incidentes.Logica
 
             XmlSerializer serializer = new XmlSerializer(typeof(EmpresaXMLDTO), xmlRoot);
             EmpresaXMLDTO proyecto = (EmpresaXMLDTO)serializer.Deserialize(new XmlTextReader(_rutaFuente));
-            Proyecto buscado = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Nombre == proyecto.Proyecto, true).FirstOrDefault();
+            //Proyecto buscado = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Nombre == proyecto.Proyecto, true).FirstOrDefault();
+            Proyecto pro = new Proyecto()
+            {
+                Nombre = proyecto.Proyecto
+            };
+
             foreach (Bug b in proyecto.Bugs)
             {
                 Incidente incidente = new Incidente()
@@ -56,10 +63,13 @@ namespace Incidentes.Logica
                 {
                     incidente.EstadoIncidente = Incidente.Estado.Resuelto;
                 }
-                _repositorioGestor.RepositorioIncidente.Alta(incidente);
-                buscado.Incidentes.Add(incidente);
+                pro.Incidentes.Add(incidente);
+                //_repositorioGestor.RepositorioIncidente.Alta(incidente);
+                //buscado.Incidentes.Add(incidente);
             }
-            _repositorioGestor.Save();
+            //_repositorioGestor.Save();
+            retorno.Add(pro);
+            return retorno;
         }
     }
 }

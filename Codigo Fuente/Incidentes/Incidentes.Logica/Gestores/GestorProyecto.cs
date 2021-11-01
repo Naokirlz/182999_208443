@@ -127,7 +127,17 @@ namespace Incidentes.Logica
         public void ImportarBugs(string rutaFuente, int usuarioId)
         {
             IFuente fuente = FabricaIFuente.FabricarIFuente(_repositorioGestor, rutaFuente, usuarioId);
-            fuente.ImportarBugs();
+            List<Proyecto> proys = fuente.ImportarBugs();
+            foreach(Proyecto p in proys)
+            {
+                Proyecto proyecto = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(u => u.Nombre == p.Nombre, true).FirstOrDefault();
+                foreach(Incidente i in p.Incidentes)
+                {
+                    _repositorioGestor.RepositorioIncidente.Alta(i);
+                    proyecto.Incidentes.Add(i);
+                    _repositorioGestor.Save();
+                }
+            }
         }
 
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario)

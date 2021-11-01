@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Incidentes.Dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Incidentes.LogicaInterfaz
 {
     public interface IFuente
     {
-        public void ImportarBugs();
+        public List<Proyecto> ImportarBugs();
     }
 }
