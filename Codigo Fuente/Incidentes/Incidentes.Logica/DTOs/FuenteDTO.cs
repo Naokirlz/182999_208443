@@ -9,6 +9,7 @@ namespace Incidentes.Logica.DTOs
     public class FuenteDTO
     {
         public string rutaFuente { get; set; }
+        public string rutaBinario { get; set; }
         public int usuarioId { get; set; }
     }
 }

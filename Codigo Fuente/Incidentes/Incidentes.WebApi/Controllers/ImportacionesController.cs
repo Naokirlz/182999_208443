@@ -9,9 +9,9 @@ namespace Incidentes.WebApi.Controllers
     [ApiController]
     public class ImportacionesController : ControllerBase
     {
-        private readonly ILogicaProyecto _logica;
+        private readonly ILogicaImportaciones _logica;
 
-        public ImportacionesController(ILogicaProyecto logica)
+        public ImportacionesController(ILogicaImportaciones logica)
         {
             _logica = logica;
         }
@@ -20,7 +20,7 @@ namespace Incidentes.WebApi.Controllers
         [TrapExcepciones]
         public IActionResult Post([FromBody] FuenteDTO fuente)
         {
-            _logica.ImportarBugs(fuente.rutaFuente.Replace("_", "/"), fuente.usuarioId);
+            _logica.ImportarBugs(fuente.rutaFuente.Replace("_", "/"), fuente.rutaBinario, fuente.usuarioId);
             return Ok();
         }
     }
