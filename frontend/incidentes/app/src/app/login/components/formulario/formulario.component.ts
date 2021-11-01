@@ -42,7 +42,6 @@ export class FormularioComponent implements OnInit {
     }
 
     this.loginService.login(usuario);
-    alert('Éxito');
     
       this.NombreUsuario = '';
       this.Contrasenia= '';

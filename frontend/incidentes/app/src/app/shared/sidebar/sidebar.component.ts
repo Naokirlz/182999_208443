@@ -14,8 +14,13 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarComponent implements OnInit {
 
   constructor() { }
-
+  Login: boolean = true;
+  
   ngOnInit(): void {
+  }
+
+  login(){
+    this.Login = !this.Login;
   }
 
 }

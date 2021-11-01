@@ -2,7 +2,9 @@
         <hr>
         <ul class="list-group">
 
-            <li routerLink=""
+            <li *ngIf="Login"
+                routerLink=""
+                (onLoguearse)="login()"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}"
                 class="list-group-item"
@@ -10,12 +12,21 @@
                 Login
             </li>
 
-            <li routerLink="salir"
+            <li *ngIf="Login"
+                routerLink="salir"
                 routerLinkActive="active"
                 class="list-group-item"
             >
                 Logout
             </li>
+
+            <li *ngIf="!Login"
+            routerLink="salir"
+            routerLinkActive="active"
+            class="list-group-item"
+        >
+            Logout
+        </li>
 
             
         </ul>

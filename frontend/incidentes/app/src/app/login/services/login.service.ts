@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../interfaces/dtoUsuario.interface';
-import { Observable } from 'rxjs';
+import { Observable , throwError} from 'rxjs';
 import { LoginDTO } from '../interfaces/login.interface';
 
 @Injectable({
@@ -25,9 +25,20 @@ export class LoginService {
       (data: any) => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('authData', JSON.stringify(data));
+        alert('Éxito')
+      },
+      (({error}:any) => {
+        
+        alert(error);
+        console.log(JSON.stringify(error));
       }
+      )
     );
           
+  }
+
+  ngOnDestroy(){
+    //eliminar suscripcion  .unsubscribe()
   }
 
   getLoginData(): LoginDTO|undefined  {
