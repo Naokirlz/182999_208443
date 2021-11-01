@@ -10,43 +10,43 @@ import { LoginDTO } from '../interfaces/login.interface';
 export class LoginService {
 
   private apiUrl: string = 'http://localhost:5000/api/Login';
-  private header: {} = {"headers":'43FGZ5Ad&zTVc45pXnS5PoM!TrQsWCi2'};
-  
-  private uri = '/api/Login';
-  resource:string = '';
    
   constructor(private http: HttpClient) { }
 
-  // login(usuario: Usuario){
-
-  //   this.resource= "/Login"
-  //   const url = `${this.apiUrl}${this.resource}`
-
-
-  //   return this.http.post<Observable<string>>(url,usuario)
-  //   .subscribe(
-  //     (data: any) => {
-  //       this.respuesta = JSON.stringify(data.token);
-  //     }
-  //   );
-
-  // }
-
-  login(loginData: Usuario): Observable<LoginDTO> {
+  login(loginData: Usuario): void {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     
-    return this.http.post<LoginDTO>(
+    this.http.post<LoginDTO>(
       this.apiUrl,
-      loginData,
-      
-    )
-
-        
+      loginData
+    ).subscribe(
+      (data: any) => {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('authData', JSON.stringify(data));
+      }
+    );
           
   }
+
+  getLoginData(): LoginDTO|undefined  {
+    const localData: string|null = localStorage.getItem('authData') ;
+    if (localData) {
+      return JSON.parse(localData);
+    }
+    return undefined;
+  }
+
+  getAuthorizationToken(): string {
+    return (localStorage.getItem('token') ? localStorage.getItem('token') : '') as string;
+  } 
   
+  logout():void{
+
+      localStorage.setItem('token', '');
+      localStorage.setItem('authData', '');
+  }
 
   }
 

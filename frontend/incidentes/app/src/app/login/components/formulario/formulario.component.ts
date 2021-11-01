@@ -10,12 +10,9 @@ import { LoginService } from '../../services/login.service';
 })
 export class FormularioComponent implements OnInit {
 
-  @Input() nuevo: Usuario = {
-
-    NombreUsuario:'federico',
-    Contrasenia: 'password'
-
-  }
+  NombreUsuario:string = '';
+  Contrasenia :string = '';
+  
 
   @Output() onLoguearse: EventEmitter<Usuario> = new EventEmitter();
 
@@ -24,31 +21,32 @@ export class FormularioComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(){
+  login():void {
 
-
-    if (this.nuevo.NombreUsuario.trim().length === 0){return;}
-    if (this.nuevo.Contrasenia.trim().length === 0){return;}
-
-    //this.onLoguearse.emit(this.nuevo)
-    var r = this.loginService.login(this.nuevo);
-
-    r.subscribe(
-      (data: any) => {
-        console.log(JSON.stringify(data.token));
-        localStorage.setItem('token', JSON.stringify(data.token)) ;
-        console.log('token almacenado en local storage')
-      }
-    );
-
+    if (this.NombreUsuario.trim().length === 0){
     
-
-    this.nuevo = { 
-      NombreUsuario: "",
-      Contrasenia: ""
-    } 
+      alert('NombreUsuario no puede ser vacío');
+      return;
     
+    }
+    
+    if (this.Contrasenia.trim().length === 0){
+      
+      alert('Clave no puede ser vacía');
+      return;
+    }
+    
+    const usuario:Usuario ={
+      NombreUsuario: this.NombreUsuario,
+      Contrasenia: this.Contrasenia
+    }
 
+    this.loginService.login(usuario);
+    alert('Éxito');
+    
+      this.NombreUsuario = '';
+      this.Contrasenia= '';
+    
   }
 
 

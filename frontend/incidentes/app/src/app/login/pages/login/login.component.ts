@@ -12,14 +12,6 @@ export class LoginComponent implements OnInit {
 
   constructor() { }
 
-  nuevo: Usuario = {
-
-    NombreUsuario:'federico',
-    Contrasenia: 'password'
-
-  }
-
-
   ngOnInit(): void {
   }
 
