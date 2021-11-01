@@ -9,6 +9,6 @@ namespace Incidentes.LogicaInterfaz
 {
     public interface IFuente
     {
-        public List<Proyecto> ImportarBugs();
+        public List<Proyecto> ImportarBugs(string rutaFuente);
     }
 }

@@ -28,8 +28,9 @@ namespace Incidentes.Logica
             _usuarioId = usuarioId;
         }
 
-        public List<Proyecto> ImportarBugs()
+        public List<Proyecto> ImportarBugs(string rutaFuente)
         {
+            _rutaFuente = rutaFuente;
             List<Proyecto> retorno = new List<Proyecto>();
             List<string> lineas = File.ReadAllLines(_rutaFuente).ToList();
             int id_bug = 30;
