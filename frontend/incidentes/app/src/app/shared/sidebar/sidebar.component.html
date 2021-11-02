@@ -1,4 +1,4 @@
-<div *ngIf="true">
+<!-- <div *ngIf="true">
 <h3>Menú</h3>
         <hr>
         <ul class="list-group">
@@ -73,4 +73,57 @@
 
             
         </ul>
+</div> -->
+
+<div class="sidebar">
+    <div class="marca marca-gde">
+        <span>R</span>eporte <span>I</span>ncidentes
+    </div>
+    <div class="marca marca-sm">
+        <span>R</span> I
+    </div>
+    <div class="sidebar-menu">
+        <div class="profile">
+            <img src="assets/img/Logo.jpeg" alt />
+            <!-- <p v-text="actualUser.name"></p> -->
+        </div>
+        <li class="item">
+            <a routerLink="/login" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                true}" class="menu-btn">
+                <i class="pi pi-pencil"></i>
+                <span>Login</span>
+            </a>
+        </li>
+        <li class="item">
+            <a routerLink="/" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                true}" class="menu-btn">
+                <i class="pi pi-desktop"></i>
+                <span>Escritorio</span>
+            </a>
+        </li>
+        <li class="item">
+            <a routerLink="/usuarios" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-users"></i>
+                <span>
+                    Usuarios
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <!-- <a href="#productos" class="menu-btn">
+                <i class="fa fa-boxes"></i><span>Productos <i class="fa fa-chevron-down drop-down"></i></span>
+            </a> -->
+            <div class="sub-menu">
+                <a href="#">
+                    <i class="fa fa-list-ul"></i>
+                    <span>Resumen</span>
+                </a>
+                <!-- <router-link :to="{name: 'productos.configuracion'}" id="productos-categoria">
+                    <i class="fas fa-cogs"></i>
+                    <span>Configuración</span>
+                </router-link> -->
+            </div>
+        </li>
+        <li class="separator"></li>
+        <!-- <logout-button></logout-button> -->
+    </div>
 </div>

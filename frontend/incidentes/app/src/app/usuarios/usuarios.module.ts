@@ -4,6 +4,7 @@ import { AltaUsuarioComponent } from './pages/alta-usuario/alta-usuario.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { RouterModule } from '@angular/router';
+import { ListadoComponent } from './pages/listado/listado.component';
 
 
 
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AltaUsuarioComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    ListadoComponent
   ],
   imports: [
     CommonModule,

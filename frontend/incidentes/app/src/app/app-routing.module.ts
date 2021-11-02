@@ -10,6 +10,7 @@ import { ImportacionesComponent } from './importaciones/pages/importaciones/impo
 import { EstadosComponent } from './estados/pages/estados/estados.component';
 import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
 import { UsuariosComponent } from './usuarios/pages/usuarios/usuarios.component';
+import { ListadoComponent } from './usuarios/pages/listado/listado.component';
 
 
 const routes: Routes = [
@@ -17,57 +18,49 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     pathMatch: 'full'
+  },
+  {
+    path: 'salir',
+    component: LogoutComponent,
+  },
+  {
+    path: 'altaUsuario',
+    component: AltaUsuarioComponent,
+  },
+  {
+    path: 'reportes',
+    component: ReportesComponent,
+  },
+  {
+    path: 'proyectos',
+    component: ProyectosComponent,
+  },
+  {
+    path: 'incidentes',
+    component: IncidentesComponent,
+  },
+  {
+    path: 'importaciones',
+    component: ImportacionesComponent,
+  },
+  {
+    path: 'estados',
+    component: EstadosComponent,
+  },
+  {
+    path: 'asociaciones',
+    component: AsociacionesComponent,
+  },
+  {
+    path: 'usuarios',
+    component: ListadoComponent,
+  },
 
-},
+  {
+    path: '**',
+    redirectTo: ''
 
-{
-  path: 'salir',
-  component: LogoutComponent,
-  
-},
-{
-  path: 'altaUsuario',
-  component: AltaUsuarioComponent,
-  
-},
-
-
-{
-  path: 'reportes',
-  component: ReportesComponent,
-  
-},
-{
-  path: 'proyectos',
-  component: ProyectosComponent,
-  
-},
-{
-  path: 'incidentes',
-  component: IncidentesComponent,
-  
-},
-{
-  path: 'importaciones',
-  component: ImportacionesComponent,
-  
-},
-{
-  path: 'estados',
-  component: EstadosComponent,
-  
-},
-{
-  path: 'asociaciones',
-  component: AsociacionesComponent,
-  
-},
-
-{
-  path: '**',
-  redirectTo:''
-  
-},
+  },
 
 ];
 

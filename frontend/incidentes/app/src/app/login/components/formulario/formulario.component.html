@@ -1,23 +1,29 @@
+<!-- <hr>
 
-        <hr>
+<form (ngSubmit)="login()">
+    <input type="text" placeholder="Nombre" name="nombre" [(ngModel)]="NombreUsuario" />
 
-        <form (ngSubmit) = "login()">
-            <input 
-                type="text" 
-                placeholder="Nombre"
-                name = "nombre"
-                [(ngModel)] = "NombreUsuario"
-            />
-         
-            <input 
-                type="text" 
-                placeholder="Clave"
-                name = "clave"
-                [(ngModel)] = "Contrasenia"
-            />
+    <input type="text" placeholder="Clave" name="clave" [(ngModel)]="Contrasenia" />
 
-            <button>
-                Ingresar
-            </button>
+    <button>
+        Ingresar
+    </button>
 
-        </form>
+</form> -->
+
+<div>
+    <form (ngSubmit)="login()" class="card-internal">
+        <div class="card-header">Login</div>
+        <div class="card-body">
+            <label>Nombre de Usuario</label>
+            <input id="nombreUsuario" type="text" pInputText [(ngModel)]="NombreUsuario"
+                placeholder="Nombre de Usuario">
+            <label>Contraseña</label>
+            <input id="contrasenia" type="password" pInputText [(ngModel)]="Contrasenia"
+                placeholder="Contraseña">
+        </div>
+        <div class="card-footer">
+            <input type="submit" id="btn-guardar" value="Ingresar" class="btn btn-success" />
+        </div>
+    </form>
+</div>

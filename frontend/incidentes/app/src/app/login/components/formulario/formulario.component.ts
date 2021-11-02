@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output,EventEmitter} from '@angular/core';
 import { Usuario } from '../../interfaces/dtoUsuario.interface';
 import { LoginService } from '../../services/login.service';
+import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-formulario',

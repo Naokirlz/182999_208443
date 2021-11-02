@@ -1,10 +1,15 @@
-<div class= "row container mt-4">
-
-       
-        <app-menu></app-menu>
-        <router-outlet></router-outlet>
-   
-
-
-
+<div class="wrapper" [ngClass]="colapsado ? 'colapsado' : ''">
+    <!-- ***************************************
+                Menu Superior 
+        **************************************** -->
+    <app-menu-superior (onToogle)="toogleMenu($event)"></app-menu-superior>
+    <!-- ***************************************
+                Menu Lateral 
+    **************************************** -->
+    <app-sidebar></app-sidebar>
+    <!-- <app-sidebar></app-sidebar> -->
+    <!-- ***************************************
+            Contenedor Principal
+    **************************************** -->
+    <router-outlet></router-outlet>
 </div>
