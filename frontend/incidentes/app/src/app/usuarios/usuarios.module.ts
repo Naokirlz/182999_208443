@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AltaUsuarioComponent } from './pages/alta-usuario/alta-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
-import { RouterModule } from '@angular/router';
 import { VerUsuariosComponent } from './pages/ver-usuarios/ver-usuarios.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
@@ -21,7 +20,6 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
     PrimeNgModule
   ],
   exports:[

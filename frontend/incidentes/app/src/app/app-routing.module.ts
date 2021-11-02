@@ -11,6 +11,7 @@ import { EstadosComponent } from './estados/pages/estados/estados.component';
 import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
 import { UsuariosComponent } from './usuarios/pages/usuarios/usuarios.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
+import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,11 @@ const routes: Routes = [
 {
   path: 'proyectos',
   component: ProyectosComponent,
+  
+},
+{
+  path: 'altaProyecto',
+  component: AltaProyectoComponent,
   
 },
 {

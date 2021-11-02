@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output,EventEmitter} from '@angular/core';
-import { Usuario } from '../../interfaces/dtoUsuario.interface';
+import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { LoginService } from '../../services/login.service';
 
 @Component({
