@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from 'src/app/login/interfaces/dtoUsuario.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,9 +40,27 @@ export class UsuariosService {
       }
       )
     );
-    
-    
+        
   }
+
+  getUsuario():Observable<Usuario[]>{
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+
+    return this.http.get<Usuario[]>(
+      this.apiUrl,
+      httpOptions
+    );
+        
+  }
+
+  
 
 
 }

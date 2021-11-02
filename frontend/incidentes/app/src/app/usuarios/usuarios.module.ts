@@ -4,6 +4,8 @@ import { AltaUsuarioComponent } from './pages/alta-usuario/alta-usuario.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { RouterModule } from '@angular/router';
+import { VerUsuariosComponent } from './pages/ver-usuarios/ver-usuarios.component';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
 
 
@@ -12,13 +14,15 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AltaUsuarioComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    VerUsuariosComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    PrimeNgModule
   ],
   exports:[
     AltaUsuarioComponent,

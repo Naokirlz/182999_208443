@@ -10,6 +10,7 @@ import { ImportacionesComponent } from './importaciones/pages/importaciones/impo
 import { EstadosComponent } from './estados/pages/estados/estados.component';
 import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
 import { UsuariosComponent } from './usuarios/pages/usuarios/usuarios.component';
+import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,11 @@ const routes: Routes = [
 {
   path: 'altaUsuario',
   component: AltaUsuarioComponent,
+  
+},
+{
+  path: 'verUsuarios',
+  component: VerUsuariosComponent,
   
 },
 
