@@ -9,6 +9,7 @@ import { IncidentesComponent } from './incidentes/pages/incidentes/incidentes.co
 import { ImportacionesComponent } from './importaciones/pages/importaciones/importaciones.component';
 import { EstadosComponent } from './estados/pages/estados/estados.component';
 import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
+import { UsuariosComponent } from './usuarios/pages/usuarios/usuarios.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,8 @@ const routes: Routes = [
   component: AltaUsuarioComponent,
   
 },
+
+
 {
   path: 'reportes',
   component: ReportesComponent,
@@ -57,6 +60,12 @@ const routes: Routes = [
 {
   path: 'asociaciones',
   component: AsociacionesComponent,
+  
+},
+
+{
+  path: '**',
+  redirectTo:''
   
 },
 

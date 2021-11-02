@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AltaUsuarioComponent } from './pages/alta-usuario/alta-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -9,14 +11,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AltaUsuarioComponent
+    AltaUsuarioComponent,
+    UsuariosComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
-      
-    
+    ReactiveFormsModule,
+    RouterModule
+  ],
+  exports:[
+    AltaUsuarioComponent,
+    UsuariosComponent
   ]
 })
 export class UsuariosModule { }
