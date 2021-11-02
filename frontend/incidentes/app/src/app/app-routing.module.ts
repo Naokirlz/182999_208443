@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/pages/login/login.component';
 import { LogoutComponent } from './login/pages/logout/logout.component';
-import { AltaComponent } from './agregar-usuario/alta/alta.component';
+import { AltaUsuarioComponent } from './usuarios/pages/alta-usuario/alta-usuario.component';
+import { ReportesComponent } from './reportes/pages/reportes/reportes.component';
+import { ProyectosComponent } from './proyectos/pages/proyectos/proyectos.component';
+import { IncidentesComponent } from './incidentes/pages/incidentes/incidentes.component';
+import { ImportacionesComponent } from './importaciones/pages/importaciones/importaciones.component';
+import { EstadosComponent } from './estados/pages/estados/estados.component';
+import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
 
 
 const routes: Routes = [
@@ -20,7 +26,37 @@ const routes: Routes = [
 },
 {
   path: 'usuarios',
-  component: AltaComponent,
+  component: AltaUsuarioComponent,
+  
+},
+{
+  path: 'reportes',
+  component: ReportesComponent,
+  
+},
+{
+  path: 'proyectos',
+  component: ProyectosComponent,
+  
+},
+{
+  path: 'incidentes',
+  component: IncidentesComponent,
+  
+},
+{
+  path: 'importaciones',
+  component: ImportacionesComponent,
+  
+},
+{
+  path: 'estados',
+  component: EstadosComponent,
+  
+},
+{
+  path: 'asociaciones',
+  component: AsociacionesComponent,
   
 },
 

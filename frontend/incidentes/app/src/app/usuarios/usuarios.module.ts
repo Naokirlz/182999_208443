@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AltaComponent } from './alta/alta.component';
+import { AltaUsuarioComponent } from './pages/alta-usuario/alta-usuario.component';
 
 
 
 @NgModule({
   declarations: [
-    AltaComponent
+    AltaUsuarioComponent
   ],
   imports: [
     CommonModule
   ]
 })
-export class AgregarUsuarioModule { }
+export class UsuariosModule { }
