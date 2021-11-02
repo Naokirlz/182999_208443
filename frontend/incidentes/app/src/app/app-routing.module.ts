@@ -26,7 +26,7 @@ const routes: Routes = [
   
 },
 {
-  path: 'usuarios',
+  path: 'altaUsuario',
   component: AltaUsuarioComponent,
   
 },

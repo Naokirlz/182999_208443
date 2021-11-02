@@ -20,11 +20,15 @@ export class MenuComponent implements OnInit {
           
           icon: 'pi pi-fw pi-power-off',
           items: [{
-                  label: 'Login', 
+                  label: 'Login',
+                  routerLink:"login"
+                  , 
                                    
                   },
                   {
-                  label: 'Logout'},
+                  label: 'Logout',
+                  routerLink:'salir'
+                  },
               
                   ]
       },
@@ -32,8 +36,12 @@ export class MenuComponent implements OnInit {
           label: 'Usuarios',
           icon: 'pi pi-fw pi-user',
           items: [
-              {label: 'Alta', icon: 'pi pi-fw pi-user-plus'},
-              {label: 'Ver', icon: 'pi pi-fw pi-search'}
+                  {
+                   label: 'Alta', 
+                   icon: 'pi pi-fw pi-user-plus',
+                   routerLink:'altaUsuario'
+                  },
+                  {label: 'Ver', icon: 'pi pi-fw pi-search'}
           ]
       }
   ];
