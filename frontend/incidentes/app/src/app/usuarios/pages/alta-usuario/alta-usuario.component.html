@@ -1,4 +1,6 @@
-<form autocomplete="off" [formGroup]="miFormulario">
+<form autocomplete="off" 
+      [formGroup]="miFormulario"
+      (ngSubmit)="altaUsuario()">
     
     <!-- Nombre -->
     <div class="mb-3 row">
@@ -9,7 +11,8 @@
                     placeholder="Cristian"
                     formControlName ="Nombre"
             >
-            <span class="form-text text-danget">
+            <span class="form-text text-danger"
+                  *ngIf="campoEsValido('Nombre')">
                   Este campo es obligatorio
             </span>
         </div>
@@ -24,7 +27,8 @@
                     formControlName ="Apellido"
                    
             >
-            <span class="form-text text-danget">
+            <span class="form-text text-danger"
+                  *ngIf="campoEsValido('Apellido')">
                   Este campo es obligatorio
             </span>
         </div>
@@ -40,7 +44,8 @@
                     formControlName ="Contrasenia"
                    
             >
-            <span class="form-text text-danget">
+            <span class="form-text text-danger"
+                  *ngIf="campoEsValido('Contrasenia')">
                   Este campo es obligatorio
             </span>
         </div>
@@ -67,7 +72,8 @@
                     formControlName ="Email" 
                    
             >
-            <span class="form-text text-danget">
+            <span class="form-text text-danger"
+                  *ngIf="campoEsValido('Email')">
                   Este campo es obligatorio
             </span>
         </div>
@@ -84,7 +90,8 @@
                     formControlName ="NombreUsuario" 
                    
             >
-            <span class="form-text text-danget">
+            <span class="form-text text-danger"
+                  *ngIf="campoEsValido('NombreUsuario')">
                   Este campo es obligatorio
             </span>
         </div>
@@ -94,10 +101,12 @@
         <div class="col">
             <button type = "submit"
                     class="btn btn-primary float-end"
-                    [disabled]="miFormulario.invalid"
-                    (click)="altaUsuario()">
+                    
+            >
                 Alta
             </button>
         </div>
     </div>
  </form>
+
+ <!-- [disabled]="miFormulario.invalid" -->

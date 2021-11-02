@@ -21,17 +21,30 @@ export class AltaUsuarioComponent implements OnInit {
   miFormulario:FormGroup = this.fb.group({
 
     Nombre:[, [Validators.required, Validators.minLength(3)]],
-    Apellido: [],
-    Contrasenia:[],
+    Apellido: [,Validators.required],
+    Contrasenia:[,Validators.required],
     RolUsuario:[1],
-    Email:[],
-    NombreUsuario:[]
+    Email:[,Validators.required],
+    NombreUsuario:[,Validators.required]
 
   })
+
+  campoEsValido(campo:string){
+
+    return this.miFormulario.controls[campo].errors  
+           && this.miFormulario.controls[campo].touched
+
+  }
 
 
   altaUsuario(){
 
+    if(this.miFormulario.invalid){
+    
+      this.miFormulario.markAllAsTouched();
+      return;
+    }
+    console.log(this.miFormulario.value);
 
   }
 
