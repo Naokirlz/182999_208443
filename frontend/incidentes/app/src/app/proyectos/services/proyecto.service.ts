@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Proyecto } from '../../interfaces/proyecto.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
+export class ProyectoService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl: string = 'http://localhost:5000/api/Usuarios';
+  private apiUrl: string = 'http://localhost:5000/api/Proyectos';
   token:string = localStorage.getItem('token')!;
 
-  
-  alta(usuario: Usuario):void{
+
+  alta(proyecto: Proyecto):void{
 
     const httpOptions = {
 
@@ -25,9 +25,9 @@ export class UsuariosService {
 
     httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
 
-    this.http.post<Usuario>(
+    this.http.post<Proyecto>(
       this.apiUrl,
-      usuario,
+      proyecto,
       httpOptions
     ).subscribe(
       (data: any) => {
@@ -43,7 +43,7 @@ export class UsuariosService {
         
   }
 
-  getUsuario():Observable<Usuario[]>{
+  getProyecto():Observable<Proyecto[]>{
     const httpOptions = {
 
       headers: new HttpHeaders({
@@ -53,16 +53,14 @@ export class UsuariosService {
 
     httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
 
-    return this.http.get<Usuario[]>(
+    return this.http.get<Proyecto[]>(
       this.apiUrl,
       httpOptions
     );
         
   }
 
-  
 
-  
 
 
 }

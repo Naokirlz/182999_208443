@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario } from '../interfaces/dtoUsuario.interface';
+import { Usuario } from '../../interfaces/dtoUsuario.interface';
 import { Observable , throwError} from 'rxjs';
-import { LoginDTO } from '../interfaces/login.interface';
+import { LoginDTO } from 'src/app/interfaces/login.interface';
+
 
 @Injectable({
   providedIn: 'root'

@@ -11,6 +11,9 @@ import { EstadosComponent } from './estados/pages/estados/estados.component';
 import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
 import { UsuariosComponent } from './usuarios/pages/usuarios/usuarios.component';
 import { ListadoComponent } from './usuarios/pages/listado/listado.component';
+import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
+import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
+import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proyectos.component';
 
 
 const routes: Routes = [
@@ -56,11 +59,68 @@ const routes: Routes = [
     component: ListadoComponent,
   },
 
-  {
-    path: '**',
-    redirectTo: ''
+{
+  path: 'salir',
+  component: LogoutComponent,
+  
+},
+{
+  path: 'altaUsuario',
+  component: AltaUsuarioComponent,
+  
+},
+{
+  path: 'verUsuarios',
+  component: VerUsuariosComponent,
+  
+},
 
-  },
+
+{
+  path: 'reportes',
+  component: ReportesComponent,
+  
+},
+{
+  path: 'proyectos',
+  component: ProyectosComponent,
+  
+},
+{
+  path: 'altaProyecto',
+  component: AltaProyectoComponent,
+  
+},
+
+{
+  path: 'verProyectos',
+  component: VerProyectosComponent,
+  
+},
+{
+  path: 'incidentes',
+  component: IncidentesComponent,
+  
+},
+{
+  path: 'importaciones',
+  component: ImportacionesComponent,
+  
+},
+{
+  path: 'estados',
+  component: EstadosComponent,
+  
+},
+{
+  path: 'asociaciones',
+  component: AsociacionesComponent,
+  
+},
+{
+  path: '**',
+  redirectTo: ''
+},
 
 ];
 

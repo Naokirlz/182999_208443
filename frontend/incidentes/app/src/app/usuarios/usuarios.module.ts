@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { RouterModule } from '@angular/router';
 import { ListadoComponent } from './pages/listado/listado.component';
+import { VerUsuariosComponent } from './pages/ver-usuarios/ver-usuarios.component';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
 
 
@@ -14,13 +16,14 @@ import { ListadoComponent } from './pages/listado/listado.component';
   declarations: [
     AltaUsuarioComponent,
     UsuariosComponent,
-    ListadoComponent
+    ListadoComponent,
+    VerUsuariosComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    PrimeNgModule
   ],
   exports:[
     AltaUsuarioComponent,

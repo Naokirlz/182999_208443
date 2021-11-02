@@ -41,7 +41,9 @@ export class MenuComponent implements OnInit {
                    icon: 'pi pi-fw pi-user-plus',
                    routerLink:'altaUsuario'
                   },
-                  {label: 'Ver', icon: 'pi pi-fw pi-search'}
+                  {label: 'Ver', 
+                  icon: 'pi pi-fw pi-search',
+                  routerLink:'verUsuarios'}
           ]
       }
   ];

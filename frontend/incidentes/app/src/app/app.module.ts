@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './login/login.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { PrimeNgModule } from './prime-ng/prime-ng.module';
+import { ProyectosModule } from './proyectos/proyectos.module';
 
 
 
@@ -22,7 +23,8 @@ import { PrimeNgModule } from './prime-ng/prime-ng.module';
     SharedModule,
     LoginModule,
     UsuariosModule,
-    PrimeNgModule    
+    PrimeNgModule,
+    ProyectosModule    
   ],
   providers: [],
   bootstrap: [AppComponent]
