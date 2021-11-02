@@ -6,6 +6,14 @@ import { ProyectoService } from '../../services/proyecto.service';
   selector: 'app-ver-proyectos',
   templateUrl: './ver-proyectos.component.html',
   styles: [
+    
+    `
+    td, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+    }
+
+    `
   ]
 })
 export class VerProyectosComponent implements OnInit {
