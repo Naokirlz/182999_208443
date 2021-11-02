@@ -1,1 +1,64 @@
-<p>alta-usuario works!</p>
+<form class="standardForm">
+    <h3>Agregar Usuario</h3>
+
+    <div fxLayout="column">
+
+     
+        <h5>Nombre</h5>
+        <input
+          matInput
+          type="text"
+          placeholder="Cristian"
+          min="3"
+          name="Nombre"
+          [(ngModel)]="Nombre"
+        >
+        <h5>Apellido</h5>
+        <input
+          matInput
+          type="text"
+          placeholder="Cristian"
+          min="3"
+          name="Apellido"
+          [(ngModel)]="Apellido"
+        >
+        <h5>Contraseña</h5>
+        <input
+          matInput
+          type="password"
+          placeholder="Cristian"
+          min="3"
+          name="Contrasenia"
+          [(ngModel)]="Contrasenia"
+        >
+        <h5>Rol</h5>
+        <select name="rol">
+            <option value="Administrador">Administrador</option>
+            <option value="Tester">Tester</option>
+            <option value="Desarrollador">Desarrollador</option>
+        </select>
+
+        <h5>Email</h5>
+        <input
+          matInput
+          type="email"
+          placeholder="cristian@gmail.com"
+          min="3"
+          name="Email"
+          [(ngModel)]="Email"
+        >
+        <h5>Nombre de Usuario</h5>
+        <input
+          matInput
+          type="text"
+          placeholder="Cristian"
+          min="3"
+          name="NombreUsuario"
+          [(ngModel)]="NombreUsuario"
+        >
+        
+      </div>
+    <button mat-raised-button color="primary" (click)="altaUsuario()" >
+        Alta
+      </button>
+  </form>
