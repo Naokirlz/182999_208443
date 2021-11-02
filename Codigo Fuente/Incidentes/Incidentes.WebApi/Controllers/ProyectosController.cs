@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
-    [EnableCors("HabilitarAngularFrontEndClientApp")]
     [Route("api/[controller]")]
     [TrapExcepciones]
     [ApiController]

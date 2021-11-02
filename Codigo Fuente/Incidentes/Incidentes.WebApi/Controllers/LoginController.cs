@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Incidentes.WebApi.Controllers
 {
-    [EnableCors("HabilitarAngularFrontEndClientApp")]
     [ApiController]
     public class LoginController : ControllerBase
     {

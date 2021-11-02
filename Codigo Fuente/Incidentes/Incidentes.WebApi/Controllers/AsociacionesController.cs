@@ -12,7 +12,6 @@ using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
-    [EnableCors("HabilitarAngularFrontEndClientApp")]
     [Route("api/[controller]")]
     [ApiController]
     public class AsociacionesController : ControllerBase
