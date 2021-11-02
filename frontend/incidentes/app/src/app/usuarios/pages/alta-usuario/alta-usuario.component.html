@@ -1,64 +1,103 @@
-<form class="standardForm">
-    <h3>Agregar Usuario</h3>
-
-    <div fxLayout="column">
-
-     
-        <h5>Nombre</h5>
-        <input
-          matInput
-          type="text"
-          placeholder="Cristian"
-          min="3"
-          name="Nombre"
-          [(ngModel)]="Nombre"
-        >
-        <h5>Apellido</h5>
-        <input
-          matInput
-          type="text"
-          placeholder="Cristian"
-          min="3"
-          name="Apellido"
-          [(ngModel)]="Apellido"
-        >
-        <h5>Contraseña</h5>
-        <input
-          matInput
-          type="password"
-          placeholder="Cristian"
-          min="3"
-          name="Contrasenia"
-          [(ngModel)]="Contrasenia"
-        >
-        <h5>Rol</h5>
-        <select name="rol">
-            <option value="Administrador">Administrador</option>
-            <option value="Tester">Tester</option>
-            <option value="Desarrollador">Desarrollador</option>
-        </select>
-
-        <h5>Email</h5>
-        <input
-          matInput
-          type="email"
-          placeholder="cristian@gmail.com"
-          min="3"
-          name="Email"
-          [(ngModel)]="Email"
-        >
-        <h5>Nombre de Usuario</h5>
-        <input
-          matInput
-          type="text"
-          placeholder="Cristian"
-          min="3"
-          name="NombreUsuario"
-          [(ngModel)]="NombreUsuario"
-        >
-        
-      </div>
-    <button mat-raised-button color="primary" (click)="altaUsuario()" >
-        Alta
-      </button>
-  </form>
+<form autocomplete="off" [formGroup]="miFormulario">
+    
+    <!-- Nombre -->
+    <div class="mb-3 row">
+        <label class ="col-sm-3 col-form-label">Nombre</label>
+        <div class="col-sm-9">
+            <input  class="form-control"
+                    type="text"
+                    placeholder="Cristian"
+                    formControlName ="Nombre"
+            >
+            <span class="form-text text-danget">
+                  Este campo es obligatorio
+            </span>
+        </div>
+    </div>
+    <!-- Apellido -->
+    <div class="mb-3 row">
+        <label class ="col-sm-3 col-form-label">Apellido</label>
+        <div class="col-sm-9">
+            <input class="form-control"
+                    type="text"
+                    placeholder="Cristian"
+                    formControlName ="Apellido"
+                   
+            >
+            <span class="form-text text-danget">
+                  Este campo es obligatorio
+            </span>
+        </div>
+    </div>
+    <!-- Contraseña -->
+    <div class="mb-3 row">
+        <label class ="col-sm-3 col-form-label">Contraseña</label>
+        <div class="col-sm-9">
+            <input class="form-control"
+                    matInput
+                    type="password"
+                    placeholder="Cristian"
+                    formControlName ="Contrasenia"
+                   
+            >
+            <span class="form-text text-danget">
+                  Este campo es obligatorio
+            </span>
+        </div>
+    </div>
+    <!-- Rol -->
+    <div class="mb-3 row">
+        <label class ="col-sm-3 col-form-label">Rol</label>
+        <div class="col-sm-9">
+            <select RolUsuario="rol" formControlName ="RolUsuario" >
+                <option value= 0 >Administrador</option>
+                <option value= 1 >Tester</option>
+                <option value= 2 >Desarrollador</option>
+            </select>
+        </div>
+    </div>
+    <!-- Email -->
+    <div class="mb-3 row">
+        <label class ="col-sm-3 col-form-label">Email</label>
+        <div class="col-sm-9">
+            <input class="form-control"
+                    matInput
+                    type="email"
+                    placeholder="cristian@gmail.com"
+                    formControlName ="Email" 
+                   
+            >
+            <span class="form-text text-danget">
+                  Este campo es obligatorio
+            </span>
+        </div>
+    </div>
+    <!-- Nombre de Usuario -->
+    <div class="mb-3 row">
+        <label class ="col-sm-3 col-form-label">Nombre de Usuario</label>
+        <div class="col-sm-9">
+            <input class="form-control"
+                    matInput
+                    type="text"
+                    placeholder="Cristian"
+                    min="3"
+                    formControlName ="NombreUsuario" 
+                   
+            >
+            <span class="form-text text-danget">
+                  Este campo es obligatorio
+            </span>
+        </div>
+    </div>
+      
+    <div class="row">
+        <div class="col">
+            <button type = "submit"
+                    class="btn btn-primary float-end"
+                    [disabled]="miFormulario.invalid"
+                    (click)="altaUsuario()">
+                Alta
+            </button>
+        </div>
+    </div>
+ </form>

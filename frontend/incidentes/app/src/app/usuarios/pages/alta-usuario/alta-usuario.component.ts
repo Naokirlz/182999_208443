@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/login/interfaces/dtoUsuario.interface';
 import { UsuariosService } from '../../services/usuarios.service';
 
@@ -10,30 +11,27 @@ import { UsuariosService } from '../../services/usuarios.service';
 })
 export class AltaUsuarioComponent implements OnInit {
 
-  constructor(private usuarioServive:UsuariosService) { }
+  constructor(private usuarioServive:UsuariosService,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
-  Nombre:string = '';
-  Apellido:string = '';
-  Contrasenia:string = '';
-  RolUsuario:string = '';
-  Email:string = '';
-  NombreUsuario:string = '';
+ 
+  miFormulario:FormGroup = this.fb.group({
+
+    Nombre:[, [Validators.required, Validators.minLength(3)]],
+    Apellido: [],
+    Contrasenia:[],
+    RolUsuario:[1],
+    Email:[],
+    NombreUsuario:[]
+
+  })
+
 
   altaUsuario(){
 
-    const usuario:Usuario ={
-      NombreUsuario: this.NombreUsuario,
-      Contrasenia: this.Contrasenia,
-      Apellido:this.Apellido,
-      Nombre:this.Nombre,
-      RolUsuario:0,
-      Email:this.Email
-    }
-
-    this.usuarioServive.alta(usuario);
 
   }
 
