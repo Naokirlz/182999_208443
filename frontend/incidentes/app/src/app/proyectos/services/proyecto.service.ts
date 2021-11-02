@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Proyecto } from '../../interfaces/proyecto.interface';
 
 @Injectable({
@@ -38,6 +39,23 @@ export class ProyectoService {
         console.log(JSON.stringify(error));
       }
       )
+    );
+        
+  }
+
+  getProyecto():Observable<Proyecto[]>{
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+
+    return this.http.get<Proyecto[]>(
+      this.apiUrl,
+      httpOptions
     );
         
   }

@@ -12,6 +12,7 @@ import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociac
 import { UsuariosComponent } from './usuarios/pages/usuarios/usuarios.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
 import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
+import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proyectos.component';
 
 
 const routes: Routes = [
@@ -52,6 +53,12 @@ const routes: Routes = [
 {
   path: 'altaProyecto',
   component: AltaProyectoComponent,
+  
+},
+
+{
+  path: 'verProyectos',
+  component: VerProyectosComponent,
   
 },
 {
