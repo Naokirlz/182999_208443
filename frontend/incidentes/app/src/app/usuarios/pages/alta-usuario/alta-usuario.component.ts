@@ -29,7 +29,7 @@ export class AltaUsuarioComponent implements OnInit {
       Contrasenia: this.Contrasenia,
       Apellido:this.Apellido,
       Nombre:this.Nombre,
-      RolUsuario:'0',
+      RolUsuario:0,
       Email:this.Email
     }
 

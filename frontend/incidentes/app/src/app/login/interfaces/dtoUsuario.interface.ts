@@ -4,7 +4,7 @@ export interface Usuario {
         Contrasenia:string;
         Nombre?:string;
         Apellido?:string;
-        RolUsuario?:string;
+        RolUsuario?:number;
         Email?:string;
 
 
