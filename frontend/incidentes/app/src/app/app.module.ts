@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './login/login.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { PrimeNgModule } from './prime-ng/prime-ng.module';
 
 
 
@@ -20,7 +21,8 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     HttpClientModule,
     SharedModule,
     LoginModule,
-    UsuariosModule    
+    UsuariosModule,
+    PrimeNgModule    
   ],
   providers: [],
   bootstrap: [AppComponent]
