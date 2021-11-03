@@ -14,6 +14,7 @@ import { ListadoComponent } from './usuarios/pages/listado/listado.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
 import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
 import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proyectos.component';
+import { VerTareasComponent } from './tareas/pages/ver-tareas/ver-tareas.component';
 
 
 const routes: Routes = [
@@ -55,72 +56,14 @@ const routes: Routes = [
     component: AsociacionesComponent,
   },
   {
-    path: 'usuarios',
-    component: ListadoComponent,
+    path: 'tareas',
+    component: VerTareasComponent,
+
   },
-
-{
-  path: 'salir',
-  component: LogoutComponent,
-  
-},
-{
-  path: 'altaUsuario',
-  component: AltaUsuarioComponent,
-  
-},
-{
-  path: 'verUsuarios',
-  component: VerUsuariosComponent,
-  
-},
-
-
-{
-  path: 'reportes',
-  component: ReportesComponent,
-  
-},
-{
-  path: 'proyectos',
-  component: ProyectosComponent,
-  
-},
-{
-  path: 'altaProyecto',
-  component: AltaProyectoComponent,
-  
-},
-
-{
-  path: 'verProyectos',
-  component: VerProyectosComponent,
-  
-},
-{
-  path: 'incidentes',
-  component: IncidentesComponent,
-  
-},
-{
-  path: 'importaciones',
-  component: ImportacionesComponent,
-  
-},
-{
-  path: 'estados',
-  component: EstadosComponent,
-  
-},
-{
-  path: 'asociaciones',
-  component: AsociacionesComponent,
-  
-},
-{
-  path: '**',
-  redirectTo: ''
-},
+  {
+    path: '**',
+    redirectTo: ''
+  },
 
 ];
 

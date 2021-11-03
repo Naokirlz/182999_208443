@@ -9,12 +9,16 @@ import { LoginModule } from './login/login.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { PrimeNgModule } from './prime-ng/prime-ng.module';
 import { ProyectosModule } from './proyectos/proyectos.module';
+import { VerTareasComponent } from './tareas/pages/ver-tareas/ver-tareas.component';
+import { AltaTareaComponent } from './tareas/pages/alta-tarea/alta-tarea.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    VerTareasComponent,
+    AltaTareaComponent,
   ],
   imports: [
     BrowserModule,
