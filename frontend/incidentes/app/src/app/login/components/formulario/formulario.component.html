@@ -12,14 +12,14 @@
 </form> -->
 
 <div>
-    <form (ngSubmit)="login()" class="card-internal">
+    <form (ngSubmit)="login()" [formGroup]="miFormulario" class="card-internal">
         <div class="card-header">Login</div>
         <div class="card-body">
             <label>Nombre de Usuario</label>
-            <input id="nombreUsuario" type="text" pInputText [(ngModel)]="NombreUsuario"
+            <input id="nombreUsuario" type="text" pInputText formControlName="nombre"
                 placeholder="Nombre de Usuario">
             <label>Contraseña</label>
-            <input id="contrasenia" type="password" pInputText [(ngModel)]="Contrasenia"
+            <input id="contrasenia" type="password" pInputText formControlName="contrasenia"
                 placeholder="Contraseña">
         </div>
         <div class="card-footer">

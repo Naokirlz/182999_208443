@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output,EventEmitter} from '@angular/core';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { LoginService } from '../../services/login.service';
 import {InputTextModule} from 'primeng/inputtext';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-formulario',
@@ -11,41 +12,43 @@ import {InputTextModule} from 'primeng/inputtext';
 })
 export class FormularioComponent implements OnInit {
 
-  NombreUsuario:string = '';
-  Contrasenia :string = '';
-  
 
-  @Output() onLoguearse: EventEmitter<Usuario> = new EventEmitter();
 
-  constructor(private loginService:LoginService) { }
+  constructor(private loginService:LoginService,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
+  
+  miFormulario:FormGroup = this.fb.group({
+
+    nombre       :[, [Validators.required, Validators.minLength(3)] ],
+    contrasenia       :[, [Validators.required, Validators.minLength(3)] ],
+
+  })
+
+  campoEsValido(campo:string){
+
+    return this.miFormulario.controls[campo].errors  
+           && this.miFormulario.controls[campo].touched
+
+  }
+
   login():void {
 
-    if (this.NombreUsuario.trim().length === 0){
     
-      alert('NombreUsuario no puede ser vacío');
-      return;
-    
+    const usuario:Usuario = {
+
+      NombreUsuario: this.miFormulario.value.nombre,
+      Contrasenia: this.miFormulario.value.contrasenia
+
     }
-    
-    if (this.Contrasenia.trim().length === 0){
-      
-      alert('Clave no puede ser vacía');
-      return;
-    }
-    
-    const usuario:Usuario ={
-      NombreUsuario: this.NombreUsuario,
-      Contrasenia: this.Contrasenia
-    }
+
 
     this.loginService.login(usuario);
     
-      this.NombreUsuario = '';
-      this.Contrasenia= '';
+    this.miFormulario.reset();
     
   }
 
