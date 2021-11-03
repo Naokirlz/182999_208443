@@ -33,7 +33,7 @@ export class VerProyectosComponent implements OnInit {
   }
 
   eliminar(id:number):void{
-    alert(id);
+    this.proyectoService.deleteProyecto(id);
   }
 
   private result(data: Array<Proyecto>): void {

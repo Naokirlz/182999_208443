@@ -37,6 +37,11 @@ export class FormularioComponent implements OnInit {
 
   login():void {
 
+    if(this.miFormulario.invalid){
+    
+      this.miFormulario.markAllAsTouched();
+      return;
+    }
     
     const usuario:Usuario = {
 

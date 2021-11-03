@@ -15,15 +15,30 @@
     <form (ngSubmit)="login()" [formGroup]="miFormulario" class="card-internal">
         <div class="card-header">Login</div>
         <div class="card-body">
-            <label>Nombre de Usuario</label>
-            <input id="nombreUsuario" type="text" pInputText formControlName="nombre"
-                placeholder="Nombre de Usuario">
-            <label>Contraseña</label>
-            <input id="contrasenia" type="password" pInputText formControlName="contrasenia"
-                placeholder="Contraseña">
+            <div class="mb-3 row">
+                <div class="col-sm-9">
+                    <label>Nombre de Usuario</label>
+                    <input id="nombreUsuario" type="text" pInputText formControlName="nombre"
+                          placeholder="Nombre de Usuario">
+                    <span class="form-text text-danger" *ngIf="campoEsValido('nombre')">
+                            Este campo es obligatorio
+                    </span>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-9">
+                    <label>Contraseña</label>
+                    <input id="contrasenia" type="password" pInputText formControlName="contrasenia"
+                        placeholder="Contraseña">
+                    <span class="form-text text-danger" *ngIf="campoEsValido('contrasenia')">
+                            Este campo es obligatorio
+                    </span>
+               </div>
+           </div>
         </div>
         <div class="card-footer">
             <input type="submit" id="btn-guardar" value="Ingresar" class="btn btn-success" />
+            <button pButton type="submit" label="Ingresar" icon="pi pi-check" class="p-button-success" iconPos="right"></button>
         </div>
     </form>
 </div>
