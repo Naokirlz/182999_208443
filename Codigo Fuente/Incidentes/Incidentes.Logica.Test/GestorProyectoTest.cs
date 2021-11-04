@@ -102,13 +102,13 @@ namespace Incidentes.Logica.Test
             IQueryable<Proyecto> queryableP = lista.AsQueryable();
  
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true)).Returns(queryableP);
-
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(2)).Returns(proyectoD);
+            
             Proyecto encontrado = gestorProyecto.Obtener(2);
 
             Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(2));
         }
 
         [Test]
