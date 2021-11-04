@@ -28,7 +28,11 @@ const routes: Routes = [
     component: LogoutComponent,
   },
   {
-    path: 'altaUsuario',
+    path: 'usuarios',
+    component: VerUsuariosComponent,
+  },
+  {
+    path: 'usuarios/alta',
     component: AltaUsuarioComponent,
   },
   {

@@ -14,7 +14,7 @@ export class UsuariosService {
   token:string = localStorage.getItem('token')!;
 
   
-  alta(usuario: Usuario):void{
+  alta(usuario: Usuario):boolean{
 
     const httpOptions = {
 
@@ -24,7 +24,7 @@ export class UsuariosService {
     };
 
     httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
-
+    let correcto : boolean = false;
     this.http.post<Usuario>(
       this.apiUrl,
       usuario,
@@ -32,14 +32,15 @@ export class UsuariosService {
     ).subscribe(
       (data: any) => {
         alert('Éxito')
+        correcto= true;
       },
       (({error}:any) => {
-        
         alert(JSON.stringify(error));
         console.log(JSON.stringify(error));
       }
       )
     );
+    return correcto;
         
   }
 

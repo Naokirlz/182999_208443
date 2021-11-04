@@ -23,7 +23,7 @@ body {
     transition: 0.5s;
     top: 0;
     color: white;
-    background-image: linear-gradient(#001114, #00252e), url(/img/fondoMenu.png);
+    background-image: linear-gradient(#001114, #00252e), url(/assets/img/background.png);
     background-repeat: no-repeat;
     background-blend-mode: multiply;
     background-size: cover;
@@ -95,11 +95,6 @@ body {
 .wrapper .sidebar .sidebar-menu .item:hover {
     max-height: 1000px;
 }
-
-.wrapper .sidebar .sidebar-menu .item .menu-btn.router-link-active > .wrapper .sidebar .sidebar-menu .item{
-    max-height: 1000px;
-}
-
 
 .wrapper .sidebar .sidebar-menu .item .menu-btn {
     display: block;
@@ -274,7 +269,8 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     cursor: pointer !important;
-    background: linear-gradient(transparent, rgb(110, 0, 201));
+    /* background: linear-gradient(transparent, rgb(110, 0, 201)); */
+    background: linear-gradient(transparent, rgb(0, 161, 140));
 }
 
 .router-link-active {}
@@ -290,10 +286,14 @@ body {
 -moz-box-shadow: 6px 8px 22px -6px rgba(0,0,0,0.79);
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], .select {
     width: 100%;
     padding: 5px 5px;
     margin: 10px 0;
+}
+
+input.ng-invalid.ng-touched{
+    border-color: red;
 }
 
 a{text-decoration: none;}

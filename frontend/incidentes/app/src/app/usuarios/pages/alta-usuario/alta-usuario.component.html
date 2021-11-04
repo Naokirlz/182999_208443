@@ -1,78 +1,71 @@
-<h1>Alta Usuario</h1>
-<hr>
-
-<form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="altaUsuario()">
-
-    <!-- Nombre -->
-    <div class="mb-3 row">
-        <label class="col-sm-3 col-form-label">Nombre</label>
-        <div class="col-sm-9">
-            <input class="form-control" type="text" placeholder="Cristian" formControlName="Nombre">
-            <span class="form-text text-danger" *ngIf="campoEsValido('Nombre')">
-                Este campo es obligatorio
-            </span>
-        </div>
-    </div>
-    <!-- Apellido -->
-    <div class="mb-3 row">
-        <label class="col-sm-3 col-form-label">Apellido</label>
-        <div class="col-sm-9">
-            <input class="form-control" type="text" placeholder="Cristian" formControlName="Apellido">
-            <span class="form-text text-danger" *ngIf="campoEsValido('Apellido')">
-                Este campo es obligatorio
-            </span>
-        </div>
-    </div>
-    <!-- Contraseña -->
-    <div class="mb-3 row">
-        <label class="col-sm-3 col-form-label">Contraseña</label>
-        <div class="col-sm-9">
-            <input class="form-control" matInput type="password" placeholder="Cristian" formControlName="Contrasenia">
-            <span class="form-text text-danger" *ngIf="campoEsValido('Contrasenia')">
-                Este campo es obligatorio
-            </span>
-        </div>
-    </div>
-    <!-- Rol -->
-    <div class="mb-3 row">
-        <label class="col-sm-3 col-form-label">Rol</label>
-        <div class="col-sm-9">
-            <select RolUsuario="rol" formControlName="RolUsuario">
-                <option value=0>Administrador</option>
-                <option value=1>Tester</option>
-                <option value=2>Desarrollador</option>
-            </select>
-        </div>
-    </div>
-    <!-- Email -->
-    <div class="mb-3 row">
-        <label class="col-sm-3 col-form-label">Email</label>
-        <div class="col-sm-9">
-            <input class="form-control" matInput type="email" placeholder="cristian@gmail.com" formControlName="Email">
-            <span class="form-text text-danger" *ngIf="campoEsValido('Email')">
-                Este campo es obligatorio
-            </span>
-        </div>
-    </div>
-    <!-- Nombre de Usuario -->
-    <div class="mb-3 row">
-        <label class="col-sm-3 col-form-label">Nombre de Usuario</label>
-        <div class="col-sm-9">
-            <input class="form-control" matInput type="text" placeholder="Cristian" min="3"
-                formControlName="NombreUsuario">
-            <span class="form-text text-danger" *ngIf="campoEsValido('NombreUsuario')">
-                Este campo es obligatorio
-            </span>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <button type="submit" class="btn btn-primary float-end">
-                Alta
-            </button>
-        </div>
-    </div>
-</form>
-
 <!-- [disabled]="miFormulario.invalid" -->
+
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <h1>Usuarios</h1>
+                    <div>
+                        <form (ngSubmit)="altaUsuario()" [formGroup]="miFormulario" class="card-internal">
+                            <div class="card-header">Alta Usuario</div>
+                            <div class="card-body">
+                                <div class="p-field">
+                                    <label for="nombre">Nombre</label>
+                                    <input id="nombre" type="text" formControlName="Nombre" aria-describedby="nombre-help" [ngClass]="campoEsValido('Nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('Nombre')" id="nombre-help" class="p-error">Nombre es incorrecto.</small>
+                                </div>
+                                <div class="p-field">
+                                    <label for="apellido">Apellido</label>
+                                    <input id="apellido" type="text" formControlName="Apellido" aria-describedby="apellido-help" [ngClass]="campoEsValido('Apellido') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('Apellido')" id="apellido-help" class="p-error">Apellido es incorrecto.</small>
+                                </div>
+                                <div class="p-field">
+                                    <label for="Contrasenia">Contraseña</label>
+                                    <input id="Contrasenia" type="text" formControlName="Contrasenia" aria-describedby="Contrasenia-help" [ngClass]="campoEsValido('Contrasenia') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('Contrasenia')" id="Contrasenia-help" class="p-error">Contraseña es incorrecto.</small>
+                                </div>
+                                <div class="p-field">
+                                    <label for="Rol">Rol</label>
+                                    <div class="input-group mb-3">
+                                        <select onChange="mostrarOpcion()" class="custom-select select" id="inputGroupSelect02" RolUsuario="rol" formControlName="RolUsuario">
+                                            <option value=0>Administrador</option>
+                                            <option value=1>Tester</option>
+                                            <option value=2>Desarrollador</option>
+                                        </select>
+                                      </div>
+                                </div>
+                                <div class="p-field">
+                                    <label for="Email">Email</label>
+                                    <input id="Email" type="text" formControlName="Email" aria-describedby="Email-help" [ngClass]="campoEsValido('Email') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('Email')" id="Email-help" class="p-error">Email es incorrecto.</small>
+                                </div>
+                                <div class="p-field">
+                                    <label for="NombreUsuario">Nombre de Usuario</label>
+                                    <input id="NombreUsuario" type="text" formControlName="NombreUsuario" aria-describedby="NombreUsuario-help" [ngClass]="campoEsValido('NombreUsuario') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('NombreUsuario')" id="NombreUsuario-help" class="p-error">Nombre de Usuario es incorrecto.</small>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" id="btn-guardar" value="Alta" class="btn btn-success" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- <categorias-list></categorias-list> -->
+        </div>
+    </div>
+    <footer class="footer mt-5">
+        <strong>
+            Obligatorio de Diseño de Aplicaciones 2
+            <a href="https://github.com/ORT-DA2/182999_208443">Github</a>.
+        </strong>
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Versión</b> 1.0
+        </div>
+    </footer>
+    <!-- <toast-alert></toast-alert> -->
+
+    <!-- <confirmation-alert></confirmation-alert> -->
+</main>
