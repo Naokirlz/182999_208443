@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Proyecto } from '../../../interfaces/proyecto.interface';
 import { ProyectoService } from '../../services/proyecto.service';
 
@@ -18,9 +19,10 @@ import { ProyectoService } from '../../services/proyecto.service';
 })
 export class VerProyectosComponent implements OnInit {
 
-  constructor(private proyectoService:ProyectoService) { }
+  constructor(private proyectoService:ProyectoService,
+              private _router: Router) { }
 
-  public usuarios:Proyecto[]=[];
+  public proyectos:Proyecto[]=[];
 
   ngOnInit(): void {
 
@@ -33,11 +35,13 @@ export class VerProyectosComponent implements OnInit {
   }
 
   eliminar(id:number):void{
+   
     this.proyectoService.deleteProyecto(id);
+    this.proyectos = this.proyectos.filter(p => p.id !== id);
   }
 
   private result(data: Array<Proyecto>): void {
-    this.usuarios = data;
+    this.proyectos = data;
   }
 
 }
