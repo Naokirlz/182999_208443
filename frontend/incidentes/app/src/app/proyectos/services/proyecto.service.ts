@@ -107,6 +107,35 @@ export class ProyectoService {
         
   }
 
+  update(proyecto: Proyecto):void{
+
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+
+    this.http.put<Proyecto>(
+      this.apiUrl,
+      proyecto,
+      httpOptions
+    ).subscribe(
+      (data: any) => {
+        alert('Éxito')
+      },
+      (({error}:any) => {
+        
+        alert(JSON.stringify(error));
+        console.log(JSON.stringify(error));
+      }
+      )
+    );
+        
+  }
+
 
 
 

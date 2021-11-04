@@ -26,6 +26,7 @@ namespace Incidentes.Datos
 
                 aModificar.Incidentes = proyecto.Incidentes;
                 aModificar.Tareas = proyecto.Tareas;
+                aModificar.Nombre = proyecto.Nombre;
 
                 aModificar.Asignados.Clear();
                 ContextoRepositorio.SaveChanges();

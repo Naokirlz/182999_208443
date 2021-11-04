@@ -27,6 +27,7 @@ export class LoginService {
         localStorage.setItem('token', data.token);
         localStorage.setItem('authData', JSON.stringify(data));
         alert('Éxito')
+        console.log(this.getAuthorizationToken())
       },
       (({error}:any) => {
         
