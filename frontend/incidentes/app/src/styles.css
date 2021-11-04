@@ -112,7 +112,7 @@ body {
     color: white;
     font-weight: 700;
     border-left: white 2px solid;
-    background-color: #00030c96;
+    background-color: #00030cd3;
     text-decoration: none;
 }
 
@@ -124,7 +124,7 @@ body {
     color: white;
     font-weight: 700;
     border-left: white 2px solid;
-    background-color: #00030c96;
+    background-color: #00030cd0;
     text-decoration: none;
     max-height: 1000px !important;
 }
@@ -166,7 +166,7 @@ body {
     color: white;
     font-weight: 700;
     border-left: white 1px solid;
-    background-color: #00252ec4;
+    background-color: #00252ee0;
     text-decoration: none;
 }
 
@@ -229,6 +229,7 @@ body {
     background: white;
     padding: 15px;
     bottom: 0;
+    border-top: 1px solid #e5e5e5;
 }
 
 .wrapper.colapsado .sidebar {
@@ -280,7 +281,8 @@ body {
 }
 
 .card-internal{
-    border-top: 3px solid #00728f;
+    border-top: 5px solid #00728f;
+    border-radius: 4px;
     box-shadow: 6px 8px 22px -6px rgba(0,0,0,0.79);
 -webkit-box-shadow: 6px 8px 22px -6px rgba(0,0,0,0.79);
 -moz-box-shadow: 6px 8px 22px -6px rgba(0,0,0,0.79);
