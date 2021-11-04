@@ -5,6 +5,7 @@ import { VerProyectosComponent } from './pages/ver-proyectos/ver-proyectos.compo
 import { AltaProyectoComponent } from './pages/alta-proyecto/alta-proyecto.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { AsignadosComponent } from './pages/asignados/asignados.component';
 
 
 
@@ -12,7 +13,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
   declarations: [
     ProyectosComponent,
     AltaProyectoComponent,
-    VerProyectosComponent
+    VerProyectosComponent,
+    AsignadosComponent
   ],
   imports: [
     CommonModule,

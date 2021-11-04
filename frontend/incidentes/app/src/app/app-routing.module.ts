@@ -15,6 +15,7 @@ import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios
 import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
 import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proyectos.component';
 import { VerTareasComponent } from './tareas/pages/ver-tareas/ver-tareas.component';
+import { AsignadosComponent } from './proyectos/pages/asignados/asignados.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'proyectos/alta',
     component: AltaProyectoComponent,
+  },
+  {
+    path: 'proyectos/:proyectoId/asignados',
+    component: AsignadosComponent,
   },
   {
     path: 'incidentes',

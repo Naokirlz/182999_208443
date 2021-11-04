@@ -110,7 +110,7 @@ namespace Incidentes.Logica
         {
             bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Id == id);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
-            Proyecto aObtener= _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
+            Proyecto aObtener= _repositorioGestor.RepositorioProyecto.ObtenerProyectoPorIdCompleto(id);
             return aObtener;
         }
 
