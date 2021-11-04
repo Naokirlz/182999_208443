@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { ListadoComponent } from './pages/listado/listado.component';
 import { VerUsuariosComponent } from './pages/ver-usuarios/ver-usuarios.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -23,7 +24,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    PrimeNgModule
+    PrimeNgModule,
+    SharedModule
   ],
   exports:[
     AltaUsuarioComponent,

@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
   declarations: [
     SidebarComponent,
     MenuComponent,
-    MenuSuperiorComponent
+    MenuSuperiorComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
   exports: [
     SidebarComponent,
     MenuComponent,
-    MenuSuperiorComponent
+    MenuSuperiorComponent,
+    FooterComponent
   ]
 })
 export class SharedModule { }
