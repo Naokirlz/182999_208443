@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { ProyectoService } from '../../services/proyecto.service';
 
@@ -17,7 +17,8 @@ export class EditarProyectoComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
              private _route: ActivatedRoute,
-             private proyectoService:ProyectoService) { 
+             private proyectoService:ProyectoService,
+             private _router: Router) { 
 
     this.proyectoId = 0;
 
@@ -69,6 +70,8 @@ export class EditarProyectoComponent implements OnInit {
     this.miFormulario.reset(      {
       RolUsuario:1
     });
+
+    this._router.navigate([`/proyectos`]);
 
   }
 
