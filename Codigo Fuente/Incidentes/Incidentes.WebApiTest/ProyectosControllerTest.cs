@@ -153,7 +153,7 @@ namespace Incidentes.WebApiTest
 
             _logicaP.Setup(c => c.Baja(3));
 
-            var result = _pController.Delete(p);
+            var result = _pController.Delete(p.Id);
 
             Assert.IsNotNull(result);
 
