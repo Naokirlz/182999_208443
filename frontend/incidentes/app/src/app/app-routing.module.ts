@@ -41,7 +41,11 @@ const routes: Routes = [
   },
   {
     path: 'proyectos',
-    component: ProyectosComponent,
+    component: VerProyectosComponent,
+  },
+  {
+    path: 'proyectos/alta',
+    component: AltaProyectoComponent,
   },
   {
     path: 'incidentes',

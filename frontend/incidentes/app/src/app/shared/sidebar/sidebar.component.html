@@ -117,6 +117,28 @@
             </div>
         </li>
         <li class="item">
+            <a routerLink="/proyectos" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-briefcase"></i>
+                <span>
+                    Proyectos
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/proyectos" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/proyectos/alta" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Alta</span>
+                </a>
+            </div>
+        </li>
+        <li class="item">
             <a routerLink="/tareas" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-list"></i>
                 <span>

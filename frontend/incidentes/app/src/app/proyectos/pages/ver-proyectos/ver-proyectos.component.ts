@@ -32,6 +32,10 @@ export class VerProyectosComponent implements OnInit {
 
   }
 
+  eliminar(id:number):void{
+    alert(id);
+  }
+
   private result(data: Array<Proyecto>): void {
     this.usuarios = data;
   }
