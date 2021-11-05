@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { Observable } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UsuariosService {
   token:string = localStorage.getItem('token')!;
 
   
-  alta(usuario: Usuario):boolean{
+  alta(usuario: Usuario): Observable<Usuario> {
 
     const httpOptions = {
 
@@ -24,24 +25,19 @@ export class UsuariosService {
     };
 
     httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
-    let correcto : boolean = false;
-    this.http.post<Usuario>(
+    return this.http.post<Usuario>(
       this.apiUrl,
       usuario,
       httpOptions
-    ).subscribe(
+    );/* .subscribe(
       (data: any) => {
-        alert('Éxito')
-        correcto= true;
       },
       (({error}:any) => {
         alert(JSON.stringify(error));
         console.log(JSON.stringify(error));
       }
       )
-    );
-    return correcto;
-        
+    ); */
   }
 
   getUsuario():Observable<Usuario[]>{
