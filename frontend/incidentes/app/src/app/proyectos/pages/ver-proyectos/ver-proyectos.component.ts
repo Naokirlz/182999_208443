@@ -40,6 +40,12 @@ export class VerProyectosComponent implements OnInit {
     this.proyectos = this.proyectos.filter(p => p.id !== id);
   }
 
+  editar(id:number):void{
+   
+    this._router.navigate([`/proyectos/${id}/editar`]);
+
+  }
+
   asignados(id:number):void{
 
     this._router.navigate([`/proyectos/${id}/asignados`]);

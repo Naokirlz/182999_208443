@@ -20,6 +20,7 @@
                                 <th>Costo</th>
                                 <th>Detalles</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-proyecto>
@@ -35,6 +36,10 @@
                                         <button pButton type="button" label="asignados" icon="pi pi-users" (click)="asignados(proyecto.id)"></button>
                                     </span>
 
+                                </td>
+                                <td>
+                                    <button pButton type="editar" (click)="editar(proyecto.id)" icon="pi pi-pencil">
+                                    </button>
                                 </td>
                                 <td>
                                     <button pButton type="button" (click)="eliminar(proyecto.id)" icon="pi pi-trash">

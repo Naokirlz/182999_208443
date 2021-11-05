@@ -1,0 +1,28 @@
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <h1>Proyectos</h1>
+                    <div class="card-internal">
+                        <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="editarProyecto()">
+                            <div class="card-header">Editar Proyecto</div>
+                            <div class="card-body">
+                                <!-- Nombre -->
+                                <div class="p-field">
+                                    <label for="Nombre">Nombre del Proyecto</label>
+                                    <input id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Proyecto es incorrecto.</small>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" id="btn-guardar" value="Editar" class="btn btn-success" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
