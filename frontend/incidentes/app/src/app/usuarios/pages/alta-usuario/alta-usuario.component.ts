@@ -78,6 +78,7 @@ export class AltaUsuarioComponent implements OnInit {
     }
 
     let numeroRol : number = parseInt(this.miFormulario.value.RolUsuario);
+
     const usuario:Usuario = {
     
       Nombre:this.miFormulario.value.Nombre,
@@ -89,6 +90,8 @@ export class AltaUsuarioComponent implements OnInit {
       NombreUsuario:this.miFormulario.value.NombreUsuario,
 
     }
+
+    if(usuario.RolUsuario === 0){usuario.ValorHora=0};
 
     this.usuarioServive.alta(usuario)
       .subscribe((data:Usuario) => {
