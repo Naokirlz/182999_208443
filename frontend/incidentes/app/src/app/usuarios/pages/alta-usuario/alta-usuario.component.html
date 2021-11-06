@@ -20,8 +20,13 @@
                                 </div>
                                 <div class="p-field">
                                     <label for="Contrasenia">Contraseña</label>
-                                    <input id="Contrasenia" type="text" formControlName="Contrasenia" aria-describedby="Contrasenia-help" [ngClass]="campoEsValido('Contrasenia') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <input id="Contrasenia" type="password" formControlName="Contrasenia" aria-describedby="Contrasenia-help" [ngClass]="campoEsValido('Contrasenia') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
                                     <small *ngIf="campoEsValido('Contrasenia')" id="Contrasenia-help" class="p-error">Contraseña es incorrecto.</small>
+                                </div>
+                                <div class="p-field">
+                                    <label for="ContraseniaRep">Repita la Contraseña</label>
+                                    <input id="ContraseniaRep" type="password" formControlName="ContraseniaRep" aria-describedby="ContraseniaRep-help" [ngClass]="campoEsValido('ContraseniaRep') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('ContraseniaRep')" id="ContraseniaRep-help" class="p-error">Contraseña es incorrecto.</small>
                                 </div>
                                 <div class="p-field">
                                     <label for="Rol">Rol</label>
@@ -60,4 +65,5 @@
         </div>
     </div>
     <p-toast></p-toast>
+    <app-footer></app-footer>
 </main>
