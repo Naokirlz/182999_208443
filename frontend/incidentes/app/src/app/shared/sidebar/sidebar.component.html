@@ -82,6 +82,27 @@
                 </a>
             </div>
         </li>
+        <li class="item">
+            <a routerLink="/reportes" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-chart-line"></i>
+                <span>
+                    Reportes
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/reportes/incidentes" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Incidentes por proyecto</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/reportes/resueltos" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Incidentes resueltos por desarrollador</span>
+                </a>
+            </div>
+        </li>
         <li class="separator"></li>
         <li class="item">
             <a class="menu-btn" (click)="logout()">
