@@ -1,0 +1,53 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Incidente } from 'src/app/interfaces/incidente.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class IncidentesService {
+
+  
+  private apiUrl: string = 'http://localhost:5000/api/Incidentes';
+  token: string = localStorage.getItem('token')!;
+
+  constructor(private http: HttpClient) { }
+
+  getProyecto(): Observable<Incidente[]> {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
+
+    return this.http.get<Incidente[]>(
+      this.apiUrl,
+      httpOptions
+    );
+
+  }
+
+  getBy(id: number): Observable<Incidente> {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
+
+    return this.http.get<Incidente>(
+      this.apiUrl + '/' + id,
+      httpOptions
+    );
+
+  }
+
+
+
+}

@@ -19,6 +19,7 @@
                                 <th>Desarrollador</th>
                                 <th>Usuario</th>
                                 <th>Duración</th>
+                                <th></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
@@ -30,7 +31,12 @@
                                 <td>{{incidente.estadoIncidente}}</td>
                                 <td>{{incidente.desarrolladorId}}</td>
                                 <td>{{incidente.usuarioId}}</td>
-                                <td>{{incidente.duracion}}</td>                               
+                                <td>{{incidente.duracion}}</td>   
+                                <td>
+                                    <button pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-check-circle">
+                                    </button>
+
+                                </td>                            
                             </tr>
                         </ng-template>
                     </p-table>
