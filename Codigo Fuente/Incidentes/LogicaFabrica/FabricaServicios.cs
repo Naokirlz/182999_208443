@@ -18,6 +18,7 @@ namespace Incidentes.LogicaFabrica
             services.AddScoped<ILogicaProyecto, GestorProyecto>();
             services.AddScoped<ILogicaIncidente, GestorIncidente>();
             services.AddScoped<ILogicaAutorizacion, GestorAutorizacion>();
+            services.AddScoped<ILogicaTarea, GestorTarea>();
         }
     }
 }
