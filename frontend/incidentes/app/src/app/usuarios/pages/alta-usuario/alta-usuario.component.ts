@@ -69,7 +69,7 @@ export class AltaUsuarioComponent implements OnInit {
      this.messageService.clear();
          this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure?', detail:'Confirm to proceed'});
    } */
-  altaUsuario() {
+  altaUsuario():void {
     if (this.miFormulario.invalid) {
 
       this.miFormulario.markAllAsTouched();

@@ -14,7 +14,7 @@ export class UsuariosService {
   token: string = localStorage.getItem('token')!;
 
 
-  alta(usuario: Usuario):/*  boolean */ Observable<Usuario> {
+  alta(usuario: Usuario): Observable<Usuario> {
 
     const httpOptions = {
 

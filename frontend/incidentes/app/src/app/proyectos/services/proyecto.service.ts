@@ -11,10 +11,10 @@ export class ProyectoService {
   constructor(private http: HttpClient) { }
 
   private apiUrl: string = 'http://localhost:5000/api/Proyectos';
-  token:string = localStorage.getItem('token')!;
+  token: string = localStorage.getItem('token')!;
 
 
-  alta(proyecto: Proyecto):void{
+  /* alta(proyecto: Proyecto):void{
 
     const httpOptions = {
 
@@ -41,54 +41,71 @@ export class ProyectoService {
       )
     );
         
-  }
+  } */
+  alta(proyecto: Proyecto): Observable<Proyecto> {
 
-  getProyecto():Observable<Proyecto[]>{
     const httpOptions = {
 
       headers: new HttpHeaders({
-      'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       })
     };
 
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
+
+    return this.http.post<Proyecto>(
+      this.apiUrl,
+      proyecto,
+      httpOptions
+    );
+  }
+
+  getProyecto(): Observable<Proyecto[]> {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
 
     return this.http.get<Proyecto[]>(
       this.apiUrl,
       httpOptions
     );
-        
+
   }
 
-  getBy(id:number):Observable<Proyecto>{
+  getBy(id: number): Observable<Proyecto> {
     const httpOptions = {
 
       headers: new HttpHeaders({
-      'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       })
     };
 
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
 
     return this.http.get<Proyecto>(
       this.apiUrl + '/' + id,
       httpOptions
     );
-        
+
   }
 
-  deleteProyecto(id: number):void{
-    
-    
-    
+  deleteProyecto(id: number): void {
+
+
+
     const httpOptions = {
 
       headers: new HttpHeaders({
-      'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       })
     };
 
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
 
     this.http.delete<Proyecto[]>(
       this.apiUrl + '/' + id,
@@ -97,17 +114,17 @@ export class ProyectoService {
       (data: any) => {
         alert('Éxito')
       },
-      (({error}:any) => {
-        
+      (({ error }: any) => {
+
         alert(JSON.stringify(error));
         console.log(JSON.stringify(error));
       }
       )
     )
-        
+
   }
 
-  update(proyecto: Proyecto):void{
+  /* update(proyecto: Proyecto):void{
 
     const httpOptions = {
 
@@ -132,8 +149,20 @@ export class ProyectoService {
         console.log(JSON.stringify(error));
       }
       )
+    ); */
+  update(proyecto: Proyecto): Observable<Proyecto> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'autorizacion': this.token
+      })
+    };
+
+    return this.http.put<Proyecto>(
+      this.apiUrl,
+      proyecto,
+      httpOptions
     );
-        
   }
 
 
