@@ -3,17 +3,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { UsuariosService } from '../../services/usuarios.service';
 import {InputTextModule} from 'primeng/inputtext';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-alta-usuario',
   templateUrl: './alta-usuario.component.html',
   styles: [
-  ]
+  ],
+  providers: [MessageService]
 })
 export class AltaUsuarioComponent implements OnInit {
 
   constructor(private usuarioServive:UsuariosService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -41,15 +44,26 @@ export class AltaUsuarioComponent implements OnInit {
            && this.miFormulario.controls[campo].touched
   }
 
+  /* onReject(){
+    this.miFormulario.reset(      {
+      RolUsuario:1
+    });
+  }
 
+  onConfirm(){
+    this.altaUsuario();
+  } */
+
+ /*  prueba(){
+    this.messageService.add({summary: 'Success', detail: 'Message Content'});
+    this.messageService.clear();
+        this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure?', detail:'Confirm to proceed'});
+  } */
   altaUsuario(){
-
     if(this.miFormulario.invalid){
-    
       this.miFormulario.markAllAsTouched();
       return;
     }
-    console.log(this.miFormulario.value.Nombre);
 
     let numeroRol : number = parseInt(this.miFormulario.value.RolUsuario);
     const usuario:Usuario = {
@@ -63,15 +77,16 @@ export class AltaUsuarioComponent implements OnInit {
 
     }
 
-    console.log(usuario);
-    alert(usuario);
+    let resp:Usuario | any = this.usuarioServive.alta(usuario);
 
-    let correcto:boolean = this.usuarioServive.alta(usuario);
-
-    if (correcto) {
-      this.miFormulario.reset(      {
+    if (resp.ok) {
+      this.messageService.add({severity:'success', summary: 'Listo', detail: 'Usuario guardado correctamente.'});
+      this.miFormulario.reset({
         RolUsuario:1
       });
+    }else{
+      console.log(resp.value);
+      this.messageService.add({severity:'error', summary: 'Error', detail: 'resp.message'});
     }
 
   }

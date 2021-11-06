@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { LoginService } from 'src/app/login/services/login.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +14,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private loginService:LoginService) { }
   Login: boolean = true;
   @Input() colap: boolean = false;
   
@@ -22,6 +23,10 @@ export class SidebarComponent implements OnInit {
 
   login(){
     this.Login = !this.Login;
+  }
+
+  logout(){
+    this.loginService.logout();
   }
 
 }

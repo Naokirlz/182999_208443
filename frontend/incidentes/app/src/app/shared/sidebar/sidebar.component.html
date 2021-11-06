@@ -1,80 +1,3 @@
-<!-- <div *ngIf="true">
-<h3>Menú</h3>
-        <hr>
-        <ul class="list-group">
-
-            <li *ngIf="Login"
-                routerLink=""
-                (onLoguearse)="login()"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact:true}"
-                class="list-group-item"
-            >
-                Login
-            </li>
-
-            <li *ngIf="Login"
-                routerLink="salir"
-                routerLinkActive="active"
-                class="list-group-item"
-            >
-                Logout
-            </li>
-
-            <li 
-            routerLink="usuarios"
-            routerLinkActive="active"
-            class="list-group-item"
-            >
-            Usuarios
-            </li>
-            <li 
-            routerLink="reportes"
-            routerLinkActive="active"
-            class="list-group-item"
-            >
-            Reportes
-            </li>
-            <li 
-            routerLink="proyectos"
-            routerLinkActive="active"
-            class="list-group-item"
-            >
-            Proyectos
-            </li>
-            <li 
-            routerLink="incidentes"
-            routerLinkActive="active"
-            class="list-group-item"
-            >
-            Incidentes
-            </li>
-            <li 
-            routerLink="importaciones"
-            routerLinkActive="active"
-            class="list-group-item"
-            >
-            Importaciones
-            </li>
-            <li 
-            routerLink="estados"
-            routerLinkActive="active"
-            class="list-group-item"
-            >
-            Estados
-            </li>
-            <li 
-            routerLink="asociaciones"
-            routerLinkActive="active"
-            class="list-group-item"
-            >
-            Asociaciones
-            </li>
-
-            
-        </ul>
-</div> -->
-
 <div class="sidebar">
     <div class="marca marca-gde">
         <span>R</span>eporte <span>I</span>ncidentes
@@ -154,6 +77,11 @@
             </div>
         </li>
         <li class="separator"></li>
-        <!-- <logout-button></logout-button> -->
+        <li class="item">
+            <a class="menu-btn" (click)="logout()">
+                <i class="nav-icon pi pi-power-off"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </li>
     </div>
 </div>
