@@ -22,6 +22,7 @@ import { TareaspComponent } from './proyectos/pages/tareasp/tareasp.component';
 import { AltaTareaComponent } from './tareas/pages/alta-tarea/alta-tarea.component';
 import { IncidentesProyectosComponent } from './reportes/pages/incidentes-proyectos/incidentes-proyectos.component';
 import { IncidentesDesarrolladorComponent } from './reportes/pages/incidentes-desarrollador/incidentes-desarrollador.component';
+import { DesarrolladorComponent } from './reportes/pages/desarrollador/desarrollador.component';
 
 
 const routes: Routes = [
@@ -81,6 +82,10 @@ const routes: Routes = [
   {
     path: 'reportes/resueltos',
     component: IncidentesDesarrolladorComponent,
+  },
+  {
+    path: 'reportes/:desarrolladorId/incidentes',
+    component: DesarrolladorComponent,
   },
   {
     path: 'importaciones',

@@ -5,6 +5,7 @@ import { IncidentesDesarrolladorComponent } from './pages/incidentes-desarrollad
 import { ReportesComponent } from './pages/reportes/reportes.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { DesarrolladorComponent } from './pages/desarrollador/desarrollador.component';
 
 
 
@@ -12,7 +13,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
   declarations: [
     IncidentesProyectosComponent,
     IncidentesDesarrolladorComponent,
-    ReportesComponent
+    ReportesComponent,
+    DesarrolladorComponent
   ],
   imports: [
     CommonModule,

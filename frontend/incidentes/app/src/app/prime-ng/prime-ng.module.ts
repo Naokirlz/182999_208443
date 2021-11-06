@@ -8,6 +8,7 @@ import {TableModule} from 'primeng/table';
 import {ToastModule} from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import {DataViewModule} from 'primeng/dataview';
 
 
 
@@ -25,6 +26,7 @@ import { BrowserModule } from '@angular/platform-browser';
     MenubarModule,
     TableModule,
     ToastModule,
+    DataViewModule
 
   ],
   providers:[MessageService]
