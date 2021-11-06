@@ -3,6 +3,7 @@ import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { LoginService } from '../../services/login.service';
 import {InputTextModule} from 'primeng/inputtext';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-formulario',
@@ -15,7 +16,13 @@ export class FormularioComponent implements OnInit {
 
 
   constructor(private loginService:LoginService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private messageService: MessageService
+              ) { 
+
+                
+
+              }
 
   ngOnInit(): void {
   }
@@ -50,6 +57,8 @@ export class FormularioComponent implements OnInit {
 
     }
 
+    this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+    
 
     this.loginService.login(usuario);
     

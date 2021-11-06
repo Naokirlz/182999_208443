@@ -15,8 +15,12 @@
                                     <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Proyecto es incorrecto.</small>
                                 </div>
                             </div>
+                            
                             <div class="card-footer">
                                 <input type="submit" id="btn-guardar" value="Editar" class="btn btn-success" />
+                            </div>
+                            <div class="card-footer">
+                                <input (click) ="volver()" value="Volver" class="btn btn-success" />
                             </div>
                         </form>
                     </div>
