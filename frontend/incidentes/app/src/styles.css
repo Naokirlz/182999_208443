@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 body {
     font-family: "Nunito", sans-serif;
 }
@@ -88,8 +89,8 @@ body {
 }
 
 .wrapper.colapsado .sidebar .sidebar-menu:hover {
-    overflow-x:visible;
-} 
+    overflow-x: visible;
+}
 
 .wrapper .sidebar .sidebar-menu .item.large,
 .wrapper .sidebar .sidebar-menu .item:hover {
@@ -104,7 +105,7 @@ body {
     transition: 0.3s;
 }
 
-.wrapper .sidebar .sidebar-menu .item .menu-btn span i{
+.wrapper .sidebar .sidebar-menu .item .menu-btn span i {
     transition: 0.3s;
 }
 
@@ -116,7 +117,7 @@ body {
     text-decoration: none;
 }
 
-.wrapper .sidebar .sidebar-menu .item .menu-btn:hover .pi-angle-down  {
+.wrapper .sidebar .sidebar-menu .item .menu-btn:hover .pi-angle-down {
     transform: rotateZ(90deg);
 }
 
@@ -236,7 +237,8 @@ body {
     width: 55px;
 }
 
-.wrapper.colapsado .sidebar .sidebar-menu .profile img, .wrapper.colapsado .sidebar a span {
+.wrapper.colapsado .sidebar .sidebar-menu .profile img,
+.wrapper.colapsado .sidebar a span {
     height: 0;
     box-shadow: none;
     width: 0;
@@ -254,7 +256,8 @@ body {
     display: block;
 }
 
-.wrapper.colapsado .nav-superior, .wrapper.colapsado .main-container {
+.wrapper.colapsado .nav-superior,
+.wrapper.colapsado .main-container {
     margin-left: 55px;
     width: calc(100% - 55px);
 }
@@ -276,26 +279,39 @@ body {
 
 .router-link-active {}
 
-.nav-link{
+.nav-link {
     cursor: pointer;
 }
 
-.card-internal{
+.card-internal {
     border-top: 5px solid #00728f;
     border-radius: 4px;
-    box-shadow: 6px 8px 22px -6px rgba(0,0,0,0.79);
--webkit-box-shadow: 6px 8px 22px -6px rgba(0,0,0,0.79);
--moz-box-shadow: 6px 8px 22px -6px rgba(0,0,0,0.79);
+    box-shadow: 6px 8px 22px -6px rgba(0, 0, 0, 0.79);
+    -webkit-box-shadow: 6px 8px 22px -6px rgba(0, 0, 0, 0.79);
+    -moz-box-shadow: 6px 8px 22px -6px rgba(0, 0, 0, 0.79);
 }
 
-input[type=text], input[type=password], .select {
+input[type=text],
+input[type=password],
+.select {
     width: 100%;
     padding: 5px 5px;
     margin: 10px 0;
 }
 
-input.ng-invalid.ng-touched{
+input.ng-invalid.ng-touched {
     border-color: red;
 }
 
-a{text-decoration: none;}
+a {
+    text-decoration: none;
+}
+
+.flotar-derecha {
+    float: right;
+    border-radius: 2px;
+}
+
+.btn.btn-success {
+    border-radius: 2px;
+}

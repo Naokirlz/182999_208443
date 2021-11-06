@@ -9,6 +9,7 @@ import { AsignadosComponent } from './pages/asignados/asignados.component';
 import { EditarProyectoComponent } from './pages/editar-proyecto/editar-proyecto.component';
 import { IncidentesPComponent } from './pages/incidentes/incidentes.component';
 import { TareaspComponent } from './pages/tareasp/tareasp.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -26,6 +27,7 @@ import { TareaspComponent } from './pages/tareasp/tareasp.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
     PrimeNgModule
   ],
   exports:[
