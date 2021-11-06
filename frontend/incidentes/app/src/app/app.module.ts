@@ -10,6 +10,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { PrimeNgModule } from './prime-ng/prime-ng.module';
 import { ProyectosModule } from './proyectos/proyectos.module';
 import { TareasModule } from './tareas/tareas.module';
+import { ReportesModule } from './reportes/reportes.module';
 
 
 
@@ -26,7 +27,8 @@ import { TareasModule } from './tareas/tareas.module';
     UsuariosModule,
     TareasModule,
     PrimeNgModule,
-    ProyectosModule    
+    ProyectosModule,
+    ReportesModule    
   ],
   providers: [],
   bootstrap: [AppComponent]

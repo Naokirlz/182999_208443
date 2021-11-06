@@ -20,6 +20,8 @@ import { EditarProyectoComponent } from './proyectos/pages/editar-proyecto/edita
 import { IncidentesPComponent } from './proyectos/pages/incidentes/incidentes.component';
 import { TareaspComponent } from './proyectos/pages/tareasp/tareasp.component';
 import { AltaTareaComponent } from './tareas/pages/alta-tarea/alta-tarea.component';
+import { IncidentesProyectosComponent } from './reportes/pages/incidentes-proyectos/incidentes-proyectos.component';
+import { IncidentesDesarrolladorComponent } from './reportes/pages/incidentes-desarrollador/incidentes-desarrollador.component';
 
 
 const routes: Routes = [
@@ -71,6 +73,14 @@ const routes: Routes = [
   {
     path: 'incidentes',
     component: IncidentesComponent,
+  },
+  {
+    path: 'reportes/incidentes',
+    component: IncidentesProyectosComponent,
+  },
+  {
+    path: 'reportes/resueltos',
+    component: IncidentesDesarrolladorComponent,
   },
   {
     path: 'importaciones',
