@@ -57,6 +57,23 @@ export class UsuariosService {
         
   }
 
+  getBy(id:number):Observable<Usuario>{
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+
+    return this.http.get<Usuario>(
+      this.apiUrl + '/' + id,
+      httpOptions
+    );
+        
+  }
+
   
 
   

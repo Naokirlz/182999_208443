@@ -1,4 +1,4 @@
-import { Asignado } from "./asignado.interface";
+import { Usuario } from "./dtoUsuario.interface";
 import { Incidente } from "./incidente.interface";
 
 export interface Proyecto {
@@ -8,7 +8,7 @@ export interface Proyecto {
     costo?:      number;
     incidentes?: Incidente[];
     tareas?:     any[];
-    asignados?:  Asignado[];
+    asignados?:  Usuario[];
 }
 
 
