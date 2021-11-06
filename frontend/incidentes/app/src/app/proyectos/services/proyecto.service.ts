@@ -6,6 +6,7 @@ import { Proyecto } from '../../interfaces/proyecto.interface';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProyectoService {
 
   constructor(private http: HttpClient) { }
@@ -13,35 +14,6 @@ export class ProyectoService {
   private apiUrl: string = 'http://localhost:5000/api/Proyectos';
   token: string = localStorage.getItem('token')!;
 
-
-  /* alta(proyecto: Proyecto):void{
-
-    const httpOptions = {
-
-      headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      })
-    };
-
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
-
-    this.http.post<Proyecto>(
-      this.apiUrl,
-      proyecto,
-      httpOptions
-    ).subscribe(
-      (data: any) => {
-        alert('Éxito')
-      },
-      (({error}:any) => {
-        
-        alert(JSON.stringify(error));
-        console.log(JSON.stringify(error));
-      }
-      )
-    );
-        
-  } */
   alta(proyecto: Proyecto): Observable<Proyecto> {
 
     const httpOptions = {
@@ -124,10 +96,4 @@ export class ProyectoService {
       httpOptions
     );
   }
-
-
-
-
-
-
 }

@@ -11,18 +11,18 @@ import { ProyectoService } from '../../services/proyecto.service';
 
 export class VerProyectosComponent implements OnInit {
 
-  constructor(private proyectoService:ProyectoService,
-              private _router: Router,
-              private messageService: MessageService) { }
+  constructor(private proyectoService: ProyectoService,
+    private _router: Router,
+    private messageService: MessageService) { }
 
-  public proyectos:Proyecto[]=[];
-  private idProyEliminar:number = -1;
+  public proyectos: Proyecto[] = [];
+  private idProyEliminar: number = -1;
 
   ngOnInit(): void {
     this.proyectoService.getProyecto()
-    .subscribe(
-      ((data: Array<Proyecto>) => this.result(data)),
-    );
+      .subscribe(
+        ((data: Array<Proyecto>) => this.result(data)),
+      );
   }
 
   onConfirm() {
@@ -30,7 +30,7 @@ export class VerProyectosComponent implements OnInit {
     this.eliminar();
   }
 
-  consultarAccion(id:number) :void {
+  consultarAccion(id: number): void {
     this.idProyEliminar = id;
     this.messageService.clear();
     this.messageService.add({ key: 'c', sticky: true, severity: 'warn', summary: 'Está seguro?', detail: 'Realmente desea el Proyecto' });
@@ -41,53 +41,39 @@ export class VerProyectosComponent implements OnInit {
     this.idProyEliminar = -1;
   }
 
-  eliminar():void{
+  eliminar(): void {
     this.proyectoService.deleteProyecto(this.idProyEliminar)
-    .subscribe({
-      next: data => {
-        this.messageService.add({
-          severity: 'success', summary: 'Listo',
-          detail: 'Proyecto eliminado correctamente.'
-        });
-        this.proyectos = this.proyectos.filter(p => p.id !== this.idProyEliminar);
-        this.idProyEliminar = -1;
-      },
-      error: error => {
-        console.log(error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-      }
-  });
-      /* .subscribe(() => {
-      this.messageService.add({
-        severity: 'success', summary: 'Listo',
-        detail: 'Proyecto eliminado correctamente.'
+      .subscribe({
+        next: data => {
+          this.messageService.add({
+            severity: 'success', summary: 'Listo',
+            detail: 'Proyecto eliminado correctamente.'
+          });
+          this.proyectos = this.proyectos.filter(p => p.id !== this.idProyEliminar);
+          this.idProyEliminar = -1;
+        },
+        error: error => {
+          console.log(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        }
       });
-      this.proyectos = this.proyectos.filter(p => p.id !== this.idProyEliminar);
-      this.idProyEliminar = -1;
-    },
-      (({ error }: any) => {
-        console.log(error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-      }
-      )
-    ); */
   }
 
-  editar(id:number):void{
+  editar(id: number): void {
     this._router.navigate([`/proyectos/${id}/editar`]);
   }
 
-  asignados(id:number):void{
+  asignados(id: number): void {
 
     this._router.navigate([`/proyectos/${id}/asignados`]);
-    
+
   }
 
-  incidentes(id:number):void{
+  incidentes(id: number): void {
     this._router.navigate([`/proyectos/${id}/incidentes`]);
   }
 
-  tareas(id:number):void{
+  tareas(id: number): void {
     this._router.navigate([`/proyectos/${id}/tareas`]);
   }
 
