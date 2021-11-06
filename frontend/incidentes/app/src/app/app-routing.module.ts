@@ -23,6 +23,7 @@ import { AltaTareaComponent } from './tareas/pages/alta-tarea/alta-tarea.compone
 import { IncidentesProyectosComponent } from './reportes/pages/incidentes-proyectos/incidentes-proyectos.component';
 import { IncidentesDesarrolladorComponent } from './reportes/pages/incidentes-desarrollador/incidentes-desarrollador.component';
 import { DesarrolladorComponent } from './reportes/pages/desarrollador/desarrollador.component';
+import { MisIncidentesComponent } from './desarrollador/pages/mis-incidentes/mis-incidentes.component';
 
 
 const routes: Routes = [
@@ -98,6 +99,10 @@ const routes: Routes = [
   {
     path: 'asociaciones',
     component: AsociacionesComponent,
+  },
+  {
+    path: 'desarrollador',
+    component: MisIncidentesComponent,
   },
   {
     path: 'tareas',
