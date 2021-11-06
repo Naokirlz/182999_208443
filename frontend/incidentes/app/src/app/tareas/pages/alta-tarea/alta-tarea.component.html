@@ -1,0 +1,52 @@
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <h1>Tareas</h1>
+                    <div class="card-internal">
+                        <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="altaTarea()">
+                            <div class="card-header">Alta Tarea</div>
+                            <div class="card-body">
+                                <!-- Nombre -->
+                                <div class="p-field">
+                                    <label for="Nombre">Nombre de la Tarea</label>
+                                    <input id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Tarea incorrecto.</small>
+                                </div>
+                                <!-- Proyecto -->
+                                <div class="p-field">
+                                    <label for="Rol">Seleccione el proyecto</label>
+                                    <div class="input-group mb-3">
+                                        <select  class="custom-select select" id="inputGroupSelect02" RolUsuario="proyecto" formControlName="proyecto">
+                                            <option *ngFor="let p of proyectos" [value]="p.id" >{{p.nombre}}</option>
+                                        </select>
+                                        <small *ngIf="campoEsValido('proyecto')" id="duracion-help" class="p-error">Debe elegir un proyecto.</small>
+                                    </div>
+                                </div>
+                                <!-- Costo -->
+                                <div class="p-field">
+                                    <label for="Costo">Costo</label>
+                                    <p></p>
+                                    <input id="Costo" type="number" formControlName="costo" aria-describedby="costo-help" [ngClass]="campoEsValido('costo') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('costo')" id="costo-help" class="p-error">Costo incorrecto.</small>
+                                </div>
+                                <!-- duracion -->
+                                <div class="p-field">
+                                    <label for="duracion">Duración en horas</label>
+                                    <p></p>
+                                    <input id="duracion" type="duracion" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('duracion')" id="duracion-help" class="p-error">Duración incorrecta.</small>
+                                </div>                                                                
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" id="btn-guardar" value="Alta" class="btn btn-success" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>

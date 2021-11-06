@@ -28,7 +28,7 @@ export class TareaService {
     );
   }
 
-  altaTareas(tarea: Tarea): void {
+  altaTareas(tarea: Tarea): Observable<Tarea> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -37,18 +37,11 @@ export class TareaService {
 
     httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
 
-    this.http.post<Tarea>(
+    return this.http.post<Tarea>(
       this.apiUrl,
       tarea,
       httpOptions
-    ).subscribe(
-      (data: any) => {
-        alert('Éxito')
-      },
-      (({ error }: any) => {
-        alert(JSON.stringify(error));
-      })
-      );
+    )
 
     }
 }

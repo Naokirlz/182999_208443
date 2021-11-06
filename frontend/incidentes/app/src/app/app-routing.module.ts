@@ -19,6 +19,7 @@ import { AsignadosComponent } from './proyectos/pages/asignados/asignados.compon
 import { EditarProyectoComponent } from './proyectos/pages/editar-proyecto/editar-proyecto.component';
 import { IncidentesPComponent } from './proyectos/pages/incidentes/incidentes.component';
 import { TareaspComponent } from './proyectos/pages/tareasp/tareasp.component';
+import { AltaTareaComponent } from './tareas/pages/alta-tarea/alta-tarea.component';
 
 
 const routes: Routes = [
@@ -86,7 +87,10 @@ const routes: Routes = [
   {
     path: 'tareas',
     component: VerTareasComponent,
-
+  },
+  {
+    path: 'tareas/alta',
+    component: AltaTareaComponent,
   },
   {
     path: '**',

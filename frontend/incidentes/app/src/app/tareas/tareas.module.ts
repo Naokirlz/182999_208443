@@ -4,12 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module'
 import { SharedModule } from '../shared/shared.module';
 import { VerTareasComponent } from './pages/ver-tareas/ver-tareas.component';
+import { AltaTareaComponent } from './pages/alta-tarea/alta-tarea.component';
 
 
 
 @NgModule({
   declarations: [
-    VerTareasComponent
+    VerTareasComponent,
+    AltaTareaComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { VerTareasComponent } from './pages/ver-tareas/ver-tareas.component';
     SharedModule
   ],
   exports: [
-    VerTareasComponent
+    VerTareasComponent,
+    AltaTareaComponent
   ]
 })
 export class TareasModule { }

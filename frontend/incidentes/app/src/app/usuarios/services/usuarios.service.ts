@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { Observable } from 'rxjs';
-import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'

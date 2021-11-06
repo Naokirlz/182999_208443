@@ -1,5 +1,5 @@
 export interface Tarea {
-    id:              number;
+    id?:              number;
     nombre:          string;
     costo:           number;
     proyectoId:       number;
