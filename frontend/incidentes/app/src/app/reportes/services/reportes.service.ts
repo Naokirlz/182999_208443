@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ReporteBugsProyecto } from 'src/app/interfaces/reportes.interface';
+import { ReporteBugsDesarrollador, ReporteBugsProyecto } from 'src/app/interfaces/reportes.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +28,25 @@ export class ReportesService {
       this.apiUrl,
       httpOptions
     );
-       
-
 
   }
+
+  getby(id:number):Observable<ReporteBugsDesarrollador>{
+
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+
+    return this.http.get<ReporteBugsDesarrollador>(
+      this.apiUrl + '/' + id + '/incidentes',
+      httpOptions
+    );
+
+}
 
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
+import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 
 @Component({
   selector: 'app-incidentes-desarrollador',
@@ -8,9 +11,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IncidentesDesarrolladorComponent implements OnInit {
 
-  constructor() { }
+  
+  public desarrolladores:Usuario[]=[];
+  
+  constructor(private usuarioServie:UsuariosService,
+              private _router: Router) { }
+
+
 
   ngOnInit(): void {
+
+    this.usuarioServie.getUsuario()
+    .subscribe(
+      ((data: Array<Usuario>) => this.result(data)),
+    );
+
+  }
+
+  private result(data: Array<Usuario>): void {
+    this.desarrolladores = data;
+
+    this.desarrolladores = this.desarrolladores.filter(p => !(p.rolUsuario === 0 || p.rolUsuario === 1));
+  }
+
+  detalles(id:number){
+    this._router.navigate([`/reportes/${id}/incidentes`]);
+
   }
 
 }
