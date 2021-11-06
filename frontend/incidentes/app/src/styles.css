@@ -315,3 +315,9 @@ a {
 .btn.btn-success {
     border-radius: 2px;
 }
+
+td,
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}

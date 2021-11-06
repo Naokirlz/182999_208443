@@ -94,62 +94,22 @@ export class ProyectoService {
 
   }
 
-  deleteProyecto(id: number): void {
-
-
+  deleteProyecto(id: number): Observable<any> {
 
     const httpOptions = {
-
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'autorizacion': this.token
       })
     };
 
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
-
-    this.http.delete<Proyecto[]>(
+    return this.http.delete<any>(
       this.apiUrl + '/' + id,
       httpOptions
-    ).subscribe(
-      (data: any) => {
-        alert('Éxito')
-      },
-      (({ error }: any) => {
-
-        alert(JSON.stringify(error));
-        console.log(JSON.stringify(error));
-      }
-      )
-    )
+    );
 
   }
 
-  /* update(proyecto: Proyecto):void{
-
-    const httpOptions = {
-
-      headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      })
-    };
-
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
-
-    this.http.put<Proyecto>(
-      this.apiUrl,
-      proyecto,
-      httpOptions
-    ).subscribe(
-      (data: any) => {
-        alert('Éxito')
-      },
-      (({error}:any) => {
-        
-        alert(JSON.stringify(error));
-        console.log(JSON.stringify(error));
-      }
-      )
-    ); */
   update(proyecto: Proyecto): Observable<Proyecto> {
     const httpOptions = {
       headers: new HttpHeaders({

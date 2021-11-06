@@ -26,7 +26,6 @@ export class EditarProyectoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.proyectoId = this._route.snapshot.params['proyectoId'];
     this.proyectoService.getBy(this.proyectoId)
       .subscribe(

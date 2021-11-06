@@ -115,7 +115,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Delete(int id)
         {
             _logicaP.Baja(id);
-            return StatusCode(204, "Eliminado Satisfactoriamente.");
+            return StatusCode(204);
         }
         
         [HttpPut]
