@@ -16,6 +16,7 @@
                                 <th>Apellido</th>
                                 <th>Email</th>
                                 <th>Rol</th>
+                                <th>Valor</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-usuario>
@@ -25,6 +26,7 @@
                                 <td>{{usuario.apellido | titlecase }}</td>
                                 <td>{{usuario.email}}</td>
                                 <td>{{usuario.rolUsuario}}</td>
+                                <td>{{usuario.valorHora}}</td>
                             </tr>
                         </ng-template>
                     </p-table>

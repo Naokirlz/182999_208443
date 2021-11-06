@@ -28,13 +28,19 @@
                                 <div class="p-field">
                                     <label for="Rol">Rol</label>
                                     <div class="input-group mb-3">
-                                        <select onChange="mostrarOpcion()" class="custom-select select" id="inputGroupSelect02" RolUsuario="rol" formControlName="RolUsuario">
+                                        <select  class="custom-select select" id="inputGroupSelect02" RolUsuario="rol" formControlName="RolUsuario">
                                             <option value=0>Administrador</option>
                                             <option value=1>Tester</option>
                                             <option value=2>Desarrollador</option>
                                         </select>
                                       </div>
                                 </div>
+                                <div class="p-field">
+                                    <label *ngIf="(Rol !== 0)">Valor por Hora: </label>
+                                    <input *ngIf="(Rol !== 0)" id="Valor" type="number" formControlName="Valor" aria-describedby="Valor-help" [ngClass]="campoEsValido('Valor') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('Valor')" id="Valor-help" class="p-error">Valor debe se entre 0 a 1000.</small>
+                                </div>
+                                <p></p>
                                 <div class="p-field">
                                     <label for="Email">Email</label>
                                     <input id="Email" type="text" formControlName="Email" aria-describedby="Email-help" [ngClass]="campoEsValido('Email') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />

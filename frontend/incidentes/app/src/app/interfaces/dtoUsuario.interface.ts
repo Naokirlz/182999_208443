@@ -7,7 +7,7 @@ export interface Usuario {
         RolUsuario?:number;
         Email?:string;
         id?:number;
-        valorHora?:number;
+        ValorHora?:number;
 
 
 

@@ -13,8 +13,9 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nombre</th>
-                                <th>Costo</th>
-                                <th>Duración</th>
+                                <th>Costo/Hora</th>
+                                <th>Duración (horas)</th>
+                                <th>Total</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-tarea>
@@ -23,6 +24,7 @@
                                 <td>{{tarea.nombre | titlecase }}</td>
                                 <td>{{tarea.costo}}</td>
                                 <td>{{tarea.duracion}}</td>
+                                <td>$ {{tarea.duracion * tarea.costo| number}}</td>
                             </tr>
                         </ng-template>
                     </p-table>

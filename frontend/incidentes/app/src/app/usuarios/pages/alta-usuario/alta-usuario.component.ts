@@ -4,6 +4,7 @@ import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { UsuariosService } from '../../services/usuarios.service';
 import {InputTextModule} from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-alta-usuario',
@@ -16,16 +17,22 @@ export class AltaUsuarioComponent implements OnInit {
 
   constructor(private usuarioServive:UsuariosService,
               private fb: FormBuilder,
-              private messageService: MessageService) { }
+              private messageService: MessageService) { 
+
+                this.Rol = 0;
+
+              }
 
   ngOnInit(): void {
 
     this.miFormulario.reset(
       {
-        RolUsuario:1
+        RolUsuario:0
       }
     )
   }
+
+  public Rol;
 
  
   miFormulario:FormGroup = this.fb.group({
@@ -34,12 +41,15 @@ export class AltaUsuarioComponent implements OnInit {
     Apellido     : [,Validators.required],
     Contrasenia  :[,Validators.required],
     RolUsuario   :[],
+    Valor        :[0, [Validators.min(0), Validators.max(1000)]],
     Email        :[,Validators.required],
     NombreUsuario:[,Validators.required]
 
   })
 
   campoEsValido(campo:string){
+
+    this.Rol = parseInt(this.miFormulario.value.RolUsuario);
     return this.miFormulario.controls[campo].errors  
            && this.miFormulario.controls[campo].touched
   }
@@ -61,8 +71,10 @@ export class AltaUsuarioComponent implements OnInit {
   } */
   altaUsuario(){
     if(this.miFormulario.invalid){
+      
       this.miFormulario.markAllAsTouched();
       return;
+    
     }
 
     let numeroRol : number = parseInt(this.miFormulario.value.RolUsuario);
@@ -72,23 +84,27 @@ export class AltaUsuarioComponent implements OnInit {
       Apellido:this.miFormulario.value.Apellido,
       Contrasenia:this.miFormulario.value.Contrasenia,
       RolUsuario:numeroRol,
+      ValorHora:this.miFormulario.value.Valor,
       Email:this.miFormulario.value.Email,
       NombreUsuario:this.miFormulario.value.NombreUsuario,
 
     }
 
-    let resp:Usuario | any = this.usuarioServive.alta(usuario);
-
-    if (resp.ok) {
-      this.messageService.add({severity:'success', summary: 'Listo', detail: 'Usuario guardado correctamente.'});
-      this.miFormulario.reset({
-        RolUsuario:1
-      });
-    }else{
-      console.log(resp.value);
-      this.messageService.add({severity:'error', summary: 'Error', detail: 'resp.message'});
-    }
-
+    this.usuarioServive.alta(usuario)
+      .subscribe((data:Usuario) => {
+                                   this.messageService.add({severity:'success', summary: 'Listo', 
+                                                            detail: 'Usuario guardado correctamente.'});
+                                    this.miFormulario.reset({
+                                                               RolUsuario:0
+                                                            });
+                                   },
+                (({error}:any) => {
+        
+                  console.log(error.value);
+                  this.messageService.add({severity:'error', summary: 'Error', detail: 'resp.message'});
+                                  }
+                                  )
+                ); 
   }
 
 }

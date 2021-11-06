@@ -25,19 +25,26 @@ export class UsuariosService {
     };
 
     httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
+    
     return this.http.post<Usuario>(
       this.apiUrl,
       usuario,
-      httpOptions
-    );/* .subscribe(
-      (data: any) => {
-      },
-      (({error}:any) => {
-        alert(JSON.stringify(error));
-        console.log(JSON.stringify(error));
-      }
-      )
-    ); */
+      httpOptions)
+    
+    
+      // ).subscribe(
+    //   (data: any) => {
+    //     alert('Éxito')
+    //   },
+    //   (({error}:any) => {
+        
+    //     alert(JSON.stringify(error));
+    //     console.log(JSON.stringify(error));
+    //     retorno = false;
+    //   }
+    //   )
+    // );
+
   }
 
   getUsuario():Observable<Usuario[]>{
