@@ -25,7 +25,9 @@
                                 <td>{{usuario.nombre | titlecase }}</td>
                                 <td>{{usuario.apellido | titlecase }}</td>
                                 <td>{{usuario.email}}</td>
-                                <td>{{usuario.rolUsuario}}</td>
+                                <td *ngIf="usuario.rolUsuario == 0">Administrador</td>
+                                <td *ngIf="usuario.rolUsuario == 1">Tester</td>
+                                <td *ngIf="usuario.rolUsuario == 2">Desarrollador</td>
                                 <td>{{usuario.valorHora}}</td>
                             </tr>
                         </ng-template>

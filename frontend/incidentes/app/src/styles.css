@@ -277,8 +277,6 @@ body {
     background: linear-gradient(transparent, rgb(0, 161, 140));
 }
 
-.router-link-active {}
-
 .nav-link {
     cursor: pointer;
 }
@@ -293,6 +291,7 @@ body {
 
 input[type=text],
 input[type=password],
+input[type=number],
 .select {
     width: 100%;
     padding: 5px 5px;

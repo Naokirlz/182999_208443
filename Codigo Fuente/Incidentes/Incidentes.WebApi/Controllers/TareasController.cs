@@ -43,12 +43,12 @@ namespace Incidentes.WebApi.Controllers
             return Ok(tarea);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Delete([FromBody] Tarea tarea)
+        public IActionResult Delete(int id)
         {
-            _logicaT.Baja(tarea.Id);
-            return StatusCode(204, "Eliminado Satisfactoriamente.");
+            _logicaT.Baja(id);
+            return StatusCode(204);
         }
 
         [HttpPut]

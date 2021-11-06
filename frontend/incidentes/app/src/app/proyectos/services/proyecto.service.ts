@@ -79,7 +79,6 @@ export class ProyectoService {
       this.apiUrl + '/' + id,
       httpOptions
     );
-
   }
 
   update(proyecto: Proyecto): Observable<Proyecto> {

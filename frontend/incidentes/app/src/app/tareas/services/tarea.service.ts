@@ -32,16 +32,44 @@ export class TareaService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'autorizacion': this.token
       })
     };
-
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
 
     return this.http.post<Tarea>(
       this.apiUrl,
       tarea,
       httpOptions
     )
+  }
 
-    }
+  deleteTarea(id: number): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'autorizacion': this.token
+      })
+    };
+
+    return this.http.delete<any>(
+      this.apiUrl + '/' + id,
+      httpOptions
+    );
+  }
+
+  update(tarea: Tarea): Observable<Tarea> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'autorizacion': this.token
+      })
+    };
+
+    return this.http.put<Tarea>(
+      this.apiUrl,
+      tarea,
+      httpOptions
+    );
+  }
 }

@@ -9,8 +9,6 @@ import { IncidentesComponent } from './incidentes/pages/incidentes/incidentes.co
 import { ImportacionesComponent } from './importaciones/pages/importaciones/importaciones.component';
 import { EstadosComponent } from './estados/pages/estados/estados.component';
 import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
-import { UsuariosComponent } from './usuarios/pages/usuarios/usuarios.component';
-import { ListadoComponent } from './usuarios/pages/listado/listado.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
 import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
 import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proyectos.component';
