@@ -14,8 +14,8 @@
                                 <th>id</th>
                                 <th>Nombre</th>
                                 <th>Proyecto</th>
-                                <th>Costo</th>
-                                <th>Duracion</th>
+                                <th>Costo ($)</th>
+                                <th>Duracion (hs)</th>
                                 <th>Acciones</th>
                             </tr>
                         </ng-template>
@@ -23,12 +23,11 @@
                             <tr>
                                 <td>{{tarea.id}}</td>
                                 <td>{{tarea.nombre | titlecase }}</td>
-                                <td>{{tarea.proyectoId | number }}</td>
+                                <td>{{obtenerNombre(tarea.proyectoId) }}</td>
                                 <td>{{tarea.costo | number }}</td>
                                 <td>{{tarea.duracion | number }}</td>
                                 <td>
-                                    <button pButton type="button" icon="pi pi-trash">
-                                    </button>
+                                    <button pButton type="button" (click)="consultarAccion(tarea.id)" icon="pi pi-trash" style="background-color: red; border: 0;"></button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -37,5 +36,25 @@
             </div>
         </div>
     </div>
+    <p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+            <div class="p-flex p-flex-column" style="flex: 1">
+                <div class="p-text-center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                    <h4>{{message.summary}}</h4>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="p-grid p-fluid" style="display: flex;">
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton (click)="onConfirm()" label="Si" class="p-button-success"></button>
+                    </div>
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton label="No" (click)="onReject()" class="p-button-secondary"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+    <p-toast></p-toast>
     <app-footer></app-footer>
 </main>

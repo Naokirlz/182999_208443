@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UsuariosService {
 
   constructor(private http: HttpClient) { }
@@ -29,35 +30,6 @@ export class UsuariosService {
       this.apiUrl,
       usuario,
       httpOptions);
-
-
-    // ).subscribe(
-    //   (data: any) => {
-    //     alert('Éxito')
-    //   },
-    //   (({error}:any) => {
-
-    //     alert(JSON.stringify(error));
-    //     console.log(JSON.stringify(error));
-    //     retorno = false;
-    //   }
-    //   )
-    // );
-    /* let correcto: boolean = false;
-    this.http.post<Usuario>(
-      this.apiUrl,
-      usuario,
-      httpOptions
-    ).subscribe((data: any) => {
-      alert('Éxito')
-      correcto = true;
-    },
-      (({ error }: any) => {
-        alert(JSON.stringify(error));
-        console.log(JSON.stringify(error));
-      })
-    );
-    return correcto; */
   }
 
 
@@ -92,12 +64,5 @@ export class UsuariosService {
       this.apiUrl + '/' + id,
       httpOptions
     );
-
   }
-
-
-
-
-
-
 }

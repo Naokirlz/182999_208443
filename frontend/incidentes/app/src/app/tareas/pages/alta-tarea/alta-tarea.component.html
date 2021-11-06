@@ -18,7 +18,7 @@
                                 <div class="p-field">
                                     <label for="Rol">Seleccione el proyecto</label>
                                     <div class="input-group mb-3">
-                                        <select  class="custom-select select" id="inputGroupSelect02" RolUsuario="proyecto" formControlName="proyecto">
+                                        <select class="custom-select select" id="inputGroupSelect02" RolUsuario="proyecto" formControlName="proyecto">
                                             <option *ngFor="let p of proyectos" [value]="p.id" >{{p.nombre}}</option>
                                         </select>
                                         <small *ngIf="campoEsValido('proyecto')" id="duracion-help" class="p-error">Debe elegir un proyecto.</small>
@@ -27,17 +27,15 @@
                                 <!-- Costo -->
                                 <div class="p-field">
                                     <label for="Costo">Costo</label>
-                                    <p></p>
                                     <input id="Costo" type="number" formControlName="costo" aria-describedby="costo-help" [ngClass]="campoEsValido('costo') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
                                     <small *ngIf="campoEsValido('costo')" id="costo-help" class="p-error">Costo incorrecto.</small>
                                 </div>
                                 <!-- duracion -->
                                 <div class="p-field">
                                     <label for="duracion">Duración en horas</label>
-                                    <p></p>
-                                    <input id="duracion" type="duracion" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <input id="duracion" type="number" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
                                     <small *ngIf="campoEsValido('duracion')" id="duracion-help" class="p-error">Duración incorrecta.</small>
-                                </div>                                                                
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <input type="submit" id="btn-guardar" value="Alta" class="btn btn-success" />
@@ -48,5 +46,6 @@
             </div>
         </div>
     </div>
-
+    <p-toast></p-toast>
+    <app-footer></app-footer>
 </main>
