@@ -17,6 +17,7 @@ import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proye
 import { VerTareasComponent } from './tareas/pages/ver-tareas/ver-tareas.component';
 import { AsignadosComponent } from './proyectos/pages/asignados/asignados.component';
 import { EditarProyectoComponent } from './proyectos/pages/editar-proyecto/editar-proyecto.component';
+import { IncidentesPComponent } from './proyectos/pages/incidentes/incidentes.component';
 
 
 const routes: Routes = [
@@ -56,6 +57,10 @@ const routes: Routes = [
   {
     path: 'proyectos/:proyectoId/editar',
     component: EditarProyectoComponent,
+  },
+  {
+    path: 'proyectos/:proyectoId/incidentes',
+    component: IncidentesPComponent,
   },
   {
     path: 'incidentes',

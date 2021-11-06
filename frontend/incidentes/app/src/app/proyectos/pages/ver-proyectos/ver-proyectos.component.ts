@@ -52,6 +52,12 @@ export class VerProyectosComponent implements OnInit {
     
   }
 
+  incidentes(id:number):void{
+
+    this._router.navigate([`/proyectos/${id}/incidentes`]);
+    
+  }
+
   private result(data: Array<Proyecto>): void {
     this.proyectos = data;
   }

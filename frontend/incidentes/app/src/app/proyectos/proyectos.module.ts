@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { AsignadosComponent } from './pages/asignados/asignados.component';
 import { EditarProyectoComponent } from './pages/editar-proyecto/editar-proyecto.component';
+import { IncidentesPComponent } from './pages/incidentes/incidentes.component';
 
 
 
@@ -16,7 +17,8 @@ import { EditarProyectoComponent } from './pages/editar-proyecto/editar-proyecto
     AltaProyectoComponent,
     VerProyectosComponent,
     AsignadosComponent,
-    EditarProyectoComponent
+    EditarProyectoComponent,
+    IncidentesPComponent
   ],
   imports: [
     CommonModule,

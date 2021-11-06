@@ -31,7 +31,7 @@
                                 <td>{{proyecto.costo | number }}</td>
                                 <td>
                                     <span class="p-buttonset">
-                                        <button pButton type="button" label="incidentes" icon="pi pi-android"></button>
+                                        <button pButton type="button" label="incidentes" icon="pi pi-android" (click)="incidentes(proyecto.id)"></button>
                                         <button pButton type="button" label="tareas" icon="pi pi-desktop"></button>
                                         <button pButton type="button" label="asignados" icon="pi pi-users" (click)="asignados(proyecto.id)"></button>
                                     </span>
