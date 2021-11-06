@@ -4,7 +4,7 @@ import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { ProyectoService } from '../../services/proyecto.service';
 import { UsuariosService } from '../../../usuarios/services/usuarios.service';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
-import { FilterOperator } from 'primeng/api';
+import { FilterOperator, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-asignados',
@@ -24,7 +24,8 @@ export class AsignadosComponent implements OnInit {
   constructor(private _route: ActivatedRoute,
               private proyectoService:ProyectoService,
               private _router: Router,
-              private usuarioServie:UsuariosService) { 
+              private usuarioServie:UsuariosService,
+              private messageService: MessageService) { 
 
     this.proyectoId = 0;
 
@@ -89,7 +90,23 @@ export class AsignadosComponent implements OnInit {
   actualizar(){
 
     this.proyectos[0].asignados=this.asignados;
-    this.proyectoService.update(this.proyectos[0]);
+    this.proyectoService.update(this.proyectos[0])
+      .subscribe((data: Proyecto) => {
+        this.messageService.add({
+          severity: 'success', summary: 'Listo',
+          detail: 'Usuario guardado correctamente.'
+        });
+          this.volver();
+      },
+        (({ error }: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error});
+        }
+        )
+      );
+
+    
+    
+    
     this.volver();
 
 }
