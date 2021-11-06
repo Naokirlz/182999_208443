@@ -8,6 +8,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { AsignadosComponent } from './pages/asignados/asignados.component';
 import { EditarProyectoComponent } from './pages/editar-proyecto/editar-proyecto.component';
 import { IncidentesPComponent } from './pages/incidentes/incidentes.component';
+import { TareaspComponent } from './pages/tareasp/tareasp.component';
 
 
 
@@ -18,7 +19,8 @@ import { IncidentesPComponent } from './pages/incidentes/incidentes.component';
     VerProyectosComponent,
     AsignadosComponent,
     EditarProyectoComponent,
-    IncidentesPComponent
+    IncidentesPComponent,
+    TareaspComponent
   ],
   imports: [
     CommonModule,

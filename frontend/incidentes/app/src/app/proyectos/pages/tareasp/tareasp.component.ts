@@ -1,30 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
-import { Incidente } from '../../../interfaces/incidente.interface';
+import { Tarea } from '../../../interfaces/tarea.interface';
 import { ProyectoService } from '../../services/proyecto.service';
 
 @Component({
-  selector: 'app-incidentes',
-  templateUrl: './incidentes.component.html',
+  selector: 'app-tareasp',
+  templateUrl: './tareasp.component.html',
   styles: [
   ]
 })
-export class IncidentesPComponent implements OnInit {
+export class TareaspComponent implements OnInit {
 
   public proyectoId: number;
   public proyectos:Proyecto[]=[];
-  public incidentes:Incidente[] | undefined=[];
+  public tareas:Tarea[] | undefined=[];
   
   constructor(private proyectoService:ProyectoService,
               private _route: ActivatedRoute,
-              private _router: Router) 
-              
-              { 
+              private _router: Router) { 
 
-              this.proyectoId = 0;
-
-              }
+    this.proyectoId = 0;
+  }
 
   ngOnInit(): void {
     
@@ -38,7 +35,7 @@ export class IncidentesPComponent implements OnInit {
 
   private result(data: Proyecto): void {
     this.proyectos.push(data);
-    this.incidentes = this.proyectos[0].incidentes;
+    this.tareas = this.proyectos[0].tareas;
 
   }
 

@@ -18,6 +18,7 @@ import { VerTareasComponent } from './tareas/pages/ver-tareas/ver-tareas.compone
 import { AsignadosComponent } from './proyectos/pages/asignados/asignados.component';
 import { EditarProyectoComponent } from './proyectos/pages/editar-proyecto/editar-proyecto.component';
 import { IncidentesPComponent } from './proyectos/pages/incidentes/incidentes.component';
+import { TareaspComponent } from './proyectos/pages/tareasp/tareasp.component';
 
 
 const routes: Routes = [
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: 'proyectos/:proyectoId/incidentes',
     component: IncidentesPComponent,
+  },
+  {
+    path: 'proyectos/:proyectoId/tareas',
+    component: TareaspComponent,
   },
   {
     path: 'incidentes',
