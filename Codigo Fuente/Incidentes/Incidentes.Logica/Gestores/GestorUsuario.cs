@@ -48,9 +48,10 @@ namespace Incidentes.Logica
         public Usuario Alta(Usuario usuario)
         {
             if (usuario == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
-            bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.NombreUsuario == usuario.NombreUsuario) ||
-                _repositorioGestor.RepositorioUsuario.Existe(c => c.Email == usuario.Email);
-            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+            bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.Email == usuario.Email);
+            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe + "Email repetido.");
+            existe =  _repositorioGestor.RepositorioUsuario.Existe(c => c.NombreUsuario == usuario.NombreUsuario);
+            if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe + "Nombre de usuario repetido.");
 
             Validaciones.ValidarLargoTexto(usuario.Nombre, largo_maximo_texto_corto, largo_minimo_texto_corto, "Nombre");
             Validaciones.ValidarLargoTexto(usuario.Apellido, largo_maximo_texto_corto, largo_minimo_texto_corto, "Apellido");
