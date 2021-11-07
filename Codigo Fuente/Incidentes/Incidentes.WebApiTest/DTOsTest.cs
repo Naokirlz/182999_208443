@@ -90,5 +90,15 @@ namespace Incidentes.WebApiTest
             Assert.AreEqual(3, asig.ProyectoId);
             Assert.AreEqual(lista, asig.UsuarioId);
         }
+
+        [Test]
+        public void funciona_correctamente_importacionesDto()
+        {
+            ImportacionesDTO imp = new ImportacionesDTO()
+            {
+                Ruta = "asasas"
+            };
+            Assert.AreEqual(imp.Ruta, "asasas");
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Incidentes.Logica.DTOs;
 using Incidentes.LogicaInterfaz;
+using Incidentes.WebApi.DTOs;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,16 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get()
         {
             List<string> result = _logica.ListarPlugins();
-            return Ok(result);
+            List<ImportacionesDTO> lista = new List<ImportacionesDTO>();
+            foreach(string s in result)
+            {
+                ImportacionesDTO imp = new ImportacionesDTO()
+                {
+                    Ruta = s
+                };
+                lista.Add(imp);
+            }
+            return Ok(lista);
         }
     }
 }

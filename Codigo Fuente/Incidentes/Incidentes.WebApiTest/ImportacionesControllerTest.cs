@@ -1,6 +1,7 @@
 ﻿using Incidentes.Logica.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
+using Incidentes.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -50,7 +51,7 @@ namespace Incidentes.WebApiTest
             _logicaI.Setup(c => c.ListarPlugins()).Returns(new List<string>() { "uno", "dos"});
             var result = _iController.Get();
             var okResult = result as OkObjectResult;
-            var resp = (List<string>)okResult.Value;
+            var resp = (List<ImportacionesDTO>)okResult.Value;
 
             Assert.AreEqual(2, resp.Count());
             _logicaI.Verify(c => c.ListarPlugins());
