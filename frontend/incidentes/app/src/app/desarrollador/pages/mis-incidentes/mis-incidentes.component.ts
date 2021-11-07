@@ -7,6 +7,7 @@ import { LoginDTO } from 'src/app/interfaces/login.interface';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { LoginService } from 'src/app/login/services/login.service';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
+import { AsociacionesService } from '../../../asociaciones/service/asociaciones.service';
 
 @Component({
   selector: 'app-mis-incidentes',
@@ -17,36 +18,54 @@ import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
 export class MisIncidentesComponent implements OnInit {
 
 
-  public usuario: LoginDTO;
+  public usuario:number = 0;
   public usuarios:Usuario[]=[];
   public proyectos:Proyecto[]=[];
   public incidentes:Incidente[] | undefined=[];
   
   constructor(private loginService: LoginService,
-              private proyectoService:ProyectoService,
+              private asociacionesService:AsociacionesService,
               private estadosService:EstadosService,
               private messageService: MessageService) {
 
-    this.usuario = this.loginService.getLoginData()!;
+    this.usuario = this.loginService.getLoginData()?.id!;
 
    }
 
   ngOnInit(): void {
 
-    
-    this.proyectoService.getProyecto()
+    this.usuario = this.loginService.getLoginData()?.id!;
+  
+    this.asociacionesService.getBy(this.usuario)
     .subscribe(
-      ((data: Array<Proyecto>) => this.result(data)),
+      (data: any) => {
+            this.result(data);
+      },
+      (({error}:any) => {
+        alert(error);
+        console.log(JSON.stringify(error));
+      }
+      )
     );
+   
   }
 
   private result(data: Array<Proyecto>): void {
-    
+            
     this.proyectos = data;
-
     
+    
+    this.proyectos.forEach(e => {
+      
+     e.incidentes?.forEach(i => {
 
+      this.incidentes?.push(i);
+             
+     });
 
+    });
+
+    console.log(this.proyectos);
 
   }
 

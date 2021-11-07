@@ -14,28 +14,15 @@ export class LoginService {
    
   constructor(private http: HttpClient) { }
 
-  login(loginData: Usuario): void {
+  login(loginData: Usuario): Observable<Usuario> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     
-    this.http.post<LoginDTO>(
+    return this.http.post<LoginDTO>(
       this.apiUrl,
       loginData
-    ).subscribe(
-      (data: any) => {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('authData', JSON.stringify(data));
-        alert('Éxito')
-        console.log(this.getAuthorizationToken())
-      },
-      (({error}:any) => {
-        
-        alert(error);
-        console.log(JSON.stringify(error));
-      }
-      )
-    );
+    )
           
   }
 

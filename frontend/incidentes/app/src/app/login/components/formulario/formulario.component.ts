@@ -57,10 +57,24 @@ export class FormularioComponent implements OnInit {
 
     }
 
-    this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+    
     
 
-    this.loginService.login(usuario);
+    this.loginService.login(usuario)
+        .subscribe(
+          (data: any) => {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('authData', JSON.stringify(data));
+            this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+            console.log(this.loginService.getAuthorizationToken())
+          },
+          (({error}:any) => {
+            
+            alert(error);
+            console.log(JSON.stringify(error));
+          }
+          )
+        );
     
     this.miFormulario.reset();
     

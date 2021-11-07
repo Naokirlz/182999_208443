@@ -22,6 +22,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Login(Usuario usuario)
         {
             usuario.Token = _logica.Login(usuario.NombreUsuario, usuario.Contrasenia);
+            usuario = _logica.ObtenerPorToken(usuario.Token);
             return Ok(usuario);
         }
 
