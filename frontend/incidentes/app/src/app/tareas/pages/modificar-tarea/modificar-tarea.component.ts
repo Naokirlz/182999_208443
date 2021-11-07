@@ -1,29 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Proyecto } from 'src/app/interfaces/proyecto.interface';
-import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
-import { Tarea } from '../../../interfaces/tarea.interface';
-import { TareaService } from '../../services/tarea.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Proyecto } from 'src/app/interfaces/proyecto.interface';
+import { Tarea } from 'src/app/interfaces/tarea.interface';
+import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
+import { TareaService } from '../../services/tarea.service';
 
 @Component({
-  selector: 'app-alta-tarea',
-  templateUrl: './alta-tarea.component.html'
+  selector: 'app-modificar-tarea',
+  templateUrl: './modificar-tarea.component.html'
 })
-export class AltaTareaComponent implements OnInit {
-
-  public proyectos: Proyecto[] = [];
+export class ModificarTareaComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private proyectoService: ProyectoService,
     private tareasService: TareaService,
+    private _router: Router,
+    private _route: ActivatedRoute,
     private messageService: MessageService) { }
 
+  public proyectos: Proyecto[] = [];
+  public tareaId: number = -1;
+  public tarea: Tarea | null = null;
+
   ngOnInit(): void {
+    this.tareaId = this._route.snapshot.params['tareaId'];
     this.proyectoService.getProyecto()
       .subscribe(
         (data: Array<Proyecto>) => this.proyectos = data,
       );
+    this.tareasService.getTarea(this.tareaId)
+      .subscribe(
+        (data: Tarea) => this.result(data),
+      );
+  }
+
+  private result(data: Tarea): void {
+    this.tarea = data;
+    this.miFormulario.patchValue({
+      nombre: this.tarea.nombre,
+      costo: this.tarea.costo,
+      duracion: this.tarea.duracion,
+      proyecto: this.tarea.proyectoId
+    });
   }
 
   miFormulario: FormGroup = this.fb.group({
@@ -38,31 +58,49 @@ export class AltaTareaComponent implements OnInit {
       && this.miFormulario.controls[campo].touched
   }
 
-  altaTarea(): void {
+  modificarTarea() {
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();
       return;
     }
 
     const tarea: Tarea = {
+      id: this.tareaId,
       nombre: this.miFormulario.value.nombre,
       costo: this.miFormulario.value.costo,
       duracion: this.miFormulario.value.duracion,
       proyectoId: this.miFormulario.value.proyecto,
     }
 
-    this.tareasService.altaTareas(tarea)
+    this.tareasService.update(tarea)
       .subscribe((data: Tarea) => {
         this.messageService.add({
           severity: 'success', summary: 'Listo',
-          detail: 'Tarea guardada correctamente.'
+          detail: 'Tarea modificada correctamente.'
         });
-        this.miFormulario.reset();
       },
         (({ error }: any) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
         )
       );
+  }
+
+  onConfirm() {
+    this.messageService.clear();
+    this.modificarTarea();
+  }
+
+  consultarAccion() {
+    this.messageService.clear();
+    this.messageService.add({ key: 'c', sticky: true, severity: 'warn', summary: 'Está seguro?', detail: 'Confirme para modificar la Tarea' });
+  }
+
+  onReject() {
+    this.messageService.clear();
+  }
+
+  volver() {
+    this._router.navigate([`/tareas`]);
   }
 }

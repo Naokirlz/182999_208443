@@ -5,13 +5,15 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module'
 import { SharedModule } from '../shared/shared.module';
 import { VerTareasComponent } from './pages/ver-tareas/ver-tareas.component';
 import { AltaTareaComponent } from './pages/alta-tarea/alta-tarea.component';
+import { ModificarTareaComponent } from './pages/modificar-tarea/modificar-tarea.component';
 
 
 
 @NgModule({
   declarations: [
     VerTareasComponent,
-    AltaTareaComponent
+    AltaTareaComponent,
+    ModificarTareaComponent
   ],
   imports: [
     CommonModule,

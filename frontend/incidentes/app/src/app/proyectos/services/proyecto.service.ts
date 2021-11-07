@@ -46,7 +46,6 @@ export class ProyectoService {
       this.apiUrl,
       httpOptions
     );
-
   }
 
   getBy(id: number): Observable<Proyecto> {

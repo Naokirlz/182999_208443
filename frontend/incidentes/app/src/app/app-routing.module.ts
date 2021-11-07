@@ -21,6 +21,7 @@ import { AltaTareaComponent } from './tareas/pages/alta-tarea/alta-tarea.compone
 import { IncidentesProyectosComponent } from './reportes/pages/incidentes-proyectos/incidentes-proyectos.component';
 import { IncidentesDesarrolladorComponent } from './reportes/pages/incidentes-desarrollador/incidentes-desarrollador.component';
 import { DesarrolladorComponent } from './reportes/pages/desarrollador/desarrollador.component';
+import { ModificarTareaComponent } from './tareas/pages/modificar-tarea/modificar-tarea.component';
 
 
 const routes: Routes = [
@@ -100,6 +101,10 @@ const routes: Routes = [
   {
     path: 'tareas',
     component: VerTareasComponent,
+  },
+  {
+    path: 'tareas/:tareaId/editar',
+    component: ModificarTareaComponent,
   },
   {
     path: 'tareas/alta',

@@ -28,6 +28,20 @@ export class TareaService {
     );
   }
 
+  getTarea(id: number): Observable<Tarea> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'autorizacion': this.token
+      })
+    };
+
+    return this.http.get<Tarea>(
+      this.apiUrl + '/' + id,
+      httpOptions
+    );
+  }
+
   altaTareas(tarea: Tarea): Observable<Tarea> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -65,6 +79,7 @@ export class TareaService {
         'autorizacion': this.token
       })
     };
+    console.log(tarea);
 
     return this.http.put<Tarea>(
       this.apiUrl,

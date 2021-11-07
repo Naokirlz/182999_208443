@@ -88,11 +88,6 @@ export class EditarProyectoComponent implements OnInit {
   }
 
   volver() {
-
     this._router.navigate([`/proyectos`]);
-
   }
-
-
-
 }

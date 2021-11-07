@@ -16,6 +16,7 @@
                                 <th>Proyecto</th>
                                 <th>Costo ($)</th>
                                 <th>Duracion (hs)</th>
+                                <th>Editar</th>
                                 <th>Acciones</th>
                             </tr>
                         </ng-template>
@@ -26,6 +27,10 @@
                                 <td>{{obtenerNombre(tarea.proyectoId) }}</td>
                                 <td>{{tarea.costo | number }}</td>
                                 <td>{{tarea.duracion | number }}</td>
+                                <td>
+                                    <button pButton type="button" (click)="editar(tarea.id)" icon="pi pi-pencil">
+                                    </button>
+                                </td>
                                 <td>
                                     <button pButton type="button" (click)="consultarAccion(tarea.id)" icon="pi pi-trash" style="background-color: red; border: 0;"></button>
                                 </td>
