@@ -19,7 +19,7 @@
                                 <th>Desarrollador</th>
                                 <th>Usuario</th>
                                 <th>Duración</th>
-                                
+                                <th></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
@@ -32,17 +32,17 @@
                                 <td>{{incidente.desarrolladorId}}</td>
                                 <td>{{incidente.usuarioId}}</td>
                                 <td>{{incidente.duracion}}</td>   
-                         
+                                <td>
+                                    <button pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-check-circle">
+                                    </button>
+
+                                </td>                            
                             </tr>
                         </ng-template>
                     </p-table>
                 </div>
                 <div class="card-footer">
-                    
-                    <p align="right">
-                    <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
-                    </p>
-                </div>
+            </div>
              </div>
         </div>
     </div>

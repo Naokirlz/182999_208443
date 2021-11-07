@@ -4,6 +4,7 @@ import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { Incidente } from '../../../interfaces/incidente.interface';
 import { ProyectoService } from '../../services/proyecto.service';
 import { EstadosService } from '../../../estados/service/estados.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-incidentes',
@@ -20,7 +21,8 @@ export class IncidentesPComponent implements OnInit {
   constructor(private proyectoService:ProyectoService,
               private estadosService:EstadosService,
               private _route: ActivatedRoute,
-              private _router: Router) 
+              private _router: Router,
+              private messageService: MessageService) 
               
               { 
 
@@ -44,15 +46,6 @@ export class IncidentesPComponent implements OnInit {
 
   }
 
-  resolver(ide:number){
-  
-    const incidente:Incidente = this.incidentes?.find(i => i.id == ide)!;
-    
-    incidente.estadoIncidente = 2;
-    this.estadosService.put(incidente);
-
-
-  }
 
   volver(){
 

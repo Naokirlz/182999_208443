@@ -10,6 +10,7 @@
             <img src="assets/img/Logo.jpeg" alt />
             <!-- <p v-text="actualUser.name"></p> -->
         </div>
+        <span> {{rol}} :</span> <span>{{usuario.nombreUsuario}}</span>
         <li class="item">
             <a routerLink="/login" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
                 true}" class="menu-btn">
@@ -100,6 +101,21 @@
                 <a routerLink="/reportes/resueltos" routerLinkActive="router-link-active">
                     <i class="pi pi-circle-off"></i>
                     <span>Incidentes resueltos por desarrollador</span>
+                </a>
+            </div>
+        </li>
+        <li class="item">
+            <a  routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-key"></i>
+                <span>
+                    Desarrollador
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/desarrollador" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Incidentes</span>
                 </a>
             </div>
         </li>

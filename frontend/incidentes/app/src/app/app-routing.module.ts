@@ -22,6 +22,7 @@ import { IncidentesProyectosComponent } from './reportes/pages/incidentes-proyec
 import { IncidentesDesarrolladorComponent } from './reportes/pages/incidentes-desarrollador/incidentes-desarrollador.component';
 import { DesarrolladorComponent } from './reportes/pages/desarrollador/desarrollador.component';
 import { ModificarTareaComponent } from './tareas/pages/modificar-tarea/modificar-tarea.component';
+import { MisIncidentesComponent } from './desarrollador/pages/mis-incidentes/mis-incidentes.component';
 
 
 const routes: Routes = [
@@ -97,6 +98,10 @@ const routes: Routes = [
   {
     path: 'asociaciones',
     component: AsociacionesComponent,
+  },
+  {
+    path: 'desarrollador',
+    component: MisIncidentesComponent,
   },
   {
     path: 'tareas',
