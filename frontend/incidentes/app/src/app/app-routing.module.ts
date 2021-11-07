@@ -6,7 +6,6 @@ import { AltaUsuarioComponent } from './usuarios/pages/alta-usuario/alta-usuario
 import { ReportesComponent } from './reportes/pages/reportes/reportes.component';
 import { ProyectosComponent } from './proyectos/pages/proyectos/proyectos.component';
 import { IncidentesComponent } from './incidentes/pages/incidentes/incidentes.component';
-import { ImportacionesComponent } from './importaciones/pages/importaciones/importaciones.component';
 import { EstadosComponent } from './estados/pages/estados/estados.component';
 import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
@@ -23,6 +22,7 @@ import { IncidentesDesarrolladorComponent } from './reportes/pages/incidentes-de
 import { DesarrolladorComponent } from './reportes/pages/desarrollador/desarrollador.component';
 import { ModificarTareaComponent } from './tareas/pages/modificar-tarea/modificar-tarea.component';
 import { MisIncidentesComponent } from './desarrollador/pages/mis-incidentes/mis-incidentes.component';
+import { CargarIncidentesComponent } from './importaciones/pages/cargar-incidentes/cargar-incidentes.component';
 
 
 const routes: Routes = [
@@ -88,16 +88,16 @@ const routes: Routes = [
     component: DesarrolladorComponent,
   },
   {
-    path: 'importaciones',
-    component: ImportacionesComponent,
-  },
-  {
     path: 'estados',
     component: EstadosComponent,
   },
   {
     path: 'asociaciones',
     component: AsociacionesComponent,
+  },
+  {
+    path: 'importaciones',
+    component: CargarIncidentesComponent,
   },
   {
     path: 'desarrollador',
