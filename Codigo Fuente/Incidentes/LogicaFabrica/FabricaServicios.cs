@@ -1,4 +1,5 @@
 ﻿using Incidentes.Logica;
+using Incidentes.LogicaImportaciones;
 using Incidentes.LogicaInterfaz;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +20,7 @@ namespace Incidentes.LogicaFabrica
             services.AddScoped<ILogicaIncidente, GestorIncidente>();
             services.AddScoped<ILogicaAutorizacion, GestorAutorizacion>();
             services.AddScoped<ILogicaTarea, GestorTarea>();
+            services.AddScoped<ILogicaImportaciones, LogicaImportacion>();
         }
     }
 }

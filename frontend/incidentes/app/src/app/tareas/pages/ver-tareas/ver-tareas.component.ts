@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
@@ -15,6 +16,7 @@ export class VerTareasComponent implements OnInit {
 
   constructor(private tareaService:TareaService,
     private proyectoService: ProyectoService,
+    private _router: Router,
     private messageService: MessageService) { }
 
   public tareas:Tarea[] = [];
@@ -65,6 +67,10 @@ export class VerTareasComponent implements OnInit {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
       });
+  }
+
+  editar(id: number): void {
+    this._router.navigate([`/tareas/${id}/editar`]);
   }
 
   obtenerNombre(id: number): string {
