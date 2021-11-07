@@ -14,8 +14,9 @@
                                 <th>id</th>
                                 <th>Nombre</th>
                                 <th>Proyecto</th>
-                                <th>Costo ($)</th>
+                                <th>Costo/Hora ($)</th>
                                 <th>Duracion (hs)</th>
+                                <th>Total ($)</th>
                                 <th>Editar</th>
                                 <th>Acciones</th>
                             </tr>
@@ -27,6 +28,7 @@
                                 <td>{{obtenerNombre(tarea.proyectoId) }}</td>
                                 <td>{{tarea.costo | number }}</td>
                                 <td>{{tarea.duracion | number }}</td>
+                                <td>{{tarea.duracion * tarea.costo | number }}</td>
                                 <td>
                                     <button pButton type="button" (click)="editar(tarea.id)" icon="pi pi-pencil">
                                     </button>
