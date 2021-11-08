@@ -94,7 +94,10 @@ namespace Incidentes.WebApi.Controllers
                 if(i.EstadoIncidente == Incidente.Estado.Resuelto)
                 {
                     Usuario u = p.Asignados.Find(d => d.Id == i.DesarrolladorId);
-                    costo += i.Duracion * u.ValorHora;
+                    if (u != null)
+                    {
+                        costo += i.Duracion * u.ValorHora;
+                    }
                 }
             }
             pro.Duracion = duracion;

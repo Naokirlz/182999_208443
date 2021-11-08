@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CargarIncidentesComponent } from './pages/cargar-incidentes/cargar-incidentes.component';
-import { SharedModule } from 'primeng/api';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 

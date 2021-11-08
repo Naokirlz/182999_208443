@@ -23,7 +23,7 @@ namespace Incidentes.WebApi.Controllers
         [TrapExcepciones]
         public IActionResult Post([FromBody] FuenteDTO fuente)
         {
-            _logica.ImportarBugs(fuente.rutaFuente.Replace("_", "/"), fuente.rutaBinario.Replace("_", "/"), fuente.usuarioId);
+            _logica.ImportarBugs(fuente.rutaFuente, fuente.rutaBinario, fuente.usuarioId);
             return Ok();
         }
 
@@ -32,12 +32,12 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get()
         {
             List<string> result = _logica.ListarPlugins();
-            List<ImportacionesDTO> lista = new List<ImportacionesDTO>();
+            List<FuenteDTO> lista = new List<FuenteDTO>();
             foreach(string s in result)
             {
-                ImportacionesDTO imp = new ImportacionesDTO()
+                FuenteDTO imp = new FuenteDTO()
                 {
-                    Ruta = s
+                    rutaBinario = s
                 };
                 lista.Add(imp);
             }

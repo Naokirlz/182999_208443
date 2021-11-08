@@ -1,1 +1,42 @@
-<p>cargar-incidentes works!</p>
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <h1>Usuarios</h1>
+                    <div>
+                        <form (ngSubmit)="cargarBugs()" [formGroup]="miFormulario" class="card-internal">
+                            <div class="card-header">Archivo a Cargar</div>
+                            <div class="card-body">
+                                <div class="p-field">
+                                    <label for="rutaArch">Ruta Archivo</label>
+                                    <input id="rutaArch" type="text" formControlName="rutaArch" aria-describedby="rutaArch-help" [ngClass]="campoEsValido('rutaArch') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('rutaArch')" id="rutaArch-help" class="p-error">Ruta de Archivo es obligatorio.</small>
+                                </div>
+                                <div class="p-field">
+                                    <label for="rutaPlug">Ruta Plugin</label>
+                                    <input id="rutaPlug" type="text" formControlName="rutaPlug" aria-describedby="rutaPlug-help" [ngClass]="campoEsValido('rutaPlug') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('rutaPlug')" id="rutaPlug-help" class="p-error">rutaPlug es incorrecto.</small>
+                                </div>
+                                <div class="p-field">
+                                    <label for="Rol">Plugins Disponibles</label>
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select select" id="inputGroupSelect02" formControlName="selectBin">
+                                            <option value='' selected>Seleccione una Opción...</option>
+                                            <option *ngFor="let i of importaciones" [value]="i.rutaBinario" >{{i.rutaBinario}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" id="btn-guardar" value="Cargar" class="btn btn-success" pButton pRipple />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast></p-toast>
+    <app-footer></app-footer>
+</main>

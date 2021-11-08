@@ -1,5 +1,4 @@
 export interface Usuario {
-  
         NombreUsuario?:string;
         Contrasenia?:string;
         Nombre?:string;
@@ -9,7 +8,4 @@ export interface Usuario {
         Email?:string;
         id?:number;
         ValorHora?:number;
-
-
-
   }

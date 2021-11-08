@@ -12,6 +12,7 @@ import { ProyectosModule } from './proyectos/proyectos.module';
 import { TareasModule } from './tareas/tareas.module';
 import { ReportesModule } from './reportes/reportes.module';
 import { DesarrolladorModule } from './desarrollador/desarrollador.module';
+import { ImportacionesModule } from './importaciones/importaciones.module';
 
 
 
@@ -30,7 +31,8 @@ import { DesarrolladorModule } from './desarrollador/desarrollador.module';
     PrimeNgModule,
     ProyectosModule,
     ReportesModule,
-    DesarrolladorModule    
+    DesarrolladorModule,
+    ImportacionesModule   
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -51,7 +51,7 @@ namespace Incidentes.WebApiTest
             _logicaI.Setup(c => c.ListarPlugins()).Returns(new List<string>() { "uno", "dos"});
             var result = _iController.Get();
             var okResult = result as OkObjectResult;
-            var resp = (List<ImportacionesDTO>)okResult.Value;
+            var resp = (List<FuenteDTO>)okResult.Value;
 
             Assert.AreEqual(2, resp.Count());
             _logicaI.Verify(c => c.ListarPlugins());
