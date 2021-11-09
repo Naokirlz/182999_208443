@@ -9,7 +9,7 @@ import { Incidente } from '../../interfaces/incidente.interface';
 export class EstadosService {
 
   private apiUrl: string = 'http://localhost:5000/api/Estados';
-  token: string = localStorage.getItem('token')!;
+  token: string = sessionStorage.getItem('token')!;
 
   constructor(private http: HttpClient) { }
 

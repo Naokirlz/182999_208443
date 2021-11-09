@@ -10,7 +10,7 @@ export class IncidentesService {
 
   
   private apiUrl: string = 'http://localhost:5000/api/Incidentes';
-  token: string = localStorage.getItem('token')!;
+  token: string = sessionStorage.getItem('token')!;
 
   constructor(private http: HttpClient) { }
 

@@ -12,7 +12,7 @@ export class UsuariosService {
   constructor(private http: HttpClient) { }
 
   private apiUrl: string = 'http://localhost:5000/api/Usuarios';
-  token: string = localStorage.getItem('token')!;
+  token: string = sessionStorage.getItem('token')!;
 
 
   alta(usuario: Usuario): Observable<Usuario> {

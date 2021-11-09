@@ -4,6 +4,7 @@ import { LoginService } from '../../services/login.service';
 import {InputTextModule} from 'primeng/inputtext';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario',
@@ -17,8 +18,8 @@ export class FormularioComponent implements OnInit {
 
   constructor(private loginService:LoginService,
               private fb: FormBuilder,
-              private messageService: MessageService
-              ) { 
+              private messageService: MessageService,
+              private _router: Router) { 
 
                 
 
@@ -63,17 +64,24 @@ export class FormularioComponent implements OnInit {
     this.loginService.login(usuario)
         .subscribe(
           (data: any) => {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('authData', JSON.stringify(data));
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('authData', JSON.stringify(data));
             this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-            console.log(this.loginService.getAuthorizationToken())
+            
+            if(this.loginService.isLoggedIn())
+                {
+                  this._router.navigate(['']);
+                }
+
+
           },
           (({error}:any) => {
             
             alert(error);
             console.log(JSON.stringify(error));
           }
-          )
+          ),
+          () => {}
         );
     
     this.miFormulario.reset();

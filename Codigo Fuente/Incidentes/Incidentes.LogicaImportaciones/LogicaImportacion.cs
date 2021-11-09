@@ -13,7 +13,7 @@ namespace Incidentes.LogicaImportaciones
 {
     public class LogicaImportacion : ILogicaImportaciones
     {
-        const string directorio_plugins = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs";
+        const string directorio_plugins = "C:\\Users\\crist\\Desktop\\reflection";
         IRepositorioGestores _repositorioGestor;
         private const string elemento_no_existe = "El elemento no existe";
 

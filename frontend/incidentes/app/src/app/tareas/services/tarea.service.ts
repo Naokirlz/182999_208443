@@ -11,7 +11,7 @@ export class TareaService {
   constructor(private http: HttpClient) { }
 
   private apiUrl: string = 'http://localhost:5000/api/Tareas';
-  token: string = localStorage.getItem('token')!;
+  token: string = sessionStorage.getItem('token')!;
 
   getTareas(): Observable<Tarea[]> {
     const httpOptions = {

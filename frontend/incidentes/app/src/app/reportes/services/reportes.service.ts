@@ -11,7 +11,7 @@ export class ReportesService {
   constructor(private http: HttpClient) { }
 
   private apiUrl: string = 'http://localhost:5000/api/Reportes';
-  token:string = localStorage.getItem('token')!;
+  token:string = sessionStorage.getItem('token')!;
 
   getAll():Observable<ReporteBugsProyecto[]>{
 

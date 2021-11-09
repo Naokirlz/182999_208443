@@ -22,18 +22,22 @@ export class SidebarComponent implements OnInit {
   constructor(private loginService: LoginService) {
 
     this.usuario = this.loginService.getLoginData()!;
+    this.rol = 'No autenticado';
 
-    if (this.usuario.rolUsuario == 0) {
+  //   if(this.loginService.isLoggedIn()){
 
-      this.rol = 'Administrador';
+  //   if (this.usuario.rolUsuario == 0) {
 
-    } else if (this.usuario.rolUsuario == 1) {
+  //     this.rol = 'Administrador';
 
-      this.rol = 'Tester';
+  //   } else if (this.usuario.rolUsuario == 1) {
 
-    } else { this.rol = 'Desarrollador'; }
+  //     this.rol = 'Tester';
 
-  }
+  //   } else { this.rol = 'Desarrollador'; }
+
+  // }
+}
   Login: boolean = true;
   @Input() colap: boolean = false;
 

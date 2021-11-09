@@ -12,7 +12,7 @@ export class ProyectoService {
   constructor(private http: HttpClient) { }
 
   private apiUrl: string = 'http://localhost:5000/api/Proyectos';
-  token: string = localStorage.getItem('token')!;
+  token: string = sessionStorage.getItem('token')!;
 
   alta(proyecto: Proyecto): Observable<Proyecto> {
 

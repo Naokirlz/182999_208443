@@ -9,7 +9,7 @@ import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 export class AsociacionesService {
 
   private apiUrl: string = 'http://localhost:5000/api/Asociaciones';
-  token: string = localStorage.getItem('token')!;
+  token: string = sessionStorage.getItem('token')!;
 
   constructor(private http: HttpClient) { }
 

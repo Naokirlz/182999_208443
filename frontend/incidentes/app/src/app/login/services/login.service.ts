@@ -31,7 +31,7 @@ export class LoginService {
   }
 
   getLoginData(): LoginDTO|undefined  {
-    const localData: string|null = localStorage.getItem('authData') ;
+    const localData: string|null = sessionStorage.getItem('authData') ;
     if (localData) {
       return JSON.parse(localData);
     }
@@ -39,13 +39,19 @@ export class LoginService {
   }
 
   getAuthorizationToken(): string {
-    return (localStorage.getItem('token') ? localStorage.getItem('token') : '') as string;
-  } 
+    return (sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '') as string;
+  }
+  
+  isLoggedIn():boolean{
+
+    return sessionStorage.getItem('token') != null;
+
+  }
   
   logout():void{
 
-      localStorage.setItem('token', '');
-      localStorage.setItem('authData', '');
+      sessionStorage.setItem('token', '');
+      sessionStorage.setItem('authData', '');
   }
 
   }

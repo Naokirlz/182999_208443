@@ -53,8 +53,7 @@ export class MisIncidentesComponent implements OnInit {
   private result(data: Array<Proyecto>): void {
             
     this.proyectos = data;
-    
-    
+        
     this.proyectos.forEach(e => {
       
      e.incidentes?.forEach(i => {
@@ -68,6 +67,8 @@ export class MisIncidentesComponent implements OnInit {
     console.log(this.proyectos);
 
   }
+
+  
 
   resolver(ide:number){
   

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { LoginComponent } from './login/pages/login/login.component';
 import { LogoutComponent } from './login/pages/logout/logout.component';
 import { AltaUsuarioComponent } from './usuarios/pages/alta-usuario/alta-usuario.component';
@@ -23,102 +23,33 @@ import { DesarrolladorComponent } from './reportes/pages/desarrollador/desarroll
 import { ModificarTareaComponent } from './tareas/pages/modificar-tarea/modificar-tarea.component';
 import { MisIncidentesComponent } from './desarrollador/pages/mis-incidentes/mis-incidentes.component';
 import { CargarIncidentesComponent } from './importaciones/pages/cargar-incidentes/cargar-incidentes.component';
+import { UserLoggedGuard } from './routeGuards/user-logged.guard';
 
 
 const routes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'salir',
-    component: LogoutComponent,
-  },
-  {
-    path: 'usuarios',
-    component: VerUsuariosComponent,
-  },
-  {
-    path: 'usuarios/alta',
-    component: AltaUsuarioComponent,
-  },
-  {
-    path: 'reportes',
-    component: ReportesComponent,
-  },
-  {
-    path: 'proyectos',
-    component: VerProyectosComponent,
-  },
-  {
-    path: 'proyectos/alta',
-    component: AltaProyectoComponent,
-  },
-  {
-    path: 'proyectos/:proyectoId/asignados',
-    component: AsignadosComponent,
-  },
-  {
-    path: 'proyectos/:proyectoId/editar',
-    component: EditarProyectoComponent,
-  },
-  {
-    path: 'proyectos/:proyectoId/incidentes',
-    component: IncidentesPComponent,
-  },
-  {
-    path: 'proyectos/:proyectoId/tareas',
-    component: TareaspComponent,
-  },
-  {
-    path: 'incidentes',
-    component: IncidentesComponent,
-  },
-  {
-    path: 'reportes/incidentes',
-    component: IncidentesProyectosComponent,
-  },
-  {
-    path: 'reportes/resueltos',
-    component: IncidentesDesarrolladorComponent,
-  },
-  {
-    path: 'reportes/:desarrolladorId/incidentes',
-    component: DesarrolladorComponent,
-  },
-  {
-    path: 'estados',
-    component: EstadosComponent,
-  },
-  {
-    path: 'asociaciones',
-    component: AsociacionesComponent,
-  },
-  {
-    path: 'importaciones',
-    component: CargarIncidentesComponent,
-  },
-  {
-    path: 'desarrollador',
-    component: MisIncidentesComponent,
-  },
-  {
-    path: 'tareas',
-    component: VerTareasComponent,
-  },
-  {
-    path: 'tareas/:tareaId/editar',
-    component: ModificarTareaComponent,
-  },
-  {
-    path: 'tareas/alta',
-    component: AltaTareaComponent,
-  },
-  {
-    path: '**',
-    redirectTo: ''
-  },
+  { path: 'login',component: LoginComponent, pathMatch: 'full'},
+  { path: 'salir',component: LogoutComponent,},
+  { path: 'usuarios',component: VerUsuariosComponent, canActivate:[UserLoggedGuard]},
+  { path: 'usuarios/alta', component: AltaUsuarioComponent,canActivate:[UserLoggedGuard]},
+  { path: 'reportes',component: ReportesComponent,canActivate:[UserLoggedGuard]},
+  { path: 'proyectos', component: VerProyectosComponent,canActivate:[UserLoggedGuard]},
+  { path: 'proyectos/alta',component: AltaProyectoComponent,canActivate:[UserLoggedGuard]},
+  { path: 'proyectos/:proyectoId/asignados',component: AsignadosComponent,canActivate:[UserLoggedGuard]},
+  { path: 'proyectos/:proyectoId/editar', component: EditarProyectoComponent,canActivate:[UserLoggedGuard]},
+  { path: 'proyectos/:proyectoId/incidentes',component: IncidentesPComponent,canActivate:[UserLoggedGuard]},
+  { path: 'proyectos/:proyectoId/tareas',component: TareaspComponent,canActivate:[UserLoggedGuard]},
+  { path: 'incidentes', component: IncidentesComponent,canActivate:[UserLoggedGuard]},
+  { path: 'reportes/incidentes',component: IncidentesProyectosComponent,canActivate:[UserLoggedGuard]},
+  { path: 'reportes/resueltos',component: IncidentesDesarrolladorComponent,canActivate:[UserLoggedGuard]},
+  { path: 'reportes/:desarrolladorId/incidentes',component: DesarrolladorComponent,canActivate:[UserLoggedGuard]},
+  { path: 'estados',component: EstadosComponent,canActivate:[UserLoggedGuard]},
+  { path: 'asociaciones',component: AsociacionesComponent,canActivate:[UserLoggedGuard]},
+  { path: 'importaciones',component: CargarIncidentesComponent,canActivate:[UserLoggedGuard]},
+  { path: 'desarrollador',component: MisIncidentesComponent,canActivate:[UserLoggedGuard]},
+  { path: 'tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard]},
+  { path: 'tareas/:tareaId/editar',component: ModificarTareaComponent,canActivate:[UserLoggedGuard]},
+  { path: 'tareas/alta',component: AltaTareaComponent,canActivate:[UserLoggedGuard]},
+  { path: '**', redirectTo: ''},
 
 ];
 
