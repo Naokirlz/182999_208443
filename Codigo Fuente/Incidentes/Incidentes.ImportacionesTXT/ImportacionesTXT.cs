@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Incidentes.ImportacionesTXT
 {
-    public class ImportacionesTXT:IFuente
+    public class ImportacionTXT:IFuente
     {
         private string _rutaFuente { get; set; }
 

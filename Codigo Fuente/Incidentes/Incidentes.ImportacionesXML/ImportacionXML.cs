@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace Incidentes.ImportacionesXML
 {
-    public class ImportacionesXML : IFuente
+    public class ImportacionXML : IFuente
     {
         private string _rutaFuente { get; set; }
 
