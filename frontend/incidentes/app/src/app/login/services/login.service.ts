@@ -44,7 +44,25 @@ export class LoginService {
   
   isLoggedIn():boolean{
 
-    return sessionStorage.getItem('token') != null;
+    return sessionStorage.getItem('token') != '';
+
+  }
+
+  isAdminLoggedIn():boolean{
+
+    return this.getLoginData()?.rolUsuario == 0;
+
+  }
+
+  isDesarrolladorIn():boolean{
+
+    return this.getLoginData()?.rolUsuario == 2;
+
+  }
+
+  isTesterIn():boolean{
+
+    return this.getLoginData()?.rolUsuario == 1;
 
   }
   

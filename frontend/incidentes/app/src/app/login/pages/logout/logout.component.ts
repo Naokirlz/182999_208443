@@ -17,6 +17,7 @@ export class LogoutComponent implements OnInit {
   logout(){
 
     this.loginService.logout();
+    window.location.reload();
     alert('Logout con Éxito');
 
   }

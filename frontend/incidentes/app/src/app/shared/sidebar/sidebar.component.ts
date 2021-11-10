@@ -16,27 +16,19 @@ import { LoginDTO } from '../../interfaces/login.interface';
 export class SidebarComponent implements OnInit {
 
 
-  public usuario: LoginDTO;
-  public rol: string;
+  
+  public admin:boolean = false;
+  public tester:boolean = false;
+  public desarrollador:boolean = false;
+  public logged:boolean = false;
 
   constructor(private loginService: LoginService) {
 
-    this.usuario = this.loginService.getLoginData()!;
-    this.rol = 'No autenticado';
+    this.admin = this.loginService.isAdminLoggedIn();
+    this.tester = this.loginService.isTesterIn();
+    this.desarrollador = this.loginService.isDesarrolladorIn();
+    this.logged = this.loginService.isLoggedIn();
 
-  //   if(this.loginService.isLoggedIn()){
-
-  //   if (this.usuario.rolUsuario == 0) {
-
-  //     this.rol = 'Administrador';
-
-  //   } else if (this.usuario.rolUsuario == 1) {
-
-  //     this.rol = 'Tester';
-
-  //   } else { this.rol = 'Desarrollador'; }
-
-  // }
 }
   Login: boolean = true;
   @Input() colap: boolean = false;
@@ -48,8 +40,12 @@ export class SidebarComponent implements OnInit {
     this.Login = !this.Login;
   }
 
-  logout() {
+  logout(){
+
     this.loginService.logout();
+    window.location.reload();
+    alert('Logout con Éxito');
+
   }
 
 }

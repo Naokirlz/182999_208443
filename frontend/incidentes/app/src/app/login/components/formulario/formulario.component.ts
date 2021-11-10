@@ -68,6 +68,9 @@ export class FormularioComponent implements OnInit {
             sessionStorage.setItem('authData', JSON.stringify(data));
             this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
             
+            window.location.reload();
+
+
             if(this.loginService.isLoggedIn())
                 {
                   this._router.navigate(['']);
