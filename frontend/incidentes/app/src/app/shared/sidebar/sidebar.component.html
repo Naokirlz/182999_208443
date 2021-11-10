@@ -17,7 +17,7 @@
                 <span>Login</span>
             </a>
         </li>
-        <li class="item" *ngIf ="logged">
+        <li class="item" *ngIf ="logged && admin">
             <a routerLink="/usuarios" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-users"></i>
                 <span>
@@ -39,7 +39,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged">
+        <li class="item" *ngIf ="logged && admin">
             <a routerLink="/proyectos" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-briefcase"></i>
                 <span>
@@ -82,7 +82,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged">
+        <li class="item" *ngIf ="logged && admin">
             <a routerLink="/reportes" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-chart-line"></i>
                 <span>
@@ -103,7 +103,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged">
+        <li class="item" *ngIf ="logged && admin">
             <a routerLink="/importaciones" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-cloud-download"></i>
                 <span>
@@ -118,7 +118,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged">
+        <li class="item" *ngIf ="logged && desarrollador">
             <a routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-key"></i>
                 <span>
@@ -130,6 +130,27 @@
                 <a routerLink="/desarrollador" routerLinkActive="router-link-active">
                     <i class="pi pi-circle-off"></i>
                     <span>Incidentes</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf ="logged && tester">
+            <a routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-key"></i>
+                <span>
+                    Tester
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/tester" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Incidentes</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/tester/altaIncidente" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Crear Incidente</span>
                 </a>
             </div>
         </li>

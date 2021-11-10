@@ -26,6 +26,8 @@ import { CargarIncidentesComponent } from './importaciones/pages/cargar-incident
 import { UserLoggedGuard } from './routeGuards/user-logged.guard';
 import { AdminLoggedGuard } from './routeGuards/admin-logged.guard';
 import { DesarrolladorLoggedGuard } from './routeGuards/desarrollador-logged.guard';
+import { TesterLoggedGuard } from './routeGuards/tester-logged.guard';
+import { AltabugTesterComponent } from './tester/pages/altabug-tester/altabug-tester.component';
 
 
 const routes: Routes = [
@@ -48,6 +50,8 @@ const routes: Routes = [
   { path: 'asociaciones',component: AsociacionesComponent,canActivate:[UserLoggedGuard]},
   { path: 'importaciones',component: CargarIncidentesComponent,canActivate:[UserLoggedGuard]},
   { path: 'desarrollador',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
+  { path: 'tester',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
+  { path: 'tester/altaIncidente',component: AltabugTesterComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
   { path: 'tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard]},
   { path: 'tareas/:tareaId/editar',component: ModificarTareaComponent,canActivate:[UserLoggedGuard]},
   { path: 'tareas/alta',component: AltaTareaComponent,canActivate:[UserLoggedGuard]},

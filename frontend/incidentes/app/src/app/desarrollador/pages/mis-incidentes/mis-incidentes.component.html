@@ -12,6 +12,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>id</th>
+                                <th>Proyecto</th>
                                 <th>Nombre</th>
                                 <th>Descripcion</th>
                                 <th>Versión</th>
@@ -19,24 +20,37 @@
                                 <th>Desarrollador</th>
                                 <th>Usuario</th>
                                 <th>Duración</th>
-                                <th></th>
+                                <th>Detalles</th>
+                                <th *ngIf ="desarrollador"></th>
+                                <th *ngIf ="tester"></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
                             <tr>
                                 <td>{{incidente.id}}</td>
+                                <td>{{incidente.proyectoId}}</td>
                                 <td>{{incidente.nombre | titlecase }}</td>
                                 <td>{{incidente.descripcion}}</td>
                                 <td>{{incidente.version}}</td>
                                 <td>{{incidente.estadoIncidente}}</td>
                                 <td>{{incidente.desarrolladorId}}</td>
                                 <td>{{incidente.usuarioId}}</td>
-                                <td>{{incidente.duracion}}</td>   
+                                <td>{{incidente.duracion}}</td>
                                 <td>
-                                    <button pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-check-circle">
+                                    <button pButton type="editar" icon="pi pi-eye">
+                                    </button>
+                                </td>   
+                                <td *ngIf ="desarrollador">
+                                    <button pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-up">
                                     </button>
 
-                                </td>                            
+                                </td>
+                                <td *ngIf ="tester">
+                                        <span class="p-buttonset">
+                                            <button pButton type="button" icon="pi pi-pencil" ></button>
+                                            <button pButton type="button" icon="pi pi pi-trash" ></button>                                            
+                                        </span>    
+                                </td>                                                           
                             </tr>
                         </ng-template>
                     </p-table>

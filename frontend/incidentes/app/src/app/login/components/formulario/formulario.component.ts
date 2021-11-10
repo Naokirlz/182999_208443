@@ -82,6 +82,7 @@ export class FormularioComponent implements OnInit {
             
             alert(error);
             console.log(JSON.stringify(error));
+            
           }
           ),
           () => {}

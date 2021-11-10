@@ -22,6 +22,9 @@ export class MisIncidentesComponent implements OnInit {
   public usuarios:Usuario[]=[];
   public proyectos:Proyecto[]=[];
   public incidentes:Incidente[] | undefined=[];
+
+  public tester:boolean = false;
+  public desarrollador:boolean = false;
   
   constructor(private loginService: LoginService,
               private asociacionesService:AsociacionesService,
@@ -29,7 +32,9 @@ export class MisIncidentesComponent implements OnInit {
               private messageService: MessageService) {
 
     this.usuario = this.loginService.getLoginData()?.id!;
-
+    this.tester = this.loginService.isTesterIn();
+    this.desarrollador = this.loginService.isDesarrolladorIn();
+    
    }
 
   ngOnInit(): void {
