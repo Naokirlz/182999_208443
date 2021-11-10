@@ -13,13 +13,15 @@ namespace Incidentes.LogicaImportaciones
 {
     public class LogicaImportacion : ILogicaImportaciones
     {
-        const string directorio_plugins = "C:\\Users\\crist\\Desktop\\reflection";
+        //const string directorio_plugins = "C:\\Users\\crist\\Desktop\\reflection";
+        private string directorio_plugins;
         IRepositorioGestores _repositorioGestor;
         private const string elemento_no_existe = "El elemento no existe";
 
         public LogicaImportacion(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
+            directorio_plugins = Directory.GetCurrentDirectory() + "/Plugins/";
         }
 
         public void ImportarBugs(string rutaFuente, string rutaBinario, int usuarioId)
