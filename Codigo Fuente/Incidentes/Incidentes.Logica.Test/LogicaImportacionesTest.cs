@@ -10,6 +10,7 @@ using Incidentes.DatosInterfaz;
 using Incidentes.LogicaImportaciones;
 using System.Linq.Expressions;
 using Incidentes.Logica.Excepciones;
+using System.IO;
 
 namespace Incidentes.Logica.Test
 {
@@ -18,6 +19,7 @@ namespace Incidentes.Logica.Test
         Mock<IRepositorioGestores> repoGestores;
         LogicaImportacion logicaImportaciones;
         GestorIncidente gestorIncidente;
+        private string directorio_base;
 
         [SetUp]
         public void SetUp()
@@ -25,6 +27,11 @@ namespace Incidentes.Logica.Test
             repoGestores = new Mock<IRepositorioGestores>();
             logicaImportaciones = new LogicaImportacion(repoGestores.Object);
             gestorIncidente = new GestorIncidente(repoGestores.Object);
+            directorio_base = Directory.GetCurrentDirectory();
+            for (int i = 0; i < 6; i++)
+            {
+                directorio_base = System.IO.Directory.GetParent(directorio_base).FullName;
+            }
         }
 
         [TearDown]
@@ -33,13 +40,14 @@ namespace Incidentes.Logica.Test
             repoGestores = null;
             gestorIncidente = null;
             logicaImportaciones = null;
+            directorio_base = "";
         }
 
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_xml()
         {
-            string rutaFuenteXML = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteXML.xml";
-            string rutaBinarios = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesXML";
+            string rutaFuenteXML = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteXML.xml";
+            string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesXML";
 
             Proyecto proyecto = new Proyecto()
             {
@@ -78,16 +86,15 @@ namespace Incidentes.Logica.Test
         public void no_se_pueden_cargar_incidentes_a_un_proyecto_si_no_existe_archivo_xml()
         {
             string rutaFuenteXML = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\NoExiste.xml";
-            string rutaBinarios = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesXML";
+            string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesXML";
             Assert.Throws<ExcepcionElementoNoExiste>(() => logicaImportaciones.ImportarBugs(rutaFuenteXML, rutaBinarios, 5));
         }
 
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_texto()
         {
-            // string rutaFuenteTXT = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\Fuente.txt";
-            string rutaFuenteTXT = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteTXT.txt";
-            string rutaBinarios = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesTXT";
+            string rutaFuenteTXT = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteTXT.txt";
+            string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesTXT";
 
             Proyecto proyecto = new Proyecto()
             {
@@ -126,7 +133,7 @@ namespace Incidentes.Logica.Test
         public void no_se_pueden_cargar_incidentes_a_un_proyecto_si_no_existe_archivo_texto()
         {
             string rutaFuenteTXT = AppDomain.CurrentDomain.BaseDirectory + "\\Fuentes\\NoExiste.txt";
-            string rutaBinarios = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesTXT";
+            string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesTXT";
             Assert.Throws<ExcepcionElementoNoExiste>(() => logicaImportaciones.ImportarBugs(rutaFuenteTXT, rutaBinarios, 5));
         }
 
@@ -135,14 +142,14 @@ namespace Incidentes.Logica.Test
         {
             List<string> lista = logicaImportaciones.ListarPlugins();
 
-            Assert.AreEqual(2, lista.Count());
+            Assert.AreEqual(3, lista.Count());
         }
 
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_json()
         {
-            string rutaFuenteJSON = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteJSON.json";
-            string rutaBinarios = "C:\\Users\\federico\\Documents\\GitHub\\182999_208443\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesJSON";
+            string rutaFuenteJSON = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteJSON.json";
+            string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesJSON";
 
             Proyecto proyecto = new Proyecto()
             {

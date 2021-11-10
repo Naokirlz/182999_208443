@@ -157,7 +157,6 @@ namespace Incidentes.WebApiTest
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
             _logicaI.Setup(c => c.Obtener(It.IsAny<int>())).Returns(i);
             _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
-            _logicaI.Setup(c => c.Baja(3));
 
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
@@ -166,7 +165,6 @@ namespace Incidentes.WebApiTest
 
             Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Delete(i.Id));
 
-            _logicaI.Verify(c => c.Baja(3));
             _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
             _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
             _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));

@@ -21,7 +21,12 @@ namespace Incidentes.LogicaImportaciones
         public LogicaImportacion(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
-            directorio_plugins = Directory.GetCurrentDirectory() + "/Plugins/";
+            directorio_plugins = Directory.GetCurrentDirectory();
+            for (int i=0; i< 6; i++)
+            {
+                directorio_plugins = System.IO.Directory.GetParent(directorio_plugins).FullName;
+            }
+            directorio_plugins += "/Documentacion/Accesorios-Postman-Fuentes/DLLs/";
         }
 
         public void ImportarBugs(string rutaFuente, string rutaBinario, int usuarioId)
