@@ -2,16 +2,19 @@ using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Incidentes.WebApi.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Incidentes.WebApiTest
 {
     public class ProyectosControllerTest
     {
         private Mock<ILogicaProyecto> _logicaP;
+        private Mock<ILogicaUsuario> _logicaU;
         private ProyectosController _pController;
         private List<Proyecto> proyectosL;
         private Usuario u;
@@ -22,7 +25,8 @@ namespace Incidentes.WebApiTest
         public void Setup()
         {
             _logicaP = new Mock<ILogicaProyecto>();
-            _pController = new ProyectosController(_logicaP.Object);
+            _logicaU = new Mock<ILogicaUsuario>();
+            _pController = new ProyectosController(_logicaP.Object, _logicaU.Object);
             proyectosL = new List<Proyecto>();
             i = new Incidente()
             {
@@ -58,6 +62,7 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaP = null;
+            _logicaU = null;
             _pController = null;
             proyectosL = null;
             u = null;
@@ -81,14 +86,58 @@ namespace Incidentes.WebApiTest
             p.Asignados.Add(u);
 
             proyectosL.Add(p);
-            
-            _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosL);
+            IQueryable<Proyecto> pros = proyectosL.AsQueryable();
 
-            var result = _pController.Get();
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(u);
+            _logicaP.Setup(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(pros);
+
+            var result = tested.Get();
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
 
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaP.Verify(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void se_pueden_ver_los_proyectos_si_es_administrador()
+        {
+            Proyecto p = new Proyecto();
+            Usuario u = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                RolUsuario = Usuario.Rol.Administrador,
+                Email = "martint1@gmail.com",
+                NombreUsuario = "martincosat1",
+                Token = ""
+            };
+            p.Asignados.Add(u);
+
+            proyectosL.Add(p);
+            IQueryable<Proyecto> pros = proyectosL.AsQueryable();
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(u);
+            _logicaP.Setup(c => c.ObtenerTodos()).Returns(pros);
+
+            var result = tested.Get();
+            var okResult = result as OkObjectResult;
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
             _logicaP.Verify(c => c.ObtenerTodos());
         }
 
