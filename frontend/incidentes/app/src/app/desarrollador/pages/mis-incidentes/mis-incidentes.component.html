@@ -48,7 +48,7 @@
                                 <td *ngIf ="tester">
                                         <span class="p-buttonset">
                                             <button pButton type="button" icon="pi pi-pencil" ></button>
-                                            <button pButton type="button" icon="pi pi pi-trash" ></button>                                            
+                                            <button pButton type="button"(click)="eliminar(incidente.id)"  icon="pi pi pi-trash" ></button>                                            
                                         </span>    
                                 </td>                                                           
                             </tr>

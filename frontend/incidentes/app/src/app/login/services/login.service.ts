@@ -56,13 +56,13 @@ export class LoginService {
 
   isDesarrolladorIn():boolean{
 
-    return this.getLoginData()?.rolUsuario == 2;
+    return this.getLoginData()?.rolUsuario == 1;
 
   }
 
   isTesterIn():boolean{
 
-    return this.getLoginData()?.rolUsuario == 1;
+    return this.getLoginData()?.rolUsuario == 2;
 
   }
   

@@ -8,6 +8,7 @@ import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { LoginService } from 'src/app/login/services/login.service';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
 import { AsociacionesService } from '../../../asociaciones/service/asociaciones.service';
+import { TesterService } from '../../../tester/service/tester.service';
 
 @Component({
   selector: 'app-mis-incidentes',
@@ -27,6 +28,7 @@ export class MisIncidentesComponent implements OnInit {
   public desarrollador:boolean = false;
   
   constructor(private loginService: LoginService,
+              private testerService: TesterService,
               private asociacionesService:AsociacionesService,
               private estadosService:EstadosService,
               private messageService: MessageService) {
@@ -71,6 +73,39 @@ export class MisIncidentesComponent implements OnInit {
 
     console.log(this.proyectos);
 
+  }
+
+  eliminar(id:number){
+
+    this.testerService.delete(id)
+    .subscribe(
+      (data: any) => {
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('authData', JSON.stringify(data));
+        this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+        
+        window.location.reload();
+
+
+        if(this.loginService.isLoggedIn())
+            {
+              alert('exito')
+            }
+
+
+      },
+      (({error}:any) => {
+        
+        alert(error);
+        console.log(JSON.stringify(error));
+        
+      }
+      ),
+      () => {}
+    );
+    
+
+    
   }
 
   

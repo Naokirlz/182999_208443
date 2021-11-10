@@ -43,11 +43,11 @@ namespace Incidentes.WebApi.Controllers
             return Ok(incidente);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [FilterAutorizacion("Administrador", "Tester")]
-        public IActionResult Delete([FromBody] Incidente incidente)
+        public IActionResult Delete(int id)
         {
-            _logicaI.Baja(incidente.Id);
+            _logicaI.Baja(id);
             return StatusCode(204, "Eliminado Satisfactoriamente.");
         }
 
