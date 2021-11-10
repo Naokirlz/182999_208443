@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Cors;
@@ -13,10 +14,15 @@ namespace Incidentes.WebApi.Controllers
     public class IncidentesController : ControllerBase
     {
         private readonly ILogicaIncidente _logicaI;
+        private readonly ILogicaUsuario _logicaU;
+        private readonly ILogicaProyecto _logicaP;
+        private const string usuario_no_pertenece = "El usuario no pertenece al proyecto";
 
-        public IncidentesController(ILogicaIncidente logica)
+        public IncidentesController(ILogicaIncidente logicaI, ILogicaUsuario logicaU, ILogicaProyecto logicaP)
         {
-            _logicaI = logica;
+            _logicaI = logicaI;
+            _logicaU = logicaU;
+            _logicaP = logicaP;
         }
 
         [HttpGet]
@@ -47,11 +53,14 @@ namespace Incidentes.WebApi.Controllers
         [FilterAutorizacion("Administrador", "Tester")]
         public IActionResult Delete(int id)
         {
-
             string token = Request.Headers["autorizacion"];
-            //// CONTROLAR ANTES SI USUARIO PERTENECE A PROYECTO
+            Usuario usu = _logicaU.ObtenerPorToken(token);
+            Incidente inc = _logicaI.Obtener(id);
+            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
+            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+
             _logicaI.Baja(id);
-            return StatusCode(204, "Eliminado Satisfactoriamente.");
+            return StatusCode(204);
         }
 
         [HttpPut]
