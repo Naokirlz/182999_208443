@@ -47,6 +47,9 @@ namespace Incidentes.WebApi.Controllers
         [FilterAutorizacion("Administrador", "Tester")]
         public IActionResult Delete(int id)
         {
+
+            string token = Request.Headers["autorizacion"];
+            //// CONTROLAR ANTES SI USUARIO PERTENECE A PROYECTO
             _logicaI.Baja(id);
             return StatusCode(204, "Eliminado Satisfactoriamente.");
         }

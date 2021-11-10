@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
+import { Incidente } from '../../interfaces/incidente.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,22 @@ export class AsociacionesService {
 
     return this.http.get<Proyecto>(
       this.apiUrl + '/' + id + '/proyectos',
+      httpOptions
+    );
+
+  }
+  getMisIncidentes(id: number): Observable<Incidente[]> {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
+
+    return this.http.get<Incidente[]>(
+      this.apiUrl + '/' + id + '/incidentes',
       httpOptions
     );
 

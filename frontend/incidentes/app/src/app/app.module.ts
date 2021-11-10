@@ -13,6 +13,8 @@ import { TareasModule } from './tareas/tareas.module';
 import { ReportesModule } from './reportes/reportes.module';
 import { DesarrolladorModule } from './desarrollador/desarrollador.module';
 import { ImportacionesModule } from './importaciones/importaciones.module';
+import { IncidentesModule } from './incidentes/incidentes.module';
+import { TesterModule } from './tester/tester.module';
 
 
 
@@ -32,7 +34,9 @@ import { ImportacionesModule } from './importaciones/importaciones.module';
     ProyectosModule,
     ReportesModule,
     DesarrolladorModule,
-    ImportacionesModule   
+    ImportacionesModule,
+    IncidentesModule,
+    TesterModule   
   ],
   providers: [],
   bootstrap: [AppComponent]

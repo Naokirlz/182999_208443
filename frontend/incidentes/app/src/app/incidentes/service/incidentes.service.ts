@@ -48,6 +48,21 @@ export class IncidentesService {
 
   }
 
+  altaIncidente(incidente: Incidente): Observable<Incidente> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'autorizacion': this.token
+      })
+    };
+
+    return this.http.post<Incidente>(
+      this.apiUrl,
+      incidente,
+      httpOptions
+    )
+  }
+
 
 
 }

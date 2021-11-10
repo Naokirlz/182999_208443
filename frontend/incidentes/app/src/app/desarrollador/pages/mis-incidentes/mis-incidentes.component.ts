@@ -80,19 +80,8 @@ export class MisIncidentesComponent implements OnInit {
     this.testerService.delete(id)
     .subscribe(
       (data: any) => {
-        sessionStorage.setItem('token', data.token);
-        sessionStorage.setItem('authData', JSON.stringify(data));
         this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-        
-        window.location.reload();
-
-
-        if(this.loginService.isLoggedIn())
-            {
-              alert('exito')
-            }
-
-
+        alert(data);
       },
       (({error}:any) => {
         
@@ -101,10 +90,10 @@ export class MisIncidentesComponent implements OnInit {
         
       }
       ),
-      () => {}
+      () => {window.location.reload();}
     );
     
-
+    
     
   }
 

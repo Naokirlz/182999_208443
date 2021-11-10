@@ -42,8 +42,10 @@ namespace Incidentes.Logica
         public void Baja(int id)
         {
             Incidente aEliminar = Obtener(id);
-            bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(aEliminar.UsuarioId, aEliminar.ProyectoId);
-            if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+
+            //////
+            //bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(aEliminar.UsuarioId, aEliminar.ProyectoId);
+            //if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
             _repositorioGestor.RepositorioIncidente.Eliminar(aEliminar);
             _repositorioGestor.Save();
         }
