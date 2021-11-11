@@ -253,6 +253,7 @@ namespace Incidentes.WebApiTest
         public void se_puede_ver_el_costo_de_un_proyecto()
         {
             p.Asignados.Add(u);
+
             Tarea t = new Tarea()
             {
                 Nombre = "Tarea",
@@ -262,14 +263,27 @@ namespace Incidentes.WebApiTest
                 ProyectoId = p.Id
             };
             p.Tareas.Add(t);
+
+            proyectosL.Add(p);
+            IQueryable<Proyecto> pros = proyectosL.AsQueryable();
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(u);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
             _logicaP.Setup(c => c.Obtener(7)).Returns(p);
 
-            var result = _pController.Get(7);
+            var result = tested.Get(7);
             var okResult = result as OkObjectResult;
             ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
             Assert.AreEqual(5400, respuesta.Costo);
 
             _logicaP.Verify(c => c.Obtener(7));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
         }
 
         [Test]
@@ -285,14 +299,25 @@ namespace Incidentes.WebApiTest
                 ProyectoId = p.Id
             };
             p.Tareas.Add(t);
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(u);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
             _logicaP.Setup(c => c.Obtener(7)).Returns(p);
 
-            var result = _pController.Get(7);
+            var result = tested.Get(7);
             var okResult = result as OkObjectResult;
             ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
             Assert.AreEqual(7, respuesta.Duracion);
 
             _logicaP.Verify(c => c.Obtener(7));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
         }
     }
 }

@@ -73,44 +73,44 @@ namespace Incidentes.WebApiTest
             p = null;
         }
 
-        [Test]
-        public void se_pueden_ver_los_proyectos_de_un_usuario()
-        {
-            proyectosL.Add(p);
-            proyectosQ = proyectosL.AsQueryable();
-            _logicaP.Setup(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(proyectosQ);
+        //[Test]
+        //public void se_pueden_ver_los_proyectos_de_un_usuario()
+        //{
+        //    proyectosL.Add(p);
+        //    proyectosQ = proyectosL.AsQueryable();
+        //    _logicaP.Setup(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(proyectosQ);
 
-            var result = _aController.GetProyectos("7");
-            var okResult = result as OkObjectResult;
+        //    var result = _aController.GetProyectos("7");
+        //    var okResult = result as OkObjectResult;
              
-            Assert.IsNotNull(result);
+        //    Assert.IsNotNull(result);
 
-            _logicaP.Verify(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
-        }
+        //    _logicaP.Verify(c => c.ListaDeProyectosALosQuePertenece(It.IsAny<int>()));
+        //}
 
-        [Test]
-        public void se_pueden_ver_un_proyecto_de_un_usuario()
-        {
-            _logicaP.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(p);
+        //[Test]
+        //public void se_pueden_ver_un_proyecto_de_un_usuario()
+        //{
+        //    _logicaP.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(p);
 
-            var result = _aController.GetProyecto("1", 1);
+        //    var result = _aController.GetProyecto("1", 1);
 
-            Assert.IsNotNull(result);
+        //    Assert.IsNotNull(result);
 
-            _logicaP.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
-        }
+        //    _logicaP.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
+        //}
 
-        [Test]
-        public void se_pueden_ver_un_incidente_de_un_usuario()
-        {
-            _logicaI.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(i);
+        //[Test]
+        //public void se_pueden_ver_un_incidente_de_un_usuario()
+        //{
+        //    _logicaI.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(i);
 
-            var result = _aController.GetIncidente("1", 1);
+        //    var result = _aController.GetIncidente("1", 1);
 
-            Assert.IsNotNull(result);
+        //    Assert.IsNotNull(result);
 
-            _logicaI.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
-        }
+        //    _logicaI.Verify(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>()));
+        //}
 
         [Test]
         public void se_pueden_asignar_usuarios_a_un_proyecto()
