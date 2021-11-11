@@ -78,8 +78,11 @@ namespace Incidentes.WebApi.Controllers
         {
             string token = Request.Headers["autorizacion"];
             Usuario us = _logicaU.ObtenerPorToken(token);
-            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(us.Id, id);
-            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            if(us.RolUsuario != Usuario.Rol.Administrador)
+            {
+                bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(us.Id, id);
+                if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            }
 
             var p = _logicaP.Obtener(id);
             ProyectosDTO pro = new ProyectosDTO()

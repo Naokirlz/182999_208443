@@ -12,15 +12,18 @@ namespace Incidentes.WebApiTest
     public class EstadosControllerTest
     {
         private Mock<ILogicaIncidente> _logicaI;
+        private Mock<ILogicaUsuario> _logicaU;
+        private Mock<ILogicaProyecto> _logicaP;
         private EstadosController _eController;
-        private IQueryable<Incidente> incidentesQ;
         private List<Incidente> incidentesL;
 
         [SetUp]
         public void Setup()
         {
             _logicaI = new Mock<ILogicaIncidente>();
-            _eController = new EstadosController(_logicaI.Object);
+            _logicaU = new Mock<ILogicaUsuario>();
+            _logicaP = new Mock<ILogicaProyecto>();
+            _eController = new EstadosController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
             incidentesL = new List<Incidente>();
         }
 
@@ -28,8 +31,9 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaI = null;
+            _logicaU = null;
+            _logicaP = null;
             _eController = null;
-            incidentesQ = null;
             incidentesL = null;
         }
 

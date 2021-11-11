@@ -17,7 +17,6 @@ namespace Incidentes.WebApiTest
         private Mock<ILogicaUsuario> _logicaU;
         private Mock<ILogicaProyecto> _logicaP;
         private IncidentesController _iController;
-        private IQueryable<Incidente> incidentesQ;
         private List<Incidente> incidentesL;
 
         [SetUp]
@@ -37,7 +36,6 @@ namespace Incidentes.WebApiTest
             _logicaU = null;
             _logicaP = null;
             _iController = null;
-            incidentesQ = null;
             incidentesL = null;
         }
 
