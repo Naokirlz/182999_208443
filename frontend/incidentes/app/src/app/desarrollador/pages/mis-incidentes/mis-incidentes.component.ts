@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { EstadosService } from 'src/app/estados/service/estados.service';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
@@ -31,7 +32,8 @@ export class MisIncidentesComponent implements OnInit {
               private testerService: TesterService,
               private asociacionesService:AsociacionesService,
               private estadosService:EstadosService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private _router: Router) {
 
     this.usuario = this.loginService.getLoginData()?.id!;
     this.tester = this.loginService.isTesterIn();
@@ -97,6 +99,13 @@ export class MisIncidentesComponent implements OnInit {
     
   }
 
+  detalle(id: number): void {
+
+  if(this.tester){
+        this._router.navigate([`/tester/incidentes/${id}`]);
+  }
+
+  }
   
 
   resolver(ide:number){

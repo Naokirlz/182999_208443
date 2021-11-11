@@ -37,7 +37,7 @@
                                 <td>{{incidente.usuarioId}}</td>
                                 <td>{{incidente.duracion}}</td>
                                 <td>
-                                    <button pButton type="editar" icon="pi pi-eye">
+                                    <button pButton (click)="detalle(incidente.id)" type="editar" icon="pi pi-eye">
                                     </button>
                                 </td>   
                                 <td *ngIf ="desarrollador">

@@ -17,8 +17,8 @@
                                 <th>Costo/Hora ($)</th>
                                 <th>Duracion (hs)</th>
                                 <th>Total ($)</th>
-                                <th>Editar</th>
-                                <th>Acciones</th>
+                                <th *ngIf ="admin" >Editar</th>
+                                <th *ngIf ="admin" >Acciones</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-tarea>
@@ -29,11 +29,11 @@
                                 <td>{{tarea.costo | number }}</td>
                                 <td>{{tarea.duracion | number }}</td>
                                 <td>{{tarea.duracion * tarea.costo | number }}</td>
-                                <td>
+                                <td *ngIf ="admin">
                                     <button pButton type="button" (click)="editar(tarea.id)" icon="pi pi-pencil">
                                     </button>
                                 </td>
-                                <td>
+                                <td *ngIf ="admin">
                                     <button pButton type="button" (click)="consultarAccion(tarea.id)" icon="pi pi-trash" style="background-color: red; border: 0;"></button>
                                 </td>
                             </tr>
