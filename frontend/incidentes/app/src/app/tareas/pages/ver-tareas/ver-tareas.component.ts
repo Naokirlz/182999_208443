@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { LoginService } from 'src/app/login/services/login.service';
@@ -15,36 +15,70 @@ import { TareaService } from '../../services/tarea.service';
 })
 export class VerTareasComponent implements OnInit {
 
+  public proyectoId: number;
+  public proyecto:Proyecto;
+
+
+
   constructor(private tareaService:TareaService,
     private proyectoService: ProyectoService,
     private _router: Router,
     private messageService: MessageService,
-    private loginService: LoginService) {
+    private loginService: LoginService,
+    private _route: ActivatedRoute) {
 
 
       this.admin = this.loginService.isAdminLoggedIn();
+      this.proyectoId = 0;
+      const p:Proyecto ={};
+      this.proyecto=p;
 
      }
 
   public admin:boolean = false;  
-  public tareas:Tarea[] = [];
+  public tareas:Tarea[] | undefined = [];
   private proyectos: Proyecto[] = [];
   private idTareaEliminar: number = -1;
 
   ngOnInit(): void {
-    this.tareaService.getTareas().subscribe(
-      (tareas:Tarea[]) => {
-        this.tareas = tareas;
-      }
+
+    this.proyectoId = parseInt(this._route.snapshot.params['proyectoId']);
+
+    
+
+    if(this.proyectoId){
+
+      this.proyectoService.getBy(this.proyectoId)
+      .subscribe(
+      ((data: Proyecto) => this.result2(data)),
     );
-    this.proyectoService.getProyecto()
-    .subscribe(
-      ((data: Array<Proyecto>) => this.result(data)),
-    );
+
+
+    } else{
+
+      this.tareaService.getTareas().subscribe(
+        (tareas:Tarea[]) => {
+          this.tareas = tareas;
+        }
+      );
+      
+      this.proyectoService.getProyecto()
+      .subscribe(
+        ((data: Array<Proyecto>) => this.result(data)),
+      );
+
+    }
+
+
+
   }
 
   private result(data: Array<Proyecto>): void {
     this.proyectos = data;
+  }
+
+  private result2(data: Proyecto): void {
+    this.tareas = data.tareas;
   }
 
   onConfirm() {
@@ -71,7 +105,7 @@ export class VerTareasComponent implements OnInit {
             severity: 'success', summary: 'Listo',
             detail: 'Tarea eliminado correctamente.'
           });
-          this.tareas = this.tareas.filter(p => p.id !== this.idTareaEliminar);
+          this.tareas = this.tareas!.filter(p => p.id !== this.idTareaEliminar);
           this.idTareaEliminar = -1;
         },
         error: error => {
@@ -88,6 +122,6 @@ export class VerTareasComponent implements OnInit {
   obtenerNombre(id: number): string {
     const proyecto = this.proyectos.find(proyecto => proyecto.id === id);
     console.log(this.proyectos);
-    return (proyecto) ? proyecto.nombre : '';
+    return (proyecto?.nombre) ? proyecto.nombre : '';
   }
 }
