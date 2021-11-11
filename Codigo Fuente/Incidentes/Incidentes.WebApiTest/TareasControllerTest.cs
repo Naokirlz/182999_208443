@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,7 @@ namespace Incidentes.WebApiTest
     {
         private Mock<ILogicaTarea> _logicaT;
         private Mock<ILogicaUsuario> _logicaU;
+        private Mock<ILogicaProyecto> _logicaP;
         private TareasController _tController;
         private List<Tarea> tareasL;
         private Usuario u;
@@ -26,7 +28,8 @@ namespace Incidentes.WebApiTest
         {
             _logicaT = new Mock<ILogicaTarea>();
             _logicaU = new Mock<ILogicaUsuario>();
-            _tController = new TareasController(_logicaT.Object, _logicaU.Object);
+            _logicaP = new Mock<ILogicaProyecto>();
+            _tController = new TareasController(_logicaT.Object, _logicaU.Object, _logicaP.Object);
             tareasL = new List<Tarea>();
             i = new Incidente()
             {
@@ -69,6 +72,7 @@ namespace Incidentes.WebApiTest
         {
             _logicaT = null;
             _logicaU = null;
+            _logicaP = null;
             _tController = null;
             tareasL = null;
             u = null;
@@ -96,7 +100,7 @@ namespace Incidentes.WebApiTest
             IQueryable<Tarea> tars = tareasL.AsQueryable();
 
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
-            var tested = new TareasController(_logicaT.Object, _logicaU.Object);
+            var tested = new TareasController(_logicaT.Object, _logicaU.Object, _logicaP.Object);
             tested.ControllerContext = ctx;
             ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
@@ -131,7 +135,7 @@ namespace Incidentes.WebApiTest
             IQueryable<Tarea> tars = tareasL.AsQueryable();
 
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
-            var tested = new TareasController(_logicaT.Object, _logicaU.Object);
+            var tested = new TareasController(_logicaT.Object, _logicaU.Object, _logicaP.Object);
             tested.ControllerContext = ctx;
             ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
@@ -150,15 +154,60 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_una_tarea()
         {
-            _logicaT.Setup(c => c.Obtener(1)).Returns(t);
+            Tarea t = new Tarea()
+            {
+                Id = 3,
+                Nombre = "Tarea"
+            };
 
-            var result = _tController.Get(1);
-            var okResult = result as OkObjectResult;
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
 
-            Assert.AreEqual(t, okResult.Value);
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaT.Setup(c => c.Obtener(It.IsAny<int>())).Returns(t);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
-            _logicaT.Verify(c => c.Obtener(1));
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new TareasController(_logicaT.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            var result = tested.Get(1);
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaT.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
+        [Test]
+        public void no_se_puede_ver_una_tarea_si_usuario_no_pertenece_proyecto()
+        {
+            Tarea t = new Tarea()
+            {
+                Id = 3,
+                Nombre = "Tarea"
+            };
+
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaT.Setup(c => c.Obtener(It.IsAny<int>())).Returns(t);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new TareasController(_logicaT.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Get(1));
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaT.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
 
         [Test]
         public void se_puede_guardar_una_tarea()

@@ -42,18 +42,82 @@ namespace Incidentes.WebApiTest
         }
 
         [Test]
-        public void se_pueden_ver_los_incidentes()
+        public void se_pueden_ver_los_incidentes_a_los_que_pertenece()
+        {
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
+
+            Usuario usu = new Usuario() { 
+                Id = 3,
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
+
+            Proyecto pro = new Proyecto() { };
+            incidentesL.Add(i);
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", null)).Returns(incidentesL);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            var result = tested.Get();
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", null));
+        }
+
+        [Test]
+        public void administradorese_pueden_ver_los_incidentes()
+        {
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
+
+            Usuario usu = new Usuario()
+            {
+                Id = 3,
+                RolUsuario = Usuario.Rol.Administrador
+            };
+
+            Proyecto pro = new Proyecto() { };
+            incidentesL.Add(i);
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.ObtenerTodos()).Returns(incidentesL);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            var result = tested.Get();
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.ObtenerTodos());
+        }
+
+        [Test]
+        public void se_pueden_ver_los_incidentes_de_los_proyectos_de_un_usuario()
         {
             incidentesL.Add(new Incidente());
-            incidentesQ = incidentesL.AsQueryable();
-            _logicaI.Setup(c => c.ObtenerTodos()).Returns(incidentesQ);
+            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>())).Returns(incidentesL);
 
-            var result = _iController.Get();
+            var result = _iController.GetIncidentes("1", null, null);
             var okResult = result as OkObjectResult;
 
-            Assert.AreEqual(incidentesQ, okResult.Value);
+            Assert.AreEqual(incidentesL, okResult.Value);
 
-            _logicaI.Verify(c => c.ObtenerTodos());
+            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
         }
 
         [Test]
@@ -61,17 +125,56 @@ namespace Incidentes.WebApiTest
         {
             Incidente i = new Incidente()
             {
-                Nombre = "incidente"
+                Id = 3,
+                Nombre = "Incidente"
             };
 
-            _logicaI.Setup(c => c.Obtener(1)).Returns(i);
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
 
-            var result = _iController.Get(1);
-            var okResult = result as OkObjectResult;
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.Obtener(It.IsAny<int>())).Returns(i);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
-            Assert.AreEqual(i, okResult.Value);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            _logicaI.Verify(c => c.Obtener(1));
+            var result = tested.Get(1);
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_ver_un_incidente_si_usuario_no_pertenece_proyecto()
+        {
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.Obtener(It.IsAny<int>())).Returns(i);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Get(i.Id));
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
@@ -79,17 +182,55 @@ namespace Incidentes.WebApiTest
         {
             Incidente i = new Incidente()
             {
-                Nombre = "Incidente"
+                Nombre = "Incidente",
+                ProyectoId = 3
             };
 
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             _logicaI.Setup(c => c.Alta(i)).Returns(i);
 
-            var result = _iController.Post(i);
-            var okResult = result as OkObjectResult;
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            Assert.AreEqual(i, okResult.Value);
+            var result = tested.Post(i);
 
-            _logicaI.Verify(c => c.Alta(It.IsAny<Incidente>()));
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.Alta(i));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_guardar_un_incidente_si_usuario_no_pertenece_proyecto()
+        {
+            Incidente i = new Incidente()
+            {
+                Nombre = "Incidente",
+                ProyectoId = 3
+            };
+
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Post(i));
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]
@@ -101,14 +242,55 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.Obtener(It.IsAny<int>())).Returns(i);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             _logicaI.Setup(c => c.Modificar(3, i)).Returns(i);
 
-            var result = _iController.Put(i);
-            var okResult = result as OkObjectResult;
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            Assert.AreEqual(i, okResult.Value);
+            var result = tested.Put(i);
 
-            _logicaI.Verify(c => c.Modificar(3, It.IsAny<Incidente>()));
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaI.Verify(c => c.Modificar(3, i));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_actualizar_un_incidente_si_usuario_no_pertenece_proyecto()
+        {
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
+
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.Obtener(It.IsAny<int>())).Returns(i);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Put(i));
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]

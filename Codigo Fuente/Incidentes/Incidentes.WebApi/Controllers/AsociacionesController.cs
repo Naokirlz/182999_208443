@@ -95,21 +95,21 @@ namespace Incidentes.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}/incidentes")]
-        [FilterAutorizacion("Desarrollador", "Tester")]
-        [TrapExcepciones]
-        public IActionResult GetIncidentes(string id, [FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
-        {
-            Incidente incidente = new Incidente()
-            {
-                Nombre = nombreIncidente
-            };
-            if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Activo;
-            if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Resuelto;
+        //[HttpGet("{id}/incidentes")]
+        //[FilterAutorizacion("Desarrollador", "Tester")]
+        //[TrapExcepciones]
+        //public IActionResult GetIncidentes(string id, [FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
+        //{
+        //    Incidente incidente = new Incidente()
+        //    {
+        //        Nombre = nombreIncidente
+        //    };
+        //    if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Activo;
+        //    if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Resuelto;
 
-            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(id), nombreProyecto, incidente);
-            return Ok(result);
-        }
+        //    List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(id), nombreProyecto, incidente);
+        //    return Ok(result);
+        //}
 
         [HttpPost]
         [FilterAutorizacion("Administrador")]

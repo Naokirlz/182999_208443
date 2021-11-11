@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Cors;
@@ -14,11 +15,14 @@ namespace Incidentes.WebApi.Controllers
     {
         private readonly ILogicaTarea _logicaT;
         private readonly ILogicaUsuario _logicaU;
+        private readonly ILogicaProyecto _logicaP;
+        private const string usuario_no_pertenece = "El usuario no pertenece al proyecto de la tarea";
 
-        public TareasController(ILogicaTarea logicaT, ILogicaUsuario logicaU)
+        public TareasController(ILogicaTarea logicaT, ILogicaUsuario logicaU, ILogicaProyecto logicaP)
         {
             _logicaT = logicaT;
             _logicaU = logicaU;
+            _logicaP = logicaP;
         }
 
         [HttpGet]
@@ -43,9 +47,15 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [FilterAutorizacion("Administrador")]
+        [FilterAutorizacion("Administrador", "Tester", "Desarrollador")]
         public IActionResult Get(int id)
         {
+            string token = Request.Headers["autorizacion"];
+            Usuario usu = _logicaU.ObtenerPorToken(token);
+            Tarea tar = _logicaT.Obtener(id);
+            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, tar.ProyectoId);
+            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+
             var tarea = _logicaT.Obtener(id);
             return Ok(tarea);
         }
