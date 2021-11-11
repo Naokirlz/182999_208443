@@ -73,9 +73,14 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [FilterAutorizacion("Administrador")]
+        [FilterAutorizacion("Administrador", "Tester", "Desarrollador")]
         public IActionResult Get(int id)
         {
+            string token = Request.Headers["autorizacion"];
+            Usuario us = _logicaU.ObtenerPorToken(token);
+            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(us.Id, id);
+            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+
             var p = _logicaP.Obtener(id);
             ProyectosDTO pro = new ProyectosDTO()
             {

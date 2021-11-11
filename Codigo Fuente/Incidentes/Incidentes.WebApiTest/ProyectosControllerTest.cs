@@ -1,4 +1,5 @@
 using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Incidentes.WebApi.DTOs;
@@ -144,20 +145,59 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_un_proyecto()
         {
+            Usuario us = new Usuario()
+            {
+                Id = 5,
+                RolUsuario = Usuario.Rol.Administrador
+            };
             Proyecto p = new Proyecto()
             {
                 Nombre = "proyecto"
             };
 
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(us);
             _logicaP.Setup(c => c.Obtener(1)).Returns(p);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
-            var result = _pController.Get(1);
-            var okResult = result as OkObjectResult;
-            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            Assert.AreEqual(p.Nombre, respuesta.Nombre);
+            var result = tested.Get(1);
+
+            Assert.IsNotNull(result);
 
             _logicaP.Verify(c => c.Obtener(1));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+        }
+
+        [Test]
+        public void se_puede_ver_un_proyecto_si_no_se_pertenece()
+        {
+            Usuario us = new Usuario()
+            {
+                Id = 5,
+                RolUsuario = Usuario.Rol.Administrador
+            };
+            Proyecto p = new Proyecto()
+            {
+                Nombre = "proyecto"
+            };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(us);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Get(i.Id));
+
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
         }
 
         [Test]
