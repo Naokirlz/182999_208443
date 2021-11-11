@@ -4,10 +4,6 @@ import { LoginComponent } from './login/pages/login/login.component';
 import { LogoutComponent } from './login/pages/logout/logout.component';
 import { AltaUsuarioComponent } from './usuarios/pages/alta-usuario/alta-usuario.component';
 import { ReportesComponent } from './reportes/pages/reportes/reportes.component';
-import { ProyectosComponent } from './proyectos/pages/proyectos/proyectos.component';
-import { IncidentesComponent } from './incidentes/pages/incidentes/incidentes.component';
-import { EstadosComponent } from './estados/pages/estados/estados.component';
-import { AsociacionesComponent } from './asociaciones/pages/asociaciones/asociaciones.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
 import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
 import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proyectos.component';
@@ -15,7 +11,6 @@ import { VerTareasComponent } from './tareas/pages/ver-tareas/ver-tareas.compone
 import { AsignadosComponent } from './proyectos/pages/asignados/asignados.component';
 import { EditarProyectoComponent } from './proyectos/pages/editar-proyecto/editar-proyecto.component';
 import { IncidentesPComponent } from './proyectos/pages/incidentes/incidentes.component';
-import { TareaspComponent } from './proyectos/pages/tareasp/tareasp.component';
 import { AltaTareaComponent } from './tareas/pages/alta-tarea/alta-tarea.component';
 import { IncidentesProyectosComponent } from './reportes/pages/incidentes-proyectos/incidentes-proyectos.component';
 import { IncidentesDesarrolladorComponent } from './reportes/pages/incidentes-desarrollador/incidentes-desarrollador.component';
@@ -42,13 +37,10 @@ const routes: Routes = [
   { path: 'proyectos/:proyectoId/asignados',component: AsignadosComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/editar', component: EditarProyectoComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/incidentes',component: IncidentesPComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
-  { path: 'proyectos/:proyectoId/tareas',component: TareaspComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
-  { path: 'incidentes', component: IncidentesComponent,canActivate:[UserLoggedGuard]},
+  { path: 'proyectos/:proyectoId/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'reportes/incidentes',component: IncidentesProyectosComponent,canActivate:[UserLoggedGuard]},
   { path: 'reportes/resueltos',component: IncidentesDesarrolladorComponent,canActivate:[UserLoggedGuard]},
   { path: 'reportes/:desarrolladorId/incidentes',component: DesarrolladorComponent,canActivate:[UserLoggedGuard]},
-  { path: 'estados',component: EstadosComponent,canActivate:[UserLoggedGuard]},
-  { path: 'asociaciones',component: AsociacionesComponent,canActivate:[UserLoggedGuard]},
   { path: 'importaciones',component: CargarIncidentesComponent,canActivate:[UserLoggedGuard]},
   { path: 'desarrollador',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
   { path: 'desarrollador/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
