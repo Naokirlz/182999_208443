@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
+import { LoginService } from 'src/app/login/services/login.service';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
 import { Tarea } from '../../../interfaces/tarea.interface';
 import { TareaService } from '../../services/tarea.service';
@@ -17,8 +18,15 @@ export class VerTareasComponent implements OnInit {
   constructor(private tareaService:TareaService,
     private proyectoService: ProyectoService,
     private _router: Router,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loginService: LoginService) {
 
+
+      this.admin = this.loginService.isAdminLoggedIn();
+
+     }
+
+  public admin:boolean = false;  
   public tareas:Tarea[] = [];
   private proyectos: Proyecto[] = [];
   private idTareaEliminar: number = -1;
@@ -31,8 +39,12 @@ export class VerTareasComponent implements OnInit {
     );
     this.proyectoService.getProyecto()
     .subscribe(
-      ((data: Array<Proyecto>) => this.proyectos = data),
+      ((data: Array<Proyecto>) => this.result(data)),
     );
+  }
+
+  private result(data: Array<Proyecto>): void {
+    this.proyectos = data;
   }
 
   onConfirm() {
@@ -75,6 +87,7 @@ export class VerTareasComponent implements OnInit {
 
   obtenerNombre(id: number): string {
     const proyecto = this.proyectos.find(proyecto => proyecto.id === id);
+    console.log(this.proyectos);
     return (proyecto) ? proyecto.nombre : '';
   }
 }

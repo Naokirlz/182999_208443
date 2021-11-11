@@ -28,6 +28,7 @@ import { AdminLoggedGuard } from './routeGuards/admin-logged.guard';
 import { DesarrolladorLoggedGuard } from './routeGuards/desarrollador-logged.guard';
 import { TesterLoggedGuard } from './routeGuards/tester-logged.guard';
 import { AltabugTesterComponent } from './tester/pages/altabug-tester/altabug-tester.component';
+import { DetalleBugComponent } from './incidentes/pages/detalle-bug/detalle-bug.component';
 
 
 const routes: Routes = [
@@ -50,9 +51,12 @@ const routes: Routes = [
   { path: 'asociaciones',component: AsociacionesComponent,canActivate:[UserLoggedGuard]},
   { path: 'importaciones',component: CargarIncidentesComponent,canActivate:[UserLoggedGuard]},
   { path: 'desarrollador',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
-  { path: 'tester',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
+  { path: 'desarrollador/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
+  { path: 'tester/incidentes',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
+  { path: 'tester/incidentes/:incidenteId',component: DetalleBugComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
+  { path: 'tester/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
   { path: 'tester/altaIncidente',component: AltabugTesterComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
-  { path: 'tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard]},
+  { path: 'tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard,AdminLoggedGuard]},
   { path: 'tareas/:tareaId/editar',component: ModificarTareaComponent,canActivate:[UserLoggedGuard]},
   { path: 'tareas/alta',component: AltaTareaComponent,canActivate:[UserLoggedGuard]},
   { path: '**', redirectTo: ''},

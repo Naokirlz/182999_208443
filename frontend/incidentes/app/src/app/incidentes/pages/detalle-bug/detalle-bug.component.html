@@ -1,0 +1,69 @@
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <h1>Incidente</h1>
+                </div>
+            </div>
+            <div class="container">
+                <div class="card-internal">
+                    <p-table [value]="incidente!" styleClass="p-datatable-sm" responsiveLayout="scroll">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>id</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Versión</th>
+
+                                
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-incidente>
+                            <tr>
+                                <td>{{incidente.id}}</td>
+                                <td>{{incidente.nombre | titlecase }}</td>
+                                <td>{{incidente.descripcion}}</td>
+                                <td>{{incidente.version}}</td>
+  
+                         
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <div><p></p></div>
+                    <p-table [value]="incidente!" styleClass="p-datatable-sm" responsiveLayout="scroll">
+                        <ng-template pTemplate="header">
+                            <tr>
+
+                                <th>Estado</th>
+                                <th>Desarrollador</th>
+                                <th>Usuario</th>
+                                <th>Duración</th>
+                                
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-incidente>
+                            <tr>
+                                <td>{{incidente.estadoIncidente}}</td>
+                                <td>{{incidente.desarrolladorId}}</td>
+                                <td>{{incidente.usuarioId}}</td>
+                                <td>{{incidente.duracion}}</td>   
+                         
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="card-footer">
+                    
+                    <p align="right">
+                    <input id="btn-guardar"  (click)="volver()"   value="Volver" class="btn btn-success" />
+                    </p>
+                </div>
+             </div>
+        </div>
+    </div>
+    <!-- <app-footer></app-footer> -->
+    <!-- <toast-alert></toast-alert> -->
+
+    <!-- <confirmation-alert></confirmation-alert> -->
+</main>

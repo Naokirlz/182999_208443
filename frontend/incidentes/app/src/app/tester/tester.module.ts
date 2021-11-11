@@ -5,13 +5,15 @@ import { AltabugTesterComponent } from './pages/altabug-tester/altabug-tester.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SharedModule } from 'primeng/api';
+import { TareasComponent } from './pages/tareas/tareas.component';
 
 
 
 @NgModule({
   declarations: [
     BugsTesterComponent,
-    AltabugTesterComponent
+    AltabugTesterComponent,
+    TareasComponent
   ],
   imports: [
     CommonModule,

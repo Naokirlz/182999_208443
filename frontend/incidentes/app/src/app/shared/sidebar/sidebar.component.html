@@ -61,7 +61,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged">
+        <li class="item" *ngIf ="logged && admin">
             <a routerLink="/tareas" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-list"></i>
                 <span>
@@ -132,6 +132,12 @@
                     <span>Incidentes</span>
                 </a>
             </div>
+            <div class="sub-menu">
+                <a routerLink="/desarrollador/tareas" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Tareas</span>
+                </a>
+            </div>
         </li>
         <li class="item" *ngIf ="logged && tester">
             <a routerLinkActive="router-link-active" class="menu-btn">
@@ -142,9 +148,15 @@
                 </span>
             </a>
             <div class="sub-menu">
-                <a routerLink="/tester" routerLinkActive="router-link-active">
+                <a routerLink="/tester/incidentes" routerLinkActive="router-link-active">
                     <i class="pi pi-circle-off"></i>
                     <span>Incidentes</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/tester/tareas" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Tareas</span>
                 </a>
             </div>
             <div class="sub-menu">
