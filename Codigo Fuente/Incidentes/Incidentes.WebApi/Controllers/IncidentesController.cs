@@ -26,10 +26,22 @@ namespace Incidentes.WebApi.Controllers
         }
 
         [HttpGet]
-        [FilterAutorizacion("Administrador")]
+        [FilterAutorizacion("Administrador", "Tester", "Desarrollador")]
         public IActionResult Get()
         {
-            IEnumerable<Incidente> result = _logicaI.ObtenerTodos();
+            string token = Request.Headers["autorizacion"];
+            Usuario usu = _logicaU.ObtenerPorToken(token);
+
+            IEnumerable<Incidente> result = new List<Incidente>();
+
+            if (usu.RolUsuario == 0)
+            {
+                result = _logicaI.ObtenerTodos();
+            }
+            else
+            {
+                result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "",null);
+            }
             return Ok(result);
         }
 

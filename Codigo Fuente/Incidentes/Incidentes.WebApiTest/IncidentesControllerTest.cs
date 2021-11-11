@@ -42,17 +42,67 @@ namespace Incidentes.WebApiTest
         }
 
         [Test]
-        public void se_pueden_ver_los_incidentes()
+        public void se_pueden_ver_los_incidentes_a_los_que_pertenece()
         {
-            incidentesL.Add(new Incidente());
-            incidentesQ = incidentesL.AsQueryable();
-            _logicaI.Setup(c => c.ObtenerTodos()).Returns(incidentesQ);
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
 
-            var result = _iController.Get();
-            var okResult = result as OkObjectResult;
+            Usuario usu = new Usuario() { 
+                Id = 3,
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
 
-            Assert.AreEqual(incidentesQ, okResult.Value);
+            Proyecto pro = new Proyecto() { };
+            incidentesL.Add(i);
 
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", null)).Returns(incidentesL);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            var result = tested.Get();
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", null));
+        }
+
+        [Test]
+        public void administradorese_pueden_ver_los_incidentes()
+        {
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
+
+            Usuario usu = new Usuario()
+            {
+                Id = 3,
+                RolUsuario = Usuario.Rol.Administrador
+            };
+
+            Proyecto pro = new Proyecto() { };
+            incidentesL.Add(i);
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.ObtenerTodos()).Returns(incidentesL);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            var result = tested.Get();
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
             _logicaI.Verify(c => c.ObtenerTodos());
         }
 
