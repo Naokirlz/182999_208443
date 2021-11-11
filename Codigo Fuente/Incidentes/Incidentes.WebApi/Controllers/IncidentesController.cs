@@ -38,10 +38,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get(int id)
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
-            Incidente inc = _logicaI.Obtener(id);
-            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
-            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            usuarioPerteneceAlProyecto(token, id);
 
             var incidente = _logicaI.Obtener(id);
             return Ok(incidente);
@@ -60,10 +57,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Delete(int id)
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
-            Incidente inc = _logicaI.Obtener(id);
-            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
-            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            usuarioPerteneceAlProyecto(token, id);
 
             _logicaI.Baja(id);
             return StatusCode(204);
@@ -73,8 +67,19 @@ namespace Incidentes.WebApi.Controllers
         [FilterAutorizacion("Administrador", "Tester")]
         public IActionResult Put([FromBody] Incidente incidente)
         {
+            string token = Request.Headers["autorizacion"];
+            usuarioPerteneceAlProyecto(token, incidente.Id);
+
             _logicaI.Modificar(incidente.Id, incidente);
             return Ok(incidente);
+        }
+
+        private void usuarioPerteneceAlProyecto(string token, int idIncidente)
+        {
+            Usuario usu = _logicaU.ObtenerPorToken(token);
+            Incidente inc = _logicaI.Obtener(idIncidente);
+            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
+            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
         }
     }
 }
