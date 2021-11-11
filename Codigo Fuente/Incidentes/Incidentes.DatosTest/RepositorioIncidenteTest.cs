@@ -69,14 +69,13 @@ namespace Incidentes.DatosTest
         {
             Incidente i = new Incidente()
             {
-                Nombre = "Proyecto del test",
-                UsuarioId = 3
+                Nombre = "Proyecto del test"
             };
             DBContexto.Add(i);
             DBContexto.SaveChanges();
 
             bool existe = _repoGestores.RepositorioIncidente.Existe(inc => inc.Nombre == i.Nombre);
-            Assert.AreEqual(3, i.UsuarioId);
+            Assert.AreEqual("Proyecto del test", i.Nombre);
             Assert.IsTrue(existe);
         }
 

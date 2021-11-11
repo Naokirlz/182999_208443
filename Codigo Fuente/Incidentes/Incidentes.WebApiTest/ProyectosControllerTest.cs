@@ -33,7 +33,6 @@ namespace Incidentes.WebApiTest
             {
                 Id = 3,
                 Version = "2.0",
-                UsuarioId = 1,
                 DesarrolladorId = 9,
                 Descripcion = "descripcion",
                 EstadoIncidente = Incidente.Estado.Resuelto,

@@ -28,8 +28,6 @@ namespace Incidentes.Logica
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
             bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
             if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
-            bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.UsuarioId, entity.ProyectoId);
-            if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
 
             Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
 
@@ -50,11 +48,6 @@ namespace Incidentes.Logica
         public Incidente Modificar(int id, Incidente entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
-            if (entity.UsuarioId != 0)
-            {
-                bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.UsuarioId, entity.ProyectoId);
-                if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
-            }
             if(entity.DesarrolladorId != 0)
             {
                 bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.DesarrolladorId, entity.ProyectoId);
@@ -74,7 +67,6 @@ namespace Incidentes.Logica
             if (entity.EstadoIncidente != Incidente.Estado.Indiferente) aModificar.EstadoIncidente = entity.EstadoIncidente;
             if (entity.ProyectoId != 0) aModificar.ProyectoId = entity.ProyectoId;
             if (entity.Version != null) aModificar.Version = entity.Version;
-            if (entity.UsuarioId != 0) aModificar.UsuarioId = entity.UsuarioId;
             if (entity.Descripcion != null) aModificar.Descripcion = entity.Descripcion;
             if (entity.DesarrolladorId != 0) aModificar.DesarrolladorId = entity.DesarrolladorId;
            
