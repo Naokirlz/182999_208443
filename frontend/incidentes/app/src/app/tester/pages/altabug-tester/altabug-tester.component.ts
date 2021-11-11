@@ -4,8 +4,8 @@ import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { Incidente } from '../../../interfaces/incidente.interface';
 import { IncidentesService } from '../../../incidentes/service/incidentes.service';
 import { MessageService } from 'primeng/api';
-import { AsociacionesService } from 'src/app/asociaciones/service/asociaciones.service';
 import { LoginService } from 'src/app/login/services/login.service';
+import { ProyectoService } from '../../../proyectos/services/proyecto.service';
 
 @Component({
   selector: 'app-altabug-tester',
@@ -21,16 +21,16 @@ export class AltabugTesterComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private incidenteService:IncidentesService,
               private messageService: MessageService,
-              private asociacionesService:AsociacionesService,
+              private proyectoService:ProyectoService,
               private loginService: LoginService,) { }
 
   ngOnInit(): void {
 
     this.usuario = this.loginService.getLoginData()?.id!;
   
-    this.asociacionesService.getBy(this.usuario)
+    this.proyectoService.getProyecto()
     .subscribe(
-      (data: any) => {
+      (data: Proyecto[]) => {
             this.result(data);
       },
       (({error}:any) => {

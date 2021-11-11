@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { EstadosService } from 'src/app/estados/service/estados.service';
+import { IncidentesService } from 'src/app/incidentes/service/incidentes.service';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { Incidente } from 'src/app/interfaces/incidente.interface';
 import { LoginDTO } from 'src/app/interfaces/login.interface';
@@ -30,7 +31,7 @@ export class MisIncidentesComponent implements OnInit {
   
   constructor(private loginService: LoginService,
               private testerService: TesterService,
-              private asociacionesService:AsociacionesService,
+              private incidenteService:IncidentesService,
               private estadosService:EstadosService,
               private messageService: MessageService,
               private _router: Router) {
@@ -45,10 +46,10 @@ export class MisIncidentesComponent implements OnInit {
 
     this.usuario = this.loginService.getLoginData()?.id!;
   
-    this.asociacionesService.getBy(this.usuario)
+    this.incidenteService.getMisIncidentes()
     .subscribe(
       (data: any) => {
-            this.result(data);
+            this.incidentes =data;
       },
       (({error}:any) => {
         alert(error);

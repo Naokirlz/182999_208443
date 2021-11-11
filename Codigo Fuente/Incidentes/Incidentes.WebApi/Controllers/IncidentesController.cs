@@ -41,7 +41,7 @@ namespace Incidentes.WebApi.Controllers
             }
             else
             {
-                result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "",null);
+                result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", new Incidente());
             }
             return Ok(result);
         }
@@ -57,11 +57,14 @@ namespace Incidentes.WebApi.Controllers
             return Ok(incidente);
         }
 
-        [HttpGet]
-        [FilterAutorizacion("Administrador", "Desarrollador", "Tester")]
+        [HttpGet("/filtrado")]
+        [FilterAutorizacion("Desarrollador", "Tester")]
         [TrapExcepciones]
-        public IActionResult GetIncidentes(string id, [FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
+        public IActionResult GetIncidentes([FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
         {
+            string token = Request.Headers["autorizacion"];
+            Usuario usu = _logicaU.ObtenerPorToken(token);
+
             Incidente incidente = new Incidente()
             {
                 Nombre = nombreIncidente
@@ -69,7 +72,7 @@ namespace Incidentes.WebApi.Controllers
             if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Activo;
             if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Resuelto;
 
-            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(id), nombreProyecto, incidente);
+            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, nombreProyecto, incidente);
             return Ok(result);
         }
 

@@ -31,6 +31,23 @@ export class IncidentesService {
 
   }
 
+  getMisIncidentes(): Observable<Incidente[]> {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
+
+    return this.http.get<Incidente[]>(
+      this.apiUrl,
+      httpOptions
+    );
+
+  }
+
   getBy(id: number): Observable<Incidente> {
     const httpOptions = {
 
