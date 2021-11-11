@@ -1,16 +1,19 @@
 ﻿using Incidentes.Dominio;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Incidentes.WebApiTest
 {
     public class TareasControllerTest
     {
         private Mock<ILogicaTarea> _logicaT;
+        private Mock<ILogicaUsuario> _logicaU;
         private TareasController _tController;
         private List<Tarea> tareasL;
         private Usuario u;
@@ -22,7 +25,8 @@ namespace Incidentes.WebApiTest
         public void Setup()
         {
             _logicaT = new Mock<ILogicaTarea>();
-            _tController = new TareasController(_logicaT.Object);
+            _logicaU = new Mock<ILogicaUsuario>();
+            _tController = new TareasController(_logicaT.Object, _logicaU.Object);
             tareasL = new List<Tarea>();
             i = new Incidente()
             {
@@ -64,6 +68,7 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaT = null;
+            _logicaU = null;
             _tController = null;
             tareasL = null;
             u = null;
@@ -75,15 +80,70 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_las_tareas()
         {
+            Tarea t = new Tarea();
+            Usuario u = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                RolUsuario = Usuario.Rol.Tester,
+                Email = "martint1@gmail.com",
+                NombreUsuario = "martincosat1",
+                Token = ""
+            };
+
             tareasL.Add(t);
+            IQueryable<Tarea> tars = tareasL.AsQueryable();
 
-            _logicaT.Setup(c => c.ObtenerTodos()).Returns(tareasL);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new TareasController(_logicaT.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            var result = _tController.Get();
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(u);
+            _logicaT.Setup(c => c.ListaDeTareasDeProyectosALosQuePertenece(It.IsAny<int>())).Returns(tars);
+
+            var result = tested.Get();
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
 
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaT.Verify(c => c.ListaDeTareasDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void los_administradores_pueden_ver_las_tareas()
+        {
+            Tarea t = new Tarea();
+            Usuario u = new Usuario()
+            {
+                Nombre = "Martin",
+                Apellido = "Cosa",
+                Contrasenia = "Casa#Blanca",
+                RolUsuario = Usuario.Rol.Administrador,
+                Email = "martint1@gmail.com",
+                NombreUsuario = "martincosat1",
+                Token = ""
+            };
+
+            tareasL.Add(t);
+            IQueryable<Tarea> tars = tareasL.AsQueryable();
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new TareasController(_logicaT.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(u);
+            _logicaT.Setup(c => c.ObtenerTodos()).Returns(tars);
+
+            var result = tested.Get();
+            var okResult = result as OkObjectResult;
+
+            Assert.IsNotNull(result);
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
             _logicaT.Verify(c => c.ObtenerTodos());
         }
 

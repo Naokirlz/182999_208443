@@ -26,13 +26,13 @@ namespace Incidentes.Datos
 
             List<Incidente> listaIncidentes = new List<Incidente>();
 
-            foreach(Proyecto p in proyectos)
+            foreach (Proyecto p in proyectos)
             {
                 if (proyecto == null || p.Nombre.Contains(proyecto))
                 {
                     foreach (Incidente i in p.Incidentes)
                     {
-                        if((incidente.Id == 0 || i.Id == incidente.Id) 
+                        if ((incidente.Id == 0 || i.Id == incidente.Id)
                             && (incidente.Nombre == null || i.Nombre.Contains(incidente.Nombre))
                             && (i.EstadoIncidente == incidente.EstadoIncidente || incidente.EstadoIncidente == Incidente.Estado.Indiferente))
                         {
@@ -60,6 +60,24 @@ namespace Incidentes.Datos
             return ContextoRepositorio.Set<Proyecto>()
                  .Include(p => p.Asignados)
                  .Include(p => p.Incidentes);
+        }
+
+        public List<Tarea> ListaDeTareasDeProyectosALosQuePertenece(int idUsuario)
+        {
+            Usuario usuario = this.ObtenerPorCondicion(d => d.Id == idUsuario, false).FirstOrDefault();
+            IQueryable<Proyecto> proyectos = this.ListaDeProyectosALosQuePertenece(idUsuario);
+
+            List<Tarea> listaTareas = new List<Tarea>();
+
+            foreach (Proyecto p in proyectos)
+            {
+                foreach (Tarea t in p.Tareas)
+                {
+                    listaTareas.Add(t);
+                }
+            }
+
+            return listaTareas;
         }
     }
 }

@@ -87,5 +87,10 @@ namespace Incidentes.Logica
         {
             return _repositorioGestor.RepositorioTarea.ObtenerTodos(false);
         }
+
+        public IEnumerable<Tarea> ListaDeTareasDeProyectosALosQuePertenece(int idUsu)
+        {
+            return _repositorioGestor.RepositorioUsuario.ListaDeTareasDeProyectosALosQuePertenece(idUsu);
+        }
     }
 }

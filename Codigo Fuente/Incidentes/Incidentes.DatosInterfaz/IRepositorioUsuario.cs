@@ -9,5 +9,6 @@ namespace Incidentes.DatosInterfaz
         public int CantidadDeIncidentesResueltosPorUnDesarrollador(int id);
         public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int id);
         public List<Incidente> ListaDeIncidentesDeLosProyectosALosQuePertenece(int id, string proyecto, Incidente incidente);
+        public List<Tarea> ListaDeTareasDeProyectosALosQuePertenece(int idUsuario);
     }
 }

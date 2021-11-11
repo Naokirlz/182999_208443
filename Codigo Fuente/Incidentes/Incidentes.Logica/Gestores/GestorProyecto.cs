@@ -43,27 +43,6 @@ namespace Incidentes.Logica
             _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
         }
 
-        //public void AgregarTareaAProyecto(List<int> idsTareas, int idProyecto)
-        //{
-        //    bool existeProyecto = _repositorioGestor.RepositorioProyecto.Existe(p => p.Id == idProyecto);
-        //    if (!existeProyecto)
-        //        throw new ExcepcionElementoNoExiste(elemento_no_existe);
-        //    List<Tarea> tareas = new List<Tarea>();
-        //    foreach (int idTar in idsTareas)
-        //    {
-        //        Tarea aAgregar = _repositorioGestor.RepositorioTarea.ObtenerPorCondicion(d => d.Id == idTar, false).FirstOrDefault();
-
-        //        if (aAgregar != null)
-        //        {
-        //            tareas.Add(aAgregar);
-        //        }
-        //    }
-        //    Proyecto aModificar = _repositorioGestor.RepositorioProyecto.ObtenerProyectoPorIdCompleto(idProyecto);
-        //    aModificar.Tareas = tareas;
-
-        //    _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
-        //}
-
         public Proyecto Alta(Proyecto entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);

@@ -181,6 +181,13 @@ namespace Incidentes.DatosTest
         }
 
         [Test]
+        public void se_devuelve_la_lista_de_tareas_de_los_proyectos_a_la_que_pertenece_un_usuario()
+        {
+            List<Tarea> tareas = _repoGestores.RepositorioUsuario.ListaDeTareasDeProyectosALosQuePertenece(3);
+            Assert.AreEqual(2, tareas.Count());
+        }
+
+        [Test]
         public void se_devuelve_la_lista_de_incidentes_de_los_proyectos_a_la_que_pertenece_un_usuario_filtrando_por_idIncidente()
         {
             List<Incidente> incidentes = _repoGestores.RepositorioUsuario

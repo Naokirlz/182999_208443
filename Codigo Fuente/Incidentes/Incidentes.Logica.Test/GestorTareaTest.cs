@@ -207,5 +207,28 @@ namespace Incidentes.Logica.Test
         {
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Modificar(20, null));
         }
+
+        [Test]
+        public void se_puede_ver_la_lista_de_tareas_de_los_proyectos_que_pertenece()
+        {
+            List<Tarea> lista = new List<Tarea>();
+            lista.Add(new Tarea());
+
+            List<Usuario> listaU = new List<Usuario>();
+            listaU.Add(new Usuario());
+            IQueryable<Usuario> queryableU = listaU.AsQueryable();
+
+            repoGestores.Setup(
+                c => c.RepositorioUsuario
+                .ListaDeTareasDeProyectosALosQuePertenece(It.IsAny<int>()))
+                .Returns(lista);
+
+            IEnumerable<Tarea> tareas = gestor.ListaDeTareasDeProyectosALosQuePertenece(5);
+
+            Assert.AreEqual(1, lista.Count());
+            repoGestores.Verify(
+                c => c.RepositorioUsuario
+                .ListaDeTareasDeProyectosALosQuePertenece(It.IsAny<int>()));
+        }
     }
 }

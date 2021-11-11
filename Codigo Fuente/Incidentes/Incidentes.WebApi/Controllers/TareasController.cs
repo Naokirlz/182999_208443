@@ -13,17 +13,32 @@ namespace Incidentes.WebApi.Controllers
     public class TareasController : ControllerBase
     {
         private readonly ILogicaTarea _logicaT;
+        private readonly ILogicaUsuario _logicaU;
 
-        public TareasController(ILogicaTarea logica)
+        public TareasController(ILogicaTarea logicaT, ILogicaUsuario logicaU)
         {
-            _logicaT = logica;
+            _logicaT = logicaT;
+            _logicaU = logicaU;
         }
 
         [HttpGet]
-        [FilterAutorizacion("Administrador")]
+        [FilterAutorizacion("Administrador", "Tester", "Desarrollador")]
         public IActionResult Get()
         {
-            IEnumerable<Tarea> result = _logicaT.ObtenerTodos();
+            string token = Request.Headers["autorizacion"];
+            Usuario usu = _logicaU.ObtenerPorToken(token);
+
+            IEnumerable<Tarea> result = new List<Tarea>();
+
+            if (usu.RolUsuario == 0)
+            {
+                result = _logicaT.ObtenerTodos();
+            }
+            else
+            {
+                result = _logicaT.ListaDeTareasDeProyectosALosQuePertenece(usu.Id);
+            }
+
             return Ok(result);
         }
 
