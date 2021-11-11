@@ -48,6 +48,9 @@ namespace Incidentes.WebApi.Controllers
         [FilterAutorizacion("Administrador", "Tester")]
         public IActionResult Post([FromBody] Incidente incidente)
         {
+            string token = Request.Headers["autorizacion"];
+            usuarioPerteneceAlProyecto(token, -1, incidente.ProyectoId);
+
             _logicaI.Alta(incidente);
             return Ok(incidente);
         }
@@ -74,12 +77,20 @@ namespace Incidentes.WebApi.Controllers
             return Ok(incidente);
         }
 
-        private void usuarioPerteneceAlProyecto(string token, int idIncidente)
+        private void usuarioPerteneceAlProyecto(string token, int idIncidente, int proyId = 0)
         {
             Usuario usu = _logicaU.ObtenerPorToken(token);
-            Incidente inc = _logicaI.Obtener(idIncidente);
-            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
-            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            if (idIncidente != -1)
+            {
+                Incidente inc = _logicaI.Obtener(idIncidente);
+                bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
+                if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            }
+            else
+            {
+                bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, proyId);
+                if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            }
         }
     }
 }
