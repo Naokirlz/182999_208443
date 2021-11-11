@@ -109,16 +109,19 @@ namespace Incidentes.WebApi.Controllers
         private void usuarioPerteneceAlProyecto(string token, int idIncidente, int proyId = 0)
         {
             Usuario usu = _logicaU.ObtenerPorToken(token);
-            if (idIncidente != -1)
+            if (usu.RolUsuario != Usuario.Rol.Administrador)
             {
-                Incidente inc = _logicaI.Obtener(idIncidente);
-                bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
-                if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
-            }
-            else
-            {
-                bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, proyId);
-                if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+                if (idIncidente != -1)
+                {
+                    Incidente inc = _logicaI.Obtener(idIncidente);
+                    bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
+                    if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+                }
+                else
+                {
+                    bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, proyId);
+                    if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+                }
             }
         }
     }
