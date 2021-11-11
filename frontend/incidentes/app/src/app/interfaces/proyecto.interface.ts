@@ -3,7 +3,7 @@ import { Incidente } from "./incidente.interface";
 
 export interface Proyecto {
     id?:         number;
-    nombre:     string;
+    nombre?:     string;
     duracion?:   number;
     costo?:      number;
     incidentes?: Incidente[];

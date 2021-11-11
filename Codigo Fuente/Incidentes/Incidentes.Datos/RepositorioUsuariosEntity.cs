@@ -55,11 +55,13 @@ namespace Incidentes.Datos
                 return ContextoRepositorio.Set<Proyecto>()
                     .Include(p => p.Asignados)
                     .Include(p => p.Incidentes)
+                    .Include(p => p.Tareas)
                     .Where(p => p.Asignados.Contains(usuario));
             }
             return ContextoRepositorio.Set<Proyecto>()
                  .Include(p => p.Asignados)
-                 .Include(p => p.Incidentes);
+                 .Include(p => p.Incidentes)
+                 .Include(p => p.Tareas);
         }
 
         public List<Tarea> ListaDeTareasDeProyectosALosQuePertenece(int idUsuario)
