@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.DTOs;
 using Incidentes.WebApi.Filters;
@@ -15,17 +16,33 @@ namespace Incidentes.WebApi.Controllers
     public class ProyectosController : ControllerBase
     {
         private readonly ILogicaProyecto _logicaP;
+        private readonly ILogicaUsuario _logicaU;
+        private const string usuario_no_pertenece = "El usuario no pertenece al proyecto";
 
-        public ProyectosController(ILogicaProyecto logica)
+        public ProyectosController(ILogicaProyecto logicaP, ILogicaUsuario logicaU)
         {
-            _logicaP = logica;
+            _logicaP = logicaP;
+            _logicaU = logicaU;
         }
 
         [HttpGet]
-        [FilterAutorizacion("Administrador")]
+        [FilterAutorizacion("Administrador", "Tester", "Desarrollador")]
         public IActionResult Get()
         {
-            List<Proyecto> result = _logicaP.ObtenerTodos().ToList();
+            string token = Request.Headers["autorizacion"];
+            Usuario usu = _logicaU.ObtenerPorToken(token);
+
+            List<Proyecto> result = new List<Proyecto>();
+
+            if(usu.RolUsuario == 0)
+            {
+                result = _logicaP.ObtenerTodos().ToList();
+            }
+            else
+            {
+                result = _logicaP.ListaDeProyectosALosQuePertenece(usu.Id).ToList();
+            }
+
             List<ProyectosDTO> proyectos = new List<ProyectosDTO>();
             foreach(Proyecto p in result)
             {
@@ -38,7 +55,7 @@ namespace Incidentes.WebApi.Controllers
                 };
                 foreach(Usuario u in p.Asignados)
                 {
-                    UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
+                    UsuarioParaReporteDTO us = new UsuarioParaReporteDTO()
                     {
                         Apellido = u.Apellido,
                         Email = u.Email,
@@ -48,7 +65,7 @@ namespace Incidentes.WebApi.Controllers
                         NombreUsuario = u.NombreUsuario,
                         RolUsuario = u.RolUsuario
                     };
-                    pro.Asignados.Add(usu);
+                    pro.Asignados.Add(us);
                 }
                 proyectos.Add(pro);
             }

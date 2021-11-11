@@ -1,6 +1,8 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -12,6 +14,8 @@ namespace Incidentes.WebApiTest
     public class IncidentesControllerTest
     {
         private Mock<ILogicaIncidente> _logicaI;
+        private Mock<ILogicaUsuario> _logicaU;
+        private Mock<ILogicaProyecto> _logicaP;
         private IncidentesController _iController;
         private IQueryable<Incidente> incidentesQ;
         private List<Incidente> incidentesL;
@@ -20,7 +24,9 @@ namespace Incidentes.WebApiTest
         public void Setup()
         {
             _logicaI = new Mock<ILogicaIncidente>();
-            _iController = new IncidentesController(_logicaI.Object);
+            _logicaU = new Mock<ILogicaUsuario>();
+            _logicaP = new Mock<ILogicaProyecto>();
+            _iController = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
             incidentesL = new List<Incidente>();
         }
 
@@ -28,6 +34,8 @@ namespace Incidentes.WebApiTest
         public void TearDown()
         {
             _logicaI = null;
+            _logicaU = null;
+            _logicaP = null;
             _iController = null;
             incidentesQ = null;
             incidentesL = null;
@@ -112,13 +120,54 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.Obtener(It.IsAny<int>())).Returns(i);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             _logicaI.Setup(c => c.Baja(3));
 
-            var result = _iController.Delete(i.Id);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            var result = tested.Delete(i.Id);
 
             Assert.IsNotNull(result);
 
             _logicaI.Verify(c => c.Baja(3));
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_eliminar_un_incidente_si_usuario_no_pertenece_proyecto()
+        {
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
+            Usuario usu = new Usuario() { };
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            _logicaI.Setup(c => c.Obtener(It.IsAny<int>())).Returns(i);
+            _logicaP.Setup(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Delete(i.Id));
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
         }
     }
 }

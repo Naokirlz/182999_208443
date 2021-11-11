@@ -13,13 +13,20 @@ namespace Incidentes.LogicaImportaciones
 {
     public class LogicaImportacion : ILogicaImportaciones
     {
-        const string directorio_plugins = "C:\\Users\\crist\\Desktop\\reflection";
+        //const string directorio_plugins = "C:\\Users\\crist\\Desktop\\reflection";
+        private string directorio_plugins;
         IRepositorioGestores _repositorioGestor;
         private const string elemento_no_existe = "El elemento no existe";
 
         public LogicaImportacion(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
+            directorio_plugins = Directory.GetCurrentDirectory();
+            for (int i=0; i< 6; i++)
+            {
+                directorio_plugins = System.IO.Directory.GetParent(directorio_plugins).FullName;
+            }
+            directorio_plugins += "/Documentacion/Accesorios-Postman-Fuentes/DLLs/";
         }
 
         public void ImportarBugs(string rutaFuente, string rutaBinario, int usuarioId)
