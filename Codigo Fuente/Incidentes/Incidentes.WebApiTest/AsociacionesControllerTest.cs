@@ -89,20 +89,6 @@ namespace Incidentes.WebApiTest
         }
 
         [Test]
-        public void se_pueden_ver_los_incidentes_de_los_proyectos_de_un_usuario()
-        {
-            incidentesL.Add(i);
-            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>())).Returns(incidentesL);
-
-            var result = _aController.GetIncidentes("1",null,null);
-            var okResult = result as OkObjectResult;
-
-            Assert.AreEqual(incidentesL, okResult.Value);
-
-            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
-        }
-
-        [Test]
         public void se_pueden_ver_un_proyecto_de_un_usuario()
         {
             _logicaP.Setup(c => c.ObtenerParaUsuario(It.IsAny<int>(), It.IsAny<int>())).Returns(p);

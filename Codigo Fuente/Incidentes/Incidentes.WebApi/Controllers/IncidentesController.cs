@@ -4,6 +4,7 @@ using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
@@ -54,6 +55,22 @@ namespace Incidentes.WebApi.Controllers
 
             var incidente = _logicaI.Obtener(id);
             return Ok(incidente);
+        }
+
+        [HttpGet]
+        [FilterAutorizacion("Administrador", "Desarrollador", "Tester")]
+        [TrapExcepciones]
+        public IActionResult GetIncidentes(string id, [FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
+        {
+            Incidente incidente = new Incidente()
+            {
+                Nombre = nombreIncidente
+            };
+            if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Activo;
+            if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Resuelto;
+
+            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(Int32.Parse(id), nombreProyecto, incidente);
+            return Ok(result);
         }
 
         [HttpPost]
