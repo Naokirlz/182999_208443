@@ -25,7 +25,7 @@ export class ReportesService {
     httpOptions.headers = httpOptions.headers.set('autorizacion', this.token );
 
     return this.http.get<ReporteBugsProyecto[]>(
-      this.apiUrl,
+      this.apiUrl + '/proyectos',
       httpOptions
     );
 

@@ -43,7 +43,7 @@ namespace Incidentes.WebApiTest
             proyectosQ = proyectosL.AsQueryable();
             _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosQ);
 
-            var result = _rController.Get();
+            var result = _rController.GetProyectos();
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);

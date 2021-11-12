@@ -23,10 +23,10 @@ namespace Incidentes.WebApi.Controllers
             _logicaU = logicaU;
         }
 
-        [HttpGet]
+        [HttpGet("/proyectos")]
         [FilterAutorizacion("Administrador")]
         [TrapExcepciones]
-        public IActionResult Get()
+        public IActionResult GetProyectos()
         {
             IEnumerable<Proyecto> proyectos = _logicaP.ObtenerTodos();
             List<ProyectoParaReporteDTO> result = new List<ProyectoParaReporteDTO>();
