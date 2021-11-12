@@ -80,6 +80,21 @@ export class IncidentesService {
     )
   }
 
+  modificarIncidente(incidente: Incidente): Observable<Incidente> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'autorizacion': this.token
+      })
+    };
+
+    return this.http.put<Incidente>(
+      this.apiUrl + '/' + incidente.Id,
+      incidente,
+      httpOptions
+    )
+  }
+
 
 
 }

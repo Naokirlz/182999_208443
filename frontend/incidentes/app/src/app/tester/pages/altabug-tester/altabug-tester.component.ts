@@ -63,9 +63,6 @@ export class AltabugTesterComponent implements OnInit {
   }
 
   altaIncidente(): void {
-
-
-
     
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();
