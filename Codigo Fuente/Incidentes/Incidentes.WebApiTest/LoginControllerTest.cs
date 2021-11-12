@@ -1,6 +1,9 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 
@@ -9,13 +12,13 @@ namespace Incidentes.WebApiTest
     public class LoginControllerTest
     {
         private Mock<ILogicaUsuario> _logicaU;
-        private LoginController _lController;
+        private AutenticacionesController _lController;
 
         [SetUp]
         public void Setup()
         {
             _logicaU = new Mock<ILogicaUsuario>();
-            _lController = new LoginController(_logicaU.Object);
+            _lController = new AutenticacionesController(_logicaU.Object);
         }
 
         [TearDown]
@@ -47,13 +50,38 @@ namespace Incidentes.WebApiTest
         {
             Usuario user = new Usuario()
             {
+                Id = 7,
                 Token = "asdadsacasc"
             };
             _logicaU.Setup(c => c.Logout(It.IsAny<string>()));
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(user);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new AutenticacionesController(_logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            var result = _lController.Logout(user);
+            var result = tested.Logout(user.Id);
 
             Assert.IsNotNull(result);
+
+            _logicaU.VerifyAll();
+        }
+
+        [Test]
+        public void no_se_pueden_desloguear_otros_usuarios()
+        {
+            Usuario user = new Usuario()
+            {
+                Id = 7,
+                Token = "asdadsacasc"
+            };
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(user);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new AutenticacionesController(_logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Logout(12));
 
             _logicaU.VerifyAll();
         }
