@@ -42,10 +42,18 @@ export class SidebarComponent implements OnInit {
 
   logout(){
 
-    this.loginService.logout();
-    window.location.reload();
-    alert('Logout con Éxito');
-
+    this.loginService.logout()
+    .subscribe((data: any) => {
+      console.log(data);
+      sessionStorage.setItem('token', '');
+      sessionStorage.setItem('authData', '');
+      window.location.reload();
+    },
+      (({ error }: any) => {
+        console.log(error);
+      }
+      )
+    );
   }
 
 }
