@@ -99,8 +99,6 @@ namespace Incidentes.Logica
             Incidente inc = Obtener(idIncidente);
             if (!_repositorioGestor.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(idIncidente, inc.ProyectoId))
                 throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
-            if (!_repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(idUsuario, inc.ProyectoId))
-                throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
             return inc;
         }
     }

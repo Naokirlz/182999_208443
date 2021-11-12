@@ -57,7 +57,7 @@ namespace Incidentes.WebApiTest
             incidentesL.Add(i);
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
-            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", null)).Returns(incidentesL);
+            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", It.IsAny<Incidente>())).Returns(incidentesL);
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
             tested.ControllerContext = ctx;
@@ -68,7 +68,7 @@ namespace Incidentes.WebApiTest
             Assert.IsNotNull(result);
 
             _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
-            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", null));
+            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", It.IsAny<Incidente>()));
         }
 
         [Test]
@@ -108,14 +108,29 @@ namespace Incidentes.WebApiTest
         public void se_pueden_ver_los_incidentes_de_los_proyectos_de_un_usuario()
         {
             incidentesL.Add(new Incidente());
+            Usuario usu = new Usuario()
+            {
+                Id = 3,
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
+
+            Proyecto pro = new Proyecto() { };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
             _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>())).Returns(incidentesL);
 
-            var result = _iController.GetIncidentes("1", null, null);
+            var result = tested.GetIncidentes("1", null, null);
             var okResult = result as OkObjectResult;
 
             Assert.AreEqual(incidentesL, okResult.Value);
 
             _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
         }
 
         [Test]
@@ -127,7 +142,10 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Tester
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -156,7 +174,10 @@ namespace Incidentes.WebApiTest
                 Id = 3,
                 Nombre = "Incidente"
             };
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -184,7 +205,10 @@ namespace Incidentes.WebApiTest
                 ProyectoId = 3
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Tester
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -214,7 +238,10 @@ namespace Incidentes.WebApiTest
                 ProyectoId = 3
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -240,7 +267,10 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Tester
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -272,7 +302,10 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Tester
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -300,7 +333,10 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Tester
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -331,7 +367,9 @@ namespace Incidentes.WebApiTest
                 Id = 3,
                 Nombre = "Incidente"
             };
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario() { 
+                RolUsuario= Usuario.Rol.Desarrollador
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
