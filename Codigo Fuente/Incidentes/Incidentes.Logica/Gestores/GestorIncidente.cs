@@ -69,7 +69,8 @@ namespace Incidentes.Logica
             if (entity.Version != null) aModificar.Version = entity.Version;
             if (entity.Descripcion != null) aModificar.Descripcion = entity.Descripcion;
             if (entity.DesarrolladorId != 0) aModificar.DesarrolladorId = entity.DesarrolladorId;
-           
+            if (entity.Duracion != 0) aModificar.Duracion = entity.Duracion;
+
 
             _repositorioGestor.RepositorioIncidente.Modificar(aModificar);
             _repositorioGestor.Save();
