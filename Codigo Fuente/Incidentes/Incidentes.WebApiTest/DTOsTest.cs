@@ -77,15 +77,5 @@ namespace Incidentes.WebApiTest
             Assert.AreEqual("nombre pro", pro.Nombre);
             Assert.AreEqual(4, pro.CantidadDeIncidentes);
         }
-
-        [Test]
-        public void funciona_correctamente_importacionesDto()
-        {
-            ImportacionesDTO imp = new ImportacionesDTO()
-            {
-                Ruta = "asasas"
-            };
-            Assert.AreEqual(imp.Ruta, "asasas");
-        }
     }
 }
