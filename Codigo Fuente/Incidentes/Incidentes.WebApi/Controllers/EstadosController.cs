@@ -34,7 +34,8 @@ namespace Incidentes.WebApi.Controllers
             Incidente aResolver = new Incidente()
             {
                 Id = incidente.Id,
-                EstadoIncidente = Incidente.Estado.Resuelto,
+                //EstadoIncidente = Incidente.Estado.Resuelto,
+                EstadoIncidente = incidente.EstadoIncidente,
                 ProyectoId = incidente.ProyectoId,
                 DesarrolladorId = incidente.DesarrolladorId
             };

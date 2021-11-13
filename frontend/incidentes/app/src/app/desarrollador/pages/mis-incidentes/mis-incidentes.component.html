@@ -31,7 +31,9 @@
                                 <td>
                                     <button pButton (click)="detalle(incidente.id)" type="editar" icon="pi pi-eye">
                                     </button>
-                                    <button pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-up">
+                                    <button *ngIf="incidente.estadoIncidente == 1" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-up">
+                                    </button>
+                                    <button *ngIf="incidente.estadoIncidente == 2" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-down">
                                     </button>
                                     <span class="p-buttonset">
                                     <button *ngIf="tester"  pButton type="button"(click)="eliminar(incidente.id)"  icon="pi pi pi-trash" ></button>                                            

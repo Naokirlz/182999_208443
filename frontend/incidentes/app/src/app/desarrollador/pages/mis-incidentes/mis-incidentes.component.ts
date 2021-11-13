@@ -119,14 +119,32 @@ export class MisIncidentesComponent implements OnInit {
   resolver(ide:number){
   
     const incidente:Incidente = this.incidentes?.find(i => i.id == ide)!;
-    incidente.estadoIncidente = 2;
     
-    this.estadosService.put(incidente)
+    if(incidente.estadoIncidente == 1){incidente.estadoIncidente = 2}
+    else{incidente.estadoIncidente = 1 }
+
+    const aModificar: Incidente = {
+      Nombre: incidente.nombre,
+      Descripcion: incidente.descripcion,
+      Version: incidente.version,
+      Duracion: incidente.duracion,
+      Id: incidente.id,
+      //UsuarioId: incidente.desarrolladorId,
+      ProyectoId: incidente.proyectoId,
+      EstadoIncidente: incidente.estadoIncidente,
+      DesarrolladorId:this.usuario
+      
+    }
+    
+    
+    this.estadosService.put(aModificar)
         .subscribe((data: Incidente) => {
           this.messageService.add({
             severity: 'success', summary: 'Listo',
             detail: 'Incidente Actualizado.'
           });
+          //alert('exito');
+          //window.location.reload();
             
         },
           (({ error }: any) => {

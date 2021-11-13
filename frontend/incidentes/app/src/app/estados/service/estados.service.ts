@@ -25,6 +25,7 @@ export class EstadosService {
 
     return this.http.put<Incidente>(
       this.apiUrl,
+      incidente,
       httpOptions
     );
 
