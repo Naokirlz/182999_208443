@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { LoginService } from 'src/app/login/services/login.service';
 import { Proyecto } from '../../../interfaces/proyecto.interface';
 import { ProyectoService } from '../../services/proyecto.service';
 
@@ -13,10 +14,20 @@ export class VerProyectosComponent implements OnInit {
 
   constructor(private proyectoService: ProyectoService,
     private _router: Router,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loginService: LoginService) { 
+
+      this.admin = this.loginService.isAdminLoggedIn();
+      this.tester = this.loginService.isTesterIn();
+      this.desarrollador = this.loginService.isDesarrolladorIn();
+    }
 
   public proyectos: Proyecto[] = [];
   private idProyEliminar: number = -1;
+
+  public admin:boolean = false;
+  public tester:boolean = false; 
+  public desarrollador:boolean = false;  
 
   ngOnInit(): void {
     this.proyectoService.getProyecto()

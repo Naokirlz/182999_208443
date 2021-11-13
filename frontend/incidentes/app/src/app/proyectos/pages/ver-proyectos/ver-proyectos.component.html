@@ -19,8 +19,8 @@
                                 <th>Duración</th>
                                 <th>Costo</th>
                                 <th>Detalles</th>
-                                <th></th>
-                                <th></th>
+                                <th *ngIf ="admin"></th>
+                                <th *ngIf ="admin" ></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-proyecto>
@@ -33,16 +33,16 @@
                                     <span class="p-buttonset">
                                         <button pButton type="button" label="incidentes" icon="pi pi-android" (click)="incidentes(proyecto.id)"></button>
                                         <button pButton type="button" label="tareas" icon="pi pi-desktop" (click)="tareas(proyecto.id)"></button>
-                                        <button pButton type="button" label="asignados" icon="pi pi-users" (click)="asignados(proyecto.id)"></button>
+                                        <button *ngIf ="admin" pButton type="button" label="asignados" icon="pi pi-users" (click)="asignados(proyecto.id)"></button>
                                     </span>
 
                                 </td>
                                 <td>
-                                    <button pButton type="editar" (click)="editar(proyecto.id)" icon="pi pi-pencil">
+                                    <button *ngIf ="admin" pButton type="editar" (click)="editar(proyecto.id)" icon="pi pi-pencil">
                                     </button>
                                 </td>
                                 <td>
-                                    <button pButton type="button" (click)="consultarAccion(proyecto.id)" icon="pi pi-trash" style="background-color: red; border: 0;">
+                                    <button *ngIf ="admin" pButton type="button" (click)="consultarAccion(proyecto.id)" icon="pi pi-trash" style="background-color: red; border: 0;">
                                     </button>
                                 </td>
                             </tr>

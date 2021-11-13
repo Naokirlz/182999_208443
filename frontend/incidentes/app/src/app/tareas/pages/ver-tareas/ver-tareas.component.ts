@@ -29,13 +29,17 @@ export class VerTareasComponent implements OnInit {
 
 
       this.admin = this.loginService.isAdminLoggedIn();
+      this.tester = this.loginService.isTesterIn();
+      this.desarrollador = this.loginService.isDesarrolladorIn();
       this.proyectoId = 0;
       const p:Proyecto ={};
       this.proyecto=p;
 
      }
 
-  public admin:boolean = false;  
+  public admin:boolean = false;
+  public tester:boolean = false; 
+  public desarrollador:boolean = false;   
   public tareas:Tarea[] | undefined = [];
   private proyectos: Proyecto[] = [];
   private idTareaEliminar: number = -1;
