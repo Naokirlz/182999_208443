@@ -44,7 +44,9 @@ export class LoginService {
 
   isLoggedIn(): boolean {
 
-    return sessionStorage.getItem('token') != '';
+    const token = sessionStorage.getItem('token');
+    if(!token){return false;}
+    return (token != '') ;
 
   }
 

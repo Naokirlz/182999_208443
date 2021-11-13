@@ -31,7 +31,7 @@ export class IncidentesDesarrolladorComponent implements OnInit {
   private result(data: Array<Usuario>): void {
     this.desarrolladores = data;
 
-    this.desarrolladores = this.desarrolladores.filter(p => !(p.rolUsuario === 0 || p.rolUsuario === 1));
+    this.desarrolladores = this.desarrolladores.filter(p => !(p.rolUsuario === 0 || p.rolUsuario === 2));
   }
 
   detalles(id:number){

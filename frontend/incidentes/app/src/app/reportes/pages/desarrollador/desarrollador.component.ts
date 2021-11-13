@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReporteBugsDesarrollador } from 'src/app/interfaces/reportes.interface';
 import { ProyectoService } from '../../../proyectos/services/proyecto.service';
 import { ReportesService } from '../../services/reportes.service';
@@ -17,7 +17,8 @@ export class DesarrolladorComponent implements OnInit {
   public desarrolladores:ReporteBugsDesarrollador[]=[];
 
   constructor(private reportesService:ReportesService,
-              private _route: ActivatedRoute) {
+              private _route: ActivatedRoute,
+              private _router: Router) {
 
     this.desarrolladorId = 0;
 
@@ -37,6 +38,12 @@ export class DesarrolladorComponent implements OnInit {
   private result(data: ReporteBugsDesarrollador): void {
     this.desarrolladores.push(data);
   
+  }
+
+  volver(){
+
+    this._router.navigate([`/reportes/resueltos`]);
+
   }
 
 }
