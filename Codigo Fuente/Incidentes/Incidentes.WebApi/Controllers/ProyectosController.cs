@@ -18,6 +18,7 @@ namespace Incidentes.WebApi.Controllers
         private readonly ILogicaProyecto _logicaP;
         private readonly ILogicaUsuario _logicaU;
         private const string usuario_no_pertenece = "El usuario no pertenece al proyecto";
+        private const string elemento_no_corresponde = "La entidad no corresponde con la enviada por parámetro";
 
         public ProyectosController(ILogicaProyecto logicaP, ILogicaUsuario logicaU)
         {
@@ -146,10 +147,11 @@ namespace Incidentes.WebApi.Controllers
             return StatusCode(204);
         }
         
-        [HttpPut]
+        [HttpPut("{id}")]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Put([FromBody] Proyecto proyecto)
+        public IActionResult Put(int id, [FromBody] Proyecto proyecto)
         {
+            if (id != proyecto.Id) throw new ExcepcionArgumentoNoValido(elemento_no_corresponde);
             _logicaP.Modificar(proyecto.Id, proyecto);
             ProyectosDTO pro = new ProyectosDTO()
             {

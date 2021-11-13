@@ -89,7 +89,7 @@ export class ProyectoService {
     };
 
     return this.http.put<Proyecto>(
-      this.apiUrl,
+      this.apiUrl + '/' + proyecto.id,
       proyecto,
       httpOptions
     );

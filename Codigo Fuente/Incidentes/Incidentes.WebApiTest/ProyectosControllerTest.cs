@@ -193,12 +193,18 @@ namespace Incidentes.WebApiTest
         {
             _logicaP.Setup(c => c.Modificar(It.IsAny<int>(), It.IsAny<Proyecto>())).Returns(p);
 
-            var result = _pController.Put(p);
+            var result = _pController.Put(7, p);
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
 
             _logicaP.Verify(c => c.Modificar(It.IsAny<int>(), It.IsAny<Proyecto>()));
+        }
+
+        [Test]
+        public void no_se_puede_actualizar_un_proyecto_con_parametros_incorrectos()
+        {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => _pController.Put(6, p));
         }
 
         [Test]
