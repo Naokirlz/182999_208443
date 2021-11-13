@@ -20,6 +20,7 @@ export class IncidentesPComponent implements OnInit {
   public proyectos:Proyecto[]=[];
   public incidentes:Incidente[] | undefined=[];
   public usuarios:Usuario[]=[];
+  public totalHoras:number=0;
   
   constructor(private proyectoService:ProyectoService,
               private estadosService:EstadosService,
@@ -54,6 +55,7 @@ export class IncidentesPComponent implements OnInit {
   private result(data: Proyecto): void {
     this.proyectos.push(data);
     this.incidentes = this.proyectos[0].incidentes;
+    this.obtenerTotalHoras();
 
   }
   obtenerEstado(id:number):string{
@@ -67,6 +69,15 @@ export class IncidentesPComponent implements OnInit {
 
     const usuario = this.usuarios.find(usuarios => usuarios.id === id);
     return (usuario?.nombreUsuario ) ? usuario.nombreUsuario : '';
+  }
+
+  obtenerTotalHoras(){
+
+    this.incidentes?.forEach(
+      
+      inc=>  this.totalHoras = (inc.duracion! + this.totalHoras)
+    )
+
   }
 
   volver(){

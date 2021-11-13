@@ -8,6 +8,7 @@ import { AsignadosComponent } from './pages/asignados/asignados.component';
 import { EditarProyectoComponent } from './pages/editar-proyecto/editar-proyecto.component';
 import { IncidentesPComponent } from './pages/incidentes/incidentes.component';
 import { SharedModule } from '../shared/shared.module';
+import { ProyectoInfoComponent } from './pages/proyecto-info/proyecto-info.component';
 
 
 
@@ -18,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
     AsignadosComponent,
     EditarProyectoComponent,
     IncidentesPComponent,
+    ProyectoInfoComponent,
   ],
   imports: [
     CommonModule,

@@ -25,6 +25,7 @@ import { TesterLoggedGuard } from './routeGuards/tester-logged.guard';
 import { AltabugTesterComponent } from './tester/pages/altabug-tester/altabug-tester.component';
 import { DetalleBugComponent } from './incidentes/pages/detalle-bug/detalle-bug.component';
 import { UserNotLoggedGuard } from './routeGuards/user-not-logged.guard';
+import { ProyectoInfoComponent } from './proyectos/pages/proyecto-info/proyecto-info.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'proyectos', component: VerProyectosComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/alta',component: AltaProyectoComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/asignados',component: AsignadosComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
+  { path: 'proyectos/:proyectoId/informacion',component: ProyectoInfoComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/editar', component: EditarProyectoComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/incidentes',component: IncidentesPComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},

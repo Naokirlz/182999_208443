@@ -85,7 +85,7 @@ export class VerTareasComponent implements OnInit {
   consultarAccion(id: number): void {
     this.idTareaEliminar = id;
     this.messageService.clear();
-    this.messageService.add({ key: 'c', sticky: true, severity: 'warn', summary: 'Está seguro?', detail: 'Realmente desea la Tarea' });
+    this.messageService.add({ key: 'c', sticky: true, severity: 'warn', summary: 'Está seguro?', detail: 'Realmente desea Eliminar la Tarea' });
   }
 
   onReject() {
