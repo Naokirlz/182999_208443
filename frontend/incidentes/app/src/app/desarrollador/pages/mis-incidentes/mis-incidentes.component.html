@@ -11,19 +11,19 @@
                     <p-table [value]="incidentes!" styleClass="p-datatable-sm" responsiveLayout="scroll">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>id</th>
-                                <th>Proyecto</th>
-                                <th>Nombre</th>
+                                <th (click)=filtroId() style="cursor:pointer;">id</th>
+                                <th (click)=filtroProyecto() style="cursor:pointer;">Proyecto</th>
+                                <th (click)=filtroNombre() style="cursor:pointer;">Nombre</th>
                                 <th>Descripcion</th>
                                 <th>Versión</th>
-                                <th>Estado</th>
+                                <th (click)=filtroEstado() style="cursor:pointer;">Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
                             <tr>
                                 <td>{{incidente.id}}</td>
-                                <td>{{incidente.proyectoId}}</td>
+                                <td>{{obtenerNombre(incidente.proyectoId) }}</td>
                                 <td>{{incidente.nombre | titlecase }}</td>
                                 <td>{{incidente.descripcion}}</td>
                                 <td>{{incidente.version}}</td>

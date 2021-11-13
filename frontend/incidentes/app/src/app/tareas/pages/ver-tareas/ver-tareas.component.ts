@@ -54,7 +54,7 @@ export class VerTareasComponent implements OnInit {
 
       this.proyectoService.getBy(this.proyectoId)
       .subscribe(
-      ((data: Proyecto) => this.result2(data)),
+      ((data: Proyecto) => this.tareas = data.tareas),
     );
 
 
@@ -68,21 +68,13 @@ export class VerTareasComponent implements OnInit {
       
       this.proyectoService.getProyecto()
       .subscribe(
-        ((data: Array<Proyecto>) => this.result(data)),
+        ((data: Array<Proyecto>) => this.proyectos = data),
       );
 
     }
 
 
 
-  }
-
-  private result(data: Array<Proyecto>): void {
-    this.proyectos = data;
-  }
-
-  private result2(data: Proyecto): void {
-    this.tareas = data.tareas;
   }
 
   onConfirm() {

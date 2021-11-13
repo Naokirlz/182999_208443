@@ -26,6 +26,11 @@ export class MisIncidentesComponent implements OnInit {
   public proyectos:Proyecto[]=[];
   public incidentes:Incidente[] | undefined=[];
   public estado:string='Activo';
+  
+  public idMenor:boolean = false;
+  public nombreMenor:boolean = false;
+  public estadoMenor:boolean = false;
+  public proyectoMenor:boolean = false;
 
   public tester:boolean = false;
   public desarrollador:boolean = false;
@@ -35,7 +40,8 @@ export class MisIncidentesComponent implements OnInit {
               private incidenteService:IncidentesService,
               private estadosService:EstadosService,
               private messageService: MessageService,
-              private _router: Router) {
+              private _router: Router,
+              private proyectoService: ProyectoService) {
 
     this.usuario = this.loginService.getLoginData()?.id!;
     this.tester = this.loginService.isTesterIn();
@@ -58,26 +64,14 @@ export class MisIncidentesComponent implements OnInit {
       }
       )
     );
+
+    this.proyectoService.getProyecto()
+    .subscribe(
+      ((data: Array<Proyecto>) => this.proyectos = data),
+    );
    
   }
 
-  private result(data: Array<Proyecto>): void {
-            
-    this.proyectos = data;
-        
-    this.proyectos.forEach(e => {
-      
-     e.incidentes?.forEach(i => {
-
-      this.incidentes?.push(i);
-             
-     });
-
-    });
-
-    console.log(this.proyectos);
-
-  }
 
   eliminar(id:number){
 
@@ -104,6 +98,68 @@ export class MisIncidentesComponent implements OnInit {
     if(id === 1) return 'Activo';
     return 'Resuelto'
 
+  }
+
+  filtroId(){
+    
+    if(!this.idMenor){
+      this.incidentes?.sort((a,b) => a.id! - b.id!);
+      this.idMenor=true;
+    }
+    else{
+      this.incidentes?.sort((a,b) => b.id! - a.id!);
+      this.idMenor=false;
+
+    }
+    
+  }
+
+  filtroEstado(){
+    
+    if(!this.estadoMenor){
+      this.incidentes?.sort((a,b) => a.estadoIncidente! - b.estadoIncidente!);
+      this.estadoMenor=true;
+    }
+    else{
+      this.incidentes?.sort((a,b) => b.estadoIncidente! - a.estadoIncidente!);
+      this.estadoMenor=false;
+
+    }
+    
+  }
+
+  filtroProyecto(){
+    
+    if(!this.proyectoMenor){
+      this.incidentes?.sort((a,b) => this.obtenerNombre(a.proyectoId!).localeCompare(this.obtenerNombre(b.proyectoId!)));
+      this.proyectoMenor=true;
+    }
+    else{
+      this.incidentes?.sort((a,b) => this.obtenerNombre(b.proyectoId!).localeCompare(this.obtenerNombre(a.proyectoId!)));
+      this.proyectoMenor=false;
+
+    }
+    
+  }
+
+  filtroNombre(){
+    
+    if(!this.nombreMenor){
+      this.incidentes?.sort((a,b) => a.nombre!.localeCompare(b.nombre!));
+      this.nombreMenor=true;
+    }
+    else{
+      this.incidentes?.sort((a,b) => b.nombre!.localeCompare(a.nombre!));
+      this.nombreMenor=false;
+
+    }
+    
+  }
+
+  obtenerNombre(id: number): string {
+    const proyecto = this.proyectos.find(proyecto => proyecto.id === id);
+    console.log(this.proyectos);
+    return (proyecto?.nombre) ? proyecto.nombre : '';
   }
 
   detalle(id: number): void {
