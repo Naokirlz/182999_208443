@@ -63,19 +63,5 @@ namespace Incidentes.WebApiTest
             Assert.AreEqual(incL, pro.Incidentes);
             Assert.AreEqual(tarL, pro.Tareas);
         }
-
-        [Test]
-        public void funciona_correctamente_proyectoParaReporteDto()
-        {
-            ProyectoParaReporteDTO pro = new ProyectoParaReporteDTO()
-            {
-                Id = 3,
-                Nombre = "nombre pro",
-                CantidadDeIncidentes = 4
-            };
-            Assert.AreEqual(3, pro.Id);
-            Assert.AreEqual("nombre pro", pro.Nombre);
-            Assert.AreEqual(4, pro.CantidadDeIncidentes);
-        }
     }
 }
