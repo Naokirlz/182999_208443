@@ -11,17 +11,14 @@
                     <p-table [value]="incidente!" styleClass="p-datatable-sm" responsiveLayout="scroll">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>id</th>
                                 <th>Nombre</th>
                                 <th>Descripcion</th>
                                 <th>Versión</th>
-
-                                
+                              
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
                             <tr>
-                                <td>{{incidente.id}}</td>
                                 <td>{{incidente.nombre | titlecase }}</td>
                                 <td>{{incidente.descripcion}}</td>
                                 <td>{{incidente.version}}</td>
@@ -36,15 +33,15 @@
                             <tr>
 
                                 <th>Estado</th>
-                                <th>Desarrollador</th>
-                                <th>Usuario</th>
+                                <th>Desarrollador que resolvió</th>
+                                <th>Tester Creador</th>
                                 <th>Duración</th>
                                 
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
                             <tr>
-                                <td>{{incidente.estadoIncidente}}</td>
+                                <td>{{obtenerEstado(incidente.estadoIncidente)}}</td>
                                 <td>{{incidente.desarrolladorId}}</td>
                                 <td>{{incidente.usuarioId}}</td>
                                 <td>{{incidente.duracion}}</td>   

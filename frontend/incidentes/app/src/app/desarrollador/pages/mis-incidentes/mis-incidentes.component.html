@@ -17,12 +17,7 @@
                                 <th>Descripcion</th>
                                 <th>Versión</th>
                                 <th>Estado</th>
-                                <th>Desarrollador</th>
-                                <th>Usuario</th>
-                                <th>Duración</th>
-                                <th>Detalles</th>
-                                <th *ngIf ="desarrollador"></th>
-                                <th *ngIf ="tester"></th>
+                                <th>Acciones</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
@@ -32,24 +27,15 @@
                                 <td>{{incidente.nombre | titlecase }}</td>
                                 <td>{{incidente.descripcion}}</td>
                                 <td>{{incidente.version}}</td>
-                                <td>{{incidente.estadoIncidente}}</td>
-                                <td>{{incidente.desarrolladorId}}</td>
-                                <td>{{incidente.usuarioId}}</td>
-                                <td>{{incidente.duracion}}</td>
+                                <td >{{obtenerEstado(incidente.estadoIncidente)}}</td>
                                 <td>
                                     <button pButton (click)="detalle(incidente.id)" type="editar" icon="pi pi-eye">
                                     </button>
-                                </td>   
-                                <td *ngIf ="desarrollador">
                                     <button pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-up">
                                     </button>
-
-                                </td>
-                                <td *ngIf ="tester">
-                                        <span class="p-buttonset">
-                                            <button pButton type="button" icon="pi pi-pencil" ></button>
-                                            <button pButton type="button"(click)="eliminar(incidente.id)"  icon="pi pi pi-trash" ></button>                                            
-                                        </span>    
+                                    <span class="p-buttonset">
+                                    <button *ngIf="tester"  pButton type="button"(click)="eliminar(incidente.id)"  icon="pi pi pi-trash" ></button>                                            
+                                    </span>    
                                 </td>                                                           
                             </tr>
                         </ng-template>

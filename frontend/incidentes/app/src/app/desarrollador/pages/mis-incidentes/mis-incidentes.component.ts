@@ -25,6 +25,7 @@ export class MisIncidentesComponent implements OnInit {
   public usuarios:Usuario[]=[];
   public proyectos:Proyecto[]=[];
   public incidentes:Incidente[] | undefined=[];
+  public estado:string='Activo';
 
   public tester:boolean = false;
   public desarrollador:boolean = false;
@@ -96,8 +97,18 @@ export class MisIncidentesComponent implements OnInit {
       () => {window.location.reload();}
     );
     
+ 
+
     
+
     
+  }
+
+  obtenerEstado(id:number):string{
+
+    if(id === 1) return 'Activo';
+    return 'Resuelto'
+
   }
 
   detalle(id: number): void {
