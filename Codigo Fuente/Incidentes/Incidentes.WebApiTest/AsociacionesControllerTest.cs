@@ -3,7 +3,6 @@ using Incidentes.Dominio;
 using Incidentes.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
-using Incidentes.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;

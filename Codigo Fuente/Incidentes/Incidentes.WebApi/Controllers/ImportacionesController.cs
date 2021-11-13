@@ -1,6 +1,5 @@
 ﻿using Incidentes.Logica.DTOs;
 using Incidentes.LogicaInterfaz;
-using Incidentes.WebApi.DTOs;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
