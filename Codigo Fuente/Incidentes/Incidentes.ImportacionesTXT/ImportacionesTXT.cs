@@ -1,12 +1,10 @@
-﻿using Incidentes.Dominio;
-using Incidentes.LogicaInterfaz;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace Incidentes.ImportacionesTXT
 {
-    public class ImportacionTXT:IFuente
+    public class ImportacionTXT
     {
         private string _rutaFuente { get; set; }
 
@@ -52,5 +50,30 @@ namespace Incidentes.ImportacionesTXT
             }
             return retorno;
         }
+    }
+
+    public class Incidente
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Version { get; set; }
+        public Estado EstadoIncidente { get; set; }
+
+        public Incidente() { }
+
+        public enum Estado
+        {
+            Indiferente,
+            Activo,
+            Resuelto
+        }
+    }
+
+    public class Proyecto
+    {
+        public string Nombre { get; set; }
+        public List<Incidente> Incidentes { get; set; }
+        public Proyecto() { }
     }
 }
