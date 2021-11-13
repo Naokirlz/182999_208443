@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Incidentes.WebApi.DTOs;

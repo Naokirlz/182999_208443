@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Incidentes.WebApi.DTOs
+namespace Incidentes.DTOs
 {
     public class AsignacionesDTO
     {
