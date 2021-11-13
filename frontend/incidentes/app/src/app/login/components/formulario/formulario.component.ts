@@ -67,14 +67,13 @@ export class FormularioComponent implements OnInit {
             sessionStorage.setItem('token', data.token);
             sessionStorage.setItem('authData', JSON.stringify(data));
             this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-            
-            window.location.reload();
-
-
+        
             if(this.loginService.isLoggedIn())
                 {
                   this._router.navigate(['']);
                 }
+
+                window.location.reload();
 
 
           },
@@ -85,7 +84,7 @@ export class FormularioComponent implements OnInit {
             
           }
           ),
-          () => {}
+          () => {this._router.navigate(['']);}
         );
     
     this.miFormulario.reset();

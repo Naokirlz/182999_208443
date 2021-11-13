@@ -54,14 +54,14 @@ export class DetalleBugComponent implements OnInit {
       Nombre: this.miFormulario.value.nombre,
       Descripcion: this.miFormulario.value.descripcion,
       Version: this.miFormulario.value.version,
-      Duracion: this.miFormulario.value.duracion,
+      Duracion: parseInt(this.miFormulario.value.duracion),
       
       
       Id: this.incidente[0].id,
       UsuarioId: this.incidente[0].desarrolladorId,
       ProyectoId: this.incidente[0].proyectoId,
       EstadoIncidente: this.incidente[0].estadoIncidente,
-
+      
     }
 
     console.log(incidente);
@@ -72,7 +72,8 @@ export class DetalleBugComponent implements OnInit {
           severity: 'success', summary: 'Listo',
           detail: 'Incidente modificado correctamente.'
         });
-        this.miFormulario.reset();
+        alert('exito');
+        this.volver();
       },
         (({ error }: any) => {
           console.log(error);
@@ -80,6 +81,13 @@ export class DetalleBugComponent implements OnInit {
         }
         )
       );
+  }
+
+  obtenerEstado(id:number):string{
+
+    if(id === 1) return 'Activo';
+    return 'Resuelto'
+
   }
 
   volver(){
