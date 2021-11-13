@@ -23,7 +23,7 @@ namespace Incidentes.WebApi.Controllers
             _logicaU = logicaU;
         }
 
-        [HttpGet("/proyectos")]
+        [HttpGet("incidentes/proyectos")]
         [FilterAutorizacion("Administrador")]
         [TrapExcepciones]
         public IActionResult GetProyectos()
