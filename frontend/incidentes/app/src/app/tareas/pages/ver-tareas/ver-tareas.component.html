@@ -1,6 +1,9 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
+            <p align="right">
+                <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
+                </p>
             <div class="col-12 mb-4">
                 <div class="card border-0">
                     <h1>Tareas</h1>
@@ -13,7 +16,7 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nombre</th>
-                                <th>Proyecto</th>
+                                <th *ngIf ="!proyectoId">Proyecto</th>
                                 <th>Costo/Hora ($)</th>
                                 <th>Duracion (hs)</th>
                                 <th>Total ($)</th>
@@ -25,7 +28,7 @@
                             <tr>
                                 <td>{{tarea.id}}</td>
                                 <td>{{tarea.nombre | titlecase }}</td>
-                                <td>{{obtenerNombre(tarea.proyectoId) }}</td>
+                                <td *ngIf ="!proyectoId">{{obtenerNombre(tarea.proyectoId) }}</td>
                                 <td>{{tarea.costo | number }}</td>
                                 <td>{{tarea.duracion | number }}</td>
                                 <td>{{tarea.duracion * tarea.costo | number }}</td>

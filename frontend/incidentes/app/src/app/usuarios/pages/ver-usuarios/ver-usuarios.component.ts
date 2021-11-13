@@ -18,12 +18,8 @@ export class VerUsuariosComponent implements OnInit {
 
           this.usuarioServie.getUsuario()
           .subscribe(
-            ((data: Array<Usuario>) => this.result(data)),
+            ((data: Array<Usuario>) => this.usuarios = data),
           );
-  }
-
-  private result(data: Array<Usuario>): void {
-    this.usuarios = data;
   }
 
 }

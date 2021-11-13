@@ -1,6 +1,9 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
+            <p align="right">
+                <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
+                </p>
             <div class="col-12 mb-4">
                 <div class="card border-0">
                     <h1>Incidentes</h1>
@@ -16,8 +19,7 @@
                                 <th>Descripcion</th>
                                 <th>Versión</th>
                                 <th>Estado</th>
-                                <th>Desarrollador</th>
-                                <th>Usuario</th>
+                                <th>Resuelto Por</th>
                                 <th>Duración</th>
                                 
                             </tr>
@@ -28,9 +30,8 @@
                                 <td>{{incidente.nombre | titlecase }}</td>
                                 <td>{{incidente.descripcion}}</td>
                                 <td>{{incidente.version}}</td>
-                                <td>{{incidente.estadoIncidente}}</td>
-                                <td>{{incidente.desarrolladorId}}</td>
-                                <td>{{incidente.usuarioId}}</td>
+                                <td>{{obtenerEstado(incidente.estadoIncidente) }} </td>
+                                <td>{{obtenerNombre(incidente.desarrolladorId ) | titlecase}}</td>
                                 <td>{{incidente.duracion}}</td>   
                          
                             </tr>
@@ -39,9 +40,7 @@
                 </div>
                 <div class="card-footer">
                     
-                    <p align="right">
-                    <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
-                    </p>
+
                 </div>
              </div>
         </div>

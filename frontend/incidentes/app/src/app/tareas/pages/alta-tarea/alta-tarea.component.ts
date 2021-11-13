@@ -5,6 +5,7 @@ import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
 import { Tarea } from '../../../interfaces/tarea.interface';
 import { TareaService } from '../../services/tarea.service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-tarea',
@@ -17,7 +18,8 @@ export class AltaTareaComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private proyectoService: ProyectoService,
     private tareasService: TareaService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private _router: Router) { }
 
   ngOnInit(): void {
     this.proyectoService.getProyecto()
@@ -64,5 +66,9 @@ export class AltaTareaComponent implements OnInit {
         }
         )
       );
+  }
+
+  volver(){
+    this._router.navigate([`/tareas`]);
   }
 }

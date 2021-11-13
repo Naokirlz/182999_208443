@@ -39,6 +39,7 @@ namespace Incidentes.WebApi.Controllers
                 ProyectoId = incidente.ProyectoId,
                 DesarrolladorId = incidente.DesarrolladorId
             };
+             //eliminar desarrollador si el incidente pasa de estar resuelto a activo
             _logicaI.Modificar(incidente.Id, aResolver);
             return Ok(incidente);
         }

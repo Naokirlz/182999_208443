@@ -1,5 +1,6 @@
 export interface Usuario {
         NombreUsuario?:string;
+        nombreUsuario?:string;
         Contrasenia?:string;
         Nombre?:string;
         Apellido?:string;

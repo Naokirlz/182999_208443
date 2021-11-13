@@ -124,4 +124,8 @@ export class VerTareasComponent implements OnInit {
     console.log(this.proyectos);
     return (proyecto?.nombre) ? proyecto.nombre : '';
   }
+
+  volver(){
+    this._router.navigate([`/proyectos`]);
+  }
 }
