@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Incidente } from 'src/app/interfaces/incidente.interface';
+import { LoginService } from 'src/app/login/services/login.service';
 import { IncidentesService } from '../../service/incidentes.service';
 
 @Component({
@@ -15,11 +16,18 @@ export class DetalleBugComponent implements OnInit {
 
   public incidenteId: number = 0;
   public incidente:Incidente[]=[];
+  public tester:boolean = false;
+
   constructor(private _route: ActivatedRoute,
               private _router: Router,
+              private loginService: LoginService,
               private incidenteService:IncidentesService,
               private fb: FormBuilder,
-              private messageService: MessageService) { }
+              private messageService: MessageService) {
+
+              this.tester = this.loginService.isTesterIn();
+
+               }
 
   ngOnInit(): void {
 
@@ -93,7 +101,11 @@ export class DetalleBugComponent implements OnInit {
   volver(){
 
     //this._router.navigate([`/proyectos`]);
-    this._router.navigate(['/tester/incidentes']);
+    if(this.tester){
+      this._router.navigate(['/tester/incidentes']);
+    }
+    else{this._router.navigate(['/desarrollador/incidentes']);}
+    
 
   }
 

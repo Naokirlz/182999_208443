@@ -59,7 +59,7 @@
              </div>
         </div>
     </div>
-    <div class="container pt-3">
+    <div *ngIf="tester"  class="container pt-3">
         <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="modificar()">
             <h1>Modificar Incidente</h1>
             <div class="card-body">

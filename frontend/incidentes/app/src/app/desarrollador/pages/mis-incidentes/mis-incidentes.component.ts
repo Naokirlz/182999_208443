@@ -97,11 +97,6 @@ export class MisIncidentesComponent implements OnInit {
       () => {window.location.reload();}
     );
     
- 
-
-    
-
-    
   }
 
   obtenerEstado(id:number):string{
@@ -116,6 +111,7 @@ export class MisIncidentesComponent implements OnInit {
   if(this.tester){
         this._router.navigate([`/tester/incidentes/${id}`]);
   }
+  else{this._router.navigate([`/desarrollador/incidentes/${id}`]);}
 
   }
   
