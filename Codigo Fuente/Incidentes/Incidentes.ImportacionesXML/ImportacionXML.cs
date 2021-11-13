@@ -1,13 +1,11 @@
-﻿using Incidentes.Dominio;
-using Incidentes.Logica.DTOs;
-using Incidentes.LogicaInterfaz;
+﻿
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace Incidentes.ImportacionesXML
 {
-    public class ImportacionXML : IFuente
+    public class ImportacionXML
     {
         private string _rutaFuente { get; set; }
 
@@ -20,33 +18,55 @@ namespace Incidentes.ImportacionesXML
             xmlRoot.ElementName = "Empresa1";
             xmlRoot.IsNullable = true;
 
-            XmlSerializer serializer = new XmlSerializer(typeof(EmpresaXMLDTO), xmlRoot);
-            EmpresaXMLDTO proyecto = (EmpresaXMLDTO)serializer.Deserialize(new XmlTextReader(_rutaFuente));
+            XmlSerializer serializer = new XmlSerializer(typeof(EmpresaXML), xmlRoot);
+            EmpresaXML proyecto = (EmpresaXML)serializer.Deserialize(new XmlTextReader(_rutaFuente));
             Proyecto pro = new Proyecto()
             {
                 Nombre = proyecto.Proyecto
             };
 
-            foreach (Bug b in proyecto.Bugs)
+            foreach (Incidente i in proyecto.Incidentes)
             {
-                Incidente incidente = new Incidente()
-                {
-                    Nombre = b.Nombre,
-                    Descripcion = b.Descripcion,
-                    Version = b.Version
-                };
-                if (b.Estado.Equals("Activo"))
-                {
-                    incidente.EstadoIncidente = Incidente.Estado.Activo;
-                }
-                else
-                {
-                    incidente.EstadoIncidente = Incidente.Estado.Resuelto;
-                }
-                pro.Incidentes.Add(incidente);
+                pro.Incidentes.Add(i);
             }
             retorno.Add(pro);
             return retorno;
         }
+    }
+
+    public class EmpresaXML
+    {
+        public string Proyecto { get; set; }
+        public List<Incidente> Incidentes { get; set; }
+
+        public EmpresaXML()
+        {
+            Incidentes = new List<Incidente>();
+        }
+    }
+
+    public class Incidente
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Version { get; set; }
+        public Estado EstadoIncidente { get; set; }
+
+        public Incidente() { }
+
+        public enum Estado
+        {
+            Indiferente,
+            Activo,
+            Resuelto
+        }
+    }
+
+    public class Proyecto
+    {
+        public string Nombre { get; set; }
+        public List<Incidente> Incidentes { get; set; }
+        public Proyecto() { }
     }
 }
