@@ -159,7 +159,10 @@ namespace Incidentes.WebApiTest
                 Nombre = "Tarea"
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario()
+            {
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
@@ -188,7 +191,9 @@ namespace Incidentes.WebApiTest
                 Nombre = "Tarea"
             };
 
-            Usuario usu = new Usuario() { };
+            Usuario usu = new Usuario() {
+                RolUsuario = Usuario.Rol.Desarrollador
+            };
             Proyecto pro = new Proyecto() { };
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);

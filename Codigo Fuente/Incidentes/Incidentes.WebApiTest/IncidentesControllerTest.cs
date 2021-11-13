@@ -283,7 +283,7 @@ namespace Incidentes.WebApiTest
             tested.ControllerContext = ctx;
             ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            var result = tested.Put(i);
+            var result = tested.Put(3,i);
 
             Assert.IsNotNull(result);
 
@@ -317,11 +317,22 @@ namespace Incidentes.WebApiTest
             tested.ControllerContext = ctx;
             ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Put(i));
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Put(3, i));
 
             _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
             _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
             _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void no_se_puede_actualizar_un_incidente_con_parametros_incorrectos()
+        {
+            Incidente i = new Incidente()
+            {
+                Id = 3,
+                Nombre = "Incidente"
+            };
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => _iController.Put(6, i));
         }
 
         [Test]
