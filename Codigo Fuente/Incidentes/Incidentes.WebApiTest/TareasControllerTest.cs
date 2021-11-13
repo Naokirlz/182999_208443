@@ -226,12 +226,18 @@ namespace Incidentes.WebApiTest
         {
             _logicaT.Setup(c => c.Modificar(It.IsAny<int>(), It.IsAny<Tarea>())).Returns(t);
 
-            var result = _tController.Put(t);
+            var result = _tController.Put(8, t);
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
 
             _logicaT.Verify(c => c.Modificar(It.IsAny<int>(), It.IsAny<Tarea>()));
+        }
+
+        [Test]
+        public void no_se_puede_actualizar_una_tarea_con_parametros_incorrectos()
+        {
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => _tController.Put(6, t));
         }
 
         [Test]

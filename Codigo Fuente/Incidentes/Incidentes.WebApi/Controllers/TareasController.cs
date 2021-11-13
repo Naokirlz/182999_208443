@@ -17,6 +17,7 @@ namespace Incidentes.WebApi.Controllers
         private readonly ILogicaUsuario _logicaU;
         private readonly ILogicaProyecto _logicaP;
         private const string usuario_no_pertenece = "El usuario no pertenece al proyecto de la tarea";
+        private const string elemento_no_corresponde = "La entidad no corresponde con la enviada por parámetro";
 
         public TareasController(ILogicaTarea logicaT, ILogicaUsuario logicaU, ILogicaProyecto logicaP)
         {
@@ -53,8 +54,11 @@ namespace Incidentes.WebApi.Controllers
             string token = Request.Headers["autorizacion"];
             Usuario usu = _logicaU.ObtenerPorToken(token);
             Tarea tar = _logicaT.Obtener(id);
-            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, tar.ProyectoId);
-            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            if (usu.RolUsuario != 0)
+            {
+                bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, tar.ProyectoId);
+                if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
+            }
 
             var tarea = _logicaT.Obtener(id);
             return Ok(tarea);
@@ -76,10 +80,11 @@ namespace Incidentes.WebApi.Controllers
             return StatusCode(204);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Put([FromBody] Tarea tarea)
+        public IActionResult Put(int id, [FromBody] Tarea tarea)
         {
+            if (id != tarea.Id) throw new ExcepcionArgumentoNoValido(elemento_no_corresponde);
             _logicaT.Modificar(tarea.Id, tarea);
             return Ok(tarea);
         }

@@ -82,7 +82,7 @@ export class TareaService {
     console.log(tarea);
 
     return this.http.put<Tarea>(
-      this.apiUrl,
+      this.apiUrl + '/' + tarea.id,
       tarea,
       httpOptions
     );
