@@ -6,7 +6,7 @@
                 </p>
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1>Asignados</h1>
+                    <h1 align="center">Asignados</h1>
                 </div>
             </div>
             <div class="container">
@@ -28,7 +28,9 @@
                                 <td>{{asignado.nombre | titlecase }}</td>
                                 <td>{{asignado.apellido | titlecase }}</td>
                                 <td>{{asignado.email}}</td>
-                                <td>{{asignado.rolUsuario}}</td>
+                                <td *ngIf="asignado.rolUsuario == 0">Administrador</td>
+                                <td *ngIf="asignado.rolUsuario == 2">Tester</td>
+                                <td *ngIf="asignado.rolUsuario == 1">Desarrollador</td>
                                 <td><td> <button pButton type="button" (click)="eliminar(asignado.id)" icon="pi pi-trash"></button></td>
                             </tr>
                         </ng-template>
@@ -41,7 +43,7 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1>Agregar Usuarios</h1>
+                    <h1 align="center">Agregar Usuarios</h1>
                 </div>
             </div>
             <div class="container">
@@ -63,18 +65,16 @@
                                 <td>{{asignado.nombre | titlecase }}</td>
                                 <td>{{asignado.apellido | titlecase }}</td>
                                 <td>{{asignado.email}}</td>
-                                <td>{{asignado.rolUsuario}}</td>
+                                <td *ngIf="asignado.rolUsuario == 0">Administrador</td>
+                                <td *ngIf="asignado.rolUsuario == 2">Tester</td>
+                                <td *ngIf="asignado.rolUsuario == 1">Desarrollador</td>
                                 <td> <button pButton type="button" (click)="agregar(asignado.id)" icon="pi pi-plus-circle"></button></td>
                             </tr>
                         </ng-template>
                     </p-table>
                 </div>
                 <div class="card-footer">
-                    
-                    <p align="left">
-                    <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
-                    </p>
-                    <p align="right">
+                    <p align="center">
                     <input id="btn-guardar" (click) ="actualizar()" value="Actualizar" class="btn btn-success" />
                     </p>
                 </div>

@@ -70,6 +70,7 @@ export class AsignadosComponent implements OnInit {
    this.usuarios = data;
    this.asignados?.forEach((e)=>{
    this.usuarios = this.usuarios.filter(p => p.id !== e.id);
+   this.usuarios = this.usuarios.filter(p => p.rolUsuario !== 0);
 
    })
    

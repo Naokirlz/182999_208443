@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1>Incidentes</h1>
+                    <h1 align="center">Incidentes</h1>
                 </div>
             </div>
             <div class="container">
@@ -11,14 +11,12 @@
                     <p-table [value]="proyectos!" styleClass="p-datatable-sm" responsiveLayout="scroll">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>id</th>
                                 <th>Proyecto</th>
-                                <th>Cantidad</th>
+                                <th>Cantidad Incidentes</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-incidente>
                             <tr>
-                                <td>{{incidente.id}}</td>
                                 <td>{{incidente.nombre | titlecase }}</td>
                                 <td>{{incidente.cantidadDeIncidentes}}</td>
                             </tr>
