@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Incidentes.DatosFabrica\Incidentes.DatosFabrica.csproj" />
+    <ProjectReference Include="..\Incidentes.DTOs\Incidentes.DTOs.csproj" />
     <ProjectReference Include="..\LogicaFabrica\Incidentes.LogicaFabrica.csproj" />
   </ItemGroup>
 

@@ -79,19 +79,6 @@ namespace Incidentes.WebApiTest
         }
 
         [Test]
-        public void funciona_correctamente_asignacionesDto()
-        {
-            List<int> lista = new List<int>();
-            AsignacionesDTO asig = new AsignacionesDTO()
-            {
-                ProyectoId = 3,
-                UsuarioId = new List<int>()
-            };
-            Assert.AreEqual(3, asig.ProyectoId);
-            Assert.AreEqual(lista, asig.UsuarioId);
-        }
-
-        [Test]
         public void funciona_correctamente_importacionesDto()
         {
             ImportacionesDTO imp = new ImportacionesDTO()
