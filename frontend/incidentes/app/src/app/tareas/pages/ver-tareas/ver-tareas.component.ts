@@ -43,6 +43,7 @@ export class VerTareasComponent implements OnInit {
   public tareas:Tarea[] | undefined = [];
   private proyectos: Proyecto[] = [];
   private idTareaEliminar: number = -1;
+  public totalHoras:number=0;
 
   ngOnInit(): void {
 
@@ -54,15 +55,21 @@ export class VerTareasComponent implements OnInit {
 
       this.proyectoService.getBy(this.proyectoId)
       .subscribe(
-      ((data: Proyecto) => this.tareas = data.tareas),
-    );
-
+      (data: Proyecto) =>
+      {
+        this.tareas = data.tareas;
+        this.obtenerTotalHoras();
+      }
+      );
 
     } else{
 
-      this.tareaService.getTareas().subscribe(
-        (tareas:Tarea[]) => {
+      this.tareaService.getTareas()
+      .subscribe(
+        (tareas:Tarea[]) => 
+        {
           this.tareas = tareas;
+          this.obtenerTotalHoras();
         }
       );
       
@@ -73,7 +80,14 @@ export class VerTareasComponent implements OnInit {
 
     }
 
+  }
 
+  obtenerTotalHoras(){
+
+    this.tareas?.forEach(
+      
+      tar=>  this.totalHoras = (tar.duracion! + this.totalHoras)
+    )
 
   }
 
