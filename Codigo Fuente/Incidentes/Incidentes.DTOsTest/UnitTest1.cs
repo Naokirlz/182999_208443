@@ -46,8 +46,8 @@ namespace Incidentes.DTOsTest
             };
             List<UsuarioDTO> usus = new List<UsuarioDTO>();
             usus.Add(usu);
-            List<Incidente> incL = new List<Incidente>();
-            List<Tarea> tarL = new List<Tarea>();
+            List<IncidenteDTO> incL = new List<IncidenteDTO>();
+            List<TareaDTO> tarL = new List<TareaDTO>();
             ProyectoDTO pro = new ProyectoDTO()
             {
                 Id = 3,

@@ -39,15 +39,16 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_el_reporte_de_los_proyectos()
         {
-            proyectosL.Add(new Proyecto());
-            proyectosQ = proyectosL.AsQueryable();
+            List<ProyectoDTO> lista = new List<ProyectoDTO>();
+            lista.Add(new ProyectoDTO());
+            IQueryable<ProyectoDTO> proyectosQ = lista.AsQueryable();
             _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosQ);
 
             var result = _rController.GetProyectos();
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<ProyectoDTO>>(okResult.Value);
+            Assert.IsInstanceOf<IEnumerable<ProyectoDTO>>(okResult.Value);
 
             _logicaP.Verify(c => c.ObtenerTodos());
         }

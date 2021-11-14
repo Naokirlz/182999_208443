@@ -33,7 +33,7 @@ namespace Incidentes.WebApi.Controllers
             string token = Request.Headers["autorizacion"];
             UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
-            List<Proyecto> result = new List<Proyecto>();
+            List<ProyectoDTO> result = new List<ProyectoDTO>();
 
             if(usu.RolUsuario == 0)
             {
@@ -44,24 +44,7 @@ namespace Incidentes.WebApi.Controllers
                 result = _logicaP.ListaDeProyectosALosQuePertenece(usu.Id).ToList();
             }
 
-            List<ProyectoDTO> proyectos = new List<ProyectoDTO>();
-            foreach(Proyecto p in result)
-            {
-                ProyectoDTO pro = new ProyectoDTO()
-                {
-                    Id = p.Id,
-                    Incidentes = p.Incidentes,
-                    Tareas = p.Tareas,
-                    Nombre = p.Nombre
-                };
-                foreach(Usuario u in p.Asignados)
-                {
-                    UsuarioDTO us = new UsuarioDTO(u);
-                    pro.Asignados.Add(us);
-                }
-                proyectos.Add(pro);
-            }
-            return Ok(proyectos);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -77,45 +60,12 @@ namespace Incidentes.WebApi.Controllers
             }
 
             var p = _logicaP.Obtener(id);
-            ProyectoDTO pro = new ProyectoDTO()
-            {
-                Id = p.Id,
-                Incidentes = p.Incidentes,
-                Tareas = p.Tareas,
-                Nombre = p.Nombre
-            };
-            foreach (Usuario u in p.Asignados)
-            {
-                UsuarioDTO usu = new UsuarioDTO(u);
-                pro.Asignados.Add(usu);
-            }
-            int duracion = 0;
-            int costo = 0;
-            foreach(Tarea t in p.Tareas)
-            {
-                duracion += t.Duracion;
-                costo += t.Duracion * t.Costo;
-            }
-            foreach (Incidente i in p.Incidentes)
-            {
-                duracion += i.Duracion;
-                if(i.EstadoIncidente == Incidente.Estado.Resuelto)
-                {
-                    Usuario u = p.Asignados.Find(d => d.Id == i.DesarrolladorId);
-                    if (u != null)
-                    {
-                        costo += i.Duracion * u.ValorHora;
-                    }
-                }
-            }
-            pro.Duracion = duracion;
-            pro.Costo = costo;
-            return Ok(pro);
+            return Ok(p);
         }
 
         [HttpPost]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Post([FromBody] Proyecto proyecto)
+        public IActionResult Post([FromBody] ProyectoDTO proyecto)
         {
             _logicaP.Alta(proyecto);
             return Ok(proyecto);
@@ -131,24 +81,12 @@ namespace Incidentes.WebApi.Controllers
         
         [HttpPut("{id}")]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Put(int id, [FromBody] Proyecto proyecto)
+        public IActionResult Put(int id, [FromBody] ProyectoDTO proyecto)
         {
             if (id != proyecto.Id) throw new ExcepcionArgumentoNoValido(elemento_no_corresponde);
-            _logicaP.Modificar(proyecto.Id, proyecto);
-            ProyectoDTO pro = new ProyectoDTO()
-            {
-                Id = proyecto.Id,
-                Incidentes = proyecto.Incidentes,
-                Tareas = proyecto.Tareas,
-                Nombre = proyecto.Nombre
-            };
-            foreach (Usuario u in proyecto.Asignados)
-            {
-                UsuarioDTO usu = new UsuarioDTO(u);
-                pro.Asignados.Add(usu);
-            }
+            proyecto = _logicaP.Modificar(proyecto.Id, proyecto);
 
-            return Ok(pro);
+            return Ok(proyecto);
         }
     }
 }

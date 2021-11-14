@@ -28,19 +28,8 @@ namespace Incidentes.WebApi.Controllers
         [TrapExcepciones]
         public IActionResult GetProyectos()
         {
-            IEnumerable<Proyecto> proyectos = _logicaP.ObtenerTodos();
-            List<ProyectoDTO> result = new List<ProyectoDTO>();
-            foreach(Proyecto p in proyectos)
-            {
-                ProyectoDTO nuevo = new ProyectoDTO() { 
-                    Id = p.Id,
-                    Nombre = p.Nombre,
-                    CantidadDeIncidentes = p.Incidentes.Count()
-                };
-                result.Add(nuevo);
-            }
-
-            return Ok(result);
+            IEnumerable<ProyectoDTO> proyectos = _logicaP.ObtenerTodos();
+            return Ok(proyectos);
         }
 
         [HttpGet("{id}/incidentes")]
