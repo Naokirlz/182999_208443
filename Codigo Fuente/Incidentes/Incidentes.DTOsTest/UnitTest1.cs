@@ -100,5 +100,37 @@ namespace Incidentes.DTOsTest
             Assert.AreEqual(3, usu.ValorHora);
             Assert.AreEqual(3, usu.IncidentesResueltos);
         }
+
+        [Test]
+        public void funciona_correctamente_fuentesDto()
+        {
+            FuenteDTO fuente = new FuenteDTO()
+            {
+                rutaBinario = "aaaaa",
+                rutaFuente = "asdasdasd",
+                usuarioId = 2
+            };
+            Assert.AreEqual(2, fuente.usuarioId);
+            Assert.AreEqual("aaaaa", fuente.rutaBinario);
+            Assert.AreEqual("asdasdasd", fuente.rutaFuente);
+        }
+
+        [Test]
+        public void funciona_correctamente_tareaDto()
+        {
+            TareaDTO tarea = new TareaDTO()
+            {
+                Id = 3,
+                Costo = 15,
+                Duracion = 12,
+                Nombre = "Tarea",
+                ProyectoId = 4
+            };
+            Assert.AreEqual(3, tarea.Id);
+            Assert.AreEqual(4, tarea.ProyectoId);
+            Assert.AreEqual(15, tarea.Costo);
+            Assert.AreEqual(12, tarea.Duracion);
+            Assert.AreEqual("Tarea", tarea.Nombre);
+        }
     }
 }

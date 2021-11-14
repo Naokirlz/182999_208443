@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Incidentes.Logica.DTOs
+namespace Incidentes.DTOs
 {
     public class FuenteDTO
     {

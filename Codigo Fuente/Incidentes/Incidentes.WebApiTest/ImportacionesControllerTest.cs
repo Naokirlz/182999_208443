@@ -1,4 +1,4 @@
-﻿using Incidentes.Logica.DTOs;
+﻿using Incidentes.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;

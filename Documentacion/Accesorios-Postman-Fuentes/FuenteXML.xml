@@ -1,7 +1,7 @@
 <Empresa1>
 	<Proyecto>Nuevo Proyecto 3</Proyecto>
-		<Bugs>
-			<Bug>
+	<Bugs>
+		<Bug>
 			<Id>1</Id>
 			<Nombre>Error en el envío de correo</Nombre>
 			<Descripcion>El error se produce cuando el usuario no tiene un correo asignado</Descripcion>
