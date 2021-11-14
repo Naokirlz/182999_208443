@@ -3,30 +3,31 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1 align="center">Alta de Usuario</h1>
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Administración de Usuarios</h1>
                     <div>
                         <form (ngSubmit)="altaUsuario()" [formGroup]="miFormulario" class="card-internal">
-                            <div class="card-header" align="center">Formulario</div>
+                            <div class="card-header" align="center">Alta de Usuario</div>
                             <div class="card-body">
                                 <div class="p-field">
                                     <label for="nombre">Nombre</label>
                                     <input id="nombre" type="text" formControlName="Nombre" aria-describedby="nombre-help" [ngClass]="campoEsValido('Nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('Nombre')" id="nombre-help" class="p-error">Nombre es incorrecto.</small>
+                                    <small *ngIf="campoEsValido('Nombre')" id="nombre-help" class="p-error">Nombre debe tener entre 3 y 25 caracteres.</small>
                                 </div>
                                 <div class="p-field">
                                     <label for="apellido">Apellido</label>
                                     <input id="apellido" type="text" formControlName="Apellido" aria-describedby="apellido-help" [ngClass]="campoEsValido('Apellido') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('Apellido')" id="apellido-help" class="p-error">Apellido es incorrecto.</small>
+                                    <small *ngIf="campoEsValido('Apellido')" id="apellido-help" class="p-error">Apellido debe tener entre 3 y 25 caracteres.</small>
                                 </div>
                                 <div class="p-field">
                                     <label for="Contrasenia">Contraseña</label>
                                     <input id="Contrasenia" type="password" formControlName="Contrasenia" aria-describedby="Contrasenia-help" [ngClass]="campoEsValido('Contrasenia') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('Contrasenia')" id="Contrasenia-help" class="p-error">Contraseña es incorrecto.</small>
+                                    <small *ngIf="campoEsValido('Contrasenia')" id="Contrasenia-help" class="p-error">Contraseña debe tener entre 8 y 25 caracteres y sin espacios.</small>
                                 </div>
                                 <div class="p-field">
                                     <label for="ContraseniaRep">Repita la Contraseña</label>
                                     <input id="ContraseniaRep" type="password" formControlName="ContraseniaRep" aria-describedby="ContraseniaRep-help" [ngClass]="campoEsValido('ContraseniaRep') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('ContraseniaRep')" id="ContraseniaRep-help" class="p-error">Contraseña es incorrecto.</small>
+                                    <small *ngIf="campoEsValido('ContraseniaRep')" id="ContraseniaRep-help" class="p-error">Contraseña debe tener entre 8 y 25 caracteres y sin espacios.</small>
                                 </div>
                                 <div class="p-field">
                                     <label for="Rol">Rol</label>
@@ -52,7 +53,7 @@
                                 <div class="p-field">
                                     <label for="NombreUsuario">Nombre de Usuario</label>
                                     <input id="NombreUsuario" type="text" formControlName="NombreUsuario" aria-describedby="NombreUsuario-help" [ngClass]="campoEsValido('NombreUsuario') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('NombreUsuario')" id="NombreUsuario-help" class="p-error">Nombre de Usuario es incorrecto.</small>
+                                    <small *ngIf="campoEsValido('NombreUsuario')" id="NombreUsuario-help" class="p-error">Nombre de Usuario debe tener entre 8 y 25 caracteres y ser único.</small>
                                 </div>
                             </div>
                             <div class="card-footer">

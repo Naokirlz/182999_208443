@@ -320,3 +320,7 @@ th {
     text-align: center !important;
     vertical-align: middle !important;
 }
+
+.p-breadcrumb.p-component {
+    border: none;
+}

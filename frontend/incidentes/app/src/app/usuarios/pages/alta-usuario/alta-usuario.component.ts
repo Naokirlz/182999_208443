@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, PatternValidator, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, PatternValidator, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { UsuariosService } from '../../services/usuarios.service';
 import { MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-alta-usuario',
@@ -25,29 +26,33 @@ export class AltaUsuarioComponent implements OnInit {
       }
     )
   }
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Usuarios', routerLink: '/usuarios' },
+    { label: 'Alta', routerLink: '/usuarios/alta' },
+  ];
 
   public Rol: number;
-  /* private emailPattern: string = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'; */
   private emailPattern: RegExp = /^(?=.{6,30}@)[0-9a-z]+(?:\.[0-9a-z]+)*@[a-z0-9]{2,}(?:\.[a-z]{2,})+$/;
-  private passwordPattern: RegExp = /^\S*$/; 
+  private passwordPattern: RegExp = /^\S*$/;
 
   miFormulario: FormGroup = this.fb.group({
     Nombre: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern("[a-zA-Z0-9 ]*")]],
     Apellido: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern("[a-zA-Z0-9 ]*")]],
-    Contrasenia: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern(this.passwordPattern)]],
-    ContraseniaRep: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern(this.passwordPattern)]],
+    Contrasenia: [, [Validators.required, Validators.minLength(8), Validators.maxLength(25), Validators.pattern(this.passwordPattern)]],
+    ContraseniaRep: [, [Validators.required, Validators.minLength(8), Validators.maxLength(25), Validators.pattern(this.passwordPattern)]],
     RolUsuario: [, Validators.required],
     Valor: [0, [Validators.min(0), Validators.max(1000)]],
     Email: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern(this.emailPattern)]],
     NombreUsuario: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]]
-  })
+  });
 
   campoEsValido(campo: string) {
     this.Rol = parseInt(this.miFormulario.value.RolUsuario);
     return this.miFormulario.controls[campo].errors
       && this.miFormulario.controls[campo].touched
   }
-
+  
   altaUsuario(): void {
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();
@@ -75,8 +80,7 @@ export class AltaUsuarioComponent implements OnInit {
 
     this.usuarioServive.alta(usuario)
       .subscribe(
-        (data: Usuario) => 
-        {
+        (data: Usuario) => {
           this.messageService.add({
             severity: 'success', summary: 'Listo',
             detail: 'Usuario guardado correctamente.'
@@ -84,12 +88,11 @@ export class AltaUsuarioComponent implements OnInit {
           this.miFormulario.reset({
             RolUsuario: 0
           });
-       },
+        },
         (({ error }: any) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
         )
       );
   }
-
 }

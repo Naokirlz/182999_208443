@@ -14,52 +14,39 @@ export class UsuariosService {
   private apiUrl: string = 'http://localhost:5000/api/Usuarios';
   token: string = sessionStorage.getItem('token')!;
 
-
   alta(usuario: Usuario): Observable<Usuario> {
-
     const httpOptions = {
-
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'autorizacion': this.token
       })
     };
-
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
-
     return this.http.post<Usuario>(
       this.apiUrl,
       usuario,
       httpOptions);
   }
 
-
   getUsuario(): Observable<Usuario[]> {
     const httpOptions = {
-
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'autorizacion': this.token
       })
     };
-
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
-
     return this.http.get<Usuario[]>(
       this.apiUrl,
       httpOptions
     );
-
   }
 
   getBy(id: number): Observable<Usuario> {
     const httpOptions = {
-
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'autorizacion': this.token
       })
     };
-
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
-
     return this.http.get<Usuario>(
       this.apiUrl + '/' + id,
       httpOptions

@@ -9,7 +9,7 @@ import {ToastModule} from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import {DataViewModule} from 'primeng/dataview';
-
+import {BreadcrumbModule} from 'primeng/breadcrumb';
 
 
 
@@ -17,8 +17,8 @@ import {DataViewModule} from 'primeng/dataview';
   declarations: [],
   imports: [
     BrowserAnimationsModule,
-    BrowserModule
-
+    BrowserModule,
+    BreadcrumbModule
   ],
   exports: [
     ButtonModule,
@@ -26,8 +26,8 @@ import {DataViewModule} from 'primeng/dataview';
     MenubarModule,
     TableModule,
     ToastModule,
-    DataViewModule
-
+    DataViewModule,
+    BreadcrumbModule
   ],
   providers:[MessageService]
 
