@@ -26,10 +26,12 @@ import { AltabugTesterComponent } from './tester/pages/altabug-tester/altabug-te
 import { DetalleBugComponent } from './incidentes/pages/detalle-bug/detalle-bug.component';
 import { UserNotLoggedGuard } from './routeGuards/user-not-logged.guard';
 import { ProyectoInfoComponent } from './proyectos/pages/proyecto-info/proyecto-info.component';
+import { HomeComponent } from './home/home/home.component';
 
 
 const routes: Routes = [
   { path: 'login',component: LoginComponent, pathMatch: 'full' , canActivate:[UserNotLoggedGuard]},
+  { path: '',component: HomeComponent, pathMatch: 'full' , canActivate:[UserNotLoggedGuard]},
   { path: 'salir',component: LogoutComponent,},
   { path: 'usuarios',component: VerUsuariosComponent, canActivate:[UserLoggedGuard , AdminLoggedGuard]},
   { path: 'usuarios/alta', component: AltaUsuarioComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},

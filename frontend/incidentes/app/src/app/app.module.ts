@@ -15,6 +15,7 @@ import { DesarrolladorModule } from './desarrollador/desarrollador.module';
 import { ImportacionesModule } from './importaciones/importaciones.module';
 import { IncidentesModule } from './incidentes/incidentes.module';
 import { TesterModule } from './tester/tester.module';
+import { HomeModule } from './home/home.module';
 
 
 
@@ -36,7 +37,8 @@ import { TesterModule } from './tester/tester.module';
     DesarrolladorModule,
     ImportacionesModule,
     IncidentesModule,
-    TesterModule   
+    TesterModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
