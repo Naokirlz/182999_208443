@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { LoginComponent } from './login/pages/login/login.component';
 import { AltaUsuarioComponent } from './usuarios/pages/alta-usuario/alta-usuario.component';
-import { ReportesComponent } from './reportes/pages/reportes/reportes.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
 import { AltaProyectoComponent } from './proyectos/pages/alta-proyecto/alta-proyecto.component';
 import { VerProyectosComponent } from './proyectos/pages/ver-proyectos/ver-proyectos.component';
@@ -32,9 +31,7 @@ const routes: Routes = [
   { path: 'login',component: LoginComponent, pathMatch: 'full' , canActivate:[UserNotLoggedGuard]},
   { path: '',component: HomeComponent, pathMatch: 'full'},
   { path: 'usuarios',component: VerUsuariosComponent, canActivate:[UserLoggedGuard , AdminLoggedGuard]},
-  { path: 'usuarios/alta', component: AltaUsuarioComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
-  { path: 'reportes',component: ReportesComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
-  { path: 'proyectos', component: VerProyectosComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
+  { path: 'usuarios/alta', component: AltaUsuarioComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},  { path: 'proyectos', component: VerProyectosComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/alta',component: AltaProyectoComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/asignados',component: AsignadosComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/informacion',component: ProyectoInfoComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
@@ -42,8 +39,8 @@ const routes: Routes = [
   { path: 'proyectos/:proyectoId/incidentes',component: IncidentesPComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'proyectos/:proyectoId/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'reportes/incidentes',component: IncidentesProyectosComponent,canActivate:[UserLoggedGuard]},
-  { path: 'reportes/resueltos',component: IncidentesDesarrolladorComponent,canActivate:[UserLoggedGuard]},
-  { path: 'reportes/:desarrolladorId/incidentes',component: DesarrolladorComponent,canActivate:[UserLoggedGuard]},
+  { path: 'reportes/desarrolladores',component: IncidentesDesarrolladorComponent,canActivate:[UserLoggedGuard]},
+  { path: 'reportes/:desarrolladorId/resueltos',component: DesarrolladorComponent,canActivate:[UserLoggedGuard]},
   { path: 'importaciones',component: CargarIncidentesComponent,canActivate:[UserLoggedGuard]},
   { path: 'desarrollador',component: VerProyectosComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
   { path: 'desarrollador/incidentes',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
