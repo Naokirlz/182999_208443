@@ -1,8 +1,7 @@
-﻿using Incidentes.Dominio;
+﻿using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Incidentes.WebApi.Controllers
@@ -26,12 +25,12 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpPut]
         [FilterAutorizacion("Desarrollador", "Tester")]
-        public IActionResult Put([FromBody] Incidente incidente)
+        public IActionResult Put([FromBody] IncidenteDTO incidente)
         {
             string token = Request.Headers["autorizacion"];
             usuarioPerteneceAlProyecto(token, incidente.Id);
 
-            Incidente aResolver = new Incidente()
+            IncidenteDTO aResolver = new IncidenteDTO()
             {
                 Id = incidente.Id,
                 //EstadoIncidente = Incidente.Estado.Resuelto,
@@ -46,8 +45,8 @@ namespace Incidentes.WebApi.Controllers
 
         private void usuarioPerteneceAlProyecto(string token, int idIncidente)
         {
-            Usuario usu = _logicaU.ObtenerPorToken(token);
-            Incidente inc = _logicaI.Obtener(idIncidente);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
+            IncidenteDTO inc = _logicaI.Obtener(idIncidente);
             bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
             if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
         }

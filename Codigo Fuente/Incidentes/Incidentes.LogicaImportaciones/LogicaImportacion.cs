@@ -6,14 +6,14 @@ using Incidentes.LogicaInterfaz;
 using System.Reflection;
 using System;
 using System.IO;
-using System.Diagnostics;
 using Incidentes.Logica.Excepciones;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Incidentes.LogicaImportaciones
 {
     public class LogicaImportacion : ILogicaImportaciones
     {
-        //const string directorio_plugins = "C:\\Users\\crist\\Desktop\\reflection";
         private string directorio_plugins;
         IRepositorioGestores _repositorioGestor;
         private const string elemento_no_existe = "El elemento no existe";
@@ -22,7 +22,9 @@ namespace Incidentes.LogicaImportaciones
         {
             _repositorioGestor = repositorioGestores;
             directorio_plugins = Directory.GetCurrentDirectory();
-            for (int i=0; i< 6; i++)
+            int back = 7;
+            if (directorio_plugins.Contains("Debug")) back = 6;
+            for (int i=0; i< back; i++)
             {
                 directorio_plugins = System.IO.Directory.GetParent(directorio_plugins).FullName;
             }
@@ -35,7 +37,8 @@ namespace Incidentes.LogicaImportaciones
             {
                 throw new ExcepcionElementoNoExiste(elemento_no_existe);
             }
-            string tipo = Path.GetExtension(rutaFuente).TrimStart('.'); ;
+            string tipo = Path.GetExtension(rutaFuente).TrimStart('.');
+
             IFuente fuente = ObtenerImplementacion(rutaBinario, tipo);
 
             List<Proyecto> proys = fuente.ImportarBugs(rutaFuente);
@@ -57,7 +60,6 @@ namespace Incidentes.LogicaImportaciones
 
             Type importacionesInterface = typeof(IFuente);
 
-            
             foreach (string dllName in System.IO.Directory.GetFiles(directorio_plugins, "*.dll"))
             {
                 

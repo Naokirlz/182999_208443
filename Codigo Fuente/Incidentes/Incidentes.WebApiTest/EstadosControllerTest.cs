@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Microsoft.AspNetCore.Http;
@@ -41,13 +42,13 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_resolver_un_incidente()
         {
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Id = 3,
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
 
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 DesarrolladorId = 2
@@ -68,7 +69,7 @@ namespace Incidentes.WebApiTest
 
             Assert.AreEqual(i, okResult.Value);
 
-            _logicaI.Verify(c => c.Modificar(3, It.IsAny<Incidente>()));
+            _logicaI.Verify(c => c.Modificar(3, It.IsAny<IncidenteDTO>()));
             _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
             _logicaI.Verify(c => c.Obtener(It.IsAny<int>()));
             _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));

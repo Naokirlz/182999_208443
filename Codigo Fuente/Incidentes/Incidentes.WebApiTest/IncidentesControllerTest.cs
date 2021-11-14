@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
@@ -17,7 +18,7 @@ namespace Incidentes.WebApiTest
         private Mock<ILogicaUsuario> _logicaU;
         private Mock<ILogicaProyecto> _logicaP;
         private IncidentesController _iController;
-        private List<Incidente> incidentesL;
+        private List<IncidenteDTO> incidentesL;
 
         [SetUp]
         public void Setup()
@@ -26,7 +27,7 @@ namespace Incidentes.WebApiTest
             _logicaU = new Mock<ILogicaUsuario>();
             _logicaP = new Mock<ILogicaProyecto>();
             _iController = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
-            incidentesL = new List<Incidente>();
+            incidentesL = new List<IncidenteDTO>();
         }
 
         [TearDown]
@@ -42,22 +43,22 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_los_incidentes_a_los_que_pertenece()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario() { 
+            UsuarioDTO usu = new UsuarioDTO() { 
                 Id = 3,
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
 
             Proyecto pro = new Proyecto() { };
             incidentesL.Add(i);
 
             _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(usu);
-            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", It.IsAny<Incidente>())).Returns(incidentesL);
+            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", It.IsAny<IncidenteDTO>())).Returns(incidentesL);
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var tested = new IncidentesController(_logicaI.Object, _logicaU.Object, _logicaP.Object);
             tested.ControllerContext = ctx;
@@ -68,22 +69,22 @@ namespace Incidentes.WebApiTest
             Assert.IsNotNull(result);
 
             _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
-            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", It.IsAny<Incidente>()));
+            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", It.IsAny<IncidenteDTO>()));
         }
 
         [Test]
         public void administradorese_pueden_ver_los_incidentes()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Id = 3,
-                RolUsuario = Usuario.Rol.Administrador
+                RolUsuario = UsuarioDTO.Rol.Administrador
             };
 
             Proyecto pro = new Proyecto() { };
@@ -107,11 +108,11 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_los_incidentes_de_los_proyectos_de_un_usuario()
         {
-            incidentesL.Add(new Incidente());
-            Usuario usu = new Usuario()
+            incidentesL.Add(new IncidenteDTO());
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Id = 3,
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
 
             Proyecto pro = new Proyecto() { };
@@ -122,29 +123,29 @@ namespace Incidentes.WebApiTest
             tested.ControllerContext = ctx;
             ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>())).Returns(incidentesL);
+            _logicaI.Setup(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<IncidenteDTO>())).Returns(incidentesL);
 
             var result = tested.GetIncidentes("1", null, null);
             var okResult = result as OkObjectResult;
 
             Assert.AreEqual(incidentesL, okResult.Value);
 
-            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+            _logicaI.Verify(c => c.ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<IncidenteDTO>()));
             _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
         }
 
         [Test]
         public void se_puede_ver_un_incidente()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -169,14 +170,14 @@ namespace Incidentes.WebApiTest
         [Test]
         public void no_se_puede_ver_un_incidente_si_usuario_no_pertenece_proyecto()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 
@@ -199,15 +200,15 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_guardar_un_incidente()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Nombre = "Incidente",
                 ProyectoId = 3
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -232,15 +233,15 @@ namespace Incidentes.WebApiTest
         [Test]
         public void no_se_puede_guardar_un_incidente_si_usuario_no_pertenece_proyecto()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Nombre = "Incidente",
                 ProyectoId = 3
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 
@@ -261,15 +262,15 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_actualizar_un_incidente()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -296,15 +297,15 @@ namespace Incidentes.WebApiTest
         [Test]
         public void no_se_puede_actualizar_un_incidente_si_usuario_no_pertenece_proyecto()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -327,7 +328,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void no_se_puede_actualizar_un_incidente_con_parametros_incorrectos()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
@@ -338,15 +339,15 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_eliminar_un_incidente()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -373,13 +374,13 @@ namespace Incidentes.WebApiTest
         [Test]
         public void no_se_puede_eliminar_un_incidente_si_usuario_no_pertenece_proyecto()
         {
-            Incidente i = new Incidente()
+            IncidenteDTO i = new IncidenteDTO()
             {
                 Id = 3,
                 Nombre = "Incidente"
             };
-            Usuario usu = new Usuario() { 
-                RolUsuario= Usuario.Rol.Desarrollador
+            UsuarioDTO usu = new UsuarioDTO() { 
+                RolUsuario= UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 

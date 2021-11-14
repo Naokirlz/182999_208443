@@ -4,6 +4,7 @@ using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
 using Incidentes.Logica.Excepciones;
+using Incidentes.DTOs;
 
 namespace Incidentes.Logica
 {
@@ -43,30 +44,30 @@ namespace Incidentes.Logica
             _repositorioGestor.RepositorioProyecto.Modificar(aModificar);
         }
 
-        public Proyecto Alta(Proyecto entity)
+        public ProyectoDTO Alta(ProyectoDTO entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
             bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Nombre == entity.Nombre);
             if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
 
             Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Proyecto");
-
-            _repositorioGestor.RepositorioProyecto.Alta(entity);
+            Proyecto alta = entity.convertirDTO_Dominio();
+            _repositorioGestor.RepositorioProyecto.Alta(alta);
             _repositorioGestor.Save();
 
-            return entity;
+            return new ProyectoDTO(alta);
         }
 
         public void Baja(int id)
         {
-            Proyecto aEliminar = Obtener(id);
+            ProyectoDTO aEliminar = Obtener(id);
 
-            _repositorioGestor.RepositorioProyecto.Eliminar(aEliminar);
+            _repositorioGestor.RepositorioProyecto.Eliminar(aEliminar.convertirDTO_Dominio());
             _repositorioGestor.Save();
 
         }
 
-        public Proyecto Modificar(int id, Proyecto entity)
+        public ProyectoDTO Modificar(int id, ProyectoDTO entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
             bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Id == id);
@@ -80,22 +81,22 @@ namespace Incidentes.Logica
                 if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
                 Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Proyecto");
             }
-
-            _repositorioGestor.RepositorioProyecto.Modificar(entity);
-            return aModificar;
+            Proyecto mod = entity.convertirDTO_Dominio();
+            _repositorioGestor.RepositorioProyecto.Modificar(mod);
+            return new ProyectoDTO(mod);
         }
 
-        public Proyecto Obtener(int id)
+        public ProyectoDTO Obtener(int id)
         {
             bool existe = _repositorioGestor.RepositorioProyecto.Existe(c => c.Id == id);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             Proyecto aObtener= _repositorioGestor.RepositorioProyecto.ObtenerProyectoPorIdCompleto(id);
-            return aObtener;
+            return new ProyectoDTO(aObtener);
         }
 
-        public IEnumerable<Proyecto> ObtenerTodos()
+        public IEnumerable<ProyectoDTO> ObtenerTodos()
         {
-            return _repositorioGestor.RepositorioProyecto.ObtenerProyectosCompleto();
+            return convertirListaADTO(_repositorioGestor.RepositorioProyecto.ObtenerProyectosCompleto().ToList());
         }
 
         public bool VerificarUsuarioPerteneceAlProyecto(int idUsuario, int idProyecto)
@@ -103,18 +104,29 @@ namespace Incidentes.Logica
             return _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto);
         }
 
-        public IQueryable<Proyecto> ListaDeProyectosALosQuePertenece(int idUsuario)
+        public IEnumerable<ProyectoDTO> ListaDeProyectosALosQuePertenece(int idUsuario)
         {
-            return _repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario);
+            return convertirListaADTO(_repositorioGestor.RepositorioUsuario.ListaDeProyectosALosQuePertenece(idUsuario).ToList());
         }
 
-        public Proyecto ObtenerParaUsuario(int idUsuario, int idProyecto)
+        public ProyectoDTO ObtenerParaUsuario(int idUsuario, int idProyecto)
         {
             if (!VerificarUsuarioPerteneceAlProyecto(idUsuario, idProyecto))
                 throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
-            IEnumerable<Proyecto> proyectos = ObtenerTodos();
-            Proyecto proyecto = proyectos.Where(c => c.Id == idProyecto).FirstOrDefault();
+            IEnumerable<ProyectoDTO> proyectos = ObtenerTodos();
+            ProyectoDTO proyecto = proyectos.Where(c => c.Id == idProyecto).FirstOrDefault();
             return proyecto;
+        }
+
+        private IEnumerable<ProyectoDTO> convertirListaADTO(List<Proyecto> proyectos)
+        {
+            List<ProyectoDTO> ret = new List<ProyectoDTO>();
+            foreach (Proyecto t in proyectos)
+            {
+                ProyectoDTO nueva = new ProyectoDTO(t);
+                ret.Add(nueva);
+            }
+            return ret;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Moq;
 using NUnit.Framework;
@@ -13,6 +14,7 @@ namespace Incidentes.Logica.Test
     public class GestorTareaTest
     {
         private Tarea tareaCompleta;
+        private TareaDTO tareaDTOCompleta;
         Mock<IRepositorioGestores> repoGestores;
         GestorTarea gestor;
 
@@ -27,7 +29,7 @@ namespace Incidentes.Logica.Test
                 ProyectoId = 9,
                 Id = 9
             };
-
+            tareaDTOCompleta = new TareaDTO(tareaCompleta);
             repoGestores = new Mock<IRepositorioGestores>();
             gestor = new GestorTarea(repoGestores.Object);
         }
@@ -36,6 +38,7 @@ namespace Incidentes.Logica.Test
         public void TearDown()
         {
             this.tareaCompleta = null;
+            this.tareaDTOCompleta = null;
             repoGestores = null;
             gestor = null;
         }
@@ -43,19 +46,19 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_guardar_una_tarea()
         {
-            Tarea tar = new Tarea()
+            TareaDTO tar = new TareaDTO()
             {
                 Nombre = "Tarea X",
                 Costo = 2,
                 Duracion = 5
             };
 
-            repoGestores.Setup(c => c.RepositorioTarea.Alta(tar));
+            repoGestores.Setup(c => c.RepositorioTarea.Alta(It.IsAny<Tarea>()));
 
-            Tarea tarea = gestor.Alta(tar);
+            TareaDTO tarea = gestor.Alta(tar);
 
             Assert.AreEqual(tar.Nombre, tarea.Nombre);
-            repoGestores.Verify(c => c.RepositorioTarea.Alta(tar));
+            repoGestores.Verify(c => c.RepositorioTarea.Alta(It.IsAny<Tarea>()));
         }
 
         [Test]
@@ -67,7 +70,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioTarea.ObtenerTodos(false)).Returns(queryableTarea);
 
-            List<Tarea> listaT = gestor.ObtenerTodos().ToList();
+            List<TareaDTO> listaT = gestor.ObtenerTodos().ToList();
 
             Assert.AreEqual(1, listaT.Count());
             repoGestores.Verify(c => c.RepositorioTarea.ObtenerTodos(false));
@@ -83,7 +86,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true)).Returns(queryableTareas);
             repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(true);
 
-            Tarea tar = gestor.Obtener(3);
+            TareaDTO tar = gestor.Obtener(3);
 
             Assert.AreEqual(tareaCompleta.Nombre, tar.Nombre);
             repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true));
@@ -109,29 +112,29 @@ namespace Incidentes.Logica.Test
         [Test]
         public void no_se_puede_guardar_una_tarea_con_nombre_corto()
         {
-            tareaCompleta.Nombre = "ss s";
-            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(tareaCompleta));
+            tareaDTOCompleta.Nombre = "ss s";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(tareaDTOCompleta));
         }
 
         [Test]
         public void no_se_puede_guardar_una_tarea_con_nombre_largo()
         {
-            tareaCompleta.Nombre = "01234567890123456789012345";
-            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(tareaCompleta));
+            tareaDTOCompleta.Nombre = "01234567890123456789012345";
+            Assert.Throws<ExcepcionLargoTexto>(() => gestor.Alta(tareaDTOCompleta));
         }
 
         [Test]
         public void no_se_puede_guardar_una_tarea_con_costo_menor_a_cero()
         {
-            tareaCompleta.Costo = -52;
-            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(tareaCompleta));
+            tareaDTOCompleta.Costo = -52;
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(tareaDTOCompleta));
         }
 
         [Test]
         public void no_se_puede_guardar_una_tarea_con_duracion_menor_a_cero()
         {
-            tareaCompleta.Duracion = -52;
-            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(tareaCompleta));
+            tareaDTOCompleta.Duracion = -52;
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestor.Alta(tareaDTOCompleta));
         }
 
         [Test]
@@ -146,8 +149,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioTarea.Eliminar(It.IsAny <Tarea>()));
 
             gestor.Baja(5);
-            IQueryable<Tarea> tareas = (IQueryable<Tarea>)gestor.ObtenerTodos();
-            Assert.AreEqual(0, tareas.Count());
+            Assert.Pass();
 
             repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
             repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true));
@@ -159,7 +161,7 @@ namespace Incidentes.Logica.Test
         {
             repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(false);
 
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.Modificar(20, new Tarea()));
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestor.Modificar(20, new TareaDTO()));
 
             repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
         }
@@ -193,7 +195,7 @@ namespace Incidentes.Logica.Test
                 ProyectoId = 5,
                 Id = 9
             };
-            Tarea modificado = gestor.Modificar(9, tareaCompleta);
+            TareaDTO modificado = gestor.Modificar(9, tareaDTOCompleta);
 
             Assert.AreEqual(tareaCompleta.Nombre, modificado.Nombre);
 
@@ -223,7 +225,7 @@ namespace Incidentes.Logica.Test
                 .ListaDeTareasDeProyectosALosQuePertenece(It.IsAny<int>()))
                 .Returns(lista);
 
-            IEnumerable<Tarea> tareas = gestor.ListaDeTareasDeProyectosALosQuePertenece(5);
+            IEnumerable<TareaDTO> tareas = gestor.ListaDeTareasDeProyectosALosQuePertenece(5);
 
             Assert.AreEqual(1, lista.Count());
             repoGestores.Verify(

@@ -4,6 +4,7 @@ using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
 using Incidentes.Logica.Excepciones;
+using Incidentes.DTOs;
 
 namespace Incidentes.Logica
 {
@@ -23,7 +24,7 @@ namespace Incidentes.Logica
             _repositorioGestor = repositorioGestores;
         }
 
-        public Tarea Alta(Tarea entity)
+        public TareaDTO Alta(TareaDTO entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
 
@@ -31,7 +32,7 @@ namespace Incidentes.Logica
             Validaciones.ValidarMayorACero(entity.Costo, "Costo");
             Validaciones.ValidarMayorACero(entity.Duracion, "Duracion");
 
-            _repositorioGestor.RepositorioTarea.Alta(entity);
+            _repositorioGestor.RepositorioTarea.Alta(entity.convertirDTO_Dominio());
             _repositorioGestor.Save();
 
             return entity;
@@ -39,16 +40,16 @@ namespace Incidentes.Logica
 
         public void Baja(int id)
         {
-            Tarea aEliminar = Obtener(id);
+            Tarea aEliminar = Obtener(id).convertirDTO_Dominio();
             _repositorioGestor.RepositorioTarea.Eliminar(aEliminar);
             _repositorioGestor.Save();
         }
 
-        public Tarea Modificar(int id, Tarea entity)
+        public TareaDTO Modificar(int id, TareaDTO entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
 
-            Tarea aModificar = Obtener(id);
+            Tarea aModificar = Obtener(id).convertirDTO_Dominio();
             
             if (entity.Nombre != null)
             {
@@ -72,25 +73,38 @@ namespace Incidentes.Logica
 
             _repositorioGestor.RepositorioTarea.Modificar(aModificar);
             _repositorioGestor.Save();
-            return aModificar;
+            TareaDTO retorno = new TareaDTO(aModificar);
+            return retorno;
         }
 
-        public Tarea Obtener(int id)
+        public TareaDTO Obtener(int id)
         {
             bool existe = _repositorioGestor.RepositorioTarea.Existe(c => c.Id == id);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             Tarea aObtener = _repositorioGestor.RepositorioTarea.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
-            return aObtener;
+            TareaDTO retorno = new TareaDTO(aObtener);
+            return retorno;
         }
 
-        public IEnumerable<Tarea> ObtenerTodos()
+        public IEnumerable<TareaDTO> ObtenerTodos()
         {
-            return _repositorioGestor.RepositorioTarea.ObtenerTodos(false);
+            return convertirListaADTO(_repositorioGestor.RepositorioTarea.ObtenerTodos(false).ToList());
         }
 
-        public IEnumerable<Tarea> ListaDeTareasDeProyectosALosQuePertenece(int idUsu)
+        public IEnumerable<TareaDTO> ListaDeTareasDeProyectosALosQuePertenece(int idUsu)
         {
-            return _repositorioGestor.RepositorioUsuario.ListaDeTareasDeProyectosALosQuePertenece(idUsu);
+            return convertirListaADTO(_repositorioGestor.RepositorioUsuario.ListaDeTareasDeProyectosALosQuePertenece(idUsu));
+        }
+
+        private IEnumerable<TareaDTO> convertirListaADTO(List<Tarea> tareas)
+        {
+            List<TareaDTO> ret = new List<TareaDTO>();
+            foreach (Tarea t in tareas)
+            {
+                TareaDTO nueva = new TareaDTO(t);
+                ret.Add(nueva);
+            }
+            return ret;
         }
     }
 }

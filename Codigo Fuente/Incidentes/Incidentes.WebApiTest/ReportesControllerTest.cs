@@ -39,15 +39,16 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_el_reporte_de_los_proyectos()
         {
-            proyectosL.Add(new Proyecto());
-            proyectosQ = proyectosL.AsQueryable();
+            List<ProyectoDTO> lista = new List<ProyectoDTO>();
+            lista.Add(new ProyectoDTO());
+            IQueryable<ProyectoDTO> proyectosQ = lista.AsQueryable();
             _logicaP.Setup(c => c.ObtenerTodos()).Returns(proyectosQ);
 
             var result = _rController.GetProyectos();
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<ProyectoParaReporteDTO>>(okResult.Value);
+            Assert.IsInstanceOf<IEnumerable<ProyectoDTO>>(okResult.Value);
 
             _logicaP.Verify(c => c.ObtenerTodos());
         }
@@ -55,7 +56,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_el_reporte_de_los_usuarios()
         {
-            Usuario usu = new Usuario();
+            UsuarioDTO usu = new UsuarioDTO();
             _logicaU.Setup(c => c.Obtener(It.IsAny<int>())).Returns(usu);
             _logicaU.Setup(c => c.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>())).Returns(3);
 
@@ -63,7 +64,7 @@ namespace Incidentes.WebApiTest
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<UsuarioParaReporteDTO>(okResult.Value);
+            Assert.IsInstanceOf<UsuarioDTO>(okResult.Value);
 
             _logicaU.Verify(c => c.Obtener(It.IsAny<int>()));
             _logicaU.Verify(c => c.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>()));

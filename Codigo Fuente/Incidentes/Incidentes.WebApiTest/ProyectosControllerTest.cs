@@ -18,7 +18,7 @@ namespace Incidentes.WebApiTest
         private Mock<ILogicaUsuario> _logicaU;
         private ProyectosController _pController;
         private List<Proyecto> proyectosL;
-        private Usuario u;
+        private UsuarioDTO u;
         private Incidente i;
         private Proyecto p;
 
@@ -40,21 +40,21 @@ namespace Incidentes.WebApiTest
                 Duracion = 2,
                 ProyectoId = 7
             };
-            u = new Usuario()
+            u = new UsuarioDTO()
             {
                 Nombre = "sssss",
                 Id = 9,
                 ValorHora = 200,
                 Apellido = "aaaaaaa",
                 Email = "ssasssa@asdasda.com",
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             p = new Proyecto()
             {
                 Nombre = "Proyecto",
                 Id = 7,
                 Incidentes = new List<Incidente>() { i },
-                Asignados = new List<Usuario>() { u }
+                Asignados = new List<Usuario>() { }
             };
         }
 
@@ -73,20 +73,21 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_los_proyectos()
         {
-            Proyecto p = new Proyecto();
-            Usuario u = new Usuario() {
+            ProyectoDTO p = new ProyectoDTO();
+            UsuarioDTO u = new UsuarioDTO() {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Tester,
+                RolUsuario = UsuarioDTO.Rol.Tester,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
             };
             p.Asignados.Add(u);
 
-            proyectosL.Add(p);
-            IQueryable<Proyecto> pros = proyectosL.AsQueryable();
+            List<ProyectoDTO> lista = new List<ProyectoDTO>();
+            lista.Add(p);
+            IQueryable<ProyectoDTO> pros = lista.AsQueryable();
 
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
@@ -108,21 +109,21 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_los_proyectos_si_es_administrador()
         {
-            Proyecto p = new Proyecto();
-            Usuario u = new Usuario()
+            ProyectoDTO p = new ProyectoDTO();
+            UsuarioDTO u = new UsuarioDTO()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Administrador,
+                RolUsuario = UsuarioDTO.Rol.Administrador,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
             };
             p.Asignados.Add(u);
-
-            proyectosL.Add(p);
-            IQueryable<Proyecto> pros = proyectosL.AsQueryable();
+            List<ProyectoDTO> lista = new List<ProyectoDTO>();
+            lista.Add(p);
+            IQueryable<ProyectoDTO> pros = lista.AsQueryable();
 
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
@@ -144,12 +145,12 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_un_proyecto()
         {
-            Usuario us = new Usuario()
+            UsuarioDTO us = new UsuarioDTO()
             {
                 Id = 5,
-                RolUsuario = Usuario.Rol.Administrador
+                RolUsuario = UsuarioDTO.Rol.Administrador
             };
-            Proyecto p = new Proyecto()
+            ProyectoDTO p = new ProyectoDTO()
             {
                 Nombre = "proyecto"
             };
@@ -173,7 +174,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_guardar_un_proyecto()
         {
-            Proyecto p = new Proyecto()
+            ProyectoDTO p = new ProyectoDTO()
             {
                 Nombre = "proyecto"
             };
@@ -185,26 +186,26 @@ namespace Incidentes.WebApiTest
 
             Assert.AreEqual(p, okResult.Value);
 
-            _logicaP.Verify(c => c.Alta(It.IsAny<Proyecto>()));
+            _logicaP.Verify(c => c.Alta(It.IsAny<ProyectoDTO>()));
         }
 
         [Test]
         public void se_puede_actualizar_un_proyecto()
         {
-            _logicaP.Setup(c => c.Modificar(It.IsAny<int>(), It.IsAny<Proyecto>())).Returns(p);
+            _logicaP.Setup(c => c.Modificar(It.IsAny<int>(), It.IsAny<ProyectoDTO>())).Returns(new ProyectoDTO(p));
 
-            var result = _pController.Put(7, p);
+            var result = _pController.Put(7, new ProyectoDTO(p));
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
 
-            _logicaP.Verify(c => c.Modificar(It.IsAny<int>(), It.IsAny<Proyecto>()));
+            _logicaP.Verify(c => c.Modificar(It.IsAny<int>(), It.IsAny<ProyectoDTO>()));
         }
 
         [Test]
         public void no_se_puede_actualizar_un_proyecto_con_parametros_incorrectos()
         {
-            Assert.Throws<ExcepcionArgumentoNoValido>(() => _pController.Put(6, p));
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => _pController.Put(6, new ProyectoDTO(p)));
         }
 
         [Test]
@@ -228,7 +229,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_el_costo_de_un_proyecto()
         {
-            p.Asignados.Add(u);
+            p.Asignados.Add(u.convertirDTO_Dominio());
 
             Tarea t = new Tarea()
             {
@@ -250,11 +251,11 @@ namespace Incidentes.WebApiTest
             var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
             tested.ControllerContext = ctx;
             ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
-            _logicaP.Setup(c => c.Obtener(7)).Returns(p);
+            _logicaP.Setup(c => c.Obtener(7)).Returns(new ProyectoDTO(p));
 
             var result = tested.Get(7);
             var okResult = result as OkObjectResult;
-            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
+            ProyectoDTO respuesta = (ProyectoDTO)okResult.Value;
             Assert.AreEqual(5400, respuesta.Costo);
 
             _logicaP.Verify(c => c.Obtener(7));
@@ -265,7 +266,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_la_duracion_de_un_proyecto()
         {
-            p.Asignados.Add(u);
+            p.Asignados.Add(u.convertirDTO_Dominio());
             Tarea t = new Tarea()
             {
                 Nombre = "Tarea",
@@ -284,11 +285,11 @@ namespace Incidentes.WebApiTest
             tested.ControllerContext = ctx;
             ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
 
-            _logicaP.Setup(c => c.Obtener(7)).Returns(p);
+            _logicaP.Setup(c => c.Obtener(7)).Returns(new ProyectoDTO(p));
 
             var result = tested.Get(7);
             var okResult = result as OkObjectResult;
-            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
+            ProyectoDTO respuesta = (ProyectoDTO)okResult.Value;
             Assert.AreEqual(7, respuesta.Duracion);
 
             _logicaP.Verify(c => c.Obtener(7));

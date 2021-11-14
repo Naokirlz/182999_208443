@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
@@ -22,6 +23,7 @@ namespace Incidentes.WebApiTest
         private Incidente i;
         private Proyecto p;
         private Tarea t;
+        private TareaDTO dto;
 
         [SetUp]
         public void Setup()
@@ -64,6 +66,7 @@ namespace Incidentes.WebApiTest
                 ProyectoId = 7,
                 Id = 8
             };
+            dto = new TareaDTO(t);
         }
 
         [TearDown]
@@ -78,25 +81,26 @@ namespace Incidentes.WebApiTest
             i = null;
             p = null;
             t = null;
+            dto = null;
         }
 
         [Test]
         public void se_pueden_ver_las_tareas()
         {
-            Tarea t = new Tarea();
-            Usuario u = new Usuario()
+            UsuarioDTO u = new UsuarioDTO()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Tester,
+                RolUsuario = UsuarioDTO.Rol.Tester,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
             };
 
-            tareasL.Add(t);
-            IQueryable<Tarea> tars = tareasL.AsQueryable();
+            List<TareaDTO> tares = new List<TareaDTO>();
+            tares.Add(dto);
+            IQueryable<TareaDTO> tars = tares.AsQueryable();
 
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var tested = new TareasController(_logicaT.Object, _logicaU.Object, _logicaP.Object);
@@ -119,19 +123,20 @@ namespace Incidentes.WebApiTest
         public void los_administradores_pueden_ver_las_tareas()
         {
             Tarea t = new Tarea();
-            Usuario u = new Usuario()
+            UsuarioDTO u = new UsuarioDTO()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Administrador,
+                RolUsuario = UsuarioDTO.Rol.Administrador,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
             };
 
-            tareasL.Add(t);
-            IQueryable<Tarea> tars = tareasL.AsQueryable();
+            List<TareaDTO> tares = new List<TareaDTO>();
+            tares.Add(dto);
+            IQueryable<TareaDTO> tars = tares.AsQueryable();
 
             var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var tested = new TareasController(_logicaT.Object, _logicaU.Object, _logicaP.Object);
@@ -153,15 +158,15 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_una_tarea()
         {
-            Tarea t = new Tarea()
+            TareaDTO t = new TareaDTO()
             {
                 Id = 3,
                 Nombre = "Tarea"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 
@@ -185,14 +190,14 @@ namespace Incidentes.WebApiTest
         [Test]
         public void no_se_puede_ver_una_tarea_si_usuario_no_pertenece_proyecto()
         {
-            Tarea t = new Tarea()
+            TareaDTO t = new TareaDTO()
             {
                 Id = 3,
                 Nombre = "Tarea"
             };
 
-            Usuario usu = new Usuario() {
-                RolUsuario = Usuario.Rol.Desarrollador
+            UsuarioDTO usu = new UsuarioDTO() {
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 
@@ -216,33 +221,33 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_guardar_una_tarea()
         {
-            _logicaT.Setup(c => c.Alta(t)).Returns(t);
+            _logicaT.Setup(c => c.Alta(dto)).Returns(dto);
 
-            var result = _tController.Post(t);
+            var result = _tController.Post(dto);
             var okResult = result as OkObjectResult;
 
-            Assert.AreEqual(t, okResult.Value);
+            Assert.AreEqual(dto, okResult.Value);
 
-            _logicaT.Verify(c => c.Alta(It.IsAny<Tarea>()));
+            _logicaT.Verify(c => c.Alta(It.IsAny<TareaDTO>()));
         }
 
         [Test]
         public void se_puede_actualizar_una_tarea()
         {
-            _logicaT.Setup(c => c.Modificar(It.IsAny<int>(), It.IsAny<Tarea>())).Returns(t);
+            _logicaT.Setup(c => c.Modificar(It.IsAny<int>(), It.IsAny<TareaDTO>())).Returns(dto);
 
-            var result = _tController.Put(8, t);
+            var result = _tController.Put(8, dto);
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
 
-            _logicaT.Verify(c => c.Modificar(It.IsAny<int>(), It.IsAny<Tarea>()));
+            _logicaT.Verify(c => c.Modificar(It.IsAny<int>(), It.IsAny<TareaDTO>()));
         }
 
         [Test]
         public void no_se_puede_actualizar_una_tarea_con_parametros_incorrectos()
         {
-            Assert.Throws<ExcepcionArgumentoNoValido>(() => _tController.Put(6, t));
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => _tController.Put(6, dto));
         }
 
         [Test]

@@ -1,8 +1,7 @@
-﻿using Incidentes.Dominio;
+﻿using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -31,9 +30,9 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get()
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
-            IEnumerable<Tarea> result = new List<Tarea>();
+            IEnumerable<TareaDTO> result = new List<TareaDTO>();
 
             if (usu.RolUsuario == 0)
             {
@@ -52,8 +51,8 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get(int id)
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
-            Tarea tar = _logicaT.Obtener(id);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
+            TareaDTO tar = _logicaT.Obtener(id);
             if (usu.RolUsuario != 0)
             {
                 bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, tar.ProyectoId);
@@ -66,7 +65,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpPost]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Post([FromBody] Tarea tarea)
+        public IActionResult Post([FromBody] TareaDTO tarea)
         {
             _logicaT.Alta(tarea);
             return Ok(tarea);
@@ -82,7 +81,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpPut("{id}")]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Put(int id, [FromBody] Tarea tarea)
+        public IActionResult Put(int id, [FromBody] TareaDTO tarea)
         {
             if (id != tarea.Id) throw new ExcepcionArgumentoNoValido(elemento_no_corresponde);
             _logicaT.Modificar(tarea.Id, tarea);

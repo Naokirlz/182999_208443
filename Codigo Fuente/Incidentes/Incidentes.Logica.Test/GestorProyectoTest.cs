@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Incidentes.DTOs;
 
 namespace Incidentes.Logica.Test
 {
@@ -59,12 +60,12 @@ namespace Incidentes.Logica.Test
                 Nombre = "Proyecto1"
             };
 
-            repoGestores.Setup(c => c.RepositorioProyecto.Alta(proyecto));
+            repoGestores.Setup(c => c.RepositorioProyecto.Alta(It.IsAny<Proyecto>()));
 
-            Proyecto proyecto1 = gestorProyecto.Alta(proyecto);
+            ProyectoDTO proyecto1 = gestorProyecto.Alta(new ProyectoDTO(proyecto));
 
             Assert.AreEqual(proyecto.Nombre, proyecto1.Nombre);
-            repoGestores.Verify(c => c.RepositorioProyecto.Alta(proyecto));
+            repoGestores.Verify(c => c.RepositorioProyecto.Alta(It.IsAny<Proyecto>()));
         }
 
         [Test]
@@ -83,7 +84,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectosCompleto()).Returns(queryableProyectos);
 
-            IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos();
+            IEnumerable<ProyectoDTO> proyectos = gestorProyecto.ObtenerTodos();
 
             Assert.AreEqual(2, proyectos.Count());
             repoGestores.VerifyAll();
@@ -103,8 +104,8 @@ namespace Incidentes.Logica.Test
  
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(2)).Returns(proyectoD);
-            
-            Proyecto encontrado = gestorProyecto.Obtener(2);
+
+            ProyectoDTO encontrado = gestorProyecto.Obtener(2);
 
             Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
@@ -126,7 +127,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectosCompleto()).Returns(queryableP);
 
-            Proyecto encontrado = gestorProyecto.ObtenerParaUsuario(1, 2);
+            ProyectoDTO encontrado = gestorProyecto.ObtenerParaUsuario(1, 2);
 
             Assert.AreEqual(proyectoD.Nombre, encontrado.Nombre);
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
@@ -149,7 +150,7 @@ namespace Incidentes.Logica.Test
                 Id = 2,
                 Nombre = "Proyecto"
             };
-            Proyecto proyectoA = new Proyecto()
+            ProyectoDTO proyectoA = new ProyectoDTO()
             {
                 Id = 2,
                 Nombre = "ProyectoA"
@@ -159,7 +160,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(c => c.Nombre == proyectoA.Nombre)).Returns(false);
             repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>())).Returns(proyectoD);
 
-            Proyecto modificado = gestorProyecto.Modificar(1, proyectoA);
+            ProyectoDTO modificado = gestorProyecto.Modificar(1, proyectoA);
 
             Assert.AreEqual("ProyectoA", proyectoA.Nombre);
 
@@ -280,13 +281,19 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_eliminar_un_proyecto()
         {
-            IQueryable<Proyecto> queryableP = new List<Proyecto>().AsQueryable();
+            Proyecto p = new Proyecto()
+            {
+                Nombre = "nombre"
+            };
+            List<Proyecto> lis = new List<Proyecto>();
+            lis.Add(p);
+            IQueryable<Proyecto> queryableP = lis.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectosCompleto()).Returns(queryableP);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerProyectoPorIdCompleto(It.IsAny<int>())).Returns(p);
 
             gestorProyecto.Baja(3);
-            IQueryable<Proyecto> proyectos = (IQueryable<Proyecto>)gestorProyecto.ObtenerTodos();
+            IEnumerable<ProyectoDTO> proyectos = gestorProyecto.ObtenerTodos();
             Assert.AreEqual(0, proyectos.Count());
             repoGestores.VerifyAll();
         }
@@ -301,7 +308,7 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(true);
 
-            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Alta(proyecto));
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorProyecto.Alta(new ProyectoDTO(proyecto)));
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
         }
 
@@ -310,7 +317,7 @@ namespace Incidentes.Logica.Test
         {
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
 
-            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.Modificar(3, new Proyecto()));
+            Assert.Throws<ExcepcionElementoNoExiste>(() => gestorProyecto.Modificar(3, new ProyectoDTO()));
 
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
         }
@@ -329,7 +336,7 @@ namespace Incidentes.Logica.Test
         public void no_se_puede_crear_un_proyecto_con_nombre_corto()
         {
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
-            Assert.Throws<ExcepcionLargoTexto>(() => gestorProyecto.Alta(new Proyecto() { 
+            Assert.Throws<ExcepcionLargoTexto>(() => gestorProyecto.Alta(new ProyectoDTO() { 
                 Nombre = "1234"
             }));
             repoGestores.Verify(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>()));
@@ -339,7 +346,7 @@ namespace Incidentes.Logica.Test
         public void no_se_puede_crear_un_proyecto_con_nombre_largo()
         {
             repoGestores.Setup(c => c.RepositorioProyecto.Existe(It.IsAny<Expression<Func<Proyecto, bool>>>())).Returns(false);
-            Assert.Throws<ExcepcionLargoTexto>(() => gestorProyecto.Alta(new Proyecto()
+            Assert.Throws<ExcepcionLargoTexto>(() => gestorProyecto.Alta(new ProyectoDTO()
             {
                 Nombre = "12345678901234567890123456"
             }));
@@ -362,7 +369,7 @@ namespace Incidentes.Logica.Test
                 .ListaDeProyectosALosQuePertenece(It.IsAny<int>()))
                 .Returns(queryableP);
 
-            IQueryable<Proyecto> proyectos = gestorProyecto.ListaDeProyectosALosQuePertenece(usuarioCompleto.Id);
+            IEnumerable<ProyectoDTO> proyectos = gestorProyecto.ListaDeProyectosALosQuePertenece(usuarioCompleto.Id);
 
             Assert.AreEqual(1, proyectos.Count());
             repoGestores.Verify(
@@ -378,7 +385,7 @@ namespace Incidentes.Logica.Test
                 Id = 2,
                 Nombre = "Proyecto"
             };
-            Proyecto proyectoA = new Proyecto()
+            ProyectoDTO proyectoA = new ProyectoDTO()
             {
                 Id = 2,
                 Nombre = "Proyecto2"

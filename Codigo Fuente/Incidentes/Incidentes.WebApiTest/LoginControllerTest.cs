@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
@@ -31,7 +32,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_loguear_los_usuarios()
         {
-            Usuario user = new Usuario()
+            UsuarioDTO user = new UsuarioDTO()
             {
                 NombreUsuario = "Nombre",
                 Contrasenia = "123456"
@@ -48,7 +49,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_desloguear_los_usuarios()
         {
-            Usuario user = new Usuario()
+            UsuarioDTO user = new UsuarioDTO()
             {
                 Id = 7,
                 Token = "asdadsacasc"
@@ -70,7 +71,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void no_se_pueden_desloguear_otros_usuarios()
         {
-            Usuario user = new Usuario()
+            UsuarioDTO user = new UsuarioDTO()
             {
                 Id = 7,
                 Token = "asdadsacasc"

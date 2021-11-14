@@ -5,6 +5,7 @@ using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
 using Incidentes.Logica.Excepciones;
+using Incidentes.DTOs;
 
 namespace Incidentes.Logica
 {
@@ -24,7 +25,7 @@ namespace Incidentes.Logica
         }
 
 
-        public Usuario Modificar(int id, Usuario entity)
+        public UsuarioDTO Modificar(int id, UsuarioDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -33,19 +34,26 @@ namespace Incidentes.Logica
             throw new NotImplementedException();
         }
 
-        public Usuario Obtener(int id)
+        public UsuarioDTO Obtener(int id)
         {
             bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.Id == id);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             var usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(a => a.Id == id, trackChanges: false).FirstOrDefault();
-            return usuario;
+            return new UsuarioDTO(usuario);
         }
 
-        public IEnumerable<Usuario> ObtenerTodos()
+        public IEnumerable<UsuarioDTO> ObtenerTodos()
         {
-            return _repositorioGestor.RepositorioUsuario.ObtenerTodos(false);
+            List<UsuarioDTO> retorno = new List<UsuarioDTO>();
+            IEnumerable<Usuario> usuarios = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false);
+            foreach(Usuario u in usuarios)
+            {
+                UsuarioDTO usu = new UsuarioDTO(u);
+                retorno.Add(usu);
+            }
+            return retorno;
         }
-        public Usuario Alta(Usuario usuario)
+        public UsuarioDTO Alta(UsuarioDTO usuario)
         {
             if (usuario == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
             bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.Email == usuario.Email);
@@ -59,9 +67,11 @@ namespace Incidentes.Logica
             Validaciones.ValidarPassword(usuario.Contrasenia);
             Validaciones.ValidarEmail(usuario.Email);
 
-            _repositorioGestor.RepositorioUsuario.Alta(usuario);
-            _repositorioGestor.Save();
+            Usuario usu = usuario.convertirDTO_Dominio();
 
+            _repositorioGestor.RepositorioUsuario.Alta(usu);
+            usuario.Id = usu.Id;
+            _repositorioGestor.Save();
 
             return usuario;
         }
@@ -116,49 +126,50 @@ namespace Incidentes.Logica
         {
             return _repositorioGestor.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(idDesarrollador);
         }
-        private List<Usuario> ObtenerDesarrolladores()
-        {
-            List<Usuario> lista = new List<Usuario>();
-            List<Usuario> desarrolladores = new List<Usuario>();
+        //private List<Usuario> ObtenerDesarrolladores()
+        //{
+        //    List<Usuario> lista = new List<Usuario>();
+        //    List<Usuario> desarrolladores = new List<Usuario>();
 
-            lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
+        //    lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
 
-            foreach (Usuario u in lista)
-                if (u.RolUsuario == Usuario.Rol.Desarrollador)
-                    desarrolladores.Add(u);
+        //    foreach (Usuario u in lista)
+        //        if (u.RolUsuario == Usuario.Rol.Desarrollador)
+        //            desarrolladores.Add(u);
             
-            return desarrolladores;
-        }
+        //    return desarrolladores;
+        //}
 
-        private List<Usuario> ObtenerTesters()
-        {
-            List<Usuario> lista = new List<Usuario>();
-            List<Usuario> desarrolladores = new List<Usuario>();
+        //private List<Usuario> ObtenerTesters()
+        //{
+        //    List<Usuario> lista = new List<Usuario>();
+        //    List<Usuario> desarrolladores = new List<Usuario>();
 
-            lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
+        //    lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
 
-            foreach (Usuario u in lista)
-                if (u.RolUsuario == Usuario.Rol.Tester)
-                    desarrolladores.Add(u);
+        //    foreach (Usuario u in lista)
+        //        if (u.RolUsuario == Usuario.Rol.Tester)
+        //            desarrolladores.Add(u);
 
-            return desarrolladores;
-        }
+        //    return desarrolladores;
+        //}
 
-        public Usuario ObtenerPorToken(string token)
+        public UsuarioDTO ObtenerPorToken(string token)
         {
             bool existe = _repositorioGestor.RepositorioUsuario.Existe(c => c.Token == token);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             var usuario = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(a => a.Token == token, trackChanges: false).FirstOrDefault();
-            return usuario;
+            UsuarioDTO usu = new UsuarioDTO(usuario);
+            return usu;
         }
 
-        public List<Usuario> Obtener(Usuario.Rol? rol = null)
-        {
-            if (rol == null)
-                return ObtenerTodos().ToList();
-            if (rol == Usuario.Rol.Desarrollador)
-                return ObtenerDesarrolladores();
-            return ObtenerTesters();
-        }
+        //public List<Usuario> Obtener(Usuario.Rol? rol = null)
+        //{
+        //    if (rol == null)
+        //        return ObtenerTodos().ToList();
+        //    if (rol == Usuario.Rol.Desarrollador)
+        //        return ObtenerDesarrolladores();
+        //    return ObtenerTesters();
+        //}
     }
 }
