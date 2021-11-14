@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -44,6 +43,27 @@ namespace Incidentes.ImportacionXML
             retorno.Add(pro);
             return retorno;
         }
+
+        private class EmpresaXML
+        {
+            public string Proyecto { get; set; }
+            public List<Bug> Bugs { get; set; }
+
+            public EmpresaXML()
+            {
+                Bugs = new List<Bug>();
+            }
+        }
+        private class Bug
+        {
+            public int Id { get; set; }
+            public string Nombre { get; set; }
+            public string Descripcion { get; set; }
+            public string Version { get; set; }
+            public string Estado { get; set; }
+
+            public Bug() { }
+        }
     }
 
     public class Incidente
@@ -69,26 +89,5 @@ namespace Incidentes.ImportacionXML
         public string Nombre { get; set; }
         public List<Incidente> Incidentes { get; set; }
         public Proyecto() { }
-    }
-
-    internal class EmpresaXML
-    {
-        public string Proyecto { get; set; }
-        public List<Bug> Bugs { get; set; }
-
-        public EmpresaXML()
-        {
-            Bugs = new List<Bug>();
-        }
-    }
-    internal class Bug
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Version { get; set; }
-        public string Estado { get; set; }
-
-        public Bug() { }
     }
 }

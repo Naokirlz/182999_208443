@@ -31,20 +31,6 @@ namespace Incidentes.DTOsTest
         }
 
         [Test]
-        public void funciona_correctamente_proyectoParaReporteDto()
-        {
-            ProyectoParaReporteDTO pro = new ProyectoParaReporteDTO()
-            {
-                Id = 3,
-                Nombre = "nombre pro",
-                CantidadDeIncidentes = 4
-            };
-            Assert.AreEqual(3, pro.Id);
-            Assert.AreEqual("nombre pro", pro.Nombre);
-            Assert.AreEqual(4, pro.CantidadDeIncidentes);
-        }
-
-        [Test]
         public void funciona_correctamente_proyectoDto()
         {
             UsuarioDTO usu = new UsuarioDTO()
@@ -56,22 +42,24 @@ namespace Incidentes.DTOsTest
                 NombreUsuario = "martincosat1",
                 Id = 5,
                 ValorHora = 3,
-                IncidentesResueltos = 3
+                IncidentesResueltos = 3,
             };
             List<UsuarioDTO> usus = new List<UsuarioDTO>();
             usus.Add(usu);
             List<Incidente> incL = new List<Incidente>();
             List<Tarea> tarL = new List<Tarea>();
-            ProyectosDTO pro = new ProyectosDTO()
+            ProyectoDTO pro = new ProyectoDTO()
             {
                 Id = 3,
                 Nombre = "nombre pro",
                 Asignados = usus,
                 Tareas = tarL,
-                Incidentes = incL
+                Incidentes = incL,
+                CantidadDeIncidentes = 4
             };
             Assert.AreEqual("nombre pro", pro.Nombre);
             Assert.AreEqual(3, pro.Id);
+            Assert.AreEqual(4, pro.CantidadDeIncidentes);
             Assert.AreEqual(usus, pro.Asignados);
             Assert.AreEqual(incL, pro.Incidentes);
             Assert.AreEqual(tarL, pro.Tareas);

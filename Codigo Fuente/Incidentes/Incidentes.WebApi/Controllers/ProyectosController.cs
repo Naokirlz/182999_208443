@@ -44,10 +44,10 @@ namespace Incidentes.WebApi.Controllers
                 result = _logicaP.ListaDeProyectosALosQuePertenece(usu.Id).ToList();
             }
 
-            List<ProyectosDTO> proyectos = new List<ProyectosDTO>();
+            List<ProyectoDTO> proyectos = new List<ProyectoDTO>();
             foreach(Proyecto p in result)
             {
-                ProyectosDTO pro = new ProyectosDTO()
+                ProyectoDTO pro = new ProyectoDTO()
                 {
                     Id = p.Id,
                     Incidentes = p.Incidentes,
@@ -77,7 +77,7 @@ namespace Incidentes.WebApi.Controllers
             }
 
             var p = _logicaP.Obtener(id);
-            ProyectosDTO pro = new ProyectosDTO()
+            ProyectoDTO pro = new ProyectoDTO()
             {
                 Id = p.Id,
                 Incidentes = p.Incidentes,
@@ -135,7 +135,7 @@ namespace Incidentes.WebApi.Controllers
         {
             if (id != proyecto.Id) throw new ExcepcionArgumentoNoValido(elemento_no_corresponde);
             _logicaP.Modificar(proyecto.Id, proyecto);
-            ProyectosDTO pro = new ProyectosDTO()
+            ProyectoDTO pro = new ProyectoDTO()
             {
                 Id = proyecto.Id,
                 Incidentes = proyecto.Incidentes,

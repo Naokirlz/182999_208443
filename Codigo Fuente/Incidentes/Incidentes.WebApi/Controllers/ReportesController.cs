@@ -29,10 +29,10 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult GetProyectos()
         {
             IEnumerable<Proyecto> proyectos = _logicaP.ObtenerTodos();
-            List<ProyectoParaReporteDTO> result = new List<ProyectoParaReporteDTO>();
+            List<ProyectoDTO> result = new List<ProyectoDTO>();
             foreach(Proyecto p in proyectos)
             {
-                ProyectoParaReporteDTO nuevo = new ProyectoParaReporteDTO() { 
+                ProyectoDTO nuevo = new ProyectoDTO() { 
                     Id = p.Id,
                     Nombre = p.Nombre,
                     CantidadDeIncidentes = p.Incidentes.Count()

@@ -254,7 +254,7 @@ namespace Incidentes.WebApiTest
 
             var result = tested.Get(7);
             var okResult = result as OkObjectResult;
-            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
+            ProyectoDTO respuesta = (ProyectoDTO)okResult.Value;
             Assert.AreEqual(5400, respuesta.Costo);
 
             _logicaP.Verify(c => c.Obtener(7));
@@ -288,7 +288,7 @@ namespace Incidentes.WebApiTest
 
             var result = tested.Get(7);
             var okResult = result as OkObjectResult;
-            ProyectosDTO respuesta = (ProyectosDTO)okResult.Value;
+            ProyectoDTO respuesta = (ProyectoDTO)okResult.Value;
             Assert.AreEqual(7, respuesta.Duracion);
 
             _logicaP.Verify(c => c.Obtener(7));

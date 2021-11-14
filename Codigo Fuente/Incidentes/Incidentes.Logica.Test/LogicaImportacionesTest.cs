@@ -47,7 +47,7 @@ namespace Incidentes.Logica.Test
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_xml()
         {
             string rutaFuenteXML = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteXML.xml";
-            string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionXML.dll";
+            string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionXML";
 
             Proyecto proyecto = new Proyecto()
             {

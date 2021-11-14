@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 
 namespace Incidentes.DTOs
 {
-    public class ProyectosDTO
+    public class ProyectoDTO
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
         public int Duracion { get; set; }
         public int Costo { get; set; }
+        public int CantidadDeIncidentes { get; set; }
         public List<Incidente> Incidentes { get; set; }
         public List<Tarea> Tareas { get; set; }
         public List<UsuarioDTO> Asignados { get; set; }
 
-        public ProyectosDTO()
+        public ProyectoDTO()
         {
             Incidentes = new List<Incidente>();
             Tareas = new List<Tarea>();

@@ -47,7 +47,7 @@ namespace Incidentes.WebApiTest
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<ProyectoParaReporteDTO>>(okResult.Value);
+            Assert.IsInstanceOf<List<ProyectoDTO>>(okResult.Value);
 
             _logicaP.Verify(c => c.ObtenerTodos());
         }
