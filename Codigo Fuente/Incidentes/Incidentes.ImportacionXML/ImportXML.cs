@@ -64,30 +64,30 @@ namespace Incidentes.ImportacionXML
 
             public Bug() { }
         }
-    }
 
-    public class Incidente
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Version { get; set; }
-        public Estado EstadoIncidente { get; set; }
-
-        public Incidente() { }
-
-        public enum Estado
+        public class Incidente
         {
-            Indiferente,
-            Activo,
-            Resuelto
-        }
-    }
+            public int Id { get; set; }
+            public string Nombre { get; set; }
+            public string Descripcion { get; set; }
+            public string Version { get; set; }
+            public Estado EstadoIncidente { get; set; }
 
-    public class Proyecto
-    {
-        public string Nombre { get; set; }
-        public List<Incidente> Incidentes { get; set; }
-        public Proyecto() { }
+            public Incidente() { }
+
+            public enum Estado
+            {
+                Indiferente,
+                Activo,
+                Resuelto
+            }
+        }
+
+        public class Proyecto
+        {
+            public string Nombre { get; set; }
+            public List<Incidente> Incidentes { get; set; }
+            public Proyecto() { }
+        }
     }
 }
