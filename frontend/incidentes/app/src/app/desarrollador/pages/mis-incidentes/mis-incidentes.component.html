@@ -36,7 +36,7 @@
                                     <button *ngIf="incidente.estadoIncidente == 2" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-down">
                                     </button>
                                     <span class="p-buttonset">
-                                    <button *ngIf="tester"  pButton type="button"(click)="eliminar(incidente.id)"  icon="pi pi pi-trash" ></button>                                            
+                                    <button *ngIf="tester"  pButton type="button" (click)="consultarAccion(incidente.id)" icon="pi pi-trash" style="background-color: red; border: 0;" ></button>                                            
                                     </span>    
                                 </td>                                                           
                             </tr>
@@ -48,8 +48,24 @@
              </div>
         </div>
     </div>
-    <!-- <app-footer></app-footer> -->
-    <!-- <toast-alert></toast-alert> -->
-
-    <!-- <confirmation-alert></confirmation-alert> -->
+    <p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+            <div class="p-flex p-flex-column" style="flex: 1">
+                <div class="p-text-center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                    <h4>{{message.summary}}</h4>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="p-grid p-fluid" style="display: flex;">
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton (click)="onConfirm()" label="Si" class="p-button-success"></button>
+                    </div>
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton label="No" (click)="onReject()" class="p-button-secondary"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+    <p-toast></p-toast>
 </main>

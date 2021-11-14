@@ -13,10 +13,10 @@ import { ProyectoService } from '../../services/proyecto.service';
 export class VerProyectosComponent implements OnInit {
 
   constructor(private proyectoService: ProyectoService,
-    private _router: Router,
-    private messageService: MessageService,
-    private loginService: LoginService) { 
-
+              private _router: Router,
+              private messageService: MessageService,
+              private loginService: LoginService) 
+    { 
       this.admin = this.loginService.isAdminLoggedIn();
       this.tester = this.loginService.isTesterIn();
       this.desarrollador = this.loginService.isDesarrolladorIn();
@@ -32,7 +32,7 @@ export class VerProyectosComponent implements OnInit {
   ngOnInit(): void {
     this.proyectoService.getProyecto()
       .subscribe(
-        ((data: Array<Proyecto>) => this.result(data)),
+        ((data: Array<Proyecto>) => this.proyectos = data),
       );
   }
 
@@ -94,8 +94,5 @@ export class VerProyectosComponent implements OnInit {
     this._router.navigate([`/proyectos/${id}/tareas`]);
   }
 
-  private result(data: Array<Proyecto>): void {
-    this.proyectos = data;
-  }
 
 }

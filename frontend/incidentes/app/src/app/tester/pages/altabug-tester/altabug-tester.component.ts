@@ -32,6 +32,7 @@ export class AltabugTesterComponent implements OnInit {
     .subscribe(
       (data: Proyecto[]) => {
             this.result(data);
+            
       },
       (({error}:any) => {
         alert(error);
@@ -89,8 +90,8 @@ export class AltabugTesterComponent implements OnInit {
         this.miFormulario.reset();
       },
         (({ error }: any) => {
-          console.log(error);
-          //this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+          
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
         )
       );

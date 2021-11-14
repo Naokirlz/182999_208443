@@ -26,6 +26,8 @@ export class MisIncidentesComponent implements OnInit {
   public proyectos:Proyecto[]=[];
   public incidentes:Incidente[] | undefined=[];
   public estado:string='Activo';
+
+  public idIncidenteEliminar = 0
   
   public idMenor:boolean = false;
   public nombreMenor:boolean = false;
@@ -55,12 +57,12 @@ export class MisIncidentesComponent implements OnInit {
   
     this.incidenteService.getMisIncidentes()
     .subscribe(
-      (data: any) => {
+      (data: any) => 
+      {
             this.incidentes =data;
       },
       (({error}:any) => {
-        alert(error);
-        console.log(JSON.stringify(error));
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
       )
     );
@@ -72,24 +74,40 @@ export class MisIncidentesComponent implements OnInit {
    
   }
 
+  onConfirm() {
+    this.messageService.clear();
+    this.eliminar(this.idIncidenteEliminar);
+  }
+
+  onReject() {
+    this.messageService.clear();
+    this.idIncidenteEliminar = -1;
+  }
+
+  consultarAccion(id: number): void {
+    this.idIncidenteEliminar = id;
+    this.messageService.clear();
+    this.messageService.add({ key: 'c', sticky: true, severity: 'warn', summary: 'Está seguro?', detail: 'Realmente desea el Incidente' });
+  }
+
 
   eliminar(id:number){
 
     this.testerService.delete(id)
-    .subscribe(
-      (data: any) => {
-        this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-        alert(data);
+    .subscribe({
+      next: data => {
+        this.messageService.add({
+          severity: 'success', summary: 'Listo',
+          detail: 'Incidente eliminado correctamente.'
+        });
+        this.incidentes = this.incidentes!.filter(p => p.id !== this.idIncidenteEliminar);
+        this.idIncidenteEliminar = -1;
       },
-      (({error}:any) => {
-        
-        alert(error);
-        console.log(JSON.stringify(error));
-        
+      error: error => {
+        console.log(error);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       }
-      ),
-      () => {window.location.reload();}
-    );
+    });
     
   }
 

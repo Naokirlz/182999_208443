@@ -32,8 +32,8 @@ export class AltaUsuarioComponent implements OnInit {
   private passwordPattern: RegExp = /^\S*$/; 
 
   miFormulario: FormGroup = this.fb.group({
-    Nombre: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-    Apellido: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+    Nombre: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern("[a-zA-Z0-9 ]*")]],
+    Apellido: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern("[a-zA-Z0-9 ]*")]],
     Contrasenia: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern(this.passwordPattern)]],
     ContraseniaRep: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern(this.passwordPattern)]],
     RolUsuario: [, Validators.required],
@@ -74,15 +74,17 @@ export class AltaUsuarioComponent implements OnInit {
     if (usuario.RolUsuario === 0) { usuario.ValorHora = 0 };
 
     this.usuarioServive.alta(usuario)
-      .subscribe((data: Usuario) => {
-        this.messageService.add({
-          severity: 'success', summary: 'Listo',
-          detail: 'Usuario guardado correctamente.'
-        });
-        this.miFormulario.reset({
-          RolUsuario: 0
-        });
-      },
+      .subscribe(
+        (data: Usuario) => 
+        {
+          this.messageService.add({
+            severity: 'success', summary: 'Listo',
+            detail: 'Usuario guardado correctamente.'
+          });
+          this.miFormulario.reset({
+            RolUsuario: 0
+          });
+       },
         (({ error }: any) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }

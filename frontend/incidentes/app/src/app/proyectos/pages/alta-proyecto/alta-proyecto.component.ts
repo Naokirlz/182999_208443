@@ -19,7 +19,12 @@ export class AltaProyectoComponent implements OnInit {
   }
 
   miFormulario: FormGroup = this.fb.group({
-    nombre: [, [Validators.required, Validators.minLength(3)]],
+    nombre: [, [Validators.required, 
+                Validators.minLength(5), 
+                Validators.maxLength(25), 
+                Validators.pattern("[a-zA-Z0-9 ]*")
+               ]
+            ],
   })
 
   campoEsValido(campo: string) {

@@ -36,7 +36,7 @@
                             <tr>
 
                                 <th>Estado</th>
-                                <th>Desarrollador que resolvió</th>
+                                <th *ngIf="resuelto" >Desarrollador que resolvió</th>
                                 <th>Duración</th>
                                 
                             </tr>
@@ -44,7 +44,7 @@
                         <ng-template pTemplate="body" let-incidente>
                             <tr>
                                 <td>{{obtenerEstado(incidente.estadoIncidente)}}</td>
-                                <td>{{incidente.desarrolladorId}}</td>
+                                <td *ngIf="resuelto">{{obtenerDesarrollador(incidente.desarrolladorId)}}</td>
                                 <td>{{incidente.duracion}}</td>   
                          
                             </tr>
@@ -92,7 +92,7 @@
             </div>
         </form>
     </div>
-
+    <p-toast></p-toast>
 </main>
 
 
