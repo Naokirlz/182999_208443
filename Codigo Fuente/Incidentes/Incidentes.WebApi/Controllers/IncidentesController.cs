@@ -1,11 +1,8 @@
-﻿using Incidentes.Dominio;
-using Incidentes.DTOs;
+﻿using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers

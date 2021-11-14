@@ -1,12 +1,9 @@
-﻿using Incidentes.Dominio;
-using Incidentes.DTOs;
+﻿using Incidentes.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
