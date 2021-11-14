@@ -35,7 +35,7 @@ namespace Incidentes.WebApi.Controllers
             string token = Request.Headers["autorizacion"];
             UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
-            IEnumerable<Incidente> result = new List<Incidente>();
+            IEnumerable<IncidenteDTO> result = new List<IncidenteDTO>();
 
             if (usu.RolUsuario == 0)
             {
@@ -43,7 +43,7 @@ namespace Incidentes.WebApi.Controllers
             }
             else
             {
-                result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", new Incidente());
+                result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, "", new IncidenteDTO());
             }
             return Ok(result);
         }
@@ -67,20 +67,20 @@ namespace Incidentes.WebApi.Controllers
             string token = Request.Headers["autorizacion"];
             UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
-            Incidente incidente = new Incidente()
+            IncidenteDTO incidente = new IncidenteDTO()
             {
                 Nombre = nombreIncidente
             };
-            if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Activo;
-            if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = Incidente.Estado.Resuelto;
+            if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = IncidenteDTO.Estado.Activo;
+            if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = IncidenteDTO.Estado.Resuelto;
 
-            List<Incidente> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, nombreProyecto, incidente);
+            List<IncidenteDTO> result = _logicaI.ListaDeIncidentesDeLosProyectosALosQuePertenece(usu.Id, nombreProyecto, incidente);
             return Ok(result);
         }
 
         [HttpPost]
         [FilterAutorizacion("Administrador", "Tester")]
-        public IActionResult Post([FromBody] Incidente incidente)
+        public IActionResult Post([FromBody] IncidenteDTO incidente)
         {
             string token = Request.Headers["autorizacion"];
             usuarioPerteneceAlProyecto(token, -1, incidente.ProyectoId);
@@ -102,7 +102,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpPut("{id}")]
         [FilterAutorizacion("Administrador", "Tester")]
-        public IActionResult Put(int id, [FromBody] Incidente incidente)
+        public IActionResult Put(int id, [FromBody] IncidenteDTO incidente)
         {
             if (id != incidente.Id) throw new ExcepcionArgumentoNoValido(elemento_no_corresponde);
             string token = Request.Headers["autorizacion"];
@@ -119,7 +119,7 @@ namespace Incidentes.WebApi.Controllers
             {
                 if (idIncidente != -1)
                 {
-                    Incidente inc = _logicaI.Obtener(idIncidente);
+                    IncidenteDTO inc = _logicaI.Obtener(idIncidente);
                     bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
                     if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
                 }

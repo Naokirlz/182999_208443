@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Incidentes.Dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,54 @@ namespace Incidentes.DTOs
         public int Duracion { get; set; }
 
         public IncidenteDTO() { }
+        public IncidenteDTO(Incidente i)
+        {
+            Id = i.Id;
+            Nombre = i.Nombre;
+            ProyectoId = i.ProyectoId;
+            Descripcion = i.Descripcion;
+            Version = i.Version;
+            DesarrolladorId = i.DesarrolladorId;
+            Duracion = i.Duracion;
+            if(i.EstadoIncidente == Incidente.Estado.Activo)
+            {
+                EstadoIncidente = Estado.Activo;
+            }else if (i.EstadoIncidente == Incidente.Estado.Resuelto)
+            {
+                EstadoIncidente = Estado.Resuelto;
+            }
+            else
+            {
+                EstadoIncidente = Estado.Indiferente;
+            }
+        }
+
+        public Incidente convertirDTO_Dominio()
+        {
+            Incidente i = new Incidente()
+            {
+                DesarrolladorId = this.DesarrolladorId,
+                Duracion = this.Duracion,
+                Descripcion = this.Descripcion,
+                Id = this.Id,
+                Nombre = this.Nombre,
+                ProyectoId = this.ProyectoId,
+                Version = this.Version
+            };
+            if (EstadoIncidente == Estado.Activo)
+            {
+                i.EstadoIncidente = Incidente.Estado.Activo;
+            }
+            else if (EstadoIncidente == Estado.Resuelto)
+            {
+                i.EstadoIncidente = Incidente.Estado.Resuelto;
+            }
+            else
+            {
+                i.EstadoIncidente = Incidente.Estado.Indiferente;
+            }
+            return i;
+        }
 
         public enum Estado
         {

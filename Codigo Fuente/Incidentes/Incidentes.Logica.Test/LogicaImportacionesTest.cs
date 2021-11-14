@@ -11,6 +11,7 @@ using Incidentes.LogicaImportaciones;
 using System.Linq.Expressions;
 using Incidentes.Logica.Excepciones;
 using System.IO;
+using Incidentes.DTOs;
 
 namespace Incidentes.Logica.Test
 {
@@ -71,7 +72,7 @@ namespace Incidentes.Logica.Test
 
             logicaImportaciones.ImportarBugs(rutaFuenteXML, rutaBinarios, 5);
 
-            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new IncidenteDTO()).Count();
 
             Assert.AreEqual(4, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
@@ -118,7 +119,7 @@ namespace Incidentes.Logica.Test
 
             logicaImportaciones.ImportarBugs(rutaFuenteTXT, rutaBinarios, 5);
 
-            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new IncidenteDTO()).Count();
 
             Assert.AreEqual(5, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
@@ -173,7 +174,7 @@ namespace Incidentes.Logica.Test
 
             logicaImportaciones.ImportarBugs(rutaFuenteJSON, rutaBinarios, 5);
 
-            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new Incidente()).Count();
+            int incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(1, "proyecto", new IncidenteDTO()).Count();
 
             Assert.AreEqual(4, incidentes);
             repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), true));
