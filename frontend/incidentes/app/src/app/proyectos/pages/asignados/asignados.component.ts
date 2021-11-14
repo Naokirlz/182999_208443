@@ -5,6 +5,7 @@ import { ProyectoService } from '../../services/proyecto.service';
 import { UsuariosService } from '../../../usuarios/services/usuarios.service';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { FilterOperator, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-asignados',
@@ -42,6 +43,12 @@ export class AsignadosComponent implements OnInit {
     );
 
   }
+
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Proyectos', routerLink: '/proyectos' },
+    { label: 'Asignados' },
+  ];
 
   eliminar(id:number){
 

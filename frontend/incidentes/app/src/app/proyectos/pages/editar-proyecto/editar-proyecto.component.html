@@ -1,12 +1,11 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
-            <p align="right">
-                <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
-                </p>
+            <input id="btn-guardar" (click)="volver()" value="Volver" class="btn btn-success btn-volver" />
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1 align="center">Proyectos</h1>
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Administracion de Proyectos</h1>
                     <div class="card-internal">
                         <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="consultarAccion()">
                             <div class="card-header">Editar Proyecto</div>

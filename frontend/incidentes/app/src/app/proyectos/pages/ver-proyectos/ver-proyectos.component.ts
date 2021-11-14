@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login/services/login.service';
 import { Proyecto } from '../../../interfaces/proyecto.interface';
 import { ProyectoService } from '../../services/proyecto.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-ver-proyectos',
@@ -35,6 +36,11 @@ export class VerProyectosComponent implements OnInit {
         ((data: Array<Proyecto>) => this.proyectos = data),
       );
   }
+
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Proyectos', routerLink: '/proyectos' },
+  ];
 
   onConfirm() {
     this.messageService.clear();

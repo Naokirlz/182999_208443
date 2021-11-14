@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { ProyectoService } from '../../services/proyecto.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-editar-proyecto',
@@ -32,6 +33,12 @@ export class EditarProyectoComponent implements OnInit {
         ((data: Proyecto) => this.result(data)),
       );
   }
+
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Proyectos', routerLink: '/proyectos' },
+    { label: 'Modificar'},
+  ];
 
   private result(data: Proyecto): void {
     this.proyecto = data;

@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1 align="center">Proyectos</h1>
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Administracion de Proyectos</h1>
                     <div class="card-internal">
                         <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="altaProyecto()">
                             <div class="card-header">Alta Proyecto</div>
@@ -12,7 +13,7 @@
                                 <div class="p-field">
                                     <label for="Nombre">Nombre del Proyecto</label>
                                     <input id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Proyecto es incorrecto.</small>
+                                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Proyecto debe tener entre 5 y 25 caracteres.</small>
                                 </div>
                             </div>
                             <div class="card-footer">

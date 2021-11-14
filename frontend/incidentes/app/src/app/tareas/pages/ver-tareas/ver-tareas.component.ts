@@ -33,9 +33,7 @@ export class VerTareasComponent implements OnInit {
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
-  public items: MenuItem[] = [
-    { label: 'Tareas', routerLink: '/tareas' },
-  ];
+  public items: MenuItem[] = [];
 
   public admin: boolean = false;
   public tester: boolean = false;
@@ -46,9 +44,12 @@ export class VerTareasComponent implements OnInit {
   public totalHoras: number = 0;
   public proyectoId: number;
   public proyecto: Proyecto;
+  public titulo: string = 'Administración de Tareas';
 
   ngOnInit(): void {
     this.proyectoId = parseInt(this._route.snapshot.params['proyectoId']);
+    this.cargarBreadcrumb();
+    this.actualizarTitulo();
 
     if (this.proyectoId) {
       this.proyectoService.getBy(this.proyectoId)
@@ -71,6 +72,21 @@ export class VerTareasComponent implements OnInit {
         .subscribe(
           ((data: Array<Proyecto>) => this.proyectos = data),
         );
+    }
+  }
+
+  cargarBreadcrumb(): void {
+    if (this.proyectoId) {
+      this.items.push({ label: 'Proyectos', routerLink: '/proyectos' });
+      this.items.push({ label: 'Tareas' });
+    } else {
+      this.items.push({ label: 'Tareas', routerLink: '/tareas' });
+    }
+  }
+
+  actualizarTitulo(): void {
+    if (this.proyectoId) {
+      this.titulo = 'Tareas del Proyecto';
     }
   }
 

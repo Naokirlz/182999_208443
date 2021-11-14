@@ -1,13 +1,11 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
-            <p align="right" *ngIf="admin && proyectoId">
-                <input id="btn-guardar" (click)="volver()" value="Volver" class="btn btn-success" />
-            </p>
+            <input id="btn-guardar" *ngIf="admin && proyectoId" (click)="volver()" value="Volver" class="btn btn-success btn-volver" />
             <div class="col-12 mb-4">
                 <div class="card border-0">
                     <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
-                    <h1 align="center">Administracion de Tareas</h1>
+                    <h1 align="center">{{ titulo }}</h1>
                     <div class="card-internal">
                         <p-table [value]="tareas!" styleClass="p-datatable-sm" responsiveLayout="scroll">
                             <ng-template pTemplate="header">
@@ -29,7 +27,7 @@
                                     <td>{{tarea.costo | number }}</td>
                                     <td>{{tarea.duracion | number }}</td>
                                     <td>{{tarea.duracion * tarea.costo | number }}</td>
-                                    <td *ngIf="admin">
+                                    <td *ngIf="admin" class="p-buttonset">
                                         <button pButton type="button" (click)="editar(tarea.id)" icon="pi pi-pencil" style="border: 0;"></button>
                                         <button pButton type="button" (click)="consultarAccion(tarea.id)" icon="pi pi-trash" style="background-color: red; border: 0;"></button>
                                     </td>
