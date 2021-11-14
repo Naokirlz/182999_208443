@@ -58,9 +58,6 @@ export class FormularioComponent implements OnInit {
 
     }
 
-    
-    
-
     this.loginService.login(usuario)
         .subscribe(
           (data: any) => {

@@ -1,7 +1,7 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
-            <p align="right" *ngIf="admin">
+            <p align="right" *ngIf="admin && proyectoId">
                 <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
                 </p>
             <div class="col-12 mb-4">
@@ -20,7 +20,6 @@
                                 <th>Costo/Hora ($)</th>
                                 <th>Duracion (hs)</th>
                                 <th>Total ($)</th>
-                                <th *ngIf ="admin" >Editar</th>
                                 <th *ngIf ="admin" >Acciones</th>
                             </tr>
                         </ng-template>
@@ -35,13 +34,17 @@
                                 <td *ngIf ="admin">
                                     <button pButton type="button" (click)="editar(tarea.id)" icon="pi pi-pencil">
                                     </button>
-                                </td>
-                                <td *ngIf ="admin">
                                     <button pButton type="button" (click)="consultarAccion(tarea.id)" icon="pi pi-trash" style="background-color: red; border: 0;"></button>
                                 </td>
                             </tr>
                         </ng-template>
                     </p-table>
+                </div>
+                <div class="card-footer">
+                    <div class="card border-0">
+                        <h5 align="center" >Cantidad de Horas: <strong>{{totalHoras}}</strong></h5>
+                    </div>
+
                 </div>
             </div>
         </div>
