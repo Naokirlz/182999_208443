@@ -6,6 +6,7 @@ import { LoginService } from 'src/app/login/services/login.service';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
 import { Tarea } from '../../../interfaces/tarea.interface';
 import { TareaService } from '../../services/tarea.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-ver-tareas',
@@ -15,80 +16,68 @@ import { TareaService } from '../../services/tarea.service';
 })
 export class VerTareasComponent implements OnInit {
 
-  public proyectoId: number;
-  public proyecto:Proyecto;
-
-
-
-  constructor(private tareaService:TareaService,
+  constructor(private tareaService: TareaService,
     private proyectoService: ProyectoService,
     private _router: Router,
     private messageService: MessageService,
     private loginService: LoginService,
     private _route: ActivatedRoute) {
 
-
-      this.admin = this.loginService.isAdminLoggedIn();
-      this.tester = this.loginService.isTesterIn();
-      this.desarrollador = this.loginService.isDesarrolladorIn();
-      this.proyectoId = 0;
-      const p:Proyecto ={};
-      this.proyecto=p;
-
-     }
-
-  public admin:boolean = false;
-  public tester:boolean = false; 
-  public desarrollador:boolean = false;   
-  public tareas:Tarea[] | undefined = [];
-  private proyectos: Proyecto[] = [];
-  private idTareaEliminar: number = -1;
-  public totalHoras:number=0;
-
-  ngOnInit(): void {
-
-    this.proyectoId = parseInt(this._route.snapshot.params['proyectoId']);
-
-    
-
-    if(this.proyectoId){
-
-      this.proyectoService.getBy(this.proyectoId)
-      .subscribe(
-      (data: Proyecto) =>
-      {
-        this.tareas = data.tareas;
-        this.obtenerTotalHoras();
-      }
-      );
-
-    } else{
-
-      this.tareaService.getTareas()
-      .subscribe(
-        (tareas:Tarea[]) => 
-        {
-          this.tareas = tareas;
-          this.obtenerTotalHoras();
-        }
-      );
-      
-      this.proyectoService.getProyecto()
-      .subscribe(
-        ((data: Array<Proyecto>) => this.proyectos = data),
-      );
-
-    }
+    this.admin = this.loginService.isAdminLoggedIn();
+    this.tester = this.loginService.isTesterIn();
+    this.desarrollador = this.loginService.isDesarrolladorIn();
+    this.proyectoId = 0;
+    const p: Proyecto = {};
+    this.proyecto = p;
 
   }
 
-  obtenerTotalHoras(){
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Tareas', routerLink: '/tareas' },
+  ];
 
+  public admin: boolean = false;
+  public tester: boolean = false;
+  public desarrollador: boolean = false;
+  public tareas: Tarea[] | undefined = [];
+  private proyectos: Proyecto[] = [];
+  private idTareaEliminar: number = -1;
+  public totalHoras: number = 0;
+  public proyectoId: number;
+  public proyecto: Proyecto;
+
+  ngOnInit(): void {
+    this.proyectoId = parseInt(this._route.snapshot.params['proyectoId']);
+
+    if (this.proyectoId) {
+      this.proyectoService.getBy(this.proyectoId)
+        .subscribe(
+          (data: Proyecto) => {
+            this.tareas = data.tareas;
+            this.obtenerTotalHoras();
+          }
+        );
+    } else {
+      this.tareaService.getTareas()
+        .subscribe(
+          (tareas: Tarea[]) => {
+            this.tareas = tareas;
+            this.obtenerTotalHoras();
+          }
+        );
+
+      this.proyectoService.getProyecto()
+        .subscribe(
+          ((data: Array<Proyecto>) => this.proyectos = data),
+        );
+    }
+  }
+
+  obtenerTotalHoras() {
     this.tareas?.forEach(
-      
-      tar=>  this.totalHoras = (tar.duracion! + this.totalHoras)
+      tar => this.totalHoras = (tar.duracion! + this.totalHoras)
     )
-
   }
 
   onConfirm() {
@@ -135,7 +124,7 @@ export class VerTareasComponent implements OnInit {
     return (proyecto?.nombre) ? proyecto.nombre : '';
   }
 
-  volver(){
+  volver() {
     this._router.navigate([`/proyectos`]);
   }
 }

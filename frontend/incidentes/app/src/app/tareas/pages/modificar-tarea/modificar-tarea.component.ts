@@ -6,6 +6,7 @@ import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { Tarea } from 'src/app/interfaces/tarea.interface';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
 import { TareaService } from '../../services/tarea.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-modificar-tarea',
@@ -35,6 +36,12 @@ export class ModificarTareaComponent implements OnInit {
         (data: Tarea) => this.result(data),
       );
   }
+
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Tareas', routerLink: '/tareas' },
+    { label: 'Modificar' },
+  ];
 
   private result(data: Tarea): void {
     this.tarea = data;

@@ -6,6 +6,7 @@ import { Tarea } from '../../../interfaces/tarea.interface';
 import { TareaService } from '../../services/tarea.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-alta-tarea',
@@ -27,6 +28,12 @@ export class AltaTareaComponent implements OnInit {
         (data: Array<Proyecto>) => this.proyectos = data,
       );
   }
+
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Tareas', routerLink: '/tareas' },
+    { label: 'Alta', routerLink: '/tareas/alta' },
+  ];
 
   miFormulario: FormGroup = this.fb.group({
     nombre: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],

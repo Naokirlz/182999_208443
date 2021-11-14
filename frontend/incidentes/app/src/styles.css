@@ -329,3 +329,10 @@ th {
     text-align: center;
     font-weight: 600;
 }
+
+.btn-volver {
+    z-index: 500;
+    right: 15px;
+    position: absolute;
+    width: 150px;
+}
