@@ -8,16 +8,16 @@
     <div class="sidebar-menu">
         <div class="profile">
             <img src="assets/img/Logo.jpeg" alt />
-            <!-- <p><span> {{rol}}: {{usuario.nombreUsuario}}</span></p> -->
+            <p class="nombreusu" *ngIf="isLoogedIn()"><span> {{ obtenerRol() + ":" }} {{ (user) ? user.nombreUsuario : '' }}</span></p>
         </div>
-        <li class="item" *ngIf ="!logged">
+        <li class="item" *ngIf="!isLoogedIn()">
             <a routerLink="/login" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
                 true}" class="menu-btn">
                 <i class="pi pi-pencil"></i>
                 <span>Login</span>
             </a>
         </li>
-        <li class="item" *ngIf ="logged && admin">
+        <li class="item" *ngIf="isLoogedIn() && admin">
             <a routerLink="/usuarios" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-users"></i>
                 <span>
@@ -39,7 +39,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged && admin">
+        <li class="item" *ngIf="isLoogedIn() && admin">
             <a routerLink="/proyectos" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-briefcase"></i>
                 <span>
@@ -61,7 +61,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged && admin">
+        <li class="item" *ngIf="user && admin">
             <a routerLink="/tareas" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-list"></i>
                 <span>
@@ -82,7 +82,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged && admin">
+        <li class="item" *ngIf="isLoogedIn() && admin">
             <a routerLink="/reportes" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-chart-line"></i>
                 <span>
@@ -103,7 +103,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged && admin">
+        <li class="item" *ngIf="isLoogedIn() && admin">
             <a routerLink="/importaciones" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-cloud-download"></i>
                 <span>
@@ -118,7 +118,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged && desarrollador">
+        <li class="item" *ngIf="isLoogedIn() && desarrollador">
             <a routerLink="/desarrollador" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-key"></i>
                 <span>
@@ -139,7 +139,7 @@
                 </a>
             </div>
         </li>
-        <li class="item" *ngIf ="logged && tester">
+        <li class="item" *ngIf="isLoogedIn() && tester">
             <a routerLink="/tester" routerLinkActive="router-link-active" class="menu-btn">
                 <i class="pi pi-key"></i>
                 <span>
@@ -167,11 +167,12 @@
             </div>
         </li>
         <li class="separator"></li>
-        <li class="item" *ngIf ="logged">
+        <li class="item" *ngIf="isLoogedIn()">
             <a class="menu-btn" (click)="logout()">
                 <i class="nav-icon pi pi-power-off"></i>
                 <span>Cerrar Sesión</span>
             </a>
         </li>
     </div>
+    <p-toast></p-toast>
 </div>

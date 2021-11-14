@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { LoginComponent } from './login/pages/login/login.component';
-import { LogoutComponent } from './login/pages/logout/logout.component';
 import { AltaUsuarioComponent } from './usuarios/pages/alta-usuario/alta-usuario.component';
 import { ReportesComponent } from './reportes/pages/reportes/reportes.component';
 import { VerUsuariosComponent } from './usuarios/pages/ver-usuarios/ver-usuarios.component';
@@ -31,8 +30,7 @@ import { HomeComponent } from './home/home/home.component';
 
 const routes: Routes = [
   { path: 'login',component: LoginComponent, pathMatch: 'full' , canActivate:[UserNotLoggedGuard]},
-  { path: '',component: HomeComponent, pathMatch: 'full' , canActivate:[UserNotLoggedGuard]},
-  { path: 'salir',component: LogoutComponent,},
+  { path: '',component: HomeComponent, pathMatch: 'full'},
   { path: 'usuarios',component: VerUsuariosComponent, canActivate:[UserLoggedGuard , AdminLoggedGuard]},
   { path: 'usuarios/alta', component: AltaUsuarioComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},
   { path: 'reportes',component: ReportesComponent,canActivate:[UserLoggedGuard, AdminLoggedGuard]},

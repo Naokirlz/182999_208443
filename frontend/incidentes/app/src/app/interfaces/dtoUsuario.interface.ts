@@ -6,6 +6,7 @@ export interface Usuario {
         Apellido?:string;
         RolUsuario?:number;
         rolUsuario?:number;
+        token?:string;
         Email?:string;
         id?:number;
         ValorHora?:number;

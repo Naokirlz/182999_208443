@@ -324,3 +324,8 @@ th {
 .p-breadcrumb.p-component {
     border: none;
 }
+
+.nombreusu {
+    text-align: center;
+    font-weight: 600;
+}
