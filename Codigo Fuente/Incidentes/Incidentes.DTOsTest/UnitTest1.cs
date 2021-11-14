@@ -154,5 +154,29 @@ namespace Incidentes.DTOsTest
             Assert.AreEqual(12, tarea.Duracion);
             Assert.AreEqual("Tarea", tarea.Nombre);
         }
+
+        [Test]
+        public void funciona_correctamente_incidenteDto()
+        {
+            IncidenteDTO usu = new IncidenteDTO()
+            {
+                Nombre = "incidente",
+                Duracion = 5,
+                DesarrolladorId = 3,
+                Descripcion = "aaaaa",
+                EstadoIncidente = IncidenteDTO.Estado.Activo,
+                Id = 6,
+                ProyectoId = 9,
+                Version = "1.2"
+            };
+            Assert.AreEqual("incidente", usu.Nombre);
+            Assert.AreEqual("aaaaa", usu.Descripcion);
+            Assert.AreEqual("1.2", usu.Version);
+            Assert.AreEqual(IncidenteDTO.Estado.Activo, usu.EstadoIncidente);
+            Assert.AreEqual(5, usu.Duracion);
+            Assert.AreEqual(6, usu.Id);
+            Assert.AreEqual(9, usu.ProyectoId);
+            Assert.AreEqual(3, usu.DesarrolladorId);
+        }
     }
 }
