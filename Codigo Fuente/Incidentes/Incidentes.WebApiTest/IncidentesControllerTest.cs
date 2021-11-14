@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
@@ -48,9 +49,9 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario() { 
+            UsuarioDTO usu = new UsuarioDTO() { 
                 Id = 3,
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
 
             Proyecto pro = new Proyecto() { };
@@ -80,10 +81,10 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Id = 3,
-                RolUsuario = Usuario.Rol.Administrador
+                RolUsuario = UsuarioDTO.Rol.Administrador
             };
 
             Proyecto pro = new Proyecto() { };
@@ -108,10 +109,10 @@ namespace Incidentes.WebApiTest
         public void se_pueden_ver_los_incidentes_de_los_proyectos_de_un_usuario()
         {
             incidentesL.Add(new Incidente());
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Id = 3,
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
 
             Proyecto pro = new Proyecto() { };
@@ -142,9 +143,9 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -174,9 +175,9 @@ namespace Incidentes.WebApiTest
                 Id = 3,
                 Nombre = "Incidente"
             };
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 
@@ -205,9 +206,9 @@ namespace Incidentes.WebApiTest
                 ProyectoId = 3
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -238,9 +239,9 @@ namespace Incidentes.WebApiTest
                 ProyectoId = 3
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 
@@ -267,9 +268,9 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -302,9 +303,9 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -344,9 +345,9 @@ namespace Incidentes.WebApiTest
                 Nombre = "Incidente"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Tester
+                RolUsuario = UsuarioDTO.Rol.Tester
             };
             Proyecto pro = new Proyecto() { };
 
@@ -378,8 +379,8 @@ namespace Incidentes.WebApiTest
                 Id = 3,
                 Nombre = "Incidente"
             };
-            Usuario usu = new Usuario() { 
-                RolUsuario= Usuario.Rol.Desarrollador
+            UsuarioDTO usu = new UsuarioDTO() { 
+                RolUsuario= UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 

@@ -48,10 +48,10 @@ namespace Incidentes.WebApi.Controllers
         [TrapExcepciones]
         public IActionResult GetDesarrollador(string id)
         {
-            Usuario usuario = _logicaU.Obtener(Int32.Parse(id));
+            UsuarioDTO usuario = _logicaU.Obtener(Int32.Parse(id));
             int cantidad = _logicaU.CantidadDeIncidentesResueltosPorUnDesarrollador(usuario.Id);
-            UsuarioDTO user = new UsuarioDTO(usuario);
-            return Ok(user);
+            usuario.IncidentesResueltos = cantidad;
+            return Ok(usuario);
         }
     }
 }

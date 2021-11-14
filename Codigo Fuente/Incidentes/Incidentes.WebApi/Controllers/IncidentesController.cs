@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
@@ -32,7 +33,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get()
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
             IEnumerable<Incidente> result = new List<Incidente>();
 
@@ -64,7 +65,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult GetIncidentes([FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
             Incidente incidente = new Incidente()
             {
@@ -113,8 +114,8 @@ namespace Incidentes.WebApi.Controllers
 
         private void usuarioPerteneceAlProyecto(string token, int idIncidente, int proyId = 0)
         {
-            Usuario usu = _logicaU.ObtenerPorToken(token);
-            if (usu.RolUsuario != Usuario.Rol.Administrador)
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
+            if (usu.RolUsuario != UsuarioDTO.Rol.Administrador)
             {
                 if (idIncidente != -1)
                 {

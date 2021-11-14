@@ -18,7 +18,7 @@ namespace Incidentes.WebApiTest
         private Mock<ILogicaUsuario> _logicaU;
         private ProyectosController _pController;
         private List<Proyecto> proyectosL;
-        private Usuario u;
+        private UsuarioDTO u;
         private Incidente i;
         private Proyecto p;
 
@@ -40,21 +40,21 @@ namespace Incidentes.WebApiTest
                 Duracion = 2,
                 ProyectoId = 7
             };
-            u = new Usuario()
+            u = new UsuarioDTO()
             {
                 Nombre = "sssss",
                 Id = 9,
                 ValorHora = 200,
                 Apellido = "aaaaaaa",
                 Email = "ssasssa@asdasda.com",
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             p = new Proyecto()
             {
                 Nombre = "Proyecto",
                 Id = 7,
                 Incidentes = new List<Incidente>() { i },
-                Asignados = new List<Usuario>() { u }
+                Asignados = new List<Usuario>() { }
             };
         }
 
@@ -74,16 +74,16 @@ namespace Incidentes.WebApiTest
         public void se_pueden_ver_los_proyectos()
         {
             Proyecto p = new Proyecto();
-            Usuario u = new Usuario() {
+            UsuarioDTO u = new UsuarioDTO() {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Tester,
+                RolUsuario = UsuarioDTO.Rol.Tester,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
             };
-            p.Asignados.Add(u);
+            p.Asignados.Add(u.convertirDTO_Dominio());
 
             proyectosL.Add(p);
             IQueryable<Proyecto> pros = proyectosL.AsQueryable();
@@ -109,17 +109,17 @@ namespace Incidentes.WebApiTest
         public void se_pueden_ver_los_proyectos_si_es_administrador()
         {
             Proyecto p = new Proyecto();
-            Usuario u = new Usuario()
+            UsuarioDTO u = new UsuarioDTO()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Administrador,
+                RolUsuario = UsuarioDTO.Rol.Administrador,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
             };
-            p.Asignados.Add(u);
+            p.Asignados.Add(u.convertirDTO_Dominio());
 
             proyectosL.Add(p);
             IQueryable<Proyecto> pros = proyectosL.AsQueryable();
@@ -144,10 +144,10 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_un_proyecto()
         {
-            Usuario us = new Usuario()
+            UsuarioDTO us = new UsuarioDTO()
             {
                 Id = 5,
-                RolUsuario = Usuario.Rol.Administrador
+                RolUsuario = UsuarioDTO.Rol.Administrador
             };
             Proyecto p = new Proyecto()
             {
@@ -228,7 +228,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_el_costo_de_un_proyecto()
         {
-            p.Asignados.Add(u);
+            p.Asignados.Add(u.convertirDTO_Dominio());
 
             Tarea t = new Tarea()
             {
@@ -265,7 +265,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_la_duracion_de_un_proyecto()
         {
-            p.Asignados.Add(u);
+            p.Asignados.Add(u.convertirDTO_Dominio());
             Tarea t = new Tarea()
             {
                 Nombre = "Tarea",

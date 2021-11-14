@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
@@ -84,12 +85,12 @@ namespace Incidentes.WebApiTest
         public void se_pueden_ver_las_tareas()
         {
             Tarea t = new Tarea();
-            Usuario u = new Usuario()
+            UsuarioDTO u = new UsuarioDTO()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Tester,
+                RolUsuario = UsuarioDTO.Rol.Tester,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
@@ -119,12 +120,12 @@ namespace Incidentes.WebApiTest
         public void los_administradores_pueden_ver_las_tareas()
         {
             Tarea t = new Tarea();
-            Usuario u = new Usuario()
+            UsuarioDTO u = new UsuarioDTO()
             {
                 Nombre = "Martin",
                 Apellido = "Cosa",
                 Contrasenia = "Casa#Blanca",
-                RolUsuario = Usuario.Rol.Administrador,
+                RolUsuario = UsuarioDTO.Rol.Administrador,
                 Email = "martint1@gmail.com",
                 NombreUsuario = "martincosat1",
                 Token = ""
@@ -159,9 +160,9 @@ namespace Incidentes.WebApiTest
                 Nombre = "Tarea"
             };
 
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 
@@ -191,8 +192,8 @@ namespace Incidentes.WebApiTest
                 Nombre = "Tarea"
             };
 
-            Usuario usu = new Usuario() {
-                RolUsuario = Usuario.Rol.Desarrollador
+            UsuarioDTO usu = new UsuarioDTO() {
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
             Proyecto pro = new Proyecto() { };
 

@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
@@ -31,7 +32,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get()
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
             IEnumerable<Tarea> result = new List<Tarea>();
 
@@ -52,7 +53,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get(int id)
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
             Tarea tar = _logicaT.Obtener(id);
             if (usu.RolUsuario != 0)
             {

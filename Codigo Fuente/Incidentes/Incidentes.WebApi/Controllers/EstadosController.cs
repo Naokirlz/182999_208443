@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
@@ -46,7 +47,7 @@ namespace Incidentes.WebApi.Controllers
 
         private void usuarioPerteneceAlProyecto(string token, int idIncidente)
         {
-            Usuario usu = _logicaU.ObtenerPorToken(token);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
             Incidente inc = _logicaI.Obtener(idIncidente);
             bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
             if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);

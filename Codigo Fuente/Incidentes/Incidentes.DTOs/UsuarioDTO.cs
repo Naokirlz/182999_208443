@@ -49,5 +49,33 @@ namespace Incidentes.DTOs
                 RolUsuario = Rol.Tester;
             }
         }
+
+        public Usuario convertirDTO_Dominio()
+        {
+            Usuario usuario = new Usuario()
+            {
+                Nombre = this.Nombre,
+                Apellido = this.Apellido,
+                Email = this.Email,
+                NombreUsuario = this.NombreUsuario,
+                Id = this.Id,
+                ValorHora = this.ValorHora,
+                Contrasenia = this.Contrasenia,
+                Token = this.Token,
+            };
+            if (this.RolUsuario == Rol.Administrador)
+            {
+                usuario.RolUsuario = Usuario.Rol.Administrador;
+            }
+            else if (this.RolUsuario == Rol.Desarrollador)
+            {
+                usuario.RolUsuario = Usuario.Rol.Desarrollador;
+            }
+            else
+            {
+                usuario.RolUsuario = Usuario.Rol.Tester;
+            }
+            return usuario;
+        }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Incidentes.Dominio;
+﻿using Incidentes.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Incidentes.WebApi.Controllers
 {
@@ -21,9 +21,9 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpGet]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Get(Usuario.Rol? rol = null)
+        public IActionResult Get()
         {
-            List<Usuario> result = _logica.Obtener(rol);
+            List<UsuarioDTO> result = _logica.ObtenerTodos().ToList();
             return Ok(result);
         }
 
@@ -31,13 +31,13 @@ namespace Incidentes.WebApi.Controllers
         [FilterAutorizacion("Administrador")]
         public IActionResult Get(int id)
         {
-            Usuario desarrollador = _logica.Obtener(id);
-            return Ok(desarrollador);
+            UsuarioDTO usuario = _logica.Obtener(id);
+            return Ok(usuario);
         }
 
         [HttpPost]
         [FilterAutorizacion("Administrador")]
-        public IActionResult Post([FromBody] Usuario user)
+        public IActionResult Post([FromBody] UsuarioDTO user)
         {
             _logica.Alta(user);
             return Ok(user);

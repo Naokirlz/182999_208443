@@ -55,7 +55,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_pueden_ver_el_reporte_de_los_usuarios()
         {
-            Usuario usu = new Usuario();
+            UsuarioDTO usu = new UsuarioDTO();
             _logicaU.Setup(c => c.Obtener(It.IsAny<int>())).Returns(usu);
             _logicaU.Setup(c => c.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>())).Returns(3);
 

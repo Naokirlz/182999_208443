@@ -31,7 +31,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get()
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logicaU.ObtenerPorToken(token);
+            UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
 
             List<Proyecto> result = new List<Proyecto>();
 
@@ -69,8 +69,8 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Get(int id)
         {
             string token = Request.Headers["autorizacion"];
-            Usuario us = _logicaU.ObtenerPorToken(token);
-            if(us.RolUsuario != Usuario.Rol.Administrador)
+            UsuarioDTO us = _logicaU.ObtenerPorToken(token);
+            if(us.RolUsuario != UsuarioDTO.Rol.Administrador)
             {
                 bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(us.Id, id);
                 if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);

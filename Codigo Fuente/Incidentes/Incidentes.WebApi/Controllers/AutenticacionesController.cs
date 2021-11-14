@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.Logica.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
@@ -21,7 +22,7 @@ namespace Incidentes.WebApi.Controllers
 
         [HttpPost]
         [TrapExcepciones]
-        public IActionResult Login(Usuario usuario)
+        public IActionResult Login(UsuarioDTO usuario)
         {
             usuario.Token = _logica.Login(usuario.NombreUsuario, usuario.Contrasenia);
             usuario = _logica.ObtenerPorToken(usuario.Token);
@@ -33,7 +34,7 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Logout(int id)
         {
             string token = Request.Headers["autorizacion"];
-            Usuario usu = _logica.ObtenerPorToken(token);
+            UsuarioDTO usu = _logica.ObtenerPorToken(token);
             bool autorizado = usu.Id == id;
             if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_distinto);
 

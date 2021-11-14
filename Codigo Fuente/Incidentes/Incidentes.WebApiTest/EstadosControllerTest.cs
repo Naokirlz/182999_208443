@@ -1,4 +1,5 @@
 ﻿using Incidentes.Dominio;
+using Incidentes.DTOs;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Microsoft.AspNetCore.Http;
@@ -41,10 +42,10 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_resolver_un_incidente()
         {
-            Usuario usu = new Usuario()
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Id = 3,
-                RolUsuario = Usuario.Rol.Desarrollador
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
             };
 
             Incidente i = new Incidente()
