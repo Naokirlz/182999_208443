@@ -15,13 +15,13 @@ namespace Incidentes.DTOs
         public int Costo { get; set; }
         public List<Incidente> Incidentes { get; set; }
         public List<Tarea> Tareas { get; set; }
-        public List<UsuarioParaReporteDTO> Asignados { get; set; }
+        public List<UsuarioDTO> Asignados { get; set; }
 
         public ProyectosDTO()
         {
             Incidentes = new List<Incidente>();
             Tareas = new List<Tarea>();
-            Asignados = new List<UsuarioParaReporteDTO>();
+            Asignados = new List<UsuarioDTO>();
         }
     }
 }

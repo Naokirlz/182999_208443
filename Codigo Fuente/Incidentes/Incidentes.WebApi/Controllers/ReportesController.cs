@@ -50,15 +50,7 @@ namespace Incidentes.WebApi.Controllers
         {
             Usuario usuario = _logicaU.Obtener(Int32.Parse(id));
             int cantidad = _logicaU.CantidadDeIncidentesResueltosPorUnDesarrollador(usuario.Id);
-            UsuarioParaReporteDTO user = new UsuarioParaReporteDTO() { 
-                Nombre = usuario.Nombre,
-                Apellido = usuario.Apellido,
-                Email = usuario.Email,
-                Id = usuario.Id,
-                IncidentesResueltos = cantidad,
-                NombreUsuario = usuario.NombreUsuario,
-                RolUsuario = usuario.RolUsuario
-            };
+            UsuarioDTO user = new UsuarioDTO(usuario);
             return Ok(user);
         }
     }

@@ -56,16 +56,7 @@ namespace Incidentes.WebApi.Controllers
                 };
                 foreach(Usuario u in p.Asignados)
                 {
-                    UsuarioParaReporteDTO us = new UsuarioParaReporteDTO()
-                    {
-                        Apellido = u.Apellido,
-                        Email = u.Email,
-                        Id = u.Id,
-                        Nombre = u.Nombre,
-                        ValorHora = u.ValorHora,
-                        NombreUsuario = u.NombreUsuario,
-                        RolUsuario = u.RolUsuario
-                    };
+                    UsuarioDTO us = new UsuarioDTO(u);
                     pro.Asignados.Add(us);
                 }
                 proyectos.Add(pro);
@@ -95,16 +86,7 @@ namespace Incidentes.WebApi.Controllers
             };
             foreach (Usuario u in p.Asignados)
             {
-                UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
-                {
-                    Apellido = u.Apellido,
-                    Email = u.Email,
-                    Id = u.Id,
-                    Nombre = u.Nombre,
-                    ValorHora = u.ValorHora,
-                    NombreUsuario = u.NombreUsuario,
-                    RolUsuario = u.RolUsuario
-                };
+                UsuarioDTO usu = new UsuarioDTO(u);
                 pro.Asignados.Add(usu);
             }
             int duracion = 0;
@@ -162,16 +144,7 @@ namespace Incidentes.WebApi.Controllers
             };
             foreach (Usuario u in proyecto.Asignados)
             {
-                UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
-                {
-                    Apellido = u.Apellido,
-                    Email = u.Email,
-                    Id = u.Id,
-                    Nombre = u.Nombre,
-                    ValorHora = u.ValorHora,
-                    NombreUsuario = u.NombreUsuario,
-                    RolUsuario = u.RolUsuario
-                };
+                UsuarioDTO usu = new UsuarioDTO(u);
                 pro.Asignados.Add(usu);
             }
 

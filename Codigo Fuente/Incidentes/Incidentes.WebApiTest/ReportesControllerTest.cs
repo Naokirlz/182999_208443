@@ -63,7 +63,7 @@ namespace Incidentes.WebApiTest
             var okResult = result as OkObjectResult;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<UsuarioParaReporteDTO>(okResult.Value);
+            Assert.IsInstanceOf<UsuarioDTO>(okResult.Value);
 
             _logicaU.Verify(c => c.Obtener(It.IsAny<int>()));
             _logicaU.Verify(c => c.CantidadDeIncidentesResueltosPorUnDesarrollador(It.IsAny<int>()));

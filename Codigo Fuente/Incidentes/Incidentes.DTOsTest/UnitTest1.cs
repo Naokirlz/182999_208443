@@ -47,18 +47,18 @@ namespace Incidentes.DTOsTest
         [Test]
         public void funciona_correctamente_proyectoDto()
         {
-            UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Nombre = "Incidente complicado",
                 Apellido = "Apellido",
                 Email = "email@email",
-                RolUsuario = Usuario.Rol.Tester,
+                RolUsuario = UsuarioDTO.Rol.Tester,
                 NombreUsuario = "martincosat1",
                 Id = 5,
                 ValorHora = 3,
                 IncidentesResueltos = 3
             };
-            List<UsuarioParaReporteDTO> usus = new List<UsuarioParaReporteDTO>();
+            List<UsuarioDTO> usus = new List<UsuarioDTO>();
             usus.Add(usu);
             List<Incidente> incL = new List<Incidente>();
             List<Tarea> tarL = new List<Tarea>();
@@ -80,25 +80,59 @@ namespace Incidentes.DTOsTest
         [Test]
         public void funciona_correctamente_usuarioParaDto()
         {
-            UsuarioParaReporteDTO usu = new UsuarioParaReporteDTO()
+            UsuarioDTO usu = new UsuarioDTO()
             {
                 Nombre = "Usuario",
                 Apellido = "Apellido",
                 Email = "email@email",
-                RolUsuario = Usuario.Rol.Tester,
+                RolUsuario = UsuarioDTO.Rol.Tester,
                 NombreUsuario = "martincosat1",
                 Id = 5,
                 ValorHora = 3,
-                IncidentesResueltos = 3
+                IncidentesResueltos = 3,
+                Contrasenia = "aaaaa",
+                Token = "wwwww"
             };
             Assert.AreEqual("Usuario", usu.Nombre);
+            Assert.AreEqual("aaaaa", usu.Contrasenia);
+            Assert.AreEqual("wwwww", usu.Token);
             Assert.AreEqual("Apellido", usu.Apellido);
             Assert.AreEqual("email@email", usu.Email);
             Assert.AreEqual("martincosat1", usu.NombreUsuario);
-            Assert.AreEqual(Usuario.Rol.Tester, usu.RolUsuario);
+            Assert.AreEqual(UsuarioDTO.Rol.Tester, usu.RolUsuario);
             Assert.AreEqual(5, usu.Id);
             Assert.AreEqual(3, usu.ValorHora);
             Assert.AreEqual(3, usu.IncidentesResueltos);
+        }
+
+        [Test]
+        public void puede_haber_usuario_admin()
+        {
+            UsuarioDTO usu = new UsuarioDTO()
+            {
+                RolUsuario = UsuarioDTO.Rol.Administrador
+            };
+            Assert.AreEqual(UsuarioDTO.Rol.Administrador, usu.RolUsuario);
+        }
+
+        [Test]
+        public void puede_haber_usuario_des()
+        {
+            UsuarioDTO usu = new UsuarioDTO()
+            {
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
+            };
+            Assert.AreEqual(UsuarioDTO.Rol.Desarrollador, usu.RolUsuario);
+        }
+
+        [Test]
+        public void puede_haber_usuario_tester()
+        {
+            UsuarioDTO usu = new UsuarioDTO()
+            {
+                RolUsuario = UsuarioDTO.Rol.Tester
+            };
+            Assert.AreEqual(UsuarioDTO.Rol.Tester, usu.RolUsuario);
         }
 
         [Test]
