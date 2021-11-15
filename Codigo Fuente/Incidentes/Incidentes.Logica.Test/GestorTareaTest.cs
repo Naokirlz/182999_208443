@@ -83,13 +83,13 @@ namespace Incidentes.Logica.Test
             lista.Add(tareaCompleta);
             IQueryable<Tarea> queryableTareas = lista.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true)).Returns(queryableTareas);
+            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), false)).Returns(queryableTareas);
             repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(true);
 
             TareaDTO tar = gestor.Obtener(3);
 
             Assert.AreEqual(tareaCompleta.Nombre, tar.Nombre);
-            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), false));
             repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
         }
 
@@ -144,7 +144,7 @@ namespace Incidentes.Logica.Test
             lista.Add(tareaCompleta);
             IQueryable<Tarea> queryableT = lista.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true)).Returns(queryableT);
+            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), false)).Returns(queryableT);
             repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioTarea.Eliminar(It.IsAny <Tarea>()));
 
@@ -152,7 +152,7 @@ namespace Incidentes.Logica.Test
             Assert.Pass();
 
             repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), false));
             repoGestores.Verify(c => c.RepositorioTarea.Eliminar(It.IsAny<Tarea>()));
         }
 
@@ -184,7 +184,7 @@ namespace Incidentes.Logica.Test
             lista.Add(tareaCompleta);
             IQueryable<Tarea> queryableT = lista.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true)).Returns(queryableT);
+            repoGestores.Setup(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), false)).Returns(queryableT);
             repoGestores.Setup(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioTarea.Modificar(It.IsAny<Tarea>()));
             Tarea modificada = new Tarea()
@@ -200,7 +200,7 @@ namespace Incidentes.Logica.Test
             Assert.AreEqual(tareaCompleta.Nombre, modificado.Nombre);
 
             repoGestores.Verify(c => c.RepositorioTarea.Existe(It.IsAny<Expression<Func<Tarea, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioTarea.ObtenerPorCondicion(It.IsAny<Expression<Func<Tarea, bool>>>(), false));
             repoGestores.Verify(c => c.RepositorioTarea.Modificar(It.IsAny<Tarea>()));
         }
 

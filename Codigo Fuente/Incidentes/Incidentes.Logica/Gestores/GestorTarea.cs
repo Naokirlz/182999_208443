@@ -81,7 +81,7 @@ namespace Incidentes.Logica
         {
             bool existe = _repositorioGestor.RepositorioTarea.Existe(c => c.Id == id);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
-            Tarea aObtener = _repositorioGestor.RepositorioTarea.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
+            Tarea aObtener = _repositorioGestor.RepositorioTarea.ObtenerPorCondicion(c => c.Id == id, false).FirstOrDefault();
             TareaDTO retorno = new TareaDTO(aObtener);
             return retorno;
         }

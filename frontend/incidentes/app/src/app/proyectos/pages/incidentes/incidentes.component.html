@@ -1,54 +1,43 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
-            <p align="right">
-                <input id="btn-guardar" (click) ="volver()" value="Volver" class="btn btn-success" />
-                </p>
+            <input id="btn-guardar" (click)="volver()" value="Volver" class="btn btn-success btn-volver" />
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1 align="center">Incidentes</h1>
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Incidentes del Proyecto</h1>
+                    <div class="card-internal">
+                        <p-table [value]="incidentes!" styleClass="p-datatable-sm" responsiveLayout="scroll">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>id</th>
+                                    <th>Proyecto</th>
+                                    <th>Nombre</th>
+                                    <th>Descripcion</th>
+                                    <th>Versión</th>
+                                    <th>Estado</th>
+                                    <th>Resuelto Por</th>
+                                    <th>Duración</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-incidente>
+                                <tr>
+                                    <td>{{incidente.id}}</td>
+                                    <td>{{incidente.nombreProyecto}}</td>
+                                    <td>{{incidente.nombre | titlecase }}</td>
+                                    <td>{{incidente.descripcion}}</td>
+                                    <td>{{incidente.version}}</td>
+                                    <td>{{obtenerEstado(incidente.estadoIncidente) }} </td>
+                                    <td>{{obtenerNombre(incidente.desarrolladorId ) | titlecase}}</td>
+                                    <td>{{incidente.duracion}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <p style="padding-left: 15px; padding-top: 15px;">Cantidad de Horas: <strong>{{totalHoras}} hs.</strong></p>
+                    </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="card-internal">
-                    <p-table [value]="incidentes!" styleClass="p-datatable-sm" responsiveLayout="scroll">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>id</th>
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Versión</th>
-                                <th>Estado</th>
-                                <th>Resuelto Por</th>
-                                <th>Duración</th>
-                                
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-incidente>
-                            <tr>
-                                <td>{{incidente.id}}</td>
-                                <td>{{incidente.nombre | titlecase }}</td>
-                                <td>{{incidente.descripcion}}</td>
-                                <td>{{incidente.version}}</td>
-                                <td>{{obtenerEstado(incidente.estadoIncidente) }} </td>
-                                <td>{{obtenerNombre(incidente.desarrolladorId ) | titlecase}}</td>
-                                <td>{{incidente.duracion}}</td>   
-                         
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-                <div class="card-footer">
-                    <div class="card border-0">
-                        <h5 align="center" >Cantidad de Horas: <strong>{{totalHoras}}</strong></h5>
-                    </div>
-
-                </div>
-             </div>
         </div>
     </div>
-    <!-- <app-footer></app-footer> -->
-    <!-- <toast-alert></toast-alert> -->
-
-    <!-- <confirmation-alert></confirmation-alert> -->
+    <app-footer></app-footer>
 </main>

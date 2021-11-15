@@ -88,6 +88,7 @@ export class VerTareasComponent implements OnInit {
   }
 
   obtenerTotalHoras() {
+    this.totalHoras = 0;
     this.tareas?.forEach(
       tar => this.totalHoras = (tar.duracion! + this.totalHoras)
     )
@@ -109,6 +110,14 @@ export class VerTareasComponent implements OnInit {
     this.idTareaEliminar = -1;
   }
 
+  removerTarea(id: number) :void {
+    this.tareas!.forEach(tar => {
+      if(tar.id === id) {
+        this.tareas!.splice(this.tareas!.indexOf(tar), 1);
+      }
+    });
+  }
+
   eliminar(): void {
     this.tareaService.deleteTarea(this.idTareaEliminar)
       .subscribe({
@@ -117,7 +126,8 @@ export class VerTareasComponent implements OnInit {
             severity: 'success', summary: 'Listo',
             detail: 'Tarea eliminado correctamente.'
           });
-          this.tareas = this.tareas!.filter(p => p.id !== this.idTareaEliminar);
+          this.removerTarea(this.idTareaEliminar);
+          this.obtenerTotalHoras();
           this.idTareaEliminar = -1;
         },
         error: error => {
