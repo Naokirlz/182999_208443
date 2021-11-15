@@ -10,6 +10,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import {DataViewModule} from 'primeng/dataview';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {FileUploadModule} from 'primeng/fileupload';
+import {HttpClientModule} from '@angular/common/http';
 
 
 
@@ -18,7 +20,9 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    FileUploadModule,
+    HttpClientModule
   ],
   exports: [
     ButtonModule,
@@ -27,7 +31,9 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     TableModule,
     ToastModule,
     DataViewModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    FileUploadModule,
+    HttpClientModule
   ],
   providers:[MessageService]
 

@@ -1,29 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using Incidentes.DTOs;
+using Incidentes.LogicaInterfaz;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace Incidentes.ImportacionXML
 {
-    public class ImportXML
+    public class ImportXML : IFuente
     {
-        public List<Proyecto> ImportarBugs(string rutaFuente)
+        public EmpresaXML empresa;
+        public List<ProyectoDTO> ImportarBugs(string rutaFuente)
         {
-            List<Proyecto> retorno = new List<Proyecto>();
+            List<ProyectoDTO> retorno = new List<ProyectoDTO>();
 
             XmlRootAttribute xmlRoot = new XmlRootAttribute();
             xmlRoot.ElementName = "Empresa1";
             xmlRoot.IsNullable = true;
 
             XmlSerializer serializer = new XmlSerializer(typeof(EmpresaXML), xmlRoot);
-            EmpresaXML proyecto = (EmpresaXML)serializer.Deserialize(new XmlTextReader(rutaFuente));
-            Proyecto pro = new Proyecto()
+            empresa = (EmpresaXML)serializer.Deserialize(new XmlTextReader(rutaFuente));
+            ProyectoDTO pro = new ProyectoDTO()
             {
-                Nombre = proyecto.Proyecto
+                Nombre = empresa.Proyecto
             };
 
-            foreach (Bug b in proyecto.Bugs)
+            foreach (Bug b in empresa.Bugs)
             {
-                Incidente incidente = new Incidente()
+                IncidenteDTO incidente = new IncidenteDTO()
                 {
                     Nombre = b.Nombre,
                     Descripcion = b.Descripcion,
@@ -31,63 +34,17 @@ namespace Incidentes.ImportacionXML
                 };
                 if (b.Estado.Equals("Activo"))
                 {
-                    incidente.EstadoIncidente = Incidente.Estado.Activo;
+                    incidente.EstadoIncidente = IncidenteDTO.Estado.Activo;
                 }
                 else
                 {
-                    incidente.EstadoIncidente = Incidente.Estado.Resuelto;
+                    incidente.EstadoIncidente = IncidenteDTO.Estado.Resuelto;
                 }
                 pro.Incidentes.Add(incidente);
 
             }
             retorno.Add(pro);
             return retorno;
-        }
-
-        private class EmpresaXML
-        {
-            public string Proyecto { get; set; }
-            public List<Bug> Bugs { get; set; }
-
-            public EmpresaXML()
-            {
-                Bugs = new List<Bug>();
-            }
-        }
-        private class Bug
-        {
-            public int Id { get; set; }
-            public string Nombre { get; set; }
-            public string Descripcion { get; set; }
-            public string Version { get; set; }
-            public string Estado { get; set; }
-
-            public Bug() { }
-        }
-
-        public class Incidente
-        {
-            public int Id { get; set; }
-            public string Nombre { get; set; }
-            public string Descripcion { get; set; }
-            public string Version { get; set; }
-            public Estado EstadoIncidente { get; set; }
-
-            public Incidente() { }
-
-            public enum Estado
-            {
-                Indiferente,
-                Activo,
-                Resuelto
-            }
-        }
-
-        public class Proyecto
-        {
-            public string Nombre { get; set; }
-            public List<Incidente> Incidentes { get; set; }
-            public Proyecto() { }
         }
     }
 }

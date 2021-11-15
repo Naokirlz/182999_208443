@@ -1,46 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Incidentes.DTOs;
+using Incidentes.LogicaInterfaz;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
 namespace Incidentes.ImportacionesJSON
 {
-    public class ImportacionJSON
+    public class ImportacionJSON : IFuente
     {
-        public List<Proyecto> ImportarBugs(string rutaFuente)
+        public List<ProyectoDTO> ImportarBugs(string rutaFuente)
         {
-            List<Proyecto> retorno = new List<Proyecto>();
+            List<ProyectoDTO> retorno = new List<ProyectoDTO>();
 
             StreamReader jsonFile = new StreamReader(rutaFuente);
             string jsonString = jsonFile.ReadToEnd();
-            Proyecto pro = JsonSerializer.Deserialize<Proyecto>(jsonString);
+            ProyectoDTO pro = JsonSerializer.Deserialize<ProyectoDTO>(jsonString);
 
             retorno.Add(pro);
             return retorno;
         }
-    }
-
-    public class Incidente
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Version { get; set; }
-        public Estado EstadoIncidente { get; set; }
-
-        public Incidente() { }
-
-        public enum Estado
-        {
-            Indiferente,
-            Activo,
-            Resuelto
-        }
-    }
-
-    public class Proyecto
-    {
-        public string Nombre { get; set; }
-        public List<Incidente> Incidentes { get; set; }
-        public Proyecto() { }
     }
 }

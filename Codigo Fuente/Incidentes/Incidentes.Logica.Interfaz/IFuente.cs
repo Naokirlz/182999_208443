@@ -1,14 +1,10 @@
-﻿using Incidentes.Dominio;
-using System;
+﻿using Incidentes.DTOs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Incidentes.LogicaInterfaz
 {
     public interface IFuente
     {
-        public List<Proyecto> ImportarBugs(string rutaFuente);
+        public List<ProyectoDTO> ImportarBugs(string rutaFuente);
     }
 }

@@ -30,12 +30,16 @@ export class CargarIncidentesComponent implements OnInit {
   miFormulario: FormGroup = this.fb.group({
     rutaArch: [, [Validators.required]],
     rutaPlug: [, ],
-    selectBin: [, ]
+    selectBin: [, ],
   })
 
   campoEsValido(campo: string) {
     return this.miFormulario.controls[campo].errors
       && this.miFormulario.controls[campo].touched
+  }
+
+  onBasicUploadAuto(data : any){
+    console.log(data.target.value);
   }
 
   cargarBugs():void {

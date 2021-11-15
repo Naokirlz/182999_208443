@@ -9,6 +9,7 @@ using System.IO;
 using Incidentes.Logica.Excepciones;
 using System.Xml.Serialization;
 using System.Xml;
+using Incidentes.DTOs;
 
 namespace Incidentes.LogicaImportaciones
 {
@@ -22,13 +23,13 @@ namespace Incidentes.LogicaImportaciones
         {
             _repositorioGestor = repositorioGestores;
             directorio_plugins = Directory.GetCurrentDirectory();
-            int back = 7;
+            int back = 3;
             if (directorio_plugins.Contains("Debug")) back = 6;
             for (int i=0; i< back; i++)
             {
                 directorio_plugins = System.IO.Directory.GetParent(directorio_plugins).FullName;
             }
-            directorio_plugins += "/Documentacion/Accesorios-Postman-Fuentes/DLLs/";
+            directorio_plugins += "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\";
         }
 
         public void ImportarBugs(string rutaFuente, string rutaBinario, int usuarioId)
@@ -41,14 +42,15 @@ namespace Incidentes.LogicaImportaciones
 
             IFuente fuente = ObtenerImplementacion(rutaBinario, tipo);
 
-            List<Proyecto> proys = fuente.ImportarBugs(rutaFuente);
-            foreach (Proyecto p in proys)
+            List<ProyectoDTO> proys = fuente.ImportarBugs(rutaFuente);
+            foreach (ProyectoDTO p in proys)
             {
                 Proyecto proyecto = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(u => u.Nombre == p.Nombre, true).FirstOrDefault();
-                foreach (Incidente i in p.Incidentes)
+                foreach (IncidenteDTO i in p.Incidentes)
                 {
-                    _repositorioGestor.RepositorioIncidente.Alta(i);
-                    proyecto.Incidentes.Add(i);
+                    Incidente idominio = i.convertirDTO_Dominio();
+                    _repositorioGestor.RepositorioIncidente.Alta(idominio);
+                    proyecto.Incidentes.Add(idominio);
                     _repositorioGestor.Save();
                 }
             }

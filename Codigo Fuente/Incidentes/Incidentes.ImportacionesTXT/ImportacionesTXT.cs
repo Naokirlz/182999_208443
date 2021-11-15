@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using Incidentes.DTOs;
+using Incidentes.LogicaInterfaz;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace Incidentes.ImportacionesTXT
 {
-    public class ImportacionTXT
+    public class ImportacionTXT : IFuente
     {
         private string _rutaFuente { get; set; }
 
-        public List<Proyecto> ImportarBugs(string rutaFuente)
+        public List<ProyectoDTO> ImportarBugs(string rutaFuente)
         {
             _rutaFuente = rutaFuente;
-            List<Proyecto> retorno = new List<Proyecto>();
+            List<ProyectoDTO> retorno = new List<ProyectoDTO>();
             List<string> lineas = File.ReadAllLines(_rutaFuente).ToList();
             int id_bug = 30;
             int nombre_bug = id_bug + 4 + 1;
@@ -26,12 +28,12 @@ namespace Incidentes.ImportacionesTXT
                 string versionIncidente = item.Substring(version_bug, 10).Trim();
                 string estadoIncidente = item.Substring(estado_bug).Trim();
 
-                Proyecto proyecto = new Proyecto()
+                ProyectoDTO proyecto = new ProyectoDTO()
                 {
                     Nombre = nombreProyecto
                 };
 
-                Incidente incidente = new Incidente()
+                IncidenteDTO incidente = new IncidenteDTO()
                 {
                     Nombre = nombreIncidente,
                     Descripcion = descripcionIncidente,
@@ -39,41 +41,16 @@ namespace Incidentes.ImportacionesTXT
                 };
                 if (estadoIncidente.Equals("Activo"))
                 {
-                    incidente.EstadoIncidente = Incidente.Estado.Activo;
+                    incidente.EstadoIncidente = IncidenteDTO.Estado.Activo;
                 }
                 else
                 {
-                    incidente.EstadoIncidente = Incidente.Estado.Resuelto;
+                    incidente.EstadoIncidente = IncidenteDTO.Estado.Resuelto;
                 }
                 proyecto.Incidentes.Add(incidente);
                 retorno.Add(proyecto);
             }
             return retorno;
         }
-    }
-
-    public class Incidente
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Version { get; set; }
-        public Estado EstadoIncidente { get; set; }
-
-        public Incidente() { }
-
-        public enum Estado
-        {
-            Indiferente,
-            Activo,
-            Resuelto
-        }
-    }
-
-    public class Proyecto
-    {
-        public string Nombre { get; set; }
-        public List<Incidente> Incidentes { get; set; }
-        public Proyecto() { }
     }
 }
