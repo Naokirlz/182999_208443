@@ -5,12 +5,11 @@ import { EstadosService } from 'src/app/estados/service/estados.service';
 import { IncidentesService } from 'src/app/incidentes/service/incidentes.service';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { Incidente } from 'src/app/interfaces/incidente.interface';
-import { LoginDTO } from 'src/app/interfaces/login.interface';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { LoginService } from 'src/app/login/services/login.service';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
-import { AsociacionesService } from '../../../asociaciones/service/asociaciones.service';
 import { TesterService } from '../../../tester/service/tester.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-mis-incidentes',
@@ -73,6 +72,11 @@ export class MisIncidentesComponent implements OnInit {
     );
    
   }
+
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [
+    { label: 'Incidentes' }
+  ];
 
   onConfirm() {
     this.messageService.clear();

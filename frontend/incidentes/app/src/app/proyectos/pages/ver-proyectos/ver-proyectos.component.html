@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <p-breadcrumb *ngIf="admin" [model]="items" [home]="home"></p-breadcrumb>
+                    <p-breadcrumb *ngIf="desarrollador" [model]="items" [home]="home"></p-breadcrumb>
                     <h1 align="center">Administración de Proyectos</h1>
                     <div class="card-internal">
                         <p-table [value]="proyectos" styleClass="p-datatable-sm" responsiveLayout="scroll">

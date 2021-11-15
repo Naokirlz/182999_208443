@@ -15,7 +15,6 @@ import { MenuItem } from 'primeng/api';
   ]
 })
 export class VerTareasComponent implements OnInit {
-
   constructor(private tareaService: TareaService,
     private proyectoService: ProyectoService,
     private _router: Router,
@@ -29,12 +28,10 @@ export class VerTareasComponent implements OnInit {
     this.proyectoId = 0;
     const p: Proyecto = {};
     this.proyecto = p;
-
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
   public items: MenuItem[] = [];
-
   public admin: boolean = false;
   public tester: boolean = false;
   public desarrollador: boolean = false;
@@ -80,7 +77,7 @@ export class VerTareasComponent implements OnInit {
       this.items.push({ label: 'Proyectos', routerLink: '/proyectos' });
       this.items.push({ label: 'Tareas' });
     } else {
-      this.items.push({ label: 'Tareas', routerLink: '/tareas' });
+      this.items.push({ label: 'Tareas' });
     }
   }
 

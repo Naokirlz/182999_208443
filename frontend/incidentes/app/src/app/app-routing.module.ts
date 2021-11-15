@@ -42,7 +42,7 @@ const routes: Routes = [
   { path: 'reportes/desarrolladores',component: IncidentesDesarrolladorComponent,canActivate:[UserLoggedGuard]},
   { path: 'reportes/:desarrolladorId/resueltos',component: DesarrolladorComponent,canActivate:[UserLoggedGuard]},
   { path: 'importaciones',component: CargarIncidentesComponent,canActivate:[UserLoggedGuard]},
-  { path: 'desarrollador',component: VerProyectosComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
+  { path: 'desarrollador/proyectos',component: VerProyectosComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
   { path: 'desarrollador/incidentes',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
   { path: 'desarrollador/incidentes/:incidenteId',component: DetalleBugComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
   { path: 'desarrollador/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},

@@ -35,12 +35,20 @@ export class VerProyectosComponent implements OnInit {
       .subscribe(
         ((data: Array<Proyecto>) => this.proyectos = data),
       );
+      this.cargarBreadcrumb();
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
-  public items: MenuItem[] = [
-    { label: 'Proyectos', routerLink: '/proyectos' },
-  ];
+  public items: MenuItem[] = [];
+
+  cargarBreadcrumb() {
+    if(this.admin){
+      this.items.push({ label: 'Proyectos', routerLink: '/proyectos' });
+    }/* else if(this.tester){
+    } */else{
+      this.items.push({ label: 'Proyectos' });
+    }
+  }
 
   onConfirm() {
     this.messageService.clear();
