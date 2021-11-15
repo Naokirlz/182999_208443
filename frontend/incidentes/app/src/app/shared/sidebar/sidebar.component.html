@@ -172,7 +172,8 @@
             TESTER
  ***********************************-->
         <li class="item" *ngIf="isLoogedIn() && tester">
-            <a routerLink="/tester" routerLinkActive="router-link-active" class="menu-btn">
+            <a routerLink="/tester" routerLinkActive="router-link-active" class="menu-btn" [routerLinkActiveOptions]="{exact:
+                true}">
                 <i class="pi pi-briefcase"></i>
                 <span>
                     Proyectos
