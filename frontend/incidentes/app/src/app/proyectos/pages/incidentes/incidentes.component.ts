@@ -6,7 +6,8 @@ import { ProyectoService } from '../../services/proyecto.service';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 import { LoginService } from 'src/app/login/services/login.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import { EstadosService } from 'src/app/estados/service/estados.service';
 
 @Component({
   selector: 'app-incidentes',

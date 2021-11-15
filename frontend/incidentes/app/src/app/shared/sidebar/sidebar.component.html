@@ -168,24 +168,37 @@
                 </a>
             </div>
         </li>
+                <!-- *********************************
+            TESTER
+ ***********************************-->
         <li class="item" *ngIf="isLoogedIn() && tester">
             <a routerLink="/tester" routerLinkActive="router-link-active" class="menu-btn">
-                <i class="pi pi-key"></i>
+                <i class="pi pi-briefcase"></i>
                 <span>
-                    Tester
+                    Proyectos
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/tester" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && tester">
+            <a routerLink="/tester/incidentes" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-android"></i>
+                <span>
+                    Incidentes
                     <i class="pi pi-angle-down drop-down"></i>
                 </span>
             </a>
             <div class="sub-menu">
                 <a routerLink="/tester/incidentes" routerLinkActive="router-link-active">
                     <i class="pi pi-circle-off"></i>
-                    <span>Incidentes</span>
-                </a>
-            </div>
-            <div class="sub-menu">
-                <a routerLink="/tester/tareas" routerLinkActive="router-link-active">
-                    <i class="pi pi-circle-off"></i>
-                    <span>Tareas</span>
+                    <span>Resumen</span>
                 </a>
             </div>
             <div class="sub-menu">
@@ -194,6 +207,24 @@
                     <span>Crear Incidente</span>
                 </a>
             </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && tester">
+            <a routerLink="/tester/tareas" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-list"></i>
+                <span>
+                    Tareas
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/tester/tareas" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && tester">
         </li>
         <li class="separator"></li>
         <li class="item" *ngIf="isLoogedIn()">
