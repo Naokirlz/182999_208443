@@ -7,6 +7,7 @@ import { EstadosService } from '../../../estados/service/estados.service';
 import { MessageService } from 'primeng/api';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
+import { LoginService } from 'src/app/login/services/login.service';
 
 @Component({
   selector: 'app-incidentes',
@@ -21,17 +22,25 @@ export class IncidentesPComponent implements OnInit {
   public incidentes:Incidente[] | undefined=[];
   public usuarios:Usuario[]=[];
   public totalHoras:number=0;
+
+  public admin:boolean = false;
+  public tester:boolean = false; 
+  public desarrollador:boolean = false;  
   
   constructor(private proyectoService:ProyectoService,
               private estadosService:EstadosService,
               private _route: ActivatedRoute,
               private _router: Router,
               private usuarioServie:UsuariosService,
-              private messageService: MessageService) 
+              private messageService: MessageService,
+              private loginService: LoginService) 
               
               { 
 
               this.proyectoId = 0;
+              this.admin = this.loginService.isAdminLoggedIn();
+              this.tester = this.loginService.isTesterIn();
+              this.desarrollador = this.loginService.isDesarrolladorIn();
 
               }
 
@@ -82,8 +91,10 @@ export class IncidentesPComponent implements OnInit {
 
   volver(){
 
-    this._router.navigate([`/proyectos`]);
-
+    if(this.admin){this._router.navigate([`/proyectos`]);}
+    if(this.tester){this._router.navigate([`/tester`]);}
+    if(this.desarrollador){this._router.navigate([`/desarrollador/proyectos`]);}
+    
   }
 
 }

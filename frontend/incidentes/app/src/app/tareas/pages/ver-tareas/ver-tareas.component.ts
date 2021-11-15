@@ -138,6 +138,9 @@ export class VerTareasComponent implements OnInit {
   }
 
   volver() {
-    this._router.navigate([`/proyectos`]);
+    
+    if(this.admin){this._router.navigate([`/proyectos`]);}
+    if(this.tester){this._router.navigate([`/tester`]);}
+    if(this.desarrollador){this._router.navigate([`/desarrollador/proyectos`]);}
   }
 }

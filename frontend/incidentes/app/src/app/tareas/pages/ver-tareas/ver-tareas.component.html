@@ -1,7 +1,7 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
-            <input id="btn-guardar" *ngIf="admin && proyectoId" (click)="volver()" value="Volver" class="btn btn-success btn-volver" />
+            <input id="btn-guardar" *ngIf="proyectoId" (click)="volver()" value="Volver" class="btn btn-success btn-volver" />
             <div class="col-12 mb-4">
                 <div class="card border-0">
                     <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
