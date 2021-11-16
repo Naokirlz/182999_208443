@@ -28,7 +28,7 @@
                                     <td>{{incidente.descripcion}}</td>
                                     <td>{{incidente.version}}</td>
                                     <td>{{obtenerEstado(incidente.estadoIncidente) }} </td>
-                                    <td>{{obtenerNombre(incidente.desarrolladorId ) | titlecase}}</td>
+                                    <td>{{incidente.desarrolladorNombre | titlecase}}</td>
                                     <td>{{incidente.duracion}}</td>
                                 </tr>
                             </ng-template>

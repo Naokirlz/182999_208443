@@ -46,6 +46,7 @@ namespace Incidentes.DTOs
                     if (u != null)
                     {
                         costo += i.Duracion * u.ValorHora;
+                        inc.DesarrolladorNombre = u.Nombre + " " + u.Apellido;
                     }
                 }
             }

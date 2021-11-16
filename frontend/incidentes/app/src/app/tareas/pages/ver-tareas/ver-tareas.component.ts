@@ -74,8 +74,16 @@ export class VerTareasComponent implements OnInit {
 
   cargarBreadcrumb(): void {
     if (this.proyectoId) {
+      if(this.admin) {
       this.items.push({ label: 'Proyectos', routerLink: '/proyectos' });
-      this.items.push({ label: 'Tareas' });
+      this.items.push({ label: 'Tareas del proyecto' });
+      } else if(this.desarrollador) {
+        this.items.push({ label: 'Proyectos', routerLink: '/desarrollador/proyectos' });
+        this.items.push({ label: 'Tareas del proyecto' });
+      } else{
+        this.items.push({ label: 'Proyectos', routerLink: '/tester/proyectos' });
+        this.items.push({ label: 'Tareas del proyecto' });
+      }
     } else {
       this.items.push({ label: 'Tareas' });
     }

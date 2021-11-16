@@ -34,8 +34,11 @@ namespace Incidentes.Logica
             Incidente alta = entity.convertirDTO_Dominio();
             _repositorioGestor.RepositorioIncidente.Alta(alta);
             _repositorioGestor.Save();
-            entity.Id = alta.Id;
-            return entity;
+
+            List<Incidente> ls = new List<Incidente>();
+            ls.Add(alta);
+            IEnumerable<IncidenteDTO> resp = convertirListaADTO(ls);
+            return resp.FirstOrDefault();
         }
 
         public void Baja(int id)
@@ -76,7 +79,11 @@ namespace Incidentes.Logica
 
             _repositorioGestor.RepositorioIncidente.Modificar(aModificar);
             _repositorioGestor.Save();
-            return new IncidenteDTO(aModificar);
+
+            List<Incidente> ls = new List<Incidente>();
+            ls.Add(aModificar);
+            IEnumerable<IncidenteDTO> resp = convertirListaADTO(ls);
+            return resp.FirstOrDefault();
         }
 
         public IncidenteDTO Obtener(int id)
@@ -84,10 +91,10 @@ namespace Incidentes.Logica
             bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Id == id);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
             Incidente aObtener = _repositorioGestor.RepositorioIncidente.ObtenerPorCondicion(c => c.Id == id, false).FirstOrDefault();
-            IncidenteDTO retorno = new IncidenteDTO(aObtener);
-            Proyecto p = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == retorno.ProyectoId, false).FirstOrDefault();
-            retorno.NombreProyecto = p.Nombre;
-            return retorno;
+            List<Incidente> ls = new List<Incidente>();
+            ls.Add(aObtener);
+            IEnumerable<IncidenteDTO> resp = convertirListaADTO(ls);
+            return resp.FirstOrDefault();
         }
 
         public IEnumerable<IncidenteDTO> ObtenerTodos()
@@ -105,7 +112,10 @@ namespace Incidentes.Logica
             Incidente inc = Obtener(idIncidente).convertirDTO_Dominio();
             if (!_repositorioGestor.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(idIncidente, inc.ProyectoId))
                 throw new ExcepcionAccesoNoAutorizado(acceso_no_autorizado);
-            return new IncidenteDTO(inc);
+            List<Incidente> ls = new List<Incidente>();
+            ls.Add(inc);
+            IEnumerable<IncidenteDTO> resp = convertirListaADTO(ls);
+            return resp.FirstOrDefault();
         }
 
         private IEnumerable<IncidenteDTO> convertirListaADTO(List<Incidente> incidentes)
@@ -116,6 +126,11 @@ namespace Incidentes.Logica
                 IncidenteDTO nueva = new IncidenteDTO(i);
                 Proyecto p = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == i.ProyectoId, false).FirstOrDefault();
                 nueva.NombreProyecto = p.Nombre;
+                if(i.DesarrolladorId != 0)
+                {
+                    Usuario u = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Id == i.DesarrolladorId, false).FirstOrDefault();
+                    nueva.DesarrolladorNombre = u.Nombre + " " + u.Apellido;
+                }
                 ret.Add(nueva);
             }
             return ret;

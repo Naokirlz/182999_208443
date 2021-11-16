@@ -19,38 +19,27 @@ export class IncidentesPComponent implements OnInit {
 
   public proyectoId: number;
 
-  public proyectos:Proyecto[]=[];
-  public incidentes:Incidente[] | undefined=[];
-  public usuarios:Usuario[]=[];
-  public totalHoras:number=0;
+  public proyectos: Proyecto[] = [];
+  public incidentes: Incidente[] | undefined = [];
+  public usuarios: Usuario[] = [];
+  public totalHoras: number = 0;
 
-  public admin:boolean = false;
-  public tester:boolean = false; 
-  public desarrollador:boolean = false;  
-  
-  constructor(private proyectoService:ProyectoService,
-              private estadosService:EstadosService,
-              private _route: ActivatedRoute,
-              private _router: Router,
-              private usuarioServie:UsuariosService,
-              private messageService: MessageService,
-              private loginService: LoginService) 
-              
-              { 
+  public admin: boolean = false;
+  public tester: boolean = false;
+  public desarrollador: boolean = false;
 
-              this.proyectoId = 0;
-              this.admin = this.loginService.isAdminLoggedIn();
-              this.tester = this.loginService.isTesterIn();
-              this.desarrollador = this.loginService.isDesarrolladorIn();
+  constructor(private proyectoService: ProyectoService,
+    private estadosService: EstadosService,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private loginService: LoginService) {
 
-              }
+    this.proyectoId = 0;
+    this.admin = this.loginService.isAdminLoggedIn();
+    this.tester = this.loginService.isTesterIn();
+    this.desarrollador = this.loginService.isDesarrolladorIn();
 
-  
-  
-  
-  
-
-
+  }
 
   ngOnInit(): void {
 
@@ -60,18 +49,24 @@ export class IncidentesPComponent implements OnInit {
       .subscribe(
         ((data: Proyecto) => this.result(data)),
       );
-
-    this.usuarioServie.getUsuario()
-      .subscribe(
-        ((data: Array<Usuario>) => this.usuarios = data),
-      );
+      this.cargarBreadcrumb();
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
-  public items: MenuItem[] = [
-    { label: 'Proyectos', routerLink: '/proyectos' },
-    { label: 'Incidentes' },
-  ];
+  public items: MenuItem[] = [];
+
+  cargarBreadcrumb(): void {
+    if (this.admin) {
+      this.items.push({ label: 'Proyectos', routerLink: '/proyectos' });
+      this.items.push({ label: 'Incidentes' });
+    } else if (this.desarrollador) {
+      this.items.push({ label: 'Proyectos', routerLink: '/desarrollador/proyectos' });
+      this.items.push({ label: 'Incidentes del Proyecto' });
+    } else {
+      this.items.push({ label: 'Proyectos', routerLink: '/tester' });
+      this.items.push({ label: 'Incidentes del Proyecto' });
+    }
+  }
 
   private result(data: Proyecto): void {
     this.proyectos.push(data);
@@ -89,18 +84,18 @@ export class IncidentesPComponent implements OnInit {
     return (usuario?.nombreUsuario) ? usuario.nombreUsuario : '';
   }
 
-  obtenerTotalHoras():void {
+  obtenerTotalHoras(): void {
     this.incidentes?.forEach(
       inc => this.totalHoras = (inc.duracion! + this.totalHoras)
     )
   }
 
-  volver():void {
+  volver(): void {
 
-    if(this.admin){this._router.navigate([`/proyectos`]);}
-    if(this.tester){this._router.navigate([`/tester`]);}
-    if(this.desarrollador){this._router.navigate([`/desarrollador/proyectos`]);}
-    
+    if (this.admin) { this._router.navigate([`/proyectos`]); }
+    if (this.tester) { this._router.navigate([`/tester`]); }
+    if (this.desarrollador) { this._router.navigate([`/desarrollador/proyectos`]); }
+
   }
 
 }

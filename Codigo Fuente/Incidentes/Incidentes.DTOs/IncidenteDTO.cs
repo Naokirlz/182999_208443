@@ -17,6 +17,7 @@ namespace Incidentes.DTOs
         public string Version { get; set; }
         public Estado EstadoIncidente { get; set; }
         public int DesarrolladorId { get; set; }
+        public string DesarrolladorNombre { get; set; }
         public int Duracion { get; set; }
 
         public IncidenteDTO() { }
