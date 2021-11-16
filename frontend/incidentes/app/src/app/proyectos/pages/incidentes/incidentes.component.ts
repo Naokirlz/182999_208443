@@ -63,7 +63,7 @@ export class IncidentesPComponent implements OnInit {
       this.items.push({ label: 'Proyectos', routerLink: '/desarrollador/proyectos' });
       this.items.push({ label: 'Incidentes del Proyecto' });
     } else {
-      this.items.push({ label: 'Proyectos', routerLink: '/tester' });
+      this.items.push({ label: 'Proyectos', routerLink: '/tester/proyectos' });
       this.items.push({ label: 'Incidentes del Proyecto' });
     }
   }

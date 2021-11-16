@@ -31,22 +31,6 @@ namespace Incidentes.Logica
             if(!match.Success)
                 throw new ExcepcionArgumentoNoValido("Debe ingresar un email válido.");
         }
-        //public static void ValidarSoloNumeros(string texto, string campo)
-        //{
-        //    foreach (char digito in texto)
-        //    {
-        //        if (!EsNumero(digito)) throw new ExcepcionNumeroNoValido("Debe introducir sólo números en el campo " + campo);
-        //    }
-        //}
-
-        //public static bool EsNumero(char digito)
-        //{
-        //    int convertido = Convert.ToInt32(digito);
-
-        //    if (convertido > 57) return false;
-        //    else if (convertido < 48) return false;
-        //    return true;
-        //}
 
         public static void ValidarMayorACero(int unValor, string unCampo)
         {

@@ -37,7 +37,7 @@
                                     <label>Estado del Incidente</label>
                                     <div>
                                         <div (click)="cambiarEstado()" style="width: 150px; margin: 0 20px 5px 0;" class="btn btn-primary">{{ (estado) ? "Activar" : "Resolver" }}</div>
-                                        {{ (estado) ? "Resuelto" : "Activo" }}
+                                        {{ (estado) ? "Resuelto" : "Activo" }} {{ (nombreDesarrollador) ? " - Resuelto por: " + nombreDesarrollador : ''}}
                                     </div>
 
                                 </div>

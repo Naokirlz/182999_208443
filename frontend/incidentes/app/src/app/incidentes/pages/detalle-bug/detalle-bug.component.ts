@@ -21,40 +21,49 @@ import { EstadosService } from 'src/app/estados/service/estados.service';
 export class DetalleBugComponent implements OnInit {
 
   public incidenteId: number = 0;
-  public incidente:Incidente[]=[];
-  public proyectos:Proyecto[]=[];
+  public incidente: Incidente[] = [];
+  public proyectos: Proyecto[] = [];
   public desarrolladores: Usuario[] = [];
-  public nombreUsu:string = '';
+  public nombreUsu: string = '';
   public desarrolladorId = 0;
   public proyectoId = 0;
   public resuelto = true;
-  public estado:boolean = false;
+  public estado: boolean = false;
+  public nombreDesarrollador: string = '';
+
 
   public o1 = this.incidenteService.getBy(this.incidenteId);
   public o2 = this.proyectoService.getProyecto();
-  public tester:boolean = false;
+  public tester: boolean = false;
 
   constructor(private _route: ActivatedRoute,
-              private _router: Router,
-              private proyectoService: ProyectoService,
-              private loginService: LoginService,
-              private incidenteService:IncidentesService,
-              private estadosService: EstadosService,
-              private fb: FormBuilder,
-              private messageService: MessageService,
-              ) {
+    private _router: Router,
+    private proyectoService: ProyectoService,
+    private loginService: LoginService,
+    private incidenteService: IncidentesService,
+    private estadosService: EstadosService,
+    private fb: FormBuilder,
+    private messageService: MessageService,
+  ) {
 
-              this.tester = this.loginService.isTesterIn();
-              this.incidenteId = this._route.snapshot.params['incidenteId'];
+    this.tester = this.loginService.isTesterIn();
+    this.incidenteId = this._route.snapshot.params['incidenteId'];
 
-              }
+    if (this.tester) {
+      this.miFormulario = this.fb.group({
+        nombre: [, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        descripcion: [, [Validators.required]],
+        version: [, [Validators.required, Validators.min(0)]],
+        duracion: [, [Validators.required, Validators.min(0)]],
+      })
+    }
 
-
+  }
 
   ngOnInit(): void {
 
     this.incidenteId = this._route.snapshot.params['incidenteId'];
-    
+
     this.incidenteService.getBy(this.incidenteId)
       .subscribe({
         next: data => {
@@ -63,56 +72,50 @@ export class DetalleBugComponent implements OnInit {
           this.proyectoId = data.ProyectoId!;
           this.resuelto = (data.estadoIncidente == 2) ? true : false;
           this.estado = (data.estadoIncidente == 2) ? true : false;
-        }             
+          this.nombreDesarrollador = data.desarrolladorNombre!;
+        }
       });
 
-      this.proyectoService.getProyecto()
-      .subscribe(
-        ((data: Array<Proyecto>) => this.proyectos = data),
-      );
-
-      this.cargarBreadcrumb();
+    this.cargarBreadcrumb();
   }
 
-  cambiarEstado():void{
+  cambiarEstado(): void {
     this.estado = !this.estado;
-    console.log(this.estado);
   }
-          
-  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
-  public items: MenuItem[] = [ ];
 
-  cargarBreadcrumb() :void {
-    if(this.tester){
+  miFormulario: FormGroup = this.fb.group({
+    nombre: [{ value: '', disabled: !this.tester }, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    descripcion: [{ value: '', disabled: !this.tester }, [Validators.required]],
+    version: [{ value: '', disabled: !this.tester }, [Validators.required, Validators.min(0)]],
+    duracion: [, [Validators.required, Validators.min(0)]],
+  })
+
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [];
+
+  cargarBreadcrumb(): void {
+    if (this.tester) {
       this.items.push({ label: 'Incidentes', routerLink: '/tester/incidentes' });
       this.items.push({ label: 'Detalles del Incidente' });
-    } else{
+    } else {
       this.items.push({ label: 'Incidentes', routerLink: '/desarrollador/incidentes' });
       this.items.push({ label: 'Detalles del Incidente' });
     }
   }
-
-
-  miFormulario: FormGroup = this.fb.group({
-    nombre: [{value: '', disabled: !this.tester}, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-    descripcion: [{value: '', disabled: !this.tester}, [Validators.required]],
-    version: [{value: '', disabled: !this.tester}, [Validators.required , Validators.min(0)]],
-    duracion: [, [Validators.required , Validators.min(0)]],
-  })
 
   campoEsValido(campo: string) {
     return this.miFormulario.controls[campo].errors
       && this.miFormulario.controls[campo].touched
   }
 
-  modificar() : void{
+  modificar(): void {
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();
       return;
     }
 
-    if(this.estado && parseInt(this.miFormulario.value.duracion) === 0){
-      this.messageService.add({severity:'error', summary:'Error', detail:'Si resuelve el incidente la duración no puede ser 0'});
+    if (this.estado && parseInt(this.miFormulario.value.duracion) === 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Si resuelve el incidente la duración no puede ser 0' });
       return;
     }
 
@@ -125,37 +128,38 @@ export class DetalleBugComponent implements OnInit {
       ProyectoId: this.incidente[0].proyectoId,
       EstadoIncidente: this.estado ? 2 : 1
     }
-    
-    if(this.tester){
+
+    if (this.tester) {
       this.incidenteService.modificarIncidente(aModificar)
-        .subscribe({
-          next: data => {
-            this.messageService.add({
-              severity: 'success', summary: 'Listo',
-              detail: 'Incidente Actualizado correctamente.'
-            });
-            this.volver();
-          },
-          error: error => {
-            console.log(error.error);
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error });
+        .subscribe((data: Incidente) => {
+          this.incidente.pop();
+          this.incidente.push(data);
+          this.nombreDesarrollador = data.desarrolladorNombre!;
+          this.messageService.add({ severity: 'success', summary: 'Listo', detail: "Incidente actualizado con éxito." });
+        },
+          (({ error }: any) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
           }
-        });
+          )
+        );
     } else {
       this.estadosService.put(aModificar)
-      .subscribe((data: Incidente) => {
-        this.messageService.add({ severity: 'success', summary: 'Listo', detail: "Incidente actualizado con éxito." });
-      },
-        (({ error }: any) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-        }
-        )
-      );
+        .subscribe((data: Incidente) => {
+          this.incidente.pop();
+          this.incidente.push(data);
+          this.nombreDesarrollador = data.desarrolladorNombre!;
+          this.messageService.add({ severity: 'success', summary: 'Listo', detail: "Incidente actualizado con éxito." });
+        },
+          (({ error }: any) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+          }
+          )
+        );
     }
   }
 
-  obtenerEstado(id:number):string{
-    if(id === 2) {
+  obtenerEstado(id: number): string {
+    if (id === 2) {
       this.resuelto = true;
       return 'Resuelto'
     };
@@ -163,15 +167,15 @@ export class DetalleBugComponent implements OnInit {
     return 'Activo'
   }
 
-  obtenerDesarrollador(id:number):string{
-    return  this.proyectos[0].asignados?.find(u => u.id === id )?.nombreUsuario!;
+  obtenerDesarrollador(id: number): string {
+    return this.proyectos[0].asignados?.find(u => u.id === id)?.nombreUsuario!;
   }
 
-  volver(){
-    if(this.tester){
+  volver() {
+    if (this.tester) {
       this._router.navigate(['/tester/incidentes']);
     }
-    else{this._router.navigate(['/desarrollador/incidentes']);}
+    else { this._router.navigate(['/desarrollador/incidentes']); }
   }
 }
 

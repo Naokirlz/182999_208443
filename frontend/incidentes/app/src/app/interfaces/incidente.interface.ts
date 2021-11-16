@@ -15,6 +15,7 @@ export interface Incidente {
     desarrolladorId?: number;
     DesarrolladorId?: number;
     DesarrolladorNombre?: string;
+    desarrolladorNombre?: string;
     usuarioId?: number;
     UsuarioId?: number;
     duracion?: number;

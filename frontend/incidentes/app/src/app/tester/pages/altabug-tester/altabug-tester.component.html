@@ -3,16 +3,17 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1 align="center">Incidentes</h1>
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Gestión de Incidentes</h1>
                     <div class="card-internal">
                         <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="altaIncidente()">
-                            <div class="card-header">Alta Incidente</div>
+                            <div class="card-header">Alta de Incidente</div>
                             <div class="card-body">
                                 <!-- Nombre -->
                                 <div class="p-field">
                                     <label for="Nombre">Nombre del Incidente</label>
                                     <input id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Tarea incorrecto.</small>
+                                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Tarea debe contener entre 5 y 50 caracteres.</small>
                                 </div>
                                 <!-- Proyecto -->
                                 <div class="p-field">
@@ -28,14 +29,20 @@
                                 <div class="p-field">
                                     <label for="Descripcion">Descripción</label>
                                     <input id="Descripcion" type="text" formControlName="descripcion" aria-describedby="costo-help" [ngClass]="campoEsValido('descripcion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('descripcion')" id="descripcion-help" class="p-error">Descripción incorrecta.</small>
+                                    <small *ngIf="campoEsValido('descripcion')" id="descripcion-help" class="p-error">Descripción debe contener como mínimo 5 caracteres.</small>
                                 </div>
                                 <!-- Versión -->
                                 <div class="p-field">
                                     <label for="version">Versión</label>
                                     <input id="version" type="text" formControlName="version" aria-describedby="version-help" [ngClass]="campoEsValido('version') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                                    <small *ngIf="campoEsValido('version')" id="version-help" class="p-error">Versión incorrecta.</small>
-                                </div>   
+                                    <small *ngIf="campoEsValido('version')" id="version-help" class="p-error">Versión debe contener entre 5 y 25 caracteres.</small>
+                                </div>
+                                <!-- Duracion -->
+                                <div class="p-field">
+                                    <label for="duracion">Duración</label>
+                                    <input id="duracion" type="number" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('duracion')" id="duracion-help" class="p-error">Duración debe ser mayor a cero.</small>
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <input type="submit" id="btn-guardar" value="Alta" class="btn btn-success" />
@@ -47,5 +54,5 @@
         </div>
     </div>
     <p-toast></p-toast>
-    <!-- <app-footer></app-footer> -->
+    <app-footer></app-footer>
 </main>

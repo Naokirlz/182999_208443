@@ -16,7 +16,7 @@ namespace Incidentes.Logica
         private const string usuario_no_pertenece = "El usuario no pertenece al proyecto";
         private const string elemento_no_existe = "El elemento no existe";
         private const string elemento_ya_existe = "Un elemento con similares atributos ya existe";
-        private const int largo_maximo_nombre = 25;
+        private const int largo_maximo_nombre = 50;
         private const int largo_minimo_nombre = 5;
 
         public GestorIncidente(IRepositorioGestores repositorioGestores)
@@ -73,7 +73,14 @@ namespace Incidentes.Logica
             if (entity.ProyectoId != 0) aModificar.ProyectoId = entity.ProyectoId;
             if (entity.Version != null) aModificar.Version = entity.Version;
             if (entity.Descripcion != null) aModificar.Descripcion = entity.Descripcion;
-            if (entity.DesarrolladorId != 0) aModificar.DesarrolladorId = entity.DesarrolladorId;
+            if (entity.DesarrolladorId != 0)
+            {
+                aModificar.DesarrolladorId = entity.DesarrolladorId;
+            }
+            else
+            {
+                aModificar.DesarrolladorId = 0;
+            }
             if (entity.Duracion != 0) aModificar.Duracion = entity.Duracion;
 
 

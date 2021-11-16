@@ -50,7 +50,7 @@ const routes: Routes = [
   { path: 'desarrollador/incidentes',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
   { path: 'desarrollador/incidentes/:incidenteId',component: DetalleBugComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
   { path: 'desarrollador/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard,DesarrolladorLoggedGuard]},
-  { path: 'tester',component: VerProyectosComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
+  { path: 'tester/proyectos',component: VerProyectosComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
   { path: 'tester/incidentes',component: MisIncidentesComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
   { path: 'tester/incidentes/:incidenteId',component: DetalleBugComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},
   { path: 'tester/tareas',component: VerTareasComponent,canActivate:[UserLoggedGuard,TesterLoggedGuard]},

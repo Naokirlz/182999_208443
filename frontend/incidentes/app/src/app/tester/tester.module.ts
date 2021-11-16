@@ -4,8 +4,7 @@ import { BugsTesterComponent } from './pages/bugs-tester/bugs-tester.component';
 import { AltabugTesterComponent } from './pages/altabug-tester/altabug-tester.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { SharedModule } from 'primeng/api';
-import { TareasComponent } from './pages/tareas/tareas.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -13,7 +12,6 @@ import { TareasComponent } from './pages/tareas/tareas.component';
   declarations: [
     BugsTesterComponent,
     AltabugTesterComponent,
-    TareasComponent
   ],
   imports: [
     CommonModule,
