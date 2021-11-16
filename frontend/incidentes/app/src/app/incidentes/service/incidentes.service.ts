@@ -15,18 +15,38 @@ export class IncidentesService {
 
   constructor(private http: HttpClient) { }
 
-  getProyecto(): Observable<Incidente[]> {
+
+  getMisIncidentesSearch(id_search = 0, pro_search = '', nom_search='', est_search=0): Observable<Incidente[]> {
     const httpOptions = {
 
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'autorizacion': this.token
       })
     };
 
-    httpOptions.headers = httpOptions.headers.set('autorizacion', this.token);
+    let nombreIncidente = (nom_search == '') ? '' : nom_search;
+    let nombreProyecto = (pro_search == '') ? '' : pro_search;
+    let estadoIncidente = (est_search == 1) ? 'Activo' : (est_search == 2) ? 'Resuelto' : '';
+    let idIncidente = (id_search == 0) ? '' : id_search;
 
     return this.http.get<Incidente[]>(
-      this.apiUrl,
+      this.apiUrl + '/filtrado?nombreProyecto=' + nombreProyecto + '&' + 'nombreIncidente=' + nombreIncidente + '&' + 'estadoIncidente=' + estadoIncidente + '&' + 'idIncidente=' + idIncidente,
+      httpOptions
+    );
+  }
+
+  getIncidentes(): Observable<Incidente[]> {
+    const httpOptions = {
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'autorizacion': this.token
+      })
+    };
+
+    return this.http.get<Incidente[]>(
+      this.apiUrl + '/filtrado',
       httpOptions
     );
 

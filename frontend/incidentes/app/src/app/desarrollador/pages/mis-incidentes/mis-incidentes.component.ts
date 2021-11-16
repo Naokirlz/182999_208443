@@ -35,6 +35,14 @@ export class MisIncidentesComponent implements OnInit {
   public tester: boolean = false;
   public desarrollador: boolean = false;
 
+  /**
+   * Search
+   */
+  public id_search: number = 0;
+  public pro_search: string = '';
+  public nom_search: string = '';
+  public est_search: number = 0;
+
   constructor(private loginService: LoginService,
     private testerService: TesterService,
     private incidenteService: IncidentesService,
@@ -49,9 +57,32 @@ export class MisIncidentesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.usuario = this.loginService.getLoginData()?.id!;
     this.subscribirseLista();
+  }
+
+  cambiarEstadoSearch() : void {  
+    if (this.est_search === 0) {
+      this.est_search = 1;
+    } else if (this.est_search === 1) {
+      this.est_search = 2;
+    } else {
+      this.est_search = 0;
+    }
+  }
+
+  buscar(){
+    (this.id_search) ? this.id_search = this.id_search : this.id_search = 0;
+    this.incidenteService.getMisIncidentesSearch(this.id_search, this.pro_search, this.nom_search, this.est_search)
+      .subscribe(
+        (data: any) => {
+          this.incidentes = data;
+        },
+        (({ error }: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        }
+        )
+      );
   }
 
   subscribirseLista() : void{
