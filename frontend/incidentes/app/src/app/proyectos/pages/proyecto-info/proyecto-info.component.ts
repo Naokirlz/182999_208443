@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
 import { ProyectoService } from '../../services/proyecto.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-proyecto-info',
@@ -14,7 +14,8 @@ export class ProyectoInfoComponent implements OnInit {
 
   constructor(private _router: Router,
               private _route: ActivatedRoute,
-              private proyectoService:ProyectoService) { 
+              private proyectoService:ProyectoService,
+              private messageService: MessageService) { 
     
     this.proyectoId = 0;
   
@@ -29,7 +30,10 @@ export class ProyectoInfoComponent implements OnInit {
     this.proyectoService.getBy(this.proyectoId)
     .subscribe(
       ((data: Proyecto) => this.proyectos.push(data)),
-    );
+    ),
+    ({ error }: any) => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+    };
 
   }
 

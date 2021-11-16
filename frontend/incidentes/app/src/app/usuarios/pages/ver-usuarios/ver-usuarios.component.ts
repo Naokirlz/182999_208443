@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { UsuariosService } from '../../services/usuarios.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-ver-usuarios',
@@ -11,7 +11,8 @@ import { MenuItem } from 'primeng/api';
 })
 export class VerUsuariosComponent implements OnInit {
 
-  constructor(private usuarioServie: UsuariosService) { }
+  constructor(private usuarioServie: UsuariosService,
+    private messageService: MessageService) { }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
   public items: MenuItem[] = [
@@ -24,6 +25,10 @@ export class VerUsuariosComponent implements OnInit {
     this.usuarioServie.getUsuario()
       .subscribe(
         ((data: Array<Usuario>) => this.usuarios = data),
+      ),
+      (({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      }
       );
   }
 }

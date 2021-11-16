@@ -35,12 +35,9 @@ export class AltabugTesterComponent implements OnInit {
           this.result(data);
 
         },
-        (({ error }: any) => {
-          alert(error);
-          console.log(JSON.stringify(error));
-        }
-        )
-      );
+        ({ error }: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        });
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
@@ -95,13 +92,9 @@ export class AltabugTesterComponent implements OnInit {
           detail: 'Incidente guardado correctamente.'
         });
         this.miFormulario.reset();
-      },
-        (({ error }: any) => {
-
+      },({ error }: any) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-        }
-        )
-      );
+        });
   }
 
 }

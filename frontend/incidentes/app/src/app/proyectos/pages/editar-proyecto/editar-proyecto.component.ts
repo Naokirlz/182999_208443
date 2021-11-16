@@ -31,7 +31,10 @@ export class EditarProyectoComponent implements OnInit {
     this.proyectoService.getBy(this.proyectoId)
       .subscribe(
         ((data: Proyecto) => this.result(data)),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };

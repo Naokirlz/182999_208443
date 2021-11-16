@@ -74,7 +74,10 @@ export class DetalleBugComponent implements OnInit {
           this.estado = (data.estadoIncidente == 2) ? true : false;
           this.nombreDesarrollador = data.desarrolladorNombre!;
         }
-      });
+      }),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
 
     this.cargarBreadcrumb();
   }

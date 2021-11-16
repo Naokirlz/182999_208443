@@ -55,7 +55,10 @@ export class VerTareasComponent implements OnInit {
             this.tareas = data.tareas;
             this.obtenerTotalHoras();
           }
-        );
+        ),
+        ({ error }: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        };
     } else {
       this.tareaService.getTareas()
         .subscribe(
@@ -63,12 +66,18 @@ export class VerTareasComponent implements OnInit {
             this.tareas = tareas;
             this.obtenerTotalHoras();
           }
-        );
+        ),
+        ({ error }: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        };
 
       this.proyectoService.getProyecto()
         .subscribe(
           ((data: Array<Proyecto>) => this.proyectos = data),
-        );
+        ),
+        ({ error }: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        };
     }
   }
 

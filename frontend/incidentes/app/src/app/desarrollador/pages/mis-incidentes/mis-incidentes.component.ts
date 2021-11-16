@@ -73,12 +73,12 @@ export class MisIncidentesComponent implements OnInit {
     { label: 'Incidentes' }
   ];
 
-  onConfirm() {
+  onConfirm() : void {
     this.messageService.clear();
     this.eliminar(this.idIncidenteEliminar);
   }
 
-  onReject() {
+  onReject() : void {
     this.messageService.clear();
     this.idIncidenteEliminar = -1;
   }
@@ -90,7 +90,7 @@ export class MisIncidentesComponent implements OnInit {
   }
 
 
-  eliminar(id: number) {
+  eliminar(id: number) : void {
     this.testerService.delete(id)
       .subscribe({
         next: data => {
@@ -113,7 +113,7 @@ export class MisIncidentesComponent implements OnInit {
     return 'Resuelto'
   }
 
-  filtroId() {
+  filtroId() : void {
     if (!this.idMenor) {
       this.incidentes?.sort((a, b) => a.id! - b.id!);
       this.idMenor = true;
@@ -123,7 +123,7 @@ export class MisIncidentesComponent implements OnInit {
     }
   }
 
-  filtroEstado() {
+  filtroEstado() : void {
     if (!this.estadoMenor) {
       this.incidentes?.sort((a, b) => a.estadoIncidente! - b.estadoIncidente!);
       this.estadoMenor = true;
@@ -133,7 +133,7 @@ export class MisIncidentesComponent implements OnInit {
     }
   }
 
-  filtroProyecto() {
+  filtroProyecto() : void {
 
     if (!this.proyectoMenor) {
       this.incidentes?.sort((a, b) => a.NombreProyecto!.localeCompare(b.NombreProyecto!));
@@ -144,7 +144,7 @@ export class MisIncidentesComponent implements OnInit {
     }
   }
 
-  filtroNombre() {
+  filtroNombre() : void {
 
     if (!this.nombreMenor) {
       this.incidentes?.sort((a, b) => a.nombre!.localeCompare(b.nombre!));
@@ -164,7 +164,7 @@ export class MisIncidentesComponent implements OnInit {
   }
 
 
-  resolver(ide: number) {
+  resolver(ide: number) : void {
     const incidente: Incidente = this.incidentes?.find(i => i.id == ide)!;
 
     if (incidente.estadoIncidente == 1 || incidente.EstadoIncidente ==0) { incidente.estadoIncidente = 2 }

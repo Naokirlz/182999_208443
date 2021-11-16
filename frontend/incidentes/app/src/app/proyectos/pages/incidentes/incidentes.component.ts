@@ -32,7 +32,8 @@ export class IncidentesPComponent implements OnInit {
     private estadosService: EstadosService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private loginService: LoginService) {
+    private loginService: LoginService,
+    private messageService: MessageService) {
 
     this.proyectoId = 0;
     this.admin = this.loginService.isAdminLoggedIn();
@@ -48,7 +49,10 @@ export class IncidentesPComponent implements OnInit {
     this.proyectoService.getBy(this.proyectoId)
       .subscribe(
         ((data: Proyecto) => this.result(data)),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
       this.cargarBreadcrumb();
   }
 

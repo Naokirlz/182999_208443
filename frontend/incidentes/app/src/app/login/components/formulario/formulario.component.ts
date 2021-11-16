@@ -52,8 +52,7 @@ export class FormularioComponent implements OnInit {
           this.miFormulario.reset();
         },
         (({ error }: any) => {
-          alert(error);
-          console.log(JSON.stringify(error));
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
         )
       );

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReporteBugsDesarrollador } from 'src/app/interfaces/reportes.interface';
 import { ReportesService } from '../../services/reportes.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-desarrollador',
@@ -17,7 +17,8 @@ export class DesarrolladorComponent implements OnInit {
 
   constructor(private reportesService:ReportesService,
               private _route: ActivatedRoute,
-              private _router: Router) {
+              private _router: Router,
+              private messageService: MessageService) {
     this.desarrolladorId = 0;
    }
 
@@ -26,7 +27,10 @@ export class DesarrolladorComponent implements OnInit {
     this.reportesService.getby(this.desarrolladorId)
       .subscribe(
         ((data: ReporteBugsDesarrollador) => this.result(data)),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };

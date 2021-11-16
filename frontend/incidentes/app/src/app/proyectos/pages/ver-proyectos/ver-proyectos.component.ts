@@ -34,7 +34,10 @@ export class VerProyectosComponent implements OnInit {
     this.proyectoService.getProyecto()
       .subscribe(
         ((data: Array<Proyecto>) => this.proyectos = data),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
       this.cargarBreadcrumb();
   }
 
@@ -107,10 +110,7 @@ export class VerProyectosComponent implements OnInit {
     if(this.tester){this._router.navigate([`/tester/${id}/incidentes`]);}
 
     if(this.desarrollador){this._router.navigate([`/desarrollador/${id}/incidentes`]);}
-    
 
-
-    
   }
 
   tareas(id: number): void {
@@ -120,6 +120,5 @@ export class VerProyectosComponent implements OnInit {
 
     if(this.desarrollador){this._router.navigate([`/desarrollador/${id}/tareas`]);}
   }
-
 
 }

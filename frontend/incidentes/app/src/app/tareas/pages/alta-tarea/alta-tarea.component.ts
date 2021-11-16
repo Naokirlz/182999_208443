@@ -26,7 +26,10 @@ export class AltaTareaComponent implements OnInit {
     this.proyectoService.getProyecto()
       .subscribe(
         (data: Array<Proyecto>) => this.proyectos = data,
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
   }
 
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };

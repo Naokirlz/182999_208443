@@ -40,7 +40,10 @@ export class AsignadosComponent implements OnInit {
     this.proyectoService.getBy(this.proyectoId)
       .subscribe(
         ((data: Proyecto) => this.result(data)),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
 
   }
 
@@ -50,14 +53,17 @@ export class AsignadosComponent implements OnInit {
     { label: 'Asignados' },
   ];
 
-  eliminar(id: number) {
+  eliminar(id: number): void {
 
     this.asignados = this.asignados!.filter(p => p.id !== id);
 
     this.usuarioServie.getBy(id)
       .subscribe(
         ((data: Usuario) => this.usuarios?.push(data)),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
 
   }
 
@@ -68,7 +74,10 @@ export class AsignadosComponent implements OnInit {
     this.usuarioServie.getUsuario()
       .subscribe(
         ((data: Array<Usuario>) => this.result2(data)),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
 
   }
 
@@ -81,18 +90,21 @@ export class AsignadosComponent implements OnInit {
     })
   }
 
-  agregar(id: number) {
+  agregar(id: number): void {
 
     this.usuarios = this.usuarios!.filter(p => p.id !== id);
 
     this.usuarioServie.getBy(id)
       .subscribe(
         ((data: Usuario) => this.asignados?.push(data)),
-      );
+      ),
+      ({ error }: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      };
 
   }
 
-  actualizar() {
+  actualizar(): void {
 
     this.proyectos[0].asignados = this.asignados;
     this.proyectoService.update(this.proyectos[0])
