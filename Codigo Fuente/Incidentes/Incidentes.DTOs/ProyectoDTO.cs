@@ -36,7 +36,9 @@ namespace Incidentes.DTOs
             int costo = 0;
             foreach (Incidente i in p.Incidentes)
             {
-                Incidentes.Add(new IncidenteDTO(i));
+                IncidenteDTO inc = new IncidenteDTO(i);
+                inc.NombreProyecto = p.Nombre;
+                Incidentes.Add(inc);
                 duracion += i.Duracion;
                 if (i.EstadoIncidente == Incidente.Estado.Resuelto)
                 {
