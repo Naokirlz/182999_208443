@@ -101,11 +101,24 @@ export class VerProyectosComponent implements OnInit {
   }
 
   incidentes(id: number): void {
-    this._router.navigate([`/proyectos/${id}/incidentes`]);
+    
+    if(this.admin){this._router.navigate([`/proyectos/${id}/incidentes`]);}
+    
+    if(this.tester){this._router.navigate([`/tester/${id}/incidentes`]);}
+
+    if(this.desarrollador){this._router.navigate([`/desarrollador/${id}/incidentes`]);}
+    
+
+
+    
   }
 
   tareas(id: number): void {
-    this._router.navigate([`/proyectos/${id}/tareas`]);
+    if(this.admin) {this._router.navigate([`/proyectos/${id}/tareas`]);}
+    
+    if(this.tester){this._router.navigate([`/tester/${id}/tareas`]);}
+
+    if(this.desarrollador){this._router.navigate([`/desarrollador/${id}/tareas`]);}
   }
 
 

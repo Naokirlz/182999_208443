@@ -5,7 +5,9 @@ import { Incidente } from '../../../interfaces/incidente.interface';
 import { ProyectoService } from '../../services/proyecto.service';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
-import { MenuItem } from 'primeng/api';
+import { LoginService } from 'src/app/login/services/login.service';
+import { MenuItem, MessageService } from 'primeng/api';
+import { EstadosService } from 'src/app/estados/service/estados.service';
 
 @Component({
   selector: 'app-incidentes',
@@ -16,17 +18,39 @@ import { MenuItem } from 'primeng/api';
 export class IncidentesPComponent implements OnInit {
 
   public proyectoId: number;
-  public proyectos: Proyecto[] = [];
-  public incidentes: Incidente[] | undefined = [];
-  public usuarios: Usuario[] = [];
-  public totalHoras: number = 0;
 
-  constructor(private proyectoService: ProyectoService,
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private usuarioServie: UsuariosService) {
-    this.proyectoId = 0;
-  }
+  public proyectos:Proyecto[]=[];
+  public incidentes:Incidente[] | undefined=[];
+  public usuarios:Usuario[]=[];
+  public totalHoras:number=0;
+
+  public admin:boolean = false;
+  public tester:boolean = false; 
+  public desarrollador:boolean = false;  
+  
+  constructor(private proyectoService:ProyectoService,
+              private estadosService:EstadosService,
+              private _route: ActivatedRoute,
+              private _router: Router,
+              private usuarioServie:UsuariosService,
+              private messageService: MessageService,
+              private loginService: LoginService) 
+              
+              { 
+
+              this.proyectoId = 0;
+              this.admin = this.loginService.isAdminLoggedIn();
+              this.tester = this.loginService.isTesterIn();
+              this.desarrollador = this.loginService.isDesarrolladorIn();
+
+              }
+
+  
+  
+  
+  
+
+
 
   ngOnInit(): void {
 
@@ -73,8 +97,10 @@ export class IncidentesPComponent implements OnInit {
 
   volver():void {
 
-    this._router.navigate([`/proyectos`]);
-
+    if(this.admin){this._router.navigate([`/proyectos`]);}
+    if(this.tester){this._router.navigate([`/tester`]);}
+    if(this.desarrollador){this._router.navigate([`/desarrollador/proyectos`]);}
+    
   }
 
 }
