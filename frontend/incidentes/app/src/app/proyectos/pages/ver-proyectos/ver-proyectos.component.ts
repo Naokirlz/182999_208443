@@ -41,7 +41,7 @@ export class VerProyectosComponent implements OnInit {
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
   public items: MenuItem[] = [];
 
-  cargarBreadcrumb() {
+  cargarBreadcrumb() : void {
     if(this.admin){
       this.items.push({ label: 'Proyectos', routerLink: '/proyectos' });
     }/* else if(this.tester){
@@ -50,7 +50,7 @@ export class VerProyectosComponent implements OnInit {
     }
   }
 
-  onConfirm() {
+  onConfirm() : void {
     this.messageService.clear();
     this.eliminar();
   }

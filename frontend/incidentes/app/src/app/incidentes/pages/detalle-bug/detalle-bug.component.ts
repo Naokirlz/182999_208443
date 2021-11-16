@@ -8,8 +8,8 @@ import { LoginService } from 'src/app/login/services/login.service';
 import { ProyectoService } from 'src/app/proyectos/services/proyecto.service';
 import { IncidentesService } from '../../service/incidentes.service';
 import { Usuario } from '../../../interfaces/dtoUsuario.interface';
-import { Observable, concat, of, pipe, forkJoin, interval} from 'rxjs';
-import { map, filter, tap , take, publish, switchMap, delay} from 'rxjs/operators'
+import { MenuItem } from 'primeng/api';
+import { EstadosService } from 'src/app/estados/service/estados.service';
 
 
 @Component({
@@ -28,10 +28,10 @@ export class DetalleBugComponent implements OnInit {
   public desarrolladorId = 0;
   public proyectoId = 0;
   public resuelto = true;
+  public estado:boolean = false;
 
   public o1 = this.incidenteService.getBy(this.incidenteId);
   public o2 = this.proyectoService.getProyecto();
-
   public tester:boolean = false;
 
   constructor(private _route: ActivatedRoute,
@@ -39,12 +39,12 @@ export class DetalleBugComponent implements OnInit {
               private proyectoService: ProyectoService,
               private loginService: LoginService,
               private incidenteService:IncidentesService,
+              private estadosService: EstadosService,
               private fb: FormBuilder,
               private messageService: MessageService,
               ) {
 
               this.tester = this.loginService.isTesterIn();
-
               this.incidenteId = this._route.snapshot.params['incidenteId'];
 
               }
@@ -61,9 +61,8 @@ export class DetalleBugComponent implements OnInit {
           this.incidente.push(data)
           this.desarrolladorId = data.DesarrolladorId!;
           this.proyectoId = data.ProyectoId!;
-          
-        }
-             
+          this.resuelto = (data.EstadoIncidente === 2) ? true : false;          
+        }             
       });
 
       this.proyectoService.getProyecto()
@@ -71,18 +70,33 @@ export class DetalleBugComponent implements OnInit {
         ((data: Array<Proyecto>) => this.proyectos = data),
       );
 
+      this.cargarBreadcrumb();
+  }
+
+  cambiarEstado():void{
+    this.estado = !this.estado;
+    console.log(this.estado);
   }
           
-    
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+  public items: MenuItem[] = [ ];
+
+  cargarBreadcrumb() :void {
+    if(this.tester){
+      this.items.push({ label: 'Incidentes', routerLink: '/tester/incidentes' });
+      this.items.push({ label: 'Detalles del Incidente' });
+    } else{
+      this.items.push({ label: 'Incidentes', routerLink: '/desarrollador/incidentes' });
+      this.items.push({ label: 'Detalles del Incidente' });
+    }
+  }
 
 
   miFormulario: FormGroup = this.fb.group({
-    nombre: [, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-    descripcion: [, [Validators.required]],
-    version: [, [Validators.required , Validators.min(0)]],
+    nombre: [{value: '', disabled: !this.tester}, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+    descripcion: [{value: '', disabled: !this.tester}, [Validators.required]],
+    version: [{value: '', disabled: !this.tester}, [Validators.required , Validators.min(0)]],
     duracion: [, [Validators.required , Validators.min(0)]],
-    //estado: [, [Validators.required]],
-    //usuario: [, [Validators.required]]
   })
 
   campoEsValido(campo: string) {
@@ -90,74 +104,74 @@ export class DetalleBugComponent implements OnInit {
       && this.miFormulario.controls[campo].touched
   }
 
-  modificar(){
+  modificar() : void{
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();
       return;
     }
 
-    const incidente: Incidente = {
+    if(!this.resuelto && parseInt(this.miFormulario.value.duracion) === 0){
+      this.messageService.add({severity:'error', summary:'Error', detail:'Si resuelve el incidente la duración no puede ser 0'});
+      return;
+    }
+
+    const aModificar: Incidente = {
       Nombre: this.miFormulario.value.nombre,
       Descripcion: this.miFormulario.value.descripcion,
       Version: this.miFormulario.value.version,
       Duracion: parseInt(this.miFormulario.value.duracion),
-      
-      
       Id: this.incidente[0].id,
-      UsuarioId: this.incidente[0].desarrolladorId,
       ProyectoId: this.incidente[0].proyectoId,
-      EstadoIncidente: this.incidente[0].estadoIncidente,
-      
+      EstadoIncidente: this.estado ? 2 : 1
     }
-
-    console.log(incidente);
     
-    this.incidenteService.modificarIncidente(incidente)
-      .subscribe({
-        next: data => {
-          this.messageService.add({
-            severity: 'success', summary: 'Listo',
-            detail: 'Incidente Actualizado correctamente.'
-          });
-          this.volver();
-        },
-        error: error => {
-          console.log(error.error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error });
+    if(this.tester){
+      this.incidenteService.modificarIncidente(aModificar)
+        .subscribe({
+          next: data => {
+            this.messageService.add({
+              severity: 'success', summary: 'Listo',
+              detail: 'Incidente Actualizado correctamente.'
+            });
+            this.volver();
+          },
+          error: error => {
+            console.log(error.error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error });
+          }
+        });
+    } else {
+      this.estadosService.put(aModificar)
+      .subscribe((data: Incidente) => {
+        this.messageService.add({ severity: 'success', summary: 'Listo', detail: "Incidente actualizado con éxito." });
+      },
+        (({ error }: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
-      });
+        )
+      );
+    }
   }
 
   obtenerEstado(id:number):string{
-
-    if(id === 1) {
-    
-      this.resuelto = false;
-      return 'Activo'
-    
+    if(id === 2) {
+      this.resuelto = true;
+      return 'Resuelto'
     };
-    this.resuelto = true;
-    return 'Resuelto'
+    this.resuelto = false;
+    return 'Activo'
   }
 
   obtenerDesarrollador(id:number):string{
-
     return  this.proyectos[0].asignados?.find(u => u.id === id )?.nombreUsuario!;
   }
 
   volver(){
-
-    //this._router.navigate([`/proyectos`]);
     if(this.tester){
       this._router.navigate(['/tester/incidentes']);
     }
     else{this._router.navigate(['/desarrollador/incidentes']);}
-    
-
   }
-
-
-
 }
 
 

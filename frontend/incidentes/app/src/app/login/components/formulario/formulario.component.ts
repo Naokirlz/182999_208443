@@ -49,15 +49,13 @@ export class FormularioComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: 'Listo', detail: 'Usuario logueado correctamente' });
           this._router.navigate(['/']);
           this.loginService.actualizarUsuario(data);
-
+          this.miFormulario.reset();
         },
         (({ error }: any) => {
           alert(error);
           console.log(JSON.stringify(error));
         }
-        ),
-        () => { this._router.navigate(['']); }
+        )
       );
-    this.miFormulario.reset();
   }
 }

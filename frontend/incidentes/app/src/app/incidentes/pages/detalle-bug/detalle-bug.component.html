@@ -1,99 +1,66 @@
 <main class="main-container">
     <div class="container pt-3">
         <div class="row">
-            <p align="right">
-                <input id="btn-guardar"  (click)="volver()"   value="Volver" class="btn btn-success" />
-                </p>
+            <input id="btn-guardar" (click)="volver()" value="Volver" class="btn btn-success btn-volver" />
             <div class="col-12 mb-4">
                 <div class="card border-0">
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
                     <h1 align="center">Detalles del Incidente</h1>
+                    <div class="card-internal">
+                        <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="modificar()">
+                            <div class="card-header">
+                                <h3 style="text-align: center;" *ngIf="!tester">Detalles del Incidente</h3>
+                                <h3 style="text-align: center;" *ngIf="tester">Modificar del Incidente</h3>
+                            </div>
+                            <div class="card-body">
+                                <!-- Nombre -->
+                                <div class="p-field">
+                                    <label for="nombre">Nombre del Incidente</label>
+                                    <input [(ngModel)]="incidente[0]?.nombre!" id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText asdasd />
+                                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Tarea incorrecto.</small>
+                                </div>
+                                <!-- Descripcion -->
+                                <div class="p-field">
+                                    <label for="Descripcion">Descripción</label>
+                                    <input [(ngModel)]="incidente[0]?.descripcion!" id="Descripcion" type="text" formControlName="descripcion" aria-describedby="costo-help" [ngClass]="campoEsValido('descripcion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('descripcion')" id="descripcion-help" class="p-error">Descripción incorrecta.</small>
+                                </div>
+                                <!-- Versión -->
+                                <div class="p-field">
+                                    <label for="version">Versión</label>
+                                    <input [(ngModel)]="incidente[0]?.version!" id="version" type="text" formControlName="version" aria-describedby="version-help" [ngClass]="campoEsValido('version') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('version')" id="version-help" class="p-error">Versión incorrecta.</small>
+                                </div>
+                                <!-- Estado -->
+
+                                <div class="p-field">
+                                    <label>Estado del Incidente</label>
+                                    <div>
+                                        <div (click)="cambiarEstado()" style="width: 150px; margin: 0 20px 5px 0;" class="btn btn-primary">{{ (estado) ? "Activar" : "Resolver" }}</div>
+                                        {{ (estado) ? "Resuelto" : "Activo" }}
+                                    </div>
+
+                                </div>
+                                <!-- Duracion -->
+                                <div class="p-field">
+                                    <label for="duracion">Duración</label>
+                                    <input [(ngModel)]="incidente[0]?.duracion!" id="duracion" type="number" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <small *ngIf="campoEsValido('duracion')" id="duracion-help" class="p-error">Duración incorrecta.</small>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" id="btn-guardar" value="Modificar" class="btn btn-success" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                    </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="card-internal">
-                    <p-table [value]="incidente!" styleClass="p-datatable-sm" responsiveLayout="scroll">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Versión</th>
-                              
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-incidente>
-                            <tr>
-                                <td>{{incidente.nombre | titlecase }}</td>
-                                <td>{{incidente.descripcion}}</td>
-                                <td>{{incidente.version}}</td>
-  
-                         
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                    <div><p></p></div>
-                    <p-table [value]="incidente!" styleClass="p-datatable-sm" responsiveLayout="scroll">
-                        <ng-template pTemplate="header">
-                            <tr>
-
-                                <th>Estado</th>
-                                <th *ngIf="resuelto" >Desarrollador que resolvió</th>
-                                <th>Duración</th>
-                                
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-incidente>
-                            <tr>
-                                <td>{{obtenerEstado(incidente.estadoIncidente)}}</td>
-                                <td *ngIf="resuelto">{{obtenerDesarrollador(incidente.desarrolladorId)}}</td>
-                                <td>{{incidente.duracion}}</td>   
-                         
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-                <div class="card-footer">
-                    
-
-                </div>
-             </div>
         </div>
-    </div>
-    <div *ngIf="tester"  class="container pt-3">
-        <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="modificar()">
-            <h1>Modificar Incidente</h1>
-            <div class="card-body">
-                <!-- Nombre -->
-                <div class="p-field">
-                    <label for="nombre">Nombre del Incidente</label>
-                    <input [(ngModel)]="incidente[0]?.nombre!" id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText asdasd />
-                    <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Tarea incorrecto.</small>
-                </div>
-                <!-- Descripcion -->
-                <div class="p-field">
-                    <label for="Descripcion">Descripción</label>
-                    <input [(ngModel)]="incidente[0]?.descripcion!" id="Descripcion" type="text" formControlName="descripcion" aria-describedby="costo-help" [ngClass]="campoEsValido('descripcion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                    <small *ngIf="campoEsValido('descripcion')" id="descripcion-help" class="p-error">Descripción incorrecta.</small>
-                </div>
-                <!-- Versión -->
-                <div class="p-field">
-                    <label for="version">Versión</label>
-                    <input [(ngModel)]="incidente[0]?.version!" id="version" type="text" formControlName="version" aria-describedby="version-help" [ngClass]="campoEsValido('version') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                    <small *ngIf="campoEsValido('version')" id="version-help" class="p-error">Versión incorrecta.</small>
-                </div>
-                <!-- Duracion -->
-                <div class="p-field">
-                    <label for="duracion">Duración</label>
-                    <input [(ngModel)]="incidente[0]?.duracion!" id="duracion" type="number" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
-                    <small *ngIf="campoEsValido('duracion')" id="duracion-help" class="p-error">Duración incorrecta.</small>
-                </div>                   
-            </div>
-            <div class="card-footer">
-                <input type="submit" id="btn-guardar" value="Modificar" class="btn btn-success" />
-            </div>
-        </form>
+        <div *ngIf="tester || !tester" class="container pt-3">
+
+        </div>
     </div>
     <p-toast></p-toast>
 </main>
-
-
-                    

@@ -12,7 +12,7 @@ import {DataViewModule} from 'primeng/dataview';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {FileUploadModule} from 'primeng/fileupload';
 import {HttpClientModule} from '@angular/common/http';
-
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 
 @NgModule({
@@ -22,7 +22,8 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     BreadcrumbModule,
     FileUploadModule,
-    HttpClientModule
+    HttpClientModule,
+    RadioButtonModule
   ],
   exports: [
     ButtonModule,
@@ -33,7 +34,8 @@ import {HttpClientModule} from '@angular/common/http';
     DataViewModule,
     BreadcrumbModule,
     FileUploadModule,
-    HttpClientModule
+    HttpClientModule,
+    RadioButtonModule
   ],
   providers:[MessageService]
 

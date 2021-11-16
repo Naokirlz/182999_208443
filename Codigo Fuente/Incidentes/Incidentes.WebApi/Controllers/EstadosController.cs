@@ -28,14 +28,15 @@ namespace Incidentes.WebApi.Controllers
         public IActionResult Put([FromBody] IncidenteDTO incidente)
         {
             string token = Request.Headers["autorizacion"];
-            usuarioPerteneceAlProyecto(token, incidente.Id);
+            int idUsu = idUsuario(token, incidente.Id);
 
             IncidenteDTO aResolver = new IncidenteDTO()
             {
                 Id = incidente.Id,
                 EstadoIncidente = incidente.EstadoIncidente,
                 ProyectoId = incidente.ProyectoId,
-                DesarrolladorId = incidente.DesarrolladorId
+                Duracion = incidente.Duracion,
+                DesarrolladorId = idUsu
             };
             if (incidente.EstadoIncidente == IncidenteDTO.Estado.Activo) aResolver.DesarrolladorId = 0;
 
@@ -43,11 +44,17 @@ namespace Incidentes.WebApi.Controllers
             return Ok(incidente);
         }
 
-        private void usuarioPerteneceAlProyecto(string token, int idIncidente)
+        private int idUsuario(string token, int idIncidente)
         {
             UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
             IncidenteDTO inc = _logicaI.Obtener(idIncidente);
-            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
+            usuarioPerteneceProyecto(usu.Id, inc.ProyectoId);
+            return usu.Id;
+        }
+
+        private void usuarioPerteneceProyecto(int idUsu, int idPro)
+        {
+            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(idUsu, idPro);
             if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
         }
     }
