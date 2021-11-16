@@ -57,7 +57,6 @@ export class DetalleBugComponent implements OnInit {
         duracion: [, [Validators.required, Validators.min(0)]],
       })
     }
-
   }
 
   ngOnInit(): void {
@@ -67,6 +66,12 @@ export class DetalleBugComponent implements OnInit {
     this.incidenteService.getBy(this.incidenteId)
       .subscribe({
         next: data => {
+          this.miFormulario.patchValue({
+            nombre: data.nombre,
+            descripcion: data.descripcion,
+            version: data.version,
+            duracion: data.duracion,
+          });
           this.incidente.push(data)
           this.desarrolladorId = data.DesarrolladorId!;
           this.proyectoId = data.ProyectoId!;
@@ -135,21 +140,31 @@ export class DetalleBugComponent implements OnInit {
     if (this.tester) {
       this.incidenteService.modificarIncidente(aModificar)
         .subscribe((data: Incidente) => {
+          this.miFormulario.patchValue({
+            nombre: data.nombre,
+            descripcion: data.descripcion,
+            version: data.version,
+            duracion: data.duracion,
+          });
           this.incidente.pop();
           this.incidente.push(data);
           this.nombreDesarrollador = data.desarrolladorNombre!;
           this.messageService.add({ severity: 'success', summary: 'Listo', detail: "Incidente actualizado con éxito." });
         },
-          (({ error }: any) => {
+          ({ error }: any) => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-          }
-          )
-        );
+          });
     } else {
       this.estadosService.put(aModificar)
         .subscribe((data: Incidente) => {
           this.incidente.pop();
           this.incidente.push(data);
+          this.miFormulario.patchValue({
+            nombre: data.nombre,
+            descripcion: data.descripcion,
+            version: data.version,
+            duracion: data.duracion,
+          });
           this.nombreDesarrollador = data.desarrolladorNombre!;
           this.messageService.add({ severity: 'success', summary: 'Listo', detail: "Incidente actualizado con éxito." });
         },

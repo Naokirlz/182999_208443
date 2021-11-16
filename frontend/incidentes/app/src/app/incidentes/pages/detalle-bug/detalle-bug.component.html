@@ -16,19 +16,19 @@
                                 <!-- Nombre -->
                                 <div class="p-field">
                                     <label for="nombre">Nombre del Incidente</label>
-                                    <input [(ngModel)]="incidente[0]?.nombre!" id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText asdasd />
+                                    <input id="Nombre" type="text" formControlName="nombre" aria-describedby="Nombre-help" [ngClass]="campoEsValido('nombre') ? 'ng-invalid' : ''" class="ng-dirty" pInputText asdasd />
                                     <small *ngIf="campoEsValido('nombre')" id="Nombre-help" class="p-error">Nombre de Tarea incorrecto.</small>
                                 </div>
                                 <!-- Descripcion -->
                                 <div class="p-field">
                                     <label for="Descripcion">Descripción</label>
-                                    <input [(ngModel)]="incidente[0]?.descripcion!" id="Descripcion" type="text" formControlName="descripcion" aria-describedby="costo-help" [ngClass]="campoEsValido('descripcion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <input id="Descripcion" type="text" formControlName="descripcion" aria-describedby="costo-help" [ngClass]="campoEsValido('descripcion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
                                     <small *ngIf="campoEsValido('descripcion')" id="descripcion-help" class="p-error">Descripción incorrecta.</small>
                                 </div>
                                 <!-- Versión -->
                                 <div class="p-field">
                                     <label for="version">Versión</label>
-                                    <input [(ngModel)]="incidente[0]?.version!" id="version" type="text" formControlName="version" aria-describedby="version-help" [ngClass]="campoEsValido('version') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <input id="version" type="text" formControlName="version" aria-describedby="version-help" [ngClass]="campoEsValido('version') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
                                     <small *ngIf="campoEsValido('version')" id="version-help" class="p-error">Versión incorrecta.</small>
                                 </div>
                                 <!-- Estado -->
@@ -44,7 +44,7 @@
                                 <!-- Duracion -->
                                 <div class="p-field">
                                     <label for="duracion">Duración</label>
-                                    <input [(ngModel)]="incidente[0]?.duracion!" id="duracion" type="number" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
+                                    <input id="duracion" type="number" formControlName="duracion" aria-describedby="duracion-help" [ngClass]="campoEsValido('duracion') ? 'ng-invalid' : ''" class="ng-dirty" pInputText />
                                     <small *ngIf="campoEsValido('duracion')" id="duracion-help" class="p-error">Duración incorrecta.</small>
                                 </div>
                             </div>

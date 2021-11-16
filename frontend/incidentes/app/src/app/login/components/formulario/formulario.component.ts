@@ -51,10 +51,13 @@ export class FormularioComponent implements OnInit {
           this.loginService.actualizarUsuario(data);
           this.miFormulario.reset();
         },
-        (({ error }: any) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        ({ error }: any) => {
+          if(error.type == "error"){
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: "Error de conexión con el backend." });
+          }else{
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+          }
         }
-        )
       );
   }
 }
