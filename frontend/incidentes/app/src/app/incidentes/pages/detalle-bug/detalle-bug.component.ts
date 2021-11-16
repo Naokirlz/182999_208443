@@ -61,7 +61,8 @@ export class DetalleBugComponent implements OnInit {
           this.incidente.push(data)
           this.desarrolladorId = data.DesarrolladorId!;
           this.proyectoId = data.ProyectoId!;
-          this.resuelto = (data.EstadoIncidente === 2) ? true : false;          
+          this.resuelto = (data.estadoIncidente == 2) ? true : false;
+          this.estado = (data.estadoIncidente == 2) ? true : false;
         }             
       });
 
@@ -110,7 +111,7 @@ export class DetalleBugComponent implements OnInit {
       return;
     }
 
-    if(!this.resuelto && parseInt(this.miFormulario.value.duracion) === 0){
+    if(this.estado && parseInt(this.miFormulario.value.duracion) === 0){
       this.messageService.add({severity:'error', summary:'Error', detail:'Si resuelve el incidente la duración no puede ser 0'});
       return;
     }
