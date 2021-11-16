@@ -16,6 +16,7 @@ namespace Incidentes.Datos
         {
             return ContextoRepositorio.Set<Incidente>()
                 .Where(i => (i.DesarrolladorId == id) && (i.EstadoIncidente == Incidente.Estado.Resuelto))
+                .AsNoTracking()
                 .Count();
         }
 
@@ -56,12 +57,12 @@ namespace Incidentes.Datos
                     .Include(p => p.Asignados)
                     .Include(p => p.Incidentes)
                     .Include(p => p.Tareas)
-                    .Where(p => p.Asignados.Contains(usuario));
+                    .Where(p => p.Asignados.Contains(usuario)).AsNoTracking();
             }
             return ContextoRepositorio.Set<Proyecto>()
                  .Include(p => p.Asignados)
                  .Include(p => p.Incidentes)
-                 .Include(p => p.Tareas);
+                 .Include(p => p.Tareas).AsNoTracking();
         }
 
         public List<Tarea> ListaDeTareasDeProyectosALosQuePertenece(int idUsuario)

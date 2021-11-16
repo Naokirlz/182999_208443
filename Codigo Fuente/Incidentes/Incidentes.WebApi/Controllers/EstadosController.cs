@@ -33,12 +33,12 @@ namespace Incidentes.WebApi.Controllers
             IncidenteDTO aResolver = new IncidenteDTO()
             {
                 Id = incidente.Id,
-                //EstadoIncidente = Incidente.Estado.Resuelto,
                 EstadoIncidente = incidente.EstadoIncidente,
                 ProyectoId = incidente.ProyectoId,
                 DesarrolladorId = incidente.DesarrolladorId
             };
-             //eliminar desarrollador si el incidente pasa de estar resuelto a activo
+            if (incidente.EstadoIncidente == IncidenteDTO.Estado.Activo) aResolver.DesarrolladorId = 0;
+
             _logicaI.Modificar(incidente.Id, aResolver);
             return Ok(incidente);
         }

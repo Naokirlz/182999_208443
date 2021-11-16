@@ -47,6 +47,10 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_xml()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             string rutaFuenteXML = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteXML.xml";
             string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionXML";
 
@@ -68,6 +72,7 @@ namespace Incidentes.Logica.Test
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
                 .Returns(proyecto.Incidentes);
             repoGestores.Setup(c => c.RepositorioIncidente.Alta(It.IsAny<Incidente>()));
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
 
             logicaImportaciones.ImportarBugs(rutaFuenteXML, rutaBinarios, 5);
@@ -81,6 +86,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
@@ -94,6 +100,10 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_texto()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             string rutaFuenteTXT = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteTXT.txt";
             string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesTXT";
 
@@ -115,6 +125,7 @@ namespace Incidentes.Logica.Test
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
                 .Returns(proyecto.Incidentes);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
 
             logicaImportaciones.ImportarBugs(rutaFuenteTXT, rutaBinarios, 5);
@@ -128,6 +139,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
@@ -149,6 +161,10 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_pueden_cargar_incidentes_a_un_proyecto_con_json()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             string rutaFuenteJSON = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\FuenteJSON.json";
             string rutaBinarios = directorio_base + "\\Documentacion\\Accesorios-Postman-Fuentes\\DLLs\\Incidentes.ImportacionesJSON";
 
@@ -170,6 +186,7 @@ namespace Incidentes.Logica.Test
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
                 .Returns(proyecto.Incidentes);
             repoGestores.Setup(c => c.RepositorioIncidente.Alta(It.IsAny<Incidente>()));
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
 
             logicaImportaciones.ImportarBugs(rutaFuenteJSON, rutaBinarios, 5);
@@ -183,6 +200,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
     }
 }

@@ -83,8 +83,10 @@ namespace Incidentes.Logica
         {
             bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Id == id);
             if (!existe) throw new ExcepcionElementoNoExiste(elemento_no_existe);
-            Incidente aObtener = _repositorioGestor.RepositorioIncidente.ObtenerPorCondicion(c => c.Id == id, true).FirstOrDefault();
+            Incidente aObtener = _repositorioGestor.RepositorioIncidente.ObtenerPorCondicion(c => c.Id == id, false).FirstOrDefault();
             IncidenteDTO retorno = new IncidenteDTO(aObtener);
+            Proyecto p = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == retorno.ProyectoId, false).FirstOrDefault();
+            retorno.NombreProyecto = p.Nombre;
             return retorno;
         }
 
@@ -112,6 +114,8 @@ namespace Incidentes.Logica
             foreach (Incidente i in incidentes)
             {
                 IncidenteDTO nueva = new IncidenteDTO(i);
+                Proyecto p = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == i.ProyectoId, false).FirstOrDefault();
+                nueva.NombreProyecto = p.Nombre;
                 ret.Add(nueva);
             }
             return ret;

@@ -57,7 +57,8 @@ namespace Incidentes.Datos
             return ContextoRepositorio.Set<Proyecto>()
                 .Include(p => p.Incidentes)
                 .Include(p => p.Tareas)
-                .Include(p => p.Asignados);
+                .Include(p => p.Asignados)
+                .AsNoTracking();
         }
 
         public bool VerificarIncidentePerteneceAlProyecto(int idIncidente, int idProyecto)

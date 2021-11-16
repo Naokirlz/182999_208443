@@ -5,6 +5,7 @@ export interface Incidente {
     Nombre?:          string;
     proyectoId?:      number;
     ProyectoId?:      number;
+    NombreProyecto?:  string;
     descripcion?:     string;
     Descripcion?:     string;
     version?:         string;

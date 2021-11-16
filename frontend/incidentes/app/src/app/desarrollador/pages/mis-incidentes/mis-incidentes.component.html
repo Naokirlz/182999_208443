@@ -21,14 +21,14 @@
                             <ng-template pTemplate="body" let-incidente>
                                 <tr>
                                     <td>{{incidente.id}}</td>
-                                    <td>{{obtenerNombre(incidente.proyectoId) }}</td>
+                                    <td>{{incidente.nombreProyecto }}</td>
                                     <td>{{incidente.nombre | titlecase }}</td>
                                     <td>{{incidente.descripcion}}</td>
                                     <td>{{incidente.version}}</td>
                                     <td>{{obtenerEstado(incidente.estadoIncidente)}}</td>
                                     <td class="p-buttonset">
                                         <button pButton (click)="detalle(incidente.id)" type="editar" icon="pi pi-eye" style="border: 0;"></button>
-                                        <button *ngIf="incidente.estadoIncidente == 1" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-up" style="border: 0;"></button>
+                                        <button *ngIf="incidente.estadoIncidente == 1 || incidente.estadoIncidente == 0" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-up" style="border: 0;"></button>
                                         <button *ngIf="incidente.estadoIncidente == 2" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-down" style="border: 0;"></button>
                                         <button *ngIf="tester" pButton type="button" (click)="consultarAccion(incidente.id)" icon="pi pi-trash" style="background-color: red; border: 0;"></button>
                                     </td>
@@ -62,4 +62,5 @@
         </ng-template>
     </p-toast>
     <p-toast></p-toast>
+    <app-footer></app-footer>
 </main>

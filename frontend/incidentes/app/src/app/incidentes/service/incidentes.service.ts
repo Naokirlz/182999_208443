@@ -10,6 +10,8 @@ export class IncidentesService {
 
   
   private apiUrl: string = 'http://localhost:5000/api/Incidentes';
+  private apiUrlEstados: string = 'http://localhost:5000/api/Estados';
+
   token: string = sessionStorage.getItem('token')!;
 
   constructor(private http: HttpClient) { }
@@ -94,7 +96,4 @@ export class IncidentesService {
       httpOptions
     )
   }
-
-
-
 }

@@ -12,6 +12,7 @@ namespace Incidentes.DTOs
         public int Id { get; set; }
         public string Nombre { get; set; }
         public int ProyectoId { get; set; }
+        public string NombreProyecto { get; set; }
         public string Descripcion { get; set; }
         public string Version { get; set; }
         public Estado EstadoIncidente { get; set; }

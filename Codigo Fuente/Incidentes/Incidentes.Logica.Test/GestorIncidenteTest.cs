@@ -85,17 +85,22 @@ namespace Incidentes.Logica.Test
         [Test]
         public void un_usuario_logueado_puede_ver_incidentes()
         {
-            
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             Incidente inc1 = new Incidente();
             Incidente inc2 = new Incidente();
             listaI.Add(inc1);
             listaI.Add(inc2);
             listaU.Add(usuarioCompleto);
-            
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
+
             List<IncidenteDTO> lista = (List<IncidenteDTO>)gestorIncidente.ObtenerTodos();
 
             Assert.AreEqual(2, lista.Count());
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerTodos(false));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
@@ -111,6 +116,10 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_eliminar_un_incidente()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             Incidente incidenteD = new Incidente()
             {
                 Id = 2,
@@ -121,15 +130,17 @@ namespace Incidentes.Logica.Test
             lista.Add(incidenteD);
             IQueryable<Incidente> queryableI = lista.AsQueryable();
 
-            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false)).Returns(queryableI);
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
             gestorIncidente.Baja(5);
             List<IncidenteDTO> incidentes = gestorIncidente.ObtenerTodos().ToList();
             Assert.AreEqual(0, incidentes.Count());
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false));
             repoGestores.Verify(c => c.RepositorioIncidente.ObtenerTodos(false));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
@@ -177,6 +188,10 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_ver_la_lista_de_bugs_de_los_proyectos_que_pertenece()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             List<Incidente> lista = new List<Incidente>();
             lista.Add(new Incidente());
 
@@ -188,6 +203,7 @@ namespace Incidentes.Logica.Test
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()))
                 .Returns(lista);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
             List<IncidenteDTO> incidentes = gestorIncidente.ListaDeIncidentesDeLosProyectosALosQuePertenece(usuarioCompleto.Id, "", new IncidenteDTO());
 
@@ -195,11 +211,16 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(
                 c => c.RepositorioUsuario
                 .ListaDeIncidentesDeLosProyectosALosQuePertenece(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Incidente>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
         public void se_puede_ver_un_incidente_de_un_usuario()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             Incidente incidenteD = new Incidente()
             {
                 Id = 2,
@@ -211,19 +232,25 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
             IncidenteDTO encontrado = gestorIncidente.ObtenerParaUsuario(1, 2);
 
             Assert.AreEqual(incidenteD.Nombre, encontrado.Nombre);
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
-            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
         public void no_se_puede_ver_si_incidente_no_pertenece_a_proyecto()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             Incidente incidenteD = new Incidente()
             {
                 Id = 2,
@@ -234,12 +261,14 @@ namespace Incidentes.Logica.Test
             IQueryable<Incidente> queryableI = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false)).Returns(queryableI);
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
             Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorIncidente.ObtenerParaUsuario(1, 2));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false));
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarIncidentePerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
@@ -265,6 +294,10 @@ namespace Incidentes.Logica.Test
         [Test]
         public void no_se_puede_modificar_un_incidente_que_ya_existe()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             Incidente incidenteD = new Incidente()
             {
                 Id = 2,
@@ -280,17 +313,22 @@ namespace Incidentes.Logica.Test
             IQueryable<Incidente> queryableI = lista.AsQueryable();
 
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
-            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
-
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Modificar(1, incidenteA));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
-            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
         public void se_puede_modificar_un_incidente()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             Incidente incidenteD = new Incidente()
             {
                 Id = 2,
@@ -312,8 +350,9 @@ namespace Incidentes.Logica.Test
 
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre)).Returns(false);
-            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true)).Returns(queryableI);
+            repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false)).Returns(queryableI);
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
             IncidenteDTO modificado = gestorIncidente.Modificar(1, incidenteA);
 
@@ -322,7 +361,8 @@ namespace Incidentes.Logica.Test
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(c => c.Nombre == incidenteA.Nombre));
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
-            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), true));
+            repoGestores.Verify(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]

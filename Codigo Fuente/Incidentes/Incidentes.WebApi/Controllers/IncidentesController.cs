@@ -81,6 +81,7 @@ namespace Incidentes.WebApi.Controllers
         {
             string token = Request.Headers["autorizacion"];
             usuarioPerteneceAlProyecto(token, -1, incidente.ProyectoId);
+            if (incidente.EstadoIncidente == IncidenteDTO.Estado.Indiferente) incidente.EstadoIncidente = IncidenteDTO.Estado.Activo;
 
             _logicaI.Alta(incidente);
             return Ok(incidente);
@@ -104,6 +105,7 @@ namespace Incidentes.WebApi.Controllers
             if (id != incidente.Id) throw new ExcepcionArgumentoNoValido(elemento_no_corresponde);
             string token = Request.Headers["autorizacion"];
             usuarioPerteneceAlProyecto(token, incidente.Id);
+            if (incidente.EstadoIncidente == IncidenteDTO.Estado.Indiferente) incidente.EstadoIncidente = IncidenteDTO.Estado.Activo;
 
             _logicaI.Modificar(incidente.Id, incidente);
             return Ok(incidente);
