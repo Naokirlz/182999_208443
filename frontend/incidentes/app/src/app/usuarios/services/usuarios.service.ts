@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from 'src/app/interfaces/dtoUsuario.interface';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UsuariosService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl: string = 'http://localhost:5000/api/Usuarios';
+  private apiUrl: string = `${environment.envApiUrl}/Usuarios`;
   token: string = sessionStorage.getItem('token')!;
 
   alta(usuario: Usuario): Observable<Usuario> {

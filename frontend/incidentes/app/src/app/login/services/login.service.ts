@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../interfaces/dtoUsuario.interface';
 import { Observable, Subject, throwError } from 'rxjs';
 import { LoginDTO } from 'src/app/interfaces/login.interface';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import { LoginDTO } from 'src/app/interfaces/login.interface';
 })
 export class LoginService {
 
-  private apiUrl: string = 'http://localhost:5000/api/Autenticaciones';
+  private apiUrl: string = `${environment.envApiUrl}/Autenticaciones`;
   private user: LoginDTO[];
   private user$: Subject<LoginDTO[]>;
 

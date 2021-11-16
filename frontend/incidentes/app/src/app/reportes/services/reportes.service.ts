@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReporteBugsDesarrollador, ReporteBugsProyecto } from 'src/app/interfaces/reportes.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ReportesService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl: string = 'http://localhost:5000/api/Reportes';
+  private apiUrl: string = `${environment.envApiUrl}/Reportes`;
   token:string = sessionStorage.getItem('token')!;
 
   getAll():Observable<ReporteBugsProyecto[]>{

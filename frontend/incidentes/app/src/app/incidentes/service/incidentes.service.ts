@@ -2,14 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Incidente } from 'src/app/interfaces/incidente.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncidentesService {
 
-  
-  private apiUrl: string = 'http://localhost:5000/api/Incidentes';
+  private apiUrl: string = `${environment.envApiUrl}/Incidentes`;
 
   token: string = sessionStorage.getItem('token')!;
 

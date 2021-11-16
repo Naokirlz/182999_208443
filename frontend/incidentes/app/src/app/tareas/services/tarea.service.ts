@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Tarea } from '../../interfaces/tarea.interface';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class TareaService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl: string = 'http://localhost:5000/api/Tareas';
+  private apiUrl: string = `${environment.envApiUrl}/Tareas`;
   token: string = sessionStorage.getItem('token')!;
 
   getTareas(): Observable<Tarea[]> {

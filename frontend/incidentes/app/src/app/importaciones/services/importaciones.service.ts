@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { dtoImportaciones } from 'src/app/interfaces/dtoImportaciones.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ImportacionesService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl: string = 'http://localhost:5000/api/Importaciones';
+  private apiUrl: string = `${environment.envApiUrl}/Importaciones`;
 
   getImportaciones() : Observable<dtoImportaciones[]> {
     const httpOptions = {

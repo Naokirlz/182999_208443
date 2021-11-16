@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Proyecto } from 'src/app/interfaces/proyecto.interface';
+import { environment } from 'src/environments/environment';
 import { Incidente } from '../../interfaces/incidente.interface';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Incidente } from '../../interfaces/incidente.interface';
 })
 export class AsociacionesService {
 
-  private apiUrl: string = 'http://localhost:5000/api/Asociaciones';
+  private apiUrl: string = `${environment.envApiUrl}/Asociaciones`;
   token: string = sessionStorage.getItem('token')!;
 
   constructor(private http: HttpClient) { }

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Proyecto } from '../../interfaces/proyecto.interface';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class ProyectoService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl: string = 'http://localhost:5000/api/Proyectos';
+  private apiUrl: string = `${environment.envApiUrl}/Proyectos`;
   token: string = sessionStorage.getItem('token')!;
 
   alta(proyecto: Proyecto): Observable<Proyecto> {
