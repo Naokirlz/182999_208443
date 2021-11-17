@@ -1,5 +1,6 @@
 ﻿using Incidentes.Excepciones;
 using System.Text.RegularExpressions;
+using Incidentes.Dominio;
 
 
 namespace Incidentes.Logica
@@ -36,6 +37,18 @@ namespace Incidentes.Logica
         {
             if (unValor < 0)
                 throw new ExcepcionArgumentoNoValido("El valor de " + unCampo + " debe ser mayor a cero.");
+        }
+
+        public static void ValidarIncidente(Incidente i){
+            if (i.Nombre == null || i.Nombre.Trim().Length == 0)
+                throw new ExcepcionArgumentoNoValido("El nombre del incidente no puede ser vacío.");
+            if (i.Descripcion == null || i.Descripcion.Trim().Length == 0)
+                throw new ExcepcionArgumentoNoValido("La descripción del incidente no puede ser vacía.");
+            if (i.Version == null || i.Version.Trim().Length == 0)
+                throw new ExcepcionArgumentoNoValido("La versión del incidente no puede ser vacía.");
+            ValidarLargoTexto(i.Nombre, 50, 5, "nombre");
+            ValidarLargoTexto(i.Descripcion, 500, 5, "descripción");
+            ValidarLargoTexto(i.Version, 50, 1, "versión");
         }
     }
 }

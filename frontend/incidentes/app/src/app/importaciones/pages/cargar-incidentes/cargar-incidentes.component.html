@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0">
-                    <h1 align="center">Usuarios</h1>
+                    <h1 align="center">Importaciones</h1>
                     <div>
                         <form (ngSubmit)="cargarBugs()" [formGroup]="miFormulario" class="card-internal">
                             <div class="card-header">Archivo a Cargar</div>
@@ -23,7 +23,7 @@
                                     <div class="input-group mb-3">
                                         <select class="custom-select select" id="inputGroupSelect02" formControlName="selectBin">
                                             <option value='' selected>Seleccione una Opción...</option>
-                                            <option *ngFor="let i of importaciones" [value]="i.rutaBinario" >{{i.rutaBinario}}</option>
+                                            <option *ngFor="let i of importaciones" [value]="i.rutaBinario" >{{extraerNombreArchivo(i.rutaBinario!)}}</option>
                                         </select>
                                     </div>
                                 </div>

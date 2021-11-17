@@ -30,8 +30,8 @@ namespace Incidentes.Logica
             bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
             if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
 
-            Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
             Incidente alta = entity.convertirDTO_Dominio();
+            Validaciones.ValidarIncidente(alta);
             _repositorioGestor.RepositorioIncidente.Alta(alta);
             _repositorioGestor.Save();
 
@@ -59,6 +59,7 @@ namespace Incidentes.Logica
             }
 
             Incidente aModificar = Obtener(id).convertirDTO_Dominio();
+            Validaciones.ValidarIncidente(aModificar);
 
             aModificar = CopiarIncidente(aModificar, entity);
 

@@ -42,6 +42,11 @@ export class CargarIncidentesComponent implements OnInit {
     console.log(data.target.value);
   }
 
+  extraerNombreArchivo(ruta: string): string {
+    let nombreArchivo = ruta.split('\\');
+    return nombreArchivo[nombreArchivo.length - 1];
+  }
+
   cargarBugs():void {
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();

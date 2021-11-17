@@ -25,11 +25,12 @@ namespace Incidentes.Logica.Test
         [SetUp]
         public void Setup()
         {
-             incidente = new Incidente()
+            incidente = new Incidente()
             {
                 Nombre = "incidente01",
                 Descripcion = "IncidentePrueba",
-                Id=1
+                Version = "1.0",
+                Id = 1
             };
 
             this.usuarioCompleto = new Usuario()
@@ -53,7 +54,7 @@ namespace Incidentes.Logica.Test
             queryableUsuarios = listaU.AsQueryable();
             incidentes = listaI.AsQueryable();
 
-            
+
             repoGestores.Setup(c => c.RepositorioIncidente.ObtenerTodos(false)).Returns(incidentes);
             repoGestores.Setup(c => c.RepositorioIncidente.Eliminar(incidente));
         }
@@ -181,7 +182,9 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
             Assert.Throws<ExcepcionLargoTexto>(() => gestorIncidente.Alta(new IncidenteDTO()
             {
-                Nombre = "ae"
+                Nombre = "ae",
+                Descripcion = "Descripcion",
+                Version = "1.0",
             }));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
         }
@@ -196,7 +199,9 @@ namespace Incidentes.Logica.Test
                 .Select(s => s[random.Next(s.Length)]).ToArray());
             Assert.Throws<ExcepcionLargoTexto>(() => gestorIncidente.Alta(new IncidenteDTO()
             {
-                Nombre = textoLargo
+                Nombre = textoLargo,
+                Descripcion = "Descripcion",
+                Version = "1.0"
             }));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
         }
@@ -300,6 +305,32 @@ namespace Incidentes.Logica.Test
             Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Alta(new IncidenteDTO()));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
         }
+        [Test]
+        public void no_se_puede_dar_alta_un_incidente_que_con_nombre_invalido()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Alta(new IncidenteDTO()));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
+                [Test]
+        public void no_se_puede_dar_alta_un_incidente_que_con_descripcion_invalido()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Alta(new IncidenteDTO(){
+                Nombre = "Incidente"
+            }));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
+                        [Test]
+        public void no_se_puede_dar_alta_un_incidente_que_con_version_invalido()
+        {
+            repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            Assert.Throws<ExcepcionArgumentoNoValido>(() => gestorIncidente.Alta(new IncidenteDTO(){
+                Nombre = "Incidente",
+                Descripcion = "Descripcion",
+            }));
+            repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
+        }
 
         [Test]
         public void no_se_puede_modificar_un_incidente_nulo()
@@ -357,7 +388,9 @@ namespace Incidentes.Logica.Test
             Incidente incidenteD = new Incidente()
             {
                 Id = 2,
-                Nombre = "Incidente"
+                Nombre = "Incidente",
+                Descripcion = "Descripcion",
+                Version = "1.0",
             };
             IncidenteDTO incidenteA = new IncidenteDTO()
             {
@@ -379,7 +412,7 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
             repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(iqu);
-            
+
             IncidenteDTO modificado = gestorIncidente.Modificar(1, incidenteA);
 
             Assert.AreEqual(modificado.Nombre, incidenteA.Nombre);
@@ -396,7 +429,7 @@ namespace Incidentes.Logica.Test
         {
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(2, It.IsAny<int>())).Returns(false);
-            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorIncidente.Modificar(1, new IncidenteDTO() { DesarrolladorId = 2}));
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => gestorIncidente.Modificar(1, new IncidenteDTO() { DesarrolladorId = 2 }));
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
             repoGestores.Verify(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(2, It.IsAny<int>()));
         }

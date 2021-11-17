@@ -21,7 +21,7 @@ namespace Incidentes.Logica
         {
             _repositorioGestor = repositorioGestores;
             directorio_plugins = Directory.GetCurrentDirectory();
-            int back = 3;
+            int back = 7;
             if (directorio_plugins.Contains("Debug")) back = 6;
             for (int i = 0; i < back; i++)
             {
@@ -47,6 +47,7 @@ namespace Incidentes.Logica
                 foreach (IncidenteDTO i in p.Incidentes)
                 {
                     Incidente idominio = i.convertirDTO_Dominio();
+                    Validaciones.ValidarIncidente(idominio);
                     _repositorioGestor.RepositorioIncidente.Alta(idominio);
                     proyecto.Incidentes.Add(idominio);
                     _repositorioGestor.Save();

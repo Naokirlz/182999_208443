@@ -15,7 +15,7 @@ namespace Incidentes.ImportacionesJSON
             StreamReader jsonFile = new StreamReader(rutaFuente);
             string jsonString = jsonFile.ReadToEnd();
             ProyectoDTO pro = JsonSerializer.Deserialize<ProyectoDTO>(jsonString);
-
+            jsonFile.Close();
             retorno.Add(pro);
             return retorno;
         }
