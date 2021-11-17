@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Incidentes.Logica.Excepciones
+namespace Incidentes.Excepciones
 {
     public class ExcepcionAccesoNoAutorizado : Exception
     {

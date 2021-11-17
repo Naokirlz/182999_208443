@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Incidentes.Logica.Excepciones
+namespace Incidentes.Excepciones
 {
     public class ExcepcionLargoTexto : Exception
     {
@@ -9,6 +13,5 @@ namespace Incidentes.Logica.Excepciones
         public ExcepcionLargoTexto(string message) : base(message) { }
 
         public ExcepcionLargoTexto(string message, Exception innerException) : base(message, innerException) { }
-
     }
 }

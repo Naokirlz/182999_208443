@@ -1,7 +1,7 @@
 ﻿using System;
+using Incidentes.Excepciones;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Incidentes.Logica.Excepciones;
 
 namespace Incidentes.WebApi.Filters
 {

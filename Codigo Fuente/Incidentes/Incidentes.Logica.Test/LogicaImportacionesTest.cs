@@ -9,9 +9,9 @@ using Incidentes.Dominio;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaImportaciones;
 using System.Linq.Expressions;
-using Incidentes.Logica.Excepciones;
 using System.IO;
 using Incidentes.DTOs;
+using Incidentes.Excepciones;
 
 namespace Incidentes.Logica.Test
 {

@@ -1,6 +1,6 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
-using Incidentes.Logica.Excepciones;
+using Incidentes.Excepciones;
 using Moq;
 using NUnit.Framework;
 using System;

@@ -1,4 +1,4 @@
-﻿using Incidentes.Logica.Excepciones;
+﻿using Incidentes.Excepciones;
 using System.Text.RegularExpressions;
 
 
