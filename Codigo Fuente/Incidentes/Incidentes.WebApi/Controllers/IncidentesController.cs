@@ -1,8 +1,9 @@
 ﻿using Incidentes.DTOs;
-using Incidentes.Logica.Excepciones;
+using Incidentes.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Incidentes.WebApi.Controllers
@@ -56,10 +57,10 @@ namespace Incidentes.WebApi.Controllers
             return Ok(incidente);
         }
 
-        [HttpGet("/filtrado")]
+        [HttpGet("filtrado")]
         [FilterAutorizacion("Desarrollador", "Tester")]
         [TrapExcepciones]
-        public IActionResult GetIncidentes([FromQuery] string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
+        public IActionResult GetIncidentes([FromQuery] string idIncidente = null, string nombreProyecto = null, string nombreIncidente = null, string estadoIncidente = null)
         {
             string token = Request.Headers["autorizacion"];
             UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
@@ -68,6 +69,10 @@ namespace Incidentes.WebApi.Controllers
             {
                 Nombre = nombreIncidente
             };
+            if(idIncidente != null)
+            {
+                incidente.Id = Int32.Parse(idIncidente);
+            }
             if (estadoIncidente != null && "Activo".Contains(estadoIncidente)) incidente.EstadoIncidente = IncidenteDTO.Estado.Activo;
             if (estadoIncidente != null && "Resuelto".Contains(estadoIncidente)) incidente.EstadoIncidente = IncidenteDTO.Estado.Resuelto;
 
@@ -146,7 +151,7 @@ namespace Incidentes.WebApi.Controllers
                 }
                 else
                 {
-                    bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, proyId);
+                    usuarioPerteneceProyecto(usu.Id, proyId);
                 }
             }
             return usu.Id;

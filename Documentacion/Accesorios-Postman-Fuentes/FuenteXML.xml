@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Proyecto>
+   <Incidentes>
+      <IncidenteDTO>
+         <Descripcion>Descripcion del incidente 1</Descripcion>
+         <Estado>Activo</Estado>
+         <Nombre>Error en el envío de correo 1</Nombre>
+         <Version>1.0</Version>
+      </IncidenteDTO>
+      <IncidenteDTO>
+         <Descripcion>El error se produce cuando el usuario no tiene un correo asignado 2</Descripcion>
+         <Estado>Activo</Estado>
+         <Nombre>Error en el envío de correo 2</Nombre>
+         <Version>1.0</Version>
+      </IncidenteDTO>
+   </Incidentes>
+   <Nombre>Nuevo Proyecto 3</Nombre>
+</Proyecto>

@@ -1,5 +1,5 @@
 ﻿using Incidentes.DTOs;
-using Incidentes.Logica.Excepciones;
+using Incidentes.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;

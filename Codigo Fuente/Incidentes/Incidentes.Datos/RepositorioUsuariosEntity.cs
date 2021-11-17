@@ -29,12 +29,12 @@ namespace Incidentes.Datos
 
             foreach (Proyecto p in proyectos)
             {
-                if (proyecto == null || p.Nombre.Contains(proyecto))
+                if (proyecto == null || p.Nombre.ToLower().Contains(proyecto.ToLower()))
                 {
                     foreach (Incidente i in p.Incidentes)
                     {
                         if ((incidente.Id == 0 || i.Id == incidente.Id)
-                            && (incidente.Nombre == null || i.Nombre.Contains(incidente.Nombre))
+                            && (incidente.Nombre == null || i.Nombre.ToLower().Contains(incidente.Nombre.ToLower()))
                             && (i.EstadoIncidente == incidente.EstadoIncidente || incidente.EstadoIncidente == Incidente.Estado.Indiferente))
                         {
                             listaIncidentes.Add(i);

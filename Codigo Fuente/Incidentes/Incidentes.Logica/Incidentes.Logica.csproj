@@ -8,6 +8,7 @@
     <ProjectReference Include="..\Incidentes.DatosInterfaz\Incidentes.DatosInterfaz.csproj" />
     <ProjectReference Include="..\Incidentes.Dominio\Incidentes.Dominio.csproj" />
     <ProjectReference Include="..\Incidentes.DTOs\Incidentes.DTOs.csproj" />
+    <ProjectReference Include="..\Incidentes.Excepciones\Incidentes.Excepciones.csproj" />
     <ProjectReference Include="..\Incidentes.Logica.Interfaz\Incidentes.LogicaInterfaz.csproj" />
   </ItemGroup>
 

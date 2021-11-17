@@ -1,5 +1,5 @@
 ﻿using Incidentes.DatosInterfaz;
-using Incidentes.Logica.Excepciones;
+using Incidentes.Excepciones;
 using Incidentes.LogicaInterfaz;
 using System;
 using System.Linq;

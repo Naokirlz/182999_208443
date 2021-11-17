@@ -1,6 +1,6 @@
 using Incidentes.Dominio;
 using Incidentes.DTOs;
-using Incidentes.Logica.Excepciones;
+using Incidentes.Excepciones;
 using Incidentes.LogicaInterfaz;
 using Incidentes.WebApi.Controllers;
 using Microsoft.AspNetCore.Http;

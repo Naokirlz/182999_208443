@@ -9,21 +9,21 @@ using System.IO;
 using Incidentes.DTOs;
 using Incidentes.Excepciones;
 
-namespace Incidentes.LogicaImportaciones
+namespace Incidentes.Logica
 {
-    public class LogicaImportacion : ILogicaImportaciones
+    public class GestorImportacion : ILogicaImportaciones
     {
         private string directorio_plugins;
         IRepositorioGestores _repositorioGestor;
         private const string elemento_no_existe = "El elemento no existe";
 
-        public LogicaImportacion(IRepositorioGestores repositorioGestores)
+        public GestorImportacion(IRepositorioGestores repositorioGestores)
         {
             _repositorioGestor = repositorioGestores;
             directorio_plugins = Directory.GetCurrentDirectory();
             int back = 3;
             if (directorio_plugins.Contains("Debug")) back = 6;
-            for (int i=0; i< back; i++)
+            for (int i = 0; i < back; i++)
             {
                 directorio_plugins = System.IO.Directory.GetParent(directorio_plugins).FullName;
             }
@@ -62,19 +62,19 @@ namespace Incidentes.LogicaImportaciones
 
             foreach (string dllName in System.IO.Directory.GetFiles(directorio_plugins, "*.dll"))
             {
-                
+
                 Assembly dynamicAssembly = Assembly.LoadFrom(dllName);
 
-               
+
                 var type = dynamicAssembly.GetTypes().
 
-                    Where(t => importacionesInterface.IsAssignableFrom(t) 
+                    Where(t => importacionesInterface.IsAssignableFrom(t)
 
                           && t != importacionesInterface)
 
-                    .FirstOrDefault(); 
+                    .FirstOrDefault();
 
-                
+
                 if (type != null)
                 {
                     retorno.Add(dllName);
@@ -94,10 +94,10 @@ namespace Incidentes.LogicaImportaciones
                 if (dllName.ToLower().Contains(ruta.ToLower()))
                 {
                     Assembly dynamicAssembly = Assembly.LoadFrom(dllName);
-                    
+
                     var type = dynamicAssembly.GetTypes().
 
-                        Where(t => importacionesInterface.IsAssignableFrom(t) 
+                        Where(t => importacionesInterface.IsAssignableFrom(t)
 
                               && t != importacionesInterface)
 
@@ -107,7 +107,7 @@ namespace Incidentes.LogicaImportaciones
                         return Activator.CreateInstance(type) as IFuente;
                     }
                 }
-                
+
             }
 
             throw new DllNotFoundException("La implementación no fue encontrada.");

@@ -3,8 +3,8 @@ using Incidentes.Dominio;
 using System.Linq;
 using Incidentes.DatosInterfaz;
 using Incidentes.LogicaInterfaz;
-using Incidentes.Logica.Excepciones;
 using Incidentes.DTOs;
+using Incidentes.Excepciones;
 
 namespace Incidentes.Logica
 {

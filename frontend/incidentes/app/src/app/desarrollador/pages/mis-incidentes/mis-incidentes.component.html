@@ -17,6 +17,15 @@
                                     <th (click)=filtroEstado() style="cursor:pointer;">Estado</th>
                                     <th>Acciones</th>
                                 </tr>
+                                <tr>
+                                    <td><input type="number" style="text-align: center;" [(ngModel)]="id_search"></td>
+                                    <td><input type="text" style="text-align: center;" [(ngModel)]="pro_search"></td>
+                                    <td><input type="text" style="text-align: center;" [(ngModel)]="nom_search"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="cursor: pointer;" (click)="cambiarEstadoSearch()">{{ (est_search == 1) ? 'Activo' : (est_search == 2) ? 'Resuelto' : 'Indiferente' }}</td>
+                                    <td><button class="pi pi-search btn btn-success" (click)="buscar()"></button></td>
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-incidente>
                                 <tr>

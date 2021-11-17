@@ -39,15 +39,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.WebApiTest", "In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.ImportacionesTXT", "Incidentes.ImportacionesTXT\Incidentes.ImportacionesTXT.csproj", "{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.LogicaImportaciones", "Incidentes.LogicaImportaciones\Incidentes.LogicaImportaciones.csproj", "{DA97EE78-B824-421E-9ED1-BD084E6E43E8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.ImportacionesJSON", "Incidentes.ImportacionesJSON\Incidentes.ImportacionesJSON.csproj", "{771674C2-B617-4793-AEB7-63D1D00191B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.DTOs", "Incidentes.DTOs\Incidentes.DTOs.csproj", "{373895AC-EDF1-4422-A97E-9B650438C7F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.DTOsTest", "Incidentes.DTOsTest\Incidentes.DTOsTest.csproj", "{417DDD6E-AF6F-4EC0-BAC6-08AB0CEC638E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incidentes.ImportacionXML", "Incidentes.ImportacionXML\Incidentes.ImportacionXML.csproj", "{ACA16377-39D9-4B86-A5F9-846A31F977A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.ImportacionXML", "Incidentes.ImportacionXML\Incidentes.ImportacionXML.csproj", "{ACA16377-39D9-4B86-A5F9-846A31F977A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incidentes.Excepciones", "Incidentes.Excepciones\Incidentes.Excepciones.csproj", "{A46CB670-223D-4047-A6A8-CE7D885708F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +107,6 @@ Global
 		{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{771674C2-B617-4793-AEB7-63D1D00191B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{771674C2-B617-4793-AEB7-63D1D00191B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771674C2-B617-4793-AEB7-63D1D00191B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -127,6 +123,10 @@ Global
 		{ACA16377-39D9-4B86-A5F9-846A31F977A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACA16377-39D9-4B86-A5F9-846A31F977A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACA16377-39D9-4B86-A5F9-846A31F977A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A46CB670-223D-4047-A6A8-CE7D885708F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A46CB670-223D-4047-A6A8-CE7D885708F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46CB670-223D-4047-A6A8-CE7D885708F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A46CB670-223D-4047-A6A8-CE7D885708F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

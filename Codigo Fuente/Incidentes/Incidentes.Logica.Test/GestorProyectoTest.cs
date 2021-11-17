@@ -1,6 +1,5 @@
 ﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
-using Incidentes.Logica.Excepciones;
 using Moq;
 using System;
 using NUnit.Framework;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Incidentes.DTOs;
+using Incidentes.Excepciones;
 
 namespace Incidentes.Logica.Test
 {

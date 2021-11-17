@@ -4,21 +4,19 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using System.Threading.Tasks;
 using Incidentes.Dominio;
 using Incidentes.DatosInterfaz;
-using Incidentes.LogicaImportaciones;
 using System.Linq.Expressions;
-using Incidentes.Logica.Excepciones;
 using System.IO;
 using Incidentes.DTOs;
+using Incidentes.Excepciones;
 
 namespace Incidentes.Logica.Test
 {
     class LogicaImportacionesTest
     {
         Mock<IRepositorioGestores> repoGestores;
-        LogicaImportacion logicaImportaciones;
+        GestorImportacion logicaImportaciones;
         GestorIncidente gestorIncidente;
         private string directorio_base;
 
@@ -26,7 +24,7 @@ namespace Incidentes.Logica.Test
         public void SetUp()
         {
             repoGestores = new Mock<IRepositorioGestores>();
-            logicaImportaciones = new LogicaImportacion(repoGestores.Object);
+            logicaImportaciones = new GestorImportacion(repoGestores.Object);
             gestorIncidente = new GestorIncidente(repoGestores.Object);
             directorio_base = Directory.GetCurrentDirectory();
             for (int i = 0; i < 6; i++)
