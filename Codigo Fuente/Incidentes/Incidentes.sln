@@ -39,8 +39,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.WebApiTest", "In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.ImportacionesTXT", "Incidentes.ImportacionesTXT\Incidentes.ImportacionesTXT.csproj", "{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.LogicaImportaciones", "Incidentes.LogicaImportaciones\Incidentes.LogicaImportaciones.csproj", "{DA97EE78-B824-421E-9ED1-BD084E6E43E8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.ImportacionesJSON", "Incidentes.ImportacionesJSON\Incidentes.ImportacionesJSON.csproj", "{771674C2-B617-4793-AEB7-63D1D00191B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incidentes.DTOs", "Incidentes.DTOs\Incidentes.DTOs.csproj", "{373895AC-EDF1-4422-A97E-9B650438C7F4}"
@@ -109,10 +107,6 @@ Global
 		{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A25A956-8821-4F7B-8360-15A2C2FDF6AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA97EE78-B824-421E-9ED1-BD084E6E43E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{771674C2-B617-4793-AEB7-63D1D00191B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{771674C2-B617-4793-AEB7-63D1D00191B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771674C2-B617-4793-AEB7-63D1D00191B4}.Release|Any CPU.ActiveCfg = Release|Any CPU

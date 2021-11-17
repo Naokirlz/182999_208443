@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Incidentes.Logica.Interfaz\Incidentes.LogicaInterfaz.csproj" />
-    <ProjectReference Include="..\Incidentes.LogicaImportaciones\Incidentes.LogicaImportaciones.csproj" />
     <ProjectReference Include="..\Incidentes.Logica\Incidentes.Logica.csproj" />
   </ItemGroup>
 
