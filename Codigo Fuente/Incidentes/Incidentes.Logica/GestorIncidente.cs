@@ -83,7 +83,6 @@ namespace Incidentes.Logica
             }
             if (entity.Duracion != 0) aModificar.Duracion = entity.Duracion;
 
-
             _repositorioGestor.RepositorioIncidente.Modificar(aModificar);
             _repositorioGestor.Save();
 

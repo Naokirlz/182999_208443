@@ -172,6 +172,33 @@ namespace Incidentes.WebApiTest
         }
 
         [Test]
+        public void no_se_puede_ver_un_proyecto()
+        {
+            UsuarioDTO us = new UsuarioDTO()
+            {
+                Id = 5,
+                RolUsuario = UsuarioDTO.Rol.Desarrollador
+            };
+            ProyectoDTO p = new ProyectoDTO()
+            {
+                Nombre = "proyecto"
+            };
+
+            _logicaU.Setup(c => c.ObtenerPorToken(It.IsAny<string>())).Returns(us);
+            _logicaP.Setup(c => c. VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            var tested = new ProyectosController(_logicaP.Object, _logicaU.Object);
+            tested.ControllerContext = ctx;
+            ctx.HttpContext.Request.Headers["autorizacion"] = "aaa";
+
+            Assert.Throws<ExcepcionAccesoNoAutorizado>(() => tested.Get(3));
+
+            _logicaU.Verify(c => c.ObtenerPorToken(It.IsAny<string>()));
+            _logicaP.Verify(c => c.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>()));
+        }
+
+        [Test]
         public void se_puede_guardar_un_proyecto()
         {
             ProyectoDTO p = new ProyectoDTO()
@@ -266,6 +293,7 @@ namespace Incidentes.WebApiTest
         [Test]
         public void se_puede_ver_la_duracion_de_un_proyecto()
         {
+            u.RolUsuario = UsuarioDTO.Rol.Tester;
             p.Asignados.Add(u.convertirDTO_Dominio());
             Tarea t = new Tarea()
             {

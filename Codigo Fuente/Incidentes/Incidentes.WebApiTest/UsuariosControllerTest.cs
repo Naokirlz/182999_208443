@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Incidentes.WebApiTest
 {
@@ -46,21 +47,23 @@ namespace Incidentes.WebApiTest
         //    _logicaU.Verify(c => c.Obtener(It.IsAny<Usuario.Rol>()));
         //}
 
-        //[Test]
-        //public void se_pueden_ver_los_testers()
-        //{
-        //    _usuariosL.Add(new Usuario()
-        //    {
-        //        RolUsuario = Usuario.Rol.Tester
-        //    });
-        //    _logicaU.Setup(c => c.Obtener(It.IsAny<Usuario.Rol>())).Returns(_usuariosL);
+        [Test]
+        public void se_pueden_ver_los_usuarios()
+        {
+            List<UsuarioDTO> usus = new List<UsuarioDTO>();
+            usus.Add(new UsuarioDTO()
+            {
+                RolUsuario = UsuarioDTO.Rol.Tester
+            });
+            IEnumerable<UsuarioDTO> ieu = usus;
+            _logicaU.Setup(c => c.ObtenerTodos()).Returns(ieu);
 
-        //    var result = _dController.Get(Usuario.Rol.Tester);
+            var result = _dController.Get();
 
-        //    Assert.IsNotNull(result);
+            Assert.IsNotNull(result);
 
-        //    _logicaU.Verify(c => c.Obtener(It.IsAny<Usuario.Rol>()));
-        //}
+            _logicaU.Verify(c => c.ObtenerTodos());
+        }
 
         [Test]
         public void se_puede_ver_un_usuario()

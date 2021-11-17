@@ -66,6 +66,84 @@ namespace Incidentes.DTOsTest
         }
 
         [Test]
+        public void funciona_correctamente_proyectoDto_desde_dominio()
+        {
+            Usuario usu = new Usuario()
+            {
+                Nombre = "Incidente complicado",
+                Apellido = "Apellido",
+                Email = "email@email",
+                RolUsuario = Usuario.Rol.Tester,
+                NombreUsuario = "martincosat1",
+                Id = 5,
+                ValorHora = 3
+            };
+            List<Usuario> usus = new List<Usuario>();
+            usus.Add(usu);
+            Incidente i = new Incidente()
+            {
+                Nombre = "ss"
+            };
+            List<Incidente> incL = new List<Incidente>();
+            incL.Add(i);
+            Tarea t = new Tarea()
+            {
+                Nombre = "bbbb"
+            };
+            List<Tarea> tarL = new List<Tarea>();
+            tarL.Add(t);
+            Proyecto pro = new Proyecto()
+            {
+                Id = 3,
+                Nombre = "nombre pro",
+                Asignados = usus,
+                Tareas = tarL,
+                Incidentes = incL
+            };
+            ProyectoDTO pr = new ProyectoDTO(pro);
+            Assert.AreEqual(tarL.Count, pro.Tareas.Count);
+        }
+
+        [Test]
+        public void funciona_correctamente_proyectodominio_desde_DTO()
+        {
+            UsuarioDTO usu = new UsuarioDTO()
+            {
+                Nombre = "Incidente complicado",
+                Apellido = "Apellido",
+                Email = "email@email",
+                RolUsuario = UsuarioDTO.Rol.Tester,
+                NombreUsuario = "martincosat1",
+                Id = 5,
+                ValorHora = 3
+            };
+            List<UsuarioDTO> usus = new List<UsuarioDTO>();
+            usus.Add(usu);
+            IncidenteDTO i = new IncidenteDTO()
+            {
+                Nombre = "ss"
+            };
+            List<IncidenteDTO> incL = new List<IncidenteDTO>();
+            incL.Add(i);
+            TareaDTO t = new TareaDTO()
+            {
+                Nombre = "bbbb"
+            };
+            List<TareaDTO> tarL = new List<TareaDTO>();
+            tarL.Add(t);
+            ProyectoDTO pro = new ProyectoDTO()
+            {
+                Id = 3,
+                Nombre = "nombre pro",
+                Asignados = usus,
+                Tareas = tarL,
+                Incidentes = incL
+            };
+            Proyecto pr = pro.convertirDTO_Dominio();
+            Assert.AreEqual(tarL.Count, pr.Tareas.Count);
+        }
+
+        [Test]
         public void funciona_correctamente_usuarioParaDto()
         {
             UsuarioDTO usu = new UsuarioDTO()
@@ -167,8 +245,12 @@ namespace Incidentes.DTOsTest
                 EstadoIncidente = IncidenteDTO.Estado.Activo,
                 Id = 6,
                 ProyectoId = 9,
-                Version = "1.2"
+                Version = "1.2",
+                DesarrolladorNombre = "Juan",
+                NombreProyecto = "Proyecto"
             };
+            Assert.AreEqual("Juan", usu.DesarrolladorNombre);
+            Assert.AreEqual("Proyecto", usu.NombreProyecto);
             Assert.AreEqual("incidente", usu.Nombre);
             Assert.AreEqual("aaaaa", usu.Descripcion);
             Assert.AreEqual("1.2", usu.Version);

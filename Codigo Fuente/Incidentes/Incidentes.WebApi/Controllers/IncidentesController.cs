@@ -119,26 +119,6 @@ namespace Incidentes.WebApi.Controllers
             IncidenteDTO inc = _logicaI.Modificar(incidente.Id, incidente);
             return Ok(inc);
         }
-
-        //private void usuarioPerteneceAlProyecto(string token, int idIncidente, int proyId = 0)
-        //{
-        //    UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
-        //    if (usu.RolUsuario != UsuarioDTO.Rol.Administrador)
-        //    {
-        //        if (idIncidente != -1)
-        //        {
-        //            IncidenteDTO inc = _logicaI.Obtener(idIncidente);
-        //            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, inc.ProyectoId);
-        //            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
-        //        }
-        //        else
-        //        {
-        //            bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, proyId);
-        //            if (!autorizado) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
-        //        }
-        //    }
-        //}
-
         private int idUsuario(string token, int idIncidente, int proyId = 0)
         {
             UsuarioDTO usu = _logicaU.ObtenerPorToken(token);
@@ -156,7 +136,6 @@ namespace Incidentes.WebApi.Controllers
             }
             return usu.Id;
         }
-
         private void usuarioPerteneceProyecto(int idUsu, int idPro)
         {
             bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(idUsu, idPro);
