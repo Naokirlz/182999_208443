@@ -151,7 +151,7 @@ namespace Incidentes.WebApi.Controllers
                 }
                 else
                 {
-                    bool autorizado = _logicaP.VerificarUsuarioPerteneceAlProyecto(usu.Id, proyId);
+                    usuarioPerteneceProyecto(usu.Id, proyId);
                 }
             }
             return usu.Id;

@@ -75,11 +75,17 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_guardar_incidente()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             repoGestores.Setup(c => c.RepositorioIncidente.Alta(incidente));
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
             IncidenteDTO inc01 = gestorIncidente.Alta(new IncidenteDTO(incidente));
 
             Assert.AreEqual(incidente.Nombre, inc01.Nombre);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(It.IsAny<Incidente>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
@@ -106,11 +112,17 @@ namespace Incidentes.Logica.Test
         [Test]
         public void alta_devuelve_una_instancia_de_incidente()
         {
+            Proyecto p = new Proyecto() { Nombre = "Proyecto" };
+            List<Proyecto> lp = new List<Proyecto>();
+            lp.Add(p);
+            IQueryable<Proyecto> iqp = lp.AsQueryable();
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
 
             IncidenteDTO incidente02 = gestorIncidente.Alta(new IncidenteDTO(incidente));
             Assert.IsNotNull(incidente02);
             repoGestores.Verify(c => c.RepositorioIncidente.Alta(It.IsAny<Incidente>()));
+            repoGestores.Verify(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false));
         }
 
         [Test]
@@ -178,9 +190,13 @@ namespace Incidentes.Logica.Test
         public void no_se_puede_crear_un_incidente_con_nombre_largo()
         {
             repoGestores.Setup(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>())).Returns(false);
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            string textoLargo = new string(Enumerable.Repeat(chars, 51)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
             Assert.Throws<ExcepcionLargoTexto>(() => gestorIncidente.Alta(new IncidenteDTO()
             {
-                Nombre = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+                Nombre = textoLargo
             }));
             repoGestores.Verify(c => c.RepositorioIncidente.Existe(It.IsAny<Expression<Func<Incidente, bool>>>()));
         }
@@ -325,6 +341,15 @@ namespace Incidentes.Logica.Test
         [Test]
         public void se_puede_modificar_un_incidente()
         {
+            Usuario u = new Usuario()
+            {
+                Id = 7,
+                Nombre = "aa",
+                Apellido = "bb"
+            };
+            List<Usuario> lu = new List<Usuario>();
+            lu.Add(u);
+            IQueryable<Usuario> iqu = lu.AsQueryable();
             Proyecto p = new Proyecto() { Nombre = "Proyecto" };
             List<Proyecto> lp = new List<Proyecto>();
             lp.Add(p);
@@ -353,7 +378,8 @@ namespace Incidentes.Logica.Test
             repoGestores.Setup(c => c.RepositorioIncidente.ObtenerPorCondicion(It.IsAny<Expression<Func<Incidente, bool>>>(), false)).Returns(queryableI);
             repoGestores.Setup(c => c.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
             repoGestores.Setup(c => c.RepositorioProyecto.ObtenerPorCondicion(It.IsAny<Expression<Func<Proyecto, bool>>>(), false)).Returns(iqp);
-
+            repoGestores.Setup(c => c.RepositorioUsuario.ObtenerPorCondicion(It.IsAny<Expression<Func<Usuario, bool>>>(), false)).Returns(iqu);
+            
             IncidenteDTO modificado = gestorIncidente.Modificar(1, incidenteA);
 
             Assert.AreEqual(modificado.Nombre, incidenteA.Nombre);

@@ -18,7 +18,7 @@ namespace Incidentes.DTOs
         public string Contrasenia { get; set; }
         public Rol RolUsuario { get; set; }
         public int IncidentesResueltos { get; set; }
-        public int ValorHora { get; set; }
+        public double ValorHora { get; set; }
         public enum Rol
         {
             Administrador,

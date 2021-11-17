@@ -32,7 +32,7 @@ namespace Incidentes.Logica
                 throw new ExcepcionArgumentoNoValido("Debe ingresar un email válido.");
         }
 
-        public static void ValidarMayorACero(int unValor, string unCampo)
+        public static void ValidarMayorACero(double unValor, string unCampo)
         {
             if (unValor < 0)
                 throw new ExcepcionArgumentoNoValido("El valor de " + unCampo + " debe ser mayor a cero.");

@@ -12,7 +12,7 @@ namespace Incidentes.DTOs
         public int Id { get; set; }
         public string Nombre { get; set; }
         public int Duracion { get; set; }
-        public int Costo { get; set; }
+        public double Costo { get; set; }
         public int CantidadDeIncidentes { get; set; }
         public List<IncidenteDTO> Incidentes { get; set; }
         public List<TareaDTO> Tareas { get; set; }
@@ -33,7 +33,7 @@ namespace Incidentes.DTOs
             Id = p.Id;
             Nombre = p.Nombre;
             int duracion = 0;
-            int costo = 0;
+            double costo = 0;
             foreach (Incidente i in p.Incidentes)
             {
                 IncidenteDTO inc = new IncidenteDTO(i);
