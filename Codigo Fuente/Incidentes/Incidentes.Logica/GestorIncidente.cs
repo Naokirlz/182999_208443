@@ -59,29 +59,8 @@ namespace Incidentes.Logica
             }
 
             Incidente aModificar = Obtener(id).convertirDTO_Dominio();
-            Incidente inci = entity.convertirDTO_Dominio();
 
-            if (aModificar.Nombre != entity.Nombre && entity.Nombre != null)
-            {
-                bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == entity.Nombre);
-                if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
-                Validaciones.ValidarLargoTexto(entity.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
-            }
-
-            if (entity.Nombre != null) aModificar.Nombre = entity.Nombre;
-            if (inci.EstadoIncidente != Incidente.Estado.Indiferente) aModificar.EstadoIncidente = inci.EstadoIncidente;
-            if (entity.ProyectoId != 0) aModificar.ProyectoId = entity.ProyectoId;
-            if (entity.Version != null) aModificar.Version = entity.Version;
-            if (entity.Descripcion != null) aModificar.Descripcion = entity.Descripcion;
-            if (entity.DesarrolladorId != 0)
-            {
-                aModificar.DesarrolladorId = entity.DesarrolladorId;
-            }
-            else
-            {
-                aModificar.DesarrolladorId = 0;
-            }
-            if (entity.Duracion != 0) aModificar.Duracion = entity.Duracion;
+            aModificar = CopiarIncidente(aModificar, entity);
 
             _repositorioGestor.RepositorioIncidente.Modificar(aModificar);
             _repositorioGestor.Save();
@@ -124,6 +103,32 @@ namespace Incidentes.Logica
             return resp.FirstOrDefault();
         }
 
+        private Incidente CopiarIncidente(Incidente copia, IncidenteDTO copiado)
+        {
+            Incidente inci = copiado.convertirDTO_Dominio();
+            if (copia.Nombre != copiado.Nombre && copiado.Nombre != null)
+            {
+                bool existe = _repositorioGestor.RepositorioIncidente.Existe(c => c.Nombre == copiado.Nombre);
+                if (existe) throw new ExcepcionArgumentoNoValido(elemento_ya_existe);
+                Validaciones.ValidarLargoTexto(copiado.Nombre, largo_maximo_nombre, largo_minimo_nombre, "Nombre Incidente");
+            }
+
+            if (copiado.Nombre != null) copia.Nombre = copiado.Nombre;
+            if (inci.EstadoIncidente != Incidente.Estado.Indiferente) copia.EstadoIncidente = inci.EstadoIncidente;
+            if (copiado.ProyectoId != 0) copia.ProyectoId = copiado.ProyectoId;
+            if (copiado.Version != null) copia.Version = copiado.Version;
+            if (copiado.Descripcion != null) copia.Descripcion = copiado.Descripcion;
+            if (copiado.DesarrolladorId != 0)
+            {
+                copia.DesarrolladorId = copiado.DesarrolladorId;
+            }
+            else
+            {
+                copia.DesarrolladorId = 0;
+            }
+            if (copiado.Duracion != 0) copia.Duracion = copiado.Duracion;
+            return copia;
+        }
         private IEnumerable<IncidenteDTO> convertirListaADTO(List<Incidente> incidentes)
         {
             List<IncidenteDTO> ret = new List<IncidenteDTO>();
