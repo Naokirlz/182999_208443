@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Incidentes.DatosInterfaz;
 using Incidentes.Dominio;
-using System.Linq;
-using Incidentes.DatosInterfaz;
-using Incidentes.LogicaInterfaz;
 using Incidentes.DTOs;
 using Incidentes.Excepciones;
+using Incidentes.LogicaInterfaz;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Incidentes.Logica
 {
@@ -52,7 +52,7 @@ namespace Incidentes.Logica
         public IncidenteDTO Modificar(int id, IncidenteDTO entity)
         {
             if (entity == null) throw new ExcepcionArgumentoNoValido(argumento_nulo);
-            if(entity.DesarrolladorId != 0)
+            if (entity.DesarrolladorId != 0)
             {
                 bool pertenece = _repositorioGestor.RepositorioProyecto.VerificarUsuarioPerteneceAlProyecto(entity.DesarrolladorId, entity.ProyectoId);
                 if (!pertenece) throw new ExcepcionAccesoNoAutorizado(usuario_no_pertenece);
@@ -137,7 +137,7 @@ namespace Incidentes.Logica
                 IncidenteDTO nueva = new IncidenteDTO(i);
                 Proyecto p = _repositorioGestor.RepositorioProyecto.ObtenerPorCondicion(p => p.Id == i.ProyectoId, false).FirstOrDefault();
                 nueva.NombreProyecto = p.Nombre;
-                if(i.DesarrolladorId != 0)
+                if (i.DesarrolladorId != 0)
                 {
                     Usuario u = _repositorioGestor.RepositorioUsuario.ObtenerPorCondicion(u => u.Id == i.DesarrolladorId, false).FirstOrDefault();
                     nueva.DesarrolladorNombre = u.Nombre + " " + u.Apellido;
