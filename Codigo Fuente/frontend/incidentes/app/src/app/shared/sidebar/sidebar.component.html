@@ -1,0 +1,238 @@
+<div class="sidebar">
+    <div class="marca marca-gde">
+        <span>R</span>eporte <span>I</span>ncidentes
+    </div>
+    <div class="marca marca-sm">
+        <span>R</span> I
+    </div>
+    <div class="sidebar-menu">
+        <div class="profile">
+            <img src="assets/img/Logo.jpeg" alt />
+            <p class="nombreusu" *ngIf="isLoogedIn()"><span> {{ obtenerRol() + ":" }} {{ (user) ? user.nombreUsuario : '' }}</span></p>
+        </div>
+        <li class="item" *ngIf="!isLoogedIn()">
+            <a routerLink="/login" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                true}" class="menu-btn">
+                <i class="pi pi-pencil"></i>
+                <span>Login</span>
+            </a>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && admin">
+            <a routerLink="/usuarios" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-users"></i>
+                <span>
+                    Usuarios
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/usuarios" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/usuarios/alta" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Alta</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && admin">
+            <a routerLink="/proyectos" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-briefcase"></i>
+                <span>
+                    Proyectos
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/proyectos" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/proyectos/alta" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Alta</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="user && admin">
+            <a routerLink="/tareas" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-list"></i>
+                <span>
+                    Tareas
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/tareas" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/tareas/alta" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Alta</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && admin">
+            <a routerLink="/reportes" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-chart-line"></i>
+                <span>
+                    Reportes
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/reportes/incidentes" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Incidentes por proyecto</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/reportes/desarrolladores" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Reporte de desarrollador</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && admin">
+            <a routerLink="/importaciones" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-cloud-download"></i>
+                <span>
+                    Importaciones
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/importaciones" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Cargar Incidentes</span>
+                </a>
+            </div>
+        </li>
+        <!-- *********************************
+            DESARROLLADORES
+         ***********************************-->
+        <li class="item" *ngIf="isLoogedIn() && desarrollador">
+            <a routerLink="/desarrollador/proyectos" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-briefcase"></i>
+                <span>
+                    Proyectos
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/desarrollador/proyectos" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && desarrollador">
+            <a routerLink="/desarrollador/incidentes" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-android"></i>
+                <span>
+                    Incidentes
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/desarrollador/incidentes" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && desarrollador">
+            <a routerLink="/desarrollador/tareas" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-list"></i>
+                <span>
+                    Tareas
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/desarrollador/tareas" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+        </li>
+        <!-- *********************************
+                            TESTER
+                ***********************************-->
+        <li class="item" *ngIf="isLoogedIn() && tester">
+            <a routerLink="/tester/proyectos" routerLinkActive="router-link-active" class="menu-btn" [routerLinkActiveOptions]="{exact:
+                true}">
+                <i class="pi pi-briefcase"></i>
+                <span>
+                    Proyectos
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/tester/proyectos" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && tester">
+            <a routerLink="/tester/incidentes" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-android"></i>
+                <span>
+                    Incidentes
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/tester/incidentes" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+            <div class="sub-menu">
+                <a routerLink="/tester/altaIncidente" routerLinkActive="router-link-active">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Crear Incidente</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && tester">
+            <a routerLink="/tester/tareas" routerLinkActive="router-link-active" class="menu-btn">
+                <i class="pi pi-list"></i>
+                <span>
+                    Tareas
+                    <i class="pi pi-angle-down drop-down"></i>
+                </span>
+            </a>
+            <div class="sub-menu">
+                <a routerLink="/tester/tareas" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <i class="pi pi-circle-off"></i>
+                    <span>Resumen</span>
+                </a>
+            </div>
+        </li>
+        <li class="item" *ngIf="isLoogedIn() && tester">
+        </li>
+        <li class="separator"></li>
+        <li class="item" *ngIf="isLoogedIn()">
+            <a class="menu-btn" (click)="logout()">
+                <i class="nav-icon pi pi-power-off"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </li>
+    </div>
+</div>

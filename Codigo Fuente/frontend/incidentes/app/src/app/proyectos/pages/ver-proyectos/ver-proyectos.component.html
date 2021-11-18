@@ -1,0 +1,62 @@
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Administración de Proyectos</h1>
+                    <div class="card-internal">
+                        <p-table [value]="proyectos" styleClass="p-datatable-sm" responsiveLayout="scroll">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>id</th>
+                                    <th>Nombre</th>
+                                    <th>Detalles</th>
+                                    <th *ngIf="admin">Acciones</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-proyecto>
+                                <tr>
+                                    <td>{{proyecto.id}}</td>
+                                    <td>{{proyecto.nombre | titlecase }}</td>
+                                    <td class="p-buttonset">
+                                        <button pButton type="button" label="incidentes" icon="pi pi-android" (click)="incidentes(proyecto.id)"></button>
+                                        <button pButton type="button" label="tareas" icon="pi pi-desktop" (click)="tareas(proyecto.id)"></button>
+                                        <button *ngIf="admin" pButton type="button" label="asignados" icon="pi pi-users" (click)="asignados(proyecto.id)"></button>
+                                        <button *ngIf="admin" pButton type="button" label="Información" icon="pi pi-info-circle" (click)="informacion(proyecto.id)"></button>
+                                    </td>
+                                    <td *ngIf="admin" class="p-buttonset">
+                                        <button pButton type="editar" (click)="editar(proyecto.id)" icon="pi pi-pencil" style="border: 0;"></button>
+                                        <button pButton type="button" (click)="consultarAccion(proyecto.id)" icon="pi pi-trash" style="background-color: red; border: 0;">
+                                    </button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+    <p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+            <div class="p-flex p-flex-column" style="flex: 1">
+                <div class="p-text-center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                    <h4>{{message.summary}}</h4>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="p-grid p-fluid" style="display: flex;">
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton (click)="onConfirm()" label="Si" class="p-button-success"></button>
+                    </div>
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton label="No" (click)="onReject()" class="p-button-secondary"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+    <p-toast></p-toast>
+</main>

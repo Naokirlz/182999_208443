@@ -1,0 +1,75 @@
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Administración de Incidentes</h1>
+                    <div class="card-internal">
+                        <p-table [value]="incidentes!" styleClass="p-datatable-sm" responsiveLayout="scroll">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th (click)=filtroId() style="cursor:pointer;">id</th>
+                                    <th (click)=filtroProyecto() style="cursor:pointer;">Proyecto</th>
+                                    <th (click)=filtroNombre() style="cursor:pointer;">Nombre</th>
+                                    <th>Descripcion</th>
+                                    <th>Versión</th>
+                                    <th (click)=filtroEstado() style="cursor:pointer;">Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="number" style="text-align: center;" [(ngModel)]="id_search"></td>
+                                    <td><input type="text" style="text-align: center;" [(ngModel)]="pro_search"></td>
+                                    <td><input type="text" style="text-align: center;" [(ngModel)]="nom_search"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="cursor: pointer;" (click)="cambiarEstadoSearch()">{{ (est_search == 1) ? 'Activo' : (est_search == 2) ? 'Resuelto' : 'Indiferente' }}</td>
+                                    <td><button class="pi pi-search btn btn-success" (click)="buscar()"></button></td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-incidente>
+                                <tr>
+                                    <td>{{incidente.id}}</td>
+                                    <td>{{incidente.nombreProyecto }}</td>
+                                    <td>{{incidente.nombre | titlecase }}</td>
+                                    <td>{{incidente.descripcion}}</td>
+                                    <td>{{incidente.version}}</td>
+                                    <td>{{obtenerEstado(incidente.estadoIncidente)}}</td>
+                                    <td class="p-buttonset">
+                                        <button pButton (click)="detalle(incidente.id)" type="editar" icon="pi pi-eye" style="border: 0;"></button>
+                                        <button *ngIf="incidente.estadoIncidente == 1 || incidente.estadoIncidente == 0" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-up" style="border: 0;"></button>
+                                        <button *ngIf="incidente.estadoIncidente == 2" pButton type="editar" (click)="resolver(incidente.id)" icon="pi pi-thumbs-down" style="border: 0;"></button>
+                                        <button *ngIf="tester" pButton type="button" (click)="consultarAccion(incidente.id)" icon="pi pi-trash" style="background-color: red; border: 0;"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+            <div class="p-flex p-flex-column" style="flex: 1">
+                <div class="p-text-center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                    <h4>{{message.summary}}</h4>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="p-grid p-fluid" style="display: flex;">
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton (click)="onConfirm()" label="Si" class="p-button-success"></button>
+                    </div>
+                    <div class="p-col-6" style="width: 50%; padding: 7px;">
+                        <button type="button" pButton label="No" (click)="onReject()" class="p-button-secondary"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+    <p-toast></p-toast>
+    <app-footer></app-footer>
+</main>

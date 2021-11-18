@@ -1,0 +1,15 @@
+<div class="wrapper" [ngClass]="colapsado ? 'colapsado' : ''">
+    <!-- ***************************************
+                Menu Superior 
+        **************************************** -->
+    <app-menu-superior (onToogle)="toogleMenu($event)"></app-menu-superior>
+    <!-- ***************************************
+                Menu Lateral 
+    **************************************** -->
+    <app-sidebar></app-sidebar>
+    <!-- <app-sidebar></app-sidebar> -->
+    <!-- ***************************************
+            Contenedor Principal
+    **************************************** -->
+    <router-outlet></router-outlet>
+</div>

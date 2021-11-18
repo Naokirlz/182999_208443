@@ -126,33 +126,6 @@ namespace Incidentes.Logica
         {
             return _repositorioGestor.RepositorioUsuario.CantidadDeIncidentesResueltosPorUnDesarrollador(idDesarrollador);
         }
-        //private List<Usuario> ObtenerDesarrolladores()
-        //{
-        //    List<Usuario> lista = new List<Usuario>();
-        //    List<Usuario> desarrolladores = new List<Usuario>();
-
-        //    lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
-
-        //    foreach (Usuario u in lista)
-        //        if (u.RolUsuario == Usuario.Rol.Desarrollador)
-        //            desarrolladores.Add(u);
-            
-        //    return desarrolladores;
-        //}
-
-        //private List<Usuario> ObtenerTesters()
-        //{
-        //    List<Usuario> lista = new List<Usuario>();
-        //    List<Usuario> desarrolladores = new List<Usuario>();
-
-        //    lista = _repositorioGestor.RepositorioUsuario.ObtenerTodos(false).ToList();
-
-        //    foreach (Usuario u in lista)
-        //        if (u.RolUsuario == Usuario.Rol.Tester)
-        //            desarrolladores.Add(u);
-
-        //    return desarrolladores;
-        //}
 
         public UsuarioDTO ObtenerPorToken(string token)
         {
@@ -162,14 +135,5 @@ namespace Incidentes.Logica
             UsuarioDTO usu = new UsuarioDTO(usuario);
             return usu;
         }
-
-        //public List<Usuario> Obtener(Usuario.Rol? rol = null)
-        //{
-        //    if (rol == null)
-        //        return ObtenerTodos().ToList();
-        //    if (rol == Usuario.Rol.Desarrollador)
-        //        return ObtenerDesarrolladores();
-        //    return ObtenerTesters();
-        //}
     }
 }
