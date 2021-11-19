@@ -80,7 +80,6 @@ export class TareaService {
         'autorizacion': this.token
       })
     };
-    console.log(tarea);
 
     return this.http.put<Tarea>(
       this.apiUrl + '/' + tarea.id,

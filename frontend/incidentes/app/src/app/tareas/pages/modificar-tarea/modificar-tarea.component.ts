@@ -81,7 +81,7 @@ export class ModificarTareaComponent implements OnInit {
       id: this.tareaId,
       nombre: this.miFormulario.value.nombre,
       costo: this.miFormulario.value.costo,
-      duracion: this.miFormulario.value.duracion,
+      duracion: parseInt(this.miFormulario.value.duracion),
       proyectoId: this.miFormulario.value.proyecto,
     }
 

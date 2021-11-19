@@ -79,7 +79,7 @@ export class SidebarComponent implements OnInit {
         window.location.reload();
       },
         (({ error }: any) => {
-          console.log(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
         )
       );

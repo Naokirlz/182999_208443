@@ -81,7 +81,6 @@ export class VerProyectosComponent implements OnInit {
           this.idProyEliminar = -1;
         },
         error: error => {
-          console.log(error);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
       });

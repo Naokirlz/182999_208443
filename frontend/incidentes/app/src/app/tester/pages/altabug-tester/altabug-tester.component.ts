@@ -83,8 +83,6 @@ export class AltabugTesterComponent implements OnInit {
       UsuarioId: this.usuario,
     }
 
-    console.log(incidente);
-
     this.incidenteService.altaIncidente(incidente)
       .subscribe((data: Incidente) => {
         this.messageService.add({

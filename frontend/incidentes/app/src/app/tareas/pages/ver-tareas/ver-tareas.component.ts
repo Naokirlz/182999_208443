@@ -148,7 +148,6 @@ export class VerTareasComponent implements OnInit {
           this.idTareaEliminar = -1;
         },
         error: error => {
-          console.log(error);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
       });
@@ -160,7 +159,6 @@ export class VerTareasComponent implements OnInit {
 
   obtenerNombre(id: number): string {
     const proyecto = this.proyectos.find(proyecto => proyecto.id === id);
-    console.log(this.proyectos);
     return (proyecto?.nombre) ? proyecto.nombre : '';
   }
 

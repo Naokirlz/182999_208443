@@ -59,7 +59,7 @@ export class AltaTareaComponent implements OnInit {
     const tarea: Tarea = {
       nombre: this.miFormulario.value.nombre,
       costo: this.miFormulario.value.costo,
-      duracion: this.miFormulario.value.duracion,
+      duracion: parseInt(this.miFormulario.value.duracion),
       proyectoId: this.miFormulario.value.proyecto,
     }
 

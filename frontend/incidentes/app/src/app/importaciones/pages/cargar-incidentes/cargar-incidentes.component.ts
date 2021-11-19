@@ -38,10 +38,6 @@ export class CargarIncidentesComponent implements OnInit {
       && this.miFormulario.controls[campo].touched
   }
 
-  onBasicUploadAuto(data : any){
-    console.log(data.target.value);
-  }
-
   extraerNombreArchivo(ruta: string): string {
     let nombreArchivo = ruta.split('\\');
     return nombreArchivo[nombreArchivo.length - 1];
@@ -58,16 +54,11 @@ export class CargarIncidentesComponent implements OnInit {
       rutaBinario: (this.miFormulario.controls.rutaPlug.value) ? this.miFormulario.controls.rutaPlug.value : this.miFormulario.value.selectBin,
       usuarioId: 1
     }
-    console.log("Aca va el dto");
-    console.log(dtoImp);
-    console.log("A ver que pasa");
     this.importacionesService.postImportaciones(dtoImp).subscribe(
       (data) => {
-        console.log(data);
         this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Carga exitosa' });
       },
       (error) => {
-        console.log(error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error });
       }
     );

@@ -133,7 +133,6 @@ export class MisIncidentesComponent implements OnInit {
           this.idIncidenteEliminar = -1;
         },
         error: error => {
-          console.log(error);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         }
       });

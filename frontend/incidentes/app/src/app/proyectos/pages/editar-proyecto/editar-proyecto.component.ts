@@ -81,7 +81,6 @@ export class EditarProyectoComponent implements OnInit {
 
     if (this.proyecto) {
       this.proyecto.nombre = this.miFormulario.value.nombre;
-      console.log(this.proyecto);
       this.proyectoService.update(this.proyecto)
         .subscribe((data: Proyecto) => {
           this.messageService.add({
