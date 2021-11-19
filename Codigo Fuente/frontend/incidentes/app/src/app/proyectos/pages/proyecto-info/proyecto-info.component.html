@@ -1,0 +1,34 @@
+<main class="main-container">
+    <div class="container pt-3">
+        <div class="row">
+            <input id="btn-guardar" (click)="volver()" value="Volver" class="btn btn-success btn-volver" />
+            <div class="col-12 mb-4">
+                <div class="card border-0">
+                    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+                    <h1 align="center">Administración de Proyectos</h1>
+                    <div class="card-internal">
+                        <p-table [value]="proyectos!" styleClass="p-datatable-sm" responsiveLayout="scroll">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>id</th>
+                                    <th>Nombre</th>
+                                    <th>Duración (hs)</th>
+                                    <th>Costo ($)</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-proyecto>
+                                <tr>
+                                    <td>{{proyecto.id}}</td>
+                                    <td>{{proyecto.nombre | titlecase }}</td>
+                                    <td>{{proyecto.duracion| number }}</td>
+                                    <td>{{proyecto.costo| number }}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast></p-toast>
+</main>
